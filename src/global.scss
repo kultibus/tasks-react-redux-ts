@@ -1,27 +1,62 @@
 @use "./assets/fonts/fonts";
 
 * {
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
 }
 
 *,
 *:before,
 *:after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html {
-  font-size: 16px;
+    font-size: 16px;
+}
+
+$transparancies: (
+    "90": 0.9,
+    "80": 0.8,
+    "60": 0.6,
+    "40": 0.4,
+    "20": 0.2,
+    "10": 0.1,
+);
+
+@mixin makeTransparentColors($prefix, $value) {
+    @each $name, $tp in $transparancies {
+        --#{$prefix}-#{$name}: #{"rgba(" + $value + "," + $tp + ")"};
+    }
 }
 
 body {
-  color: #8c78e8;
-  font-family: "Fira", monospace;
-  background-color: #110934;
-  font-size: 1rem;
-  line-height: 1;
+    font-family: "Fira", monospace;
+
+    --primary-dark: rgb(69, 45, 189);
+    @include makeTransparentColors("primary-dark", "69, 45, 189");
+
+    --primary-light: rgb(122, 87, 212);
+    @include makeTransparentColors("primary-light", "122, 87, 212");
+
+    --primary-lightest: rgb(209, 196, 239);
+    @include makeTransparentColors("primary-lightest", "209, 196, 239");
+
+    --secondary-dark: rgb(165, 189, 45);
+    @include makeTransparentColors("secondary-dark", "165, 189, 45");
+
+    --secondary-light: rgb(200, 234, 92);
+    @include makeTransparentColors("secondary-light", "200, 234, 92");
+
+    --secondary-lightest: rgb(235, 248, 197);
+    @include makeTransparentColors("secondary-lightest", "235, 248, 197");
+
+    --header-height: 45px;
+
+    --padding-left-right: 0 10px;
+
+    --title-size: 1.2rem;
 }
 
 h1,
@@ -30,6 +65,6 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: inherit;
-  font-size: inherit;
+    font-weight: inherit;
+    font-size: inherit;
 }

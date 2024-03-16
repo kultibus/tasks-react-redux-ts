@@ -1,0 +1,18 @@
+.header {
+    background-color: var(--primary-dark);
+    flex: 0 0 var(--header-height);
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--padding-left-right);
+}
+
+.title {
+    color: var(--secondary-lightest);
+    font-size: var(--title-size);
+    line-height: 1.2;
+}
