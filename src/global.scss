@@ -32,8 +32,6 @@ $transparancies: (
 }
 
 body {
-	
-	
     --primary: rgb(79, 204, 196);
     @include makeTransparentColors("primary", "78, 205, 196");
 
@@ -42,7 +40,7 @@ body {
 
     --primary-dark: rgb(0, 136, 119);
     @include makeTransparentColors("primary-dark", "0, 136, 119");
-	
+
     --primary-darkest: rgb(0, 104, 88);
     @include makeTransparentColors("primary-darkest", "0, 104, 88");
 
@@ -52,6 +50,12 @@ body {
     --dark: rgb(41, 47, 54);
     @include makeTransparentColors("dark", "41, 47, 54");
 
+    // --dark: rgb(247, 255, 247);
+    // @include makeTransparentColors("dark", "247, 255, 247");
+
+    // --light: rgb(41, 47, 54);
+    // @include makeTransparentColors("light", "41, 47, 54");
+
     --warning: rgb(255, 230, 109);
     @include makeTransparentColors("warning", "255, 230, 109");
 
@@ -60,24 +64,31 @@ body {
 
     --header-height: 45px;
 
-    --padding-left-right: 0 10px;
-    --padding: 10px;
-
-	--gap: 10px;
+    --ident-left-right: 0 10px;
+    --ident-top-bottom: 10px 0;
+    --ident: 10px;
+    --ident-btn: 5px;
 
     --font-big: 1.5rem;
     --font-medium: 1.2rem;
     --font-small: 1rem;
 
+    --brs: 5px;
+
     --ibm-cond: "IBM Plex Sans Condensed", sans-serif;
 
     --ibm: "IBM Plex Sans", sans-serif;
 
-	font-family: var(--ibm);
+    --border-transp: 1px solid var(--dark-40);
+    --border: 1px solid var(--dark);
 
-	background-color: var(--light);
+    font-family: var(--ibm);
 
-	color: var(--dark);
+    background-color: var(--light);
+
+    color: var(--dark);
+
+    line-height: 1;
 }
 
 h1,
@@ -92,10 +103,8 @@ h6 {
 
 button {
     border: none;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    overflow: visible;
+    // width: auto;
+    // overflow: visible;
 
     background: transparent;
 
@@ -104,7 +113,6 @@ button {
     font: inherit;
 
     /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
-    line-height: normal;
 
     /* Corrects font smoothing for webkit */
     -webkit-font-smoothing: inherit;
@@ -116,5 +124,5 @@ button {
 }
 
 li {
-	list-style-type: none;
+    list-style-type: none;
 }

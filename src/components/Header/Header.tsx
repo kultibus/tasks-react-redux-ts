@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { Container, ContainerDirection } from "../container/Container";
 import styles from "./Header.module.scss";
 import { BtnAdd } from "../UI/btn-add/Btn-add";
 

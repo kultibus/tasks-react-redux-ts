@@ -1,16 +1,31 @@
 .board {
     flex: 1 0 auto;
-	padding: var(--padding);
+    display: flex;
+    flex-direction: column;
+    padding: var(--ident-top-bottom);
+}
+
+.wrapper {
+    flex: 1 0 auto;
+    border: var(--border-transp);
+    padding: var(--ident);
+    border-radius: var(--brs);
+	display: flex;
+	flex-direction: column;
 }
 
 .header {
-    height: var(--header-height);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: var(--ident);
+    padding-bottom: var(--ident);
+    border-bottom: var(--border-transp);
+
+    h2 {
+        font-size: var(--font-big);
+        font-weight: 600;
+        font-family: var(--ibm-cond);
+    }
 }
 
-.tasks {
-    flex: 1 0 auto;
-	border: 1px solid #000;
-}

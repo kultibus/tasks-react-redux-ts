@@ -1,0 +1,8 @@
+.btn {
+    display: block;
+    font-size: var(--font-small);
+	border: var(--border);
+	padding: var(--ident-btn);
+	border-radius: var(--brs);
+	cursor: pointer;
+}

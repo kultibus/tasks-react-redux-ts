@@ -3,11 +3,10 @@
 	&::after {
 		content: '';
 		position: absolute;
+		width: 100%;
 		top: var(--header-height);
 		left: 0;
-		height: 2px;
-		width: 100%;
-		background-color: var(--dark-20);
+		border-bottom: var(--border-transp);
 	}
 }
 
@@ -20,10 +19,9 @@
 
 .title {
     color: var(--dark);
-    font-size: var(--title-size);
-    line-height: 1;
     font-family: var(--ibm-cond);
     font-weight: 600;
     font-size: var(--font-medium);
+	text-transform: uppercase;
 }
 
