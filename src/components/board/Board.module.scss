@@ -1,0 +1,16 @@
+.board {
+    flex: 1 0 auto;
+	padding: var(--padding);
+}
+
+.header {
+    height: var(--header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tasks {
+    flex: 1 0 auto;
+	border: 1px solid #000;
+}

@@ -32,31 +32,52 @@ $transparancies: (
 }
 
 body {
-    font-family: "Fira", monospace;
+	
+	
+    --primary: rgb(79, 204, 196);
+    @include makeTransparentColors("primary", "78, 205, 196");
 
-    --primary-dark: rgb(69, 45, 189);
-    @include makeTransparentColors("primary-dark", "69, 45, 189");
+    --primary-medium: rgb(0, 166, 152);
+    @include makeTransparentColors("primary-medium", "0, 166, 152");
 
-    --primary-light: rgb(122, 87, 212);
-    @include makeTransparentColors("primary-light", "122, 87, 212");
+    --primary-dark: rgb(0, 136, 119);
+    @include makeTransparentColors("primary-dark", "0, 136, 119");
+	
+    --primary-darkest: rgb(0, 104, 88);
+    @include makeTransparentColors("primary-darkest", "0, 104, 88");
 
-    --primary-lightest: rgb(209, 196, 239);
-    @include makeTransparentColors("primary-lightest", "209, 196, 239");
+    --light: rgb(247, 255, 247);
+    @include makeTransparentColors("light", "247, 255, 247");
 
-    --secondary-dark: rgb(165, 189, 45);
-    @include makeTransparentColors("secondary-dark", "165, 189, 45");
+    --dark: rgb(41, 47, 54);
+    @include makeTransparentColors("dark", "41, 47, 54");
 
-    --secondary-light: rgb(200, 234, 92);
-    @include makeTransparentColors("secondary-light", "200, 234, 92");
+    --warning: rgb(255, 230, 109);
+    @include makeTransparentColors("warning", "255, 230, 109");
 
-    --secondary-lightest: rgb(235, 248, 197);
-    @include makeTransparentColors("secondary-lightest", "235, 248, 197");
+    --error: rgb(255, 107, 107);
+    @include makeTransparentColors("error", "255, 107, 107");
 
     --header-height: 45px;
 
     --padding-left-right: 0 10px;
+    --padding: 10px;
 
-    --title-size: 1.2rem;
+	--gap: 10px;
+
+    --font-big: 1.5rem;
+    --font-medium: 1.2rem;
+    --font-small: 1rem;
+
+    --ibm-cond: "IBM Plex Sans Condensed", sans-serif;
+
+    --ibm: "IBM Plex Sans", sans-serif;
+
+	font-family: var(--ibm);
+
+	background-color: var(--light);
+
+	color: var(--dark);
 }
 
 h1,
@@ -67,4 +88,33 @@ h5,
 h6 {
     font-weight: inherit;
     font-size: inherit;
+}
+
+button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+
+    background: transparent;
+
+    /* inherit font & color from ancestor */
+    color: inherit;
+    font: inherit;
+
+    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+    line-height: normal;
+
+    /* Corrects font smoothing for webkit */
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+    &::-moz-focus-inner {
+        border: 0;
+        padding: 0;
+    }
+}
+
+li {
+	list-style-type: none;
 }

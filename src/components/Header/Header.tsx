@@ -1,15 +1,15 @@
 import { FC } from "react";
+import { Container, ContainerDirection } from "../container/Container";
 import styles from "./Header.module.scss";
-import { Container } from "../Container/Container";
+import { BtnAdd } from "../UI/btn-add/Btn-add";
 
 export const Header: FC = () => {
     return (
         <header className={styles.header}>
-            <Container>
-                <div className={styles.container}>
-                    <h1 className={styles.title}>Tasks manager</h1>
-                </div>
-            </Container>
+            <div className={styles.container}>
+                <h1 className={styles.title}>Tasks manager</h1>
+				<BtnAdd>Add board</BtnAdd>
+            </div>
         </header>
     );
 };
