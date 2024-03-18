@@ -14,13 +14,7 @@ export const App: FC = () => {
     const [theme, setTheme] = useState<ITheme>({ variant: ThemeVariant.light });
 
     return (
-        <div
-            // className={classNames({
-            //     [styles.dark]: theme.variant === "dark",
-            //     [styles.light]: theme.variant === "light",
-            // })}
-            className={styles[theme.variant]}
-        >
+        <div className={classNames(styles.theme, styles[theme.variant])}>
             <div className={styles.wrapper}>
                 <Header theme={theme} setTheme={setTheme} />
                 <Boards />

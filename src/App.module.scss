@@ -22,7 +22,7 @@ $transparancies: (
     }
 }
 
-.light {
+.theme {
     --primary: rgb(79, 204, 196);
     @include makeTransparentColors("primary", "78, 205, 196");
 
@@ -34,12 +34,6 @@ $transparancies: (
 
     --primary-darkest: rgb(0, 104, 88);
     @include makeTransparentColors("primary-darkest", "0, 104, 88");
-
-    --light: rgb(247, 255, 247);
-    @include makeTransparentColors("light", "247, 255, 247");
-
-    --dark: rgb(41, 47, 54);
-    @include makeTransparentColors("dark", "41, 47, 54");
 
     --warning: rgb(255, 230, 109);
     @include makeTransparentColors("warning", "255, 230, 109");
@@ -78,60 +72,18 @@ $transparancies: (
 
     line-height: 1;
 }
+.light {
+    --light: rgb(247, 255, 247);
+    @include makeTransparentColors("light", "247, 255, 247");
+
+    --dark: rgb(41, 47, 54);
+    @include makeTransparentColors("dark", "41, 47, 54");
+}
 
 .dark {
-    --primary: rgb(79, 204, 196);
-    @include makeTransparentColors("primary", "78, 205, 196");
-
-    --primary-medium: rgb(0, 166, 152);
-    @include makeTransparentColors("primary-medium", "0, 166, 152");
-
-    --primary-dark: rgb(0, 136, 119);
-    @include makeTransparentColors("primary-dark", "0, 136, 119");
-
-    --primary-darkest: rgb(0, 104, 88);
-    @include makeTransparentColors("primary-darkest", "0, 104, 88");
-
     --dark: rgb(247, 255, 247);
     @include makeTransparentColors("dark", "247, 255, 247");
 
     --light: rgb(41, 47, 54);
     @include makeTransparentColors("light", "41, 47, 54");
-
-    --warning: rgb(255, 230, 109);
-    @include makeTransparentColors("warning", "255, 230, 109");
-
-    --error: rgb(255, 107, 107);
-    @include makeTransparentColors("error", "255, 107, 107");
-
-    --header-height: 45px;
-
-    --ident-left-right: 0 10px;
-    --ident-top-bottom: 10px 0;
-    --ident: 10px;
-    --ident-small: 5px;
-
-    --font-big: 1.5rem;
-    --font-medium: 1.2rem;
-    --font-small: 1rem;
-
-    --trs: 200ms ease;
-
-    --brs: 5px;
-
-    --ibm-cond: "IBM Plex Sans Condensed", sans-serif;
-
-    --ibm: "IBM Plex Sans", sans-serif;
-
-    --border-transp: 1px solid var(--dark-40);
-    --border-active: 1px solid var(--primary-medium);
-    --border: 1px solid var(--dark);
-
-    font-family: var(--ibm);
-
-    background-color: var(--light);
-
-    color: var(--dark);
-
-    line-height: 1;
 }
