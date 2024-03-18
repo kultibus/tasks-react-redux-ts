@@ -1,22 +1,24 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import styles from "./Header.module.scss";
 import { BtnAdd } from "../UI/btn-add/Btn-add";
+import { ITheme } from "../../types/types";
+import { ThemeVariant } from "../../App";
+// import LightMode from '../../assets/icons/lightMode.svg'
+// import DarkMode from '../../assets/icons/darkMode.svg'
 
 interface HeaderProps {
-    setTheme: Dispatch<SetStateAction<{ text: string }>>;
-    theme: {
-        text: string;
-    };
+    setTheme: Dispatch<SetStateAction<ITheme>>;
+    theme: ITheme;
 }
 
 export const Header: FC<HeaderProps> = props => {
     const { setTheme, theme } = props;
 
     const clickHandler = () => {
-        if (theme.text === "light") {
-            setTheme({ ...theme, text: "dark" });
+        if (theme.variant === 'light') {
+            setTheme({ ...theme, variant: ThemeVariant.dark });
         } else {
-            setTheme({ ...theme, text: "light" });
+            setTheme({ ...theme, variant: ThemeVariant.light });
         }
     };
 
@@ -25,7 +27,7 @@ export const Header: FC<HeaderProps> = props => {
             <div className={styles.container}>
                 <h1 className={styles.title}>Tasks manager</h1>
                 <button onClick={clickHandler} type="button">
-                    {theme.text}
+                    {theme.variant}
                 </button>
                 {/* <BtnAdd>Add board</BtnAdd> */}
             </div>

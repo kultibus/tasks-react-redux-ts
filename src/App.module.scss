@@ -93,10 +93,10 @@ $transparancies: (
     @include makeTransparentColors("primary-darkest", "0, 104, 88");
 
     --dark: rgb(247, 255, 247);
-    @include makeTransparentColors("light", "247, 255, 247");
+    @include makeTransparentColors("dark", "247, 255, 247");
 
     --light: rgb(41, 47, 54);
-    @include makeTransparentColors("dark", "41, 47, 54");
+    @include makeTransparentColors("light", "41, 47, 54");
 
     --warning: rgb(255, 230, 109);
     @include makeTransparentColors("warning", "255, 230, 109");
