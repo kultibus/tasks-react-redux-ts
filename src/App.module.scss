@@ -11,6 +11,7 @@ $transparancies: (
     "90": 0.9,
     "80": 0.8,
     "60": 0.6,
+    "hover": 0.7,
     "40": 0.4,
     "20": 0.2,
     "10": 0.1,
@@ -71,19 +72,20 @@ $transparancies: (
     color: var(--dark);
 
     line-height: 1;
-}
-.light {
-    --light: rgb(247, 255, 247);
-    @include makeTransparentColors("light", "247, 255, 247");
 
-    --dark: rgb(41, 47, 54);
-    @include makeTransparentColors("dark", "41, 47, 54");
-}
+    &[data-theme="light"] {
+        --light: rgb(247, 255, 247);
+        @include makeTransparentColors("light", "247, 255, 247");
 
-.dark {
-    --dark: rgb(247, 255, 247);
-    @include makeTransparentColors("dark", "247, 255, 247");
+        --dark: rgb(41, 47, 54);
+        @include makeTransparentColors("dark", "41, 47, 54");
+    }
 
-    --light: rgb(41, 47, 54);
-    @include makeTransparentColors("light", "41, 47, 54");
+    &[data-theme="dark"] {
+        --dark: rgb(247, 255, 247);
+        @include makeTransparentColors("dark", "247, 255, 247");
+
+        --light: rgb(41, 47, 54);
+        @include makeTransparentColors("light", "41, 47, 54");
+    }
 }

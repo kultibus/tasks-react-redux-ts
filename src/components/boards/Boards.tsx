@@ -1,11 +1,12 @@
 import { FC, useState } from "react";
-import { BtnAdd } from "../UI/btn-add/Btn-add";
+import { BtnAdd } from "../UI/buttons/BtnAdd";
 import styles from "./Boards.module.scss";
 import classNames from "classnames";
 
 export const Boards: FC = () => {
     const [board, setBoard] = useState({ title: "", body: "" });
     const [boards, setBoards] = useState([]);
+    const [isFormOpened, setIsFormOpened] = useState<boolean>(true);
 
     return (
         <div className={styles.boards}>
@@ -13,7 +14,12 @@ export const Boards: FC = () => {
                 Boards
             </h2>
             <header>
-                <h2 className={classNames(styles.header, styles.headerFormTitle)}>
+                <h2
+                    className={classNames(
+                        styles.header,
+                        styles.headerFormTitle
+                    )}
+                >
                     Create board
                 </h2>
             </header>
@@ -24,10 +30,14 @@ export const Boards: FC = () => {
             </aside>
 
             <main className={styles.main}>
-                <form className={styles.form}>
-                    <input placeholder="Board name?" type="text" />
-                    <BtnAdd>Add board</BtnAdd>
-                </form>
+                {isFormOpened ? (
+                    <form className={styles.form}>
+                        <input placeholder="Board name?" type="text" />
+                        <BtnAdd>Add board</BtnAdd>
+                    </form>
+                ) : (
+                    <div>hello</div>
+                )}
             </main>
         </div>
     );

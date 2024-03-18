@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import styles from "./Btn-add.module.scss";
+import styles from "./buttons.module.scss";
 
 interface BtnAddProps {
     children: ReactNode;
@@ -9,7 +9,7 @@ export const BtnAdd: FC<BtnAddProps> = props => {
     const { children } = props;
 
     return (
-        <button className={styles.btn} type="button">
+        <button className={styles.add} type="button">
             {children}
         </button>
     );
