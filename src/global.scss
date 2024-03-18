@@ -16,79 +16,76 @@ html {
     font-size: 16px;
 }
 
-$transparancies: (
-    "90": 0.9,
-    "80": 0.8,
-    "60": 0.6,
-    "40": 0.4,
-    "20": 0.2,
-    "10": 0.1,
-);
+// $transparancies: (
+//     "90": 0.9,
+//     "80": 0.8,
+//     "60": 0.6,
+//     "40": 0.4,
+//     "20": 0.2,
+//     "10": 0.1,
+// );
 
-@mixin makeTransparentColors($prefix, $value) {
-    @each $name, $tp in $transparancies {
-        --#{$prefix}-#{$name}: #{"rgba(" + $value + "," + $tp + ")"};
-    }
-}
+// @mixin makeTransparentColors($prefix, $value) {
+//     @each $name, $tp in $transparancies {
+//         --#{$prefix}-#{$name}: #{"rgba(" + $value + "," + $tp + ")"};
+//     }
+// }
 
 body {
-    --primary: rgb(79, 204, 196);
-    @include makeTransparentColors("primary", "78, 205, 196");
+    // --primary: rgb(79, 204, 196);
+    // @include makeTransparentColors("primary", "78, 205, 196");
 
-    --primary-medium: rgb(0, 166, 152);
-    @include makeTransparentColors("primary-medium", "0, 166, 152");
+    // --primary-medium: rgb(0, 166, 152);
+    // @include makeTransparentColors("primary-medium", "0, 166, 152");
 
-    --primary-dark: rgb(0, 136, 119);
-    @include makeTransparentColors("primary-dark", "0, 136, 119");
+    // --primary-dark: rgb(0, 136, 119);
+    // @include makeTransparentColors("primary-dark", "0, 136, 119");
 
-    --primary-darkest: rgb(0, 104, 88);
-    @include makeTransparentColors("primary-darkest", "0, 104, 88");
+    // --primary-darkest: rgb(0, 104, 88);
+    // @include makeTransparentColors("primary-darkest", "0, 104, 88");
 
-    --light: rgb(247, 255, 247);
-    @include makeTransparentColors("light", "247, 255, 247");
+    // --light: rgb(247, 255, 247);
+    // @include makeTransparentColors("light", "247, 255, 247");
 
-    --dark: rgb(41, 47, 54);
-    @include makeTransparentColors("dark", "41, 47, 54");
+    // --dark: rgb(41, 47, 54);
+    // @include makeTransparentColors("dark", "41, 47, 54");
 
-    // --dark: rgb(247, 255, 247);
-    // @include makeTransparentColors("dark", "247, 255, 247");
+    // --warning: rgb(255, 230, 109);
+    // @include makeTransparentColors("warning", "255, 230, 109");
 
-    // --light: rgb(41, 47, 54);
-    // @include makeTransparentColors("light", "41, 47, 54");
+    // --error: rgb(255, 107, 107);
+    // @include makeTransparentColors("error", "255, 107, 107");
 
-    --warning: rgb(255, 230, 109);
-    @include makeTransparentColors("warning", "255, 230, 109");
+    // --header-height: 45px;
 
-    --error: rgb(255, 107, 107);
-    @include makeTransparentColors("error", "255, 107, 107");
+    // --ident-left-right: 0 10px;
+    // --ident-top-bottom: 10px 0;
+    // --ident: 10px;
+    // --ident-small: 5px;
 
-    --header-height: 45px;
+    // --font-big: 1.5rem;
+    // --font-medium: 1.2rem;
+    // --font-small: 1rem;
 
-    --ident-left-right: 0 10px;
-    --ident-top-bottom: 10px 0;
-    --ident: 10px;
-    --ident-btn: 5px;
+    // --trs: 200ms ease;
 
-    --font-big: 1.5rem;
-    --font-medium: 1.2rem;
-    --font-small: 1rem;
+    // --brs: 5px;
 
-    --brs: 5px;
+    // --ibm-cond: "IBM Plex Sans Condensed", sans-serif;
 
-    --ibm-cond: "IBM Plex Sans Condensed", sans-serif;
+    // --ibm: "IBM Plex Sans", sans-serif;
 
-    --ibm: "IBM Plex Sans", sans-serif;
+    // --border-transp: 1px solid var(--dark-40);
+    // --border-active: 1px solid var(--primary-medium);
+    // --border: 1px solid var(--dark);
 
-    --border-transp: 1px solid var(--dark-40);
-    --border: 1px solid var(--dark);
+    // font-family: var(--ibm);
 
-    font-family: var(--ibm);
+    // background-color: var(--light);
 
-    background-color: var(--light);
+    // color: var(--dark);
 
-    color: var(--dark);
-
-    line-height: 1;
+    // line-height: 1;
 }
 
 h1,
@@ -102,7 +99,7 @@ h6 {
 }
 
 button {
-    border: none;
+    // border: none;
     // width: auto;
     // overflow: visible;
 

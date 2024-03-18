@@ -1,9 +1,0 @@
-.tasks {
-    flex: 1 0 auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-
-    :nth-child(n):not(:last-child) {
-        border-right: var(--border-transp);
-    }
-}
