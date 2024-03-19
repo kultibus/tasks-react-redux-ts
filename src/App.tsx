@@ -4,13 +4,13 @@ import { Boards } from "./components/boards/Boards";
 import { Header } from "./components/header/Header";
 import { ITheme } from "./types/types";
 
-export enum ThemeVariant {
+export enum Theme {
     light = "light",
     dark = "dark",
 }
 
 export const App: FC = () => {
-    const [theme, setTheme] = useState<ITheme>({ variant: ThemeVariant.light });
+    const [theme, setTheme] = useState<ITheme>({ variant: Theme.light });
 
     return (
         <div className={styles.theme} data-theme={theme.variant}>

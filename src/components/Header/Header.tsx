@@ -1,11 +1,10 @@
 import { Dispatch, FC, SetStateAction } from "react";
-import styles from "./Header.module.scss";
-import { BtnAdd } from "../UI/buttons/BtnAdd";
-import { ITheme } from "../../types/types";
-import { ThemeVariant } from "../../App";
-import LightMode from "../../assets/icons/lightMode.svg";
+import { Theme } from "../../App";
 import DarkMode from "../../assets/icons/darkMode.svg";
-import { BtnIcon } from "../UI/buttons/BtnIcon";
+import LightMode from "../../assets/icons/lightMode.svg";
+import { ITheme } from "../../types/types";
+import { Button, ButtonVariant } from "../UI/button/Button";
+import styles from "./Header.module.scss";
 
 interface HeaderProps {
     setTheme: Dispatch<SetStateAction<ITheme>>;
@@ -15,11 +14,11 @@ interface HeaderProps {
 export const Header: FC<HeaderProps> = props => {
     const { setTheme, theme } = props;
 
-    const clickHandler = () => {
+    const darkModeHandler = () => {
         if (theme.variant === "light") {
-            setTheme({ ...theme, variant: ThemeVariant.dark });
+            setTheme({ ...theme, variant: Theme.dark });
         } else {
-            setTheme({ ...theme, variant: ThemeVariant.light });
+            setTheme({ ...theme, variant: Theme.light });
         }
     };
 
@@ -27,9 +26,9 @@ export const Header: FC<HeaderProps> = props => {
         <header className={styles.header}>
             <div className={styles.container}>
                 <h1 className={styles.title}>Tasks manager</h1>
-                <BtnIcon clickHandler={clickHandler}>
+                <Button type={ButtonVariant.icon} onClick={darkModeHandler}>
                     {theme.variant === "light" ? <LightMode /> : <DarkMode />}
-                </BtnIcon>
+                </Button>
             </div>
         </header>
     );
