@@ -1,29 +1,31 @@
 .input {
-	background-color: transparent;
-	padding: var(--ident-small);
-	border: var(--border);
-	border-radius: var(--brs);
-	font-size: var(--font-small);
-	color: var(--dark);
-	line-height: 1;
-	outline: none;
-	font-family: var(--ibm);
-	transition: all var(--trs);
-	
-	&::placeholder {
-		transition: all var(--trs);
-		color: var(--dark-60);
-	}
-	
-	&:focus {
-		border: var(--border-active);
-	}
+    background-color: transparent;
+    padding: var(--ident-small);
+    border: var(--border);
+    border-radius: var(--brs);
+    font-size: var(--font-small);
+    color: var(--dark);
+    line-height: 1;
+    outline: none;
+    font-family: var(--ibm);
+    transition: all var(--trs);
+
+    &::placeholder {
+        transition: all var(--trs);
+        color: var(--dark);
+    }
+
+    &:focus {
+        border: var(--border-active);
+        &::placeholder {
+            color: var(--dark-hover);
+        }
+    }
 }
 
 .error {
-	border: var(--border-error);
-	&::placeholder {
-		color: var(--error);
-	}
-
+    border: var(--border-error);
+    &::placeholder {
+        color: var(--error);
+    }
 }

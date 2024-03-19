@@ -1,17 +1,22 @@
 import classNames from "classnames";
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 import { IBoard } from "../../types/types";
-import { Button, ButtonVariant } from "../UI/button/Button";
+import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
 import { Input, InputType } from "../UI/input/Input";
 import styles from "./Boards.module.scss";
+import { Form } from "../UI/form/Form";
 
 interface BoardsProps {
     // inputValidate: InputValidate;
     // setInputValidate: Dispatch<SetStateAction<boolean>>;
 }
 
-export const Boards: FC<BoardsProps> = props => {
-    const [board, setBoard] = useState<IBoard>({ id: null, name: "" });
+export const Boards: FC<BoardsProps> = () => {
+    const [board, setBoard] = useState<IBoard>({
+        id: null,
+        name: "",
+        current: false,
+    });
     const [boards, setBoards] = useState<IBoard[]>([]);
     const [isFormOpened, setIsFormOpened] = useState<boolean>(true);
     const [inputValidate, setInputValidate] = useState<boolean>(true);
@@ -20,36 +25,43 @@ export const Boards: FC<BoardsProps> = props => {
         setBoard({ ...board, name: e.target.value });
     };
 
-    const addBoard = () => {
-        if (board.name) {
-            const newBoard = { ...board, id: Date.now() };
+    const addBoard = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!board.name) {
+            setInputValidate(false);
+        } else {
+            const newBoard = { ...board, id: Date.now(), current: true };
 
             setBoards([...boards, newBoard]);
 
             setIsFormOpened(false);
 
-            setBoard({ id: null, name: "" });
-        } else {
-            setInputValidate(false);
+            setBoard({ id: null, name: "", current: false });
         }
     };
 
     return (
         <div className={styles.boards}>
-            <h2 className={classNames(styles.header, styles.headerLeft)}>
-                Boards
-            </h2>
-            <header
-                className={classNames(styles.header, styles.headerFormTitle)}
-            >
+            <header className={classNames(styles.header, styles.headerLeft)}>
+                <h2>Boards</h2>
+            </header>
+
+            <header className={classNames(styles.header)}>
                 {isFormOpened ? (
                     <h2>Create board</h2>
                 ) : (
-                    <div>
-                        <h2>{boards[0].name}</h2>
+                    <div className={styles.boardBar}>
+                        <h2>{boards.find(board => board.current).name}</h2>
+                        <Button
+                            type={ButtonType.button}
+                            variant={ButtonVariant.add}
+                        >
+                            Add task
+                        </Button>
                     </div>
                 )}
             </header>
+
             <aside className={styles.menu}>
                 <div>Boards lists</div>
                 <div>Boards lists</div>
@@ -58,7 +70,7 @@ export const Boards: FC<BoardsProps> = props => {
 
             <main className={styles.main}>
                 {isFormOpened ? (
-                    <form onSubmit={addBoard} className={styles.form}>
+                    <Form onSubmit={addBoard}>
                         <Input
                             value={board.name}
                             placeholder="Board name?"
@@ -68,14 +80,35 @@ export const Boards: FC<BoardsProps> = props => {
                             onClick={() => setInputValidate(true)}
                         />
                         <Button
-                            // onClick={() => console.log(board)}
+                            onClick={() => console.log("test")}
+                            type={ButtonType.submit}
                             variant={ButtonVariant.add}
                         >
                             Add board
                         </Button>
-                    </form>
+                    </Form>
                 ) : (
-                    <div>hello</div>
+                    <div className={styles.tasks}>
+                        <header>
+                            <div>
+                                <h3>Opened</h3>
+                                <div>quantity</div>
+                            </div>
+                            <div>
+                                <h3>In process</h3>
+                                <div>quantity</div>
+                            </div>
+                            <div>
+                                <h3>Done</h3>
+                                <div>quantity</div>
+                            </div>
+                        </header>
+                        <div>
+                            <section>tasks opened</section>
+                            <section>tasks in process</section>
+                            <section>tasks done</section>
+                        </div>
+                    </div>
                 )}
             </main>
         </div>
