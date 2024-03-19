@@ -32,13 +32,20 @@ export const Boards: FC<BoardsProps> = () => {
         } else {
             const newBoard = { ...board, id: Date.now(), current: true };
 
-            setBoards([...boards, newBoard]);
+            const newBoards: IBoard[] = boards.map(board => ({
+                ...board,
+                current: false,
+            }));
+
+            setBoards([...newBoards, newBoard]);
 
             setIsFormOpened(false);
 
             setBoard({ id: null, name: "", current: false });
         }
     };
+
+    console.log("render");
 
     return (
         <div className={styles.boards}>
@@ -48,7 +55,7 @@ export const Boards: FC<BoardsProps> = () => {
 
             <header className={classNames(styles.header)}>
                 {isFormOpened ? (
-                    <h2>Create board</h2>
+                    <h2>Add board</h2>
                 ) : (
                     <div className={styles.boardBar}>
                         <h2>{boards.find(board => board.current).name}</h2>
@@ -63,9 +70,21 @@ export const Boards: FC<BoardsProps> = () => {
             </header>
 
             <aside className={styles.menu}>
-                <div>Boards lists</div>
-                <div>Boards lists</div>
-                <div>Boards lists</div>
+                {!isFormOpened && (
+                    <Button
+                        onClick={() => setIsFormOpened(true)}
+                        type={ButtonType.button}
+                        variant={ButtonVariant.add}
+                    >
+                        Add board
+                    </Button>
+                )}
+                <div>
+                    <ul>
+                        <h3>Boards list</h3>
+						{boards.map(board => <li>{board.name}</li>)}
+                    </ul>
+                </div>
             </aside>
 
             <main className={styles.main}>
@@ -79,8 +98,8 @@ export const Boards: FC<BoardsProps> = () => {
                             validate={inputValidate}
                             onClick={() => setInputValidate(true)}
                         />
+
                         <Button
-                            onClick={() => console.log("test")}
                             type={ButtonType.submit}
                             variant={ButtonVariant.add}
                         >
@@ -88,27 +107,34 @@ export const Boards: FC<BoardsProps> = () => {
                         </Button>
                     </Form>
                 ) : (
-                    <div className={styles.tasks}>
-                        <header>
-                            <div>
+                    <ul className={styles.board}>
+                        <li className={styles.tasks}>
+                            <header>
                                 <h3>Opened</h3>
                                 <div>quantity</div>
-                            </div>
-                            <div>
+                            </header>
+
+                            <section>tasks opened</section>
+                        </li>
+
+                        <li className={styles.tasks}>
+                            <header>
                                 <h3>In process</h3>
                                 <div>quantity</div>
-                            </div>
-                            <div>
+                            </header>
+
+                            <section>tasks in process</section>
+                        </li>
+
+                        <li className={styles.tasks}>
+                            <header>
                                 <h3>Done</h3>
                                 <div>quantity</div>
-                            </div>
-                        </header>
-                        <div>
-                            <section>tasks opened</section>
-                            <section>tasks in process</section>
+                            </header>
+
                             <section>tasks done</section>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
                 )}
             </main>
         </div>

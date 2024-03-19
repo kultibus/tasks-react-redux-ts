@@ -45,20 +45,30 @@
     gap: var(--ident);
 }
 
-.tasks {
+.board {
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-rows: auto 1fr;
-
-    header {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-
-        :nth-child(n) {
-            padding: var(--ident-left-right);
-            display: flex;
-            justify-content: space-evenly;
-        }
-    }
+	grid-template-columns: repeat(3, 1fr);
+	
 }
+
+.tasks {
+	display: flex;
+	flex-direction: column;
+
+	header {
+		align-self: center;
+		display: flex;
+		gap: var(--ident);
+	}
+
+	section {
+		flex: 1 0 auto;
+	}
+
+}
+
+
+
+
