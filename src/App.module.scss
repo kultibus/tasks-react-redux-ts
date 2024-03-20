@@ -1,3 +1,5 @@
+@use "./assets/fonts/fonts";
+
 .wrapper {
     max-width: 1440px;
     margin: 0 auto;
@@ -58,9 +60,9 @@ $transparancies: (
 
     --brs: 5px;
 
-    --ibm-cond: "IBM Plex Sans Condensed", sans-serif;
+    --ibm-cond: "IbmCond", sans-serif;
 
-    --ibm: "IBM Plex Sans", sans-serif;
+    --ibm: "Ibm", sans-serif;
 
     --border-transp: 1px solid var(--dark-40);
     --border-active: 1px solid var(--primary-medium);

@@ -7,17 +7,17 @@ import styles from "./Header.module.scss";
 
 interface HeaderProps {
     theme: ITheme;
-    darkModeHandler: () => void;
+    switchAppTheme: () => void;
 }
 
 export const Header: FC<HeaderProps> = props => {
-    const { theme, darkModeHandler } = props;
+    const { theme, switchAppTheme } = props;
 
     return (
         <header className={styles.header}>
             <h1 className={styles.title}>Tasks manager</h1>
             <Button
-                onClick={darkModeHandler}
+                onClick={switchAppTheme}
                 variant={ButtonVariant.icon}
                 type={ButtonType.button}
             >
