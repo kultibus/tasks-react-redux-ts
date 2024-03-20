@@ -5,6 +5,7 @@ import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
 import { Input, InputType } from "../UI/input/Input";
 import styles from "./Boards.module.scss";
 import { Form } from "../UI/form/Form";
+import { FormBottom } from "../UI/form/FormBottom";
 
 interface BoardsProps {
     // inputValidate: InputValidate;
@@ -27,9 +28,7 @@ export const Boards: FC<BoardsProps> = () => {
 
     const addBoard = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!board.name) {
-            setInputValidate(false);
-        } else {
+        if (board.name) {
             const newBoard = { ...board, id: Date.now(), current: true };
 
             const newBoards: IBoard[] = boards.map(board => ({
@@ -45,7 +44,9 @@ export const Boards: FC<BoardsProps> = () => {
         }
     };
 
-    console.log("render");
+    const checkValidate = () => {
+        if (!board.name) setInputValidate(false);
+    };
 
     return (
         <div className={styles.boards}>
@@ -53,7 +54,9 @@ export const Boards: FC<BoardsProps> = () => {
                 <h2>Boards</h2>
             </header>
 
-            <header className={classNames(styles.header)}>
+            <header
+                className={classNames(styles.header, styles.headerTasksBar)}
+            >
                 {isFormOpened ? (
                     <h2>Add board</h2>
                 ) : (
@@ -70,20 +73,30 @@ export const Boards: FC<BoardsProps> = () => {
             </header>
 
             <aside className={styles.menu}>
-                {!isFormOpened && (
-                    <Button
-                        onClick={() => setIsFormOpened(true)}
-                        type={ButtonType.button}
-                        variant={ButtonVariant.add}
-                    >
-                        Add board
-                    </Button>
-                )}
                 <div>
                     <ul>
-                        <h3>Boards list</h3>
-						{boards.map(board => <li>{board.name}</li>)}
+                        {boards.map(board => (
+                            <li key={board.id}>
+                                <Button
+                                    type={ButtonType.button}
+                                    variant={ButtonVariant.add}
+                                >
+                                    {board.name}
+                                </Button>
+                            </li>
+                        ))}
                     </ul>
+                </div>
+                <div>
+                    {!isFormOpened && (
+                        <Button
+                            onClick={() => setIsFormOpened(true)}
+                            type={ButtonType.button}
+                            variant={ButtonVariant.add}
+                        >
+                            Add board
+                        </Button>
+                    )}
                 </div>
             </aside>
 
@@ -98,13 +111,17 @@ export const Boards: FC<BoardsProps> = () => {
                             validate={inputValidate}
                             onClick={() => setInputValidate(true)}
                         />
-
-                        <Button
-                            type={ButtonType.submit}
-                            variant={ButtonVariant.add}
-                        >
-                            Add board
-                        </Button>
+                        {boards.length ? (
+                            <FormBottom cancel={() => setIsFormOpened(false)} checkValidate={checkValidate} />
+                        ) : (
+                            <Button
+                                onMouseDown={checkValidate}
+                                type={ButtonType.submit}
+                                variant={ButtonVariant.add}
+                            >
+                                Add board
+                            </Button>
+                        )}
                     </Form>
                 ) : (
                     <ul className={styles.board}>

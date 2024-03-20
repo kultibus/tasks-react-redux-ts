@@ -16,13 +16,19 @@ interface ButtonProps {
     variant: ButtonVariant;
     type: ButtonType;
     onClick?: () => void;
+    onMouseDown?: () => void;
 }
 
 export const Button: FC<ButtonProps> = props => {
-    const { children, variant, type, onClick } = props;
+    const { children, variant, type, onClick, onMouseDown } = props;
 
     return (
-        <button className={styles[variant]} onClick={onClick} type={type}>
+        <button
+            className={styles[variant]}
+            onClick={onClick}
+            onMouseDown={onMouseDown}
+            type={type}
+        >
             {children}
         </button>
     );

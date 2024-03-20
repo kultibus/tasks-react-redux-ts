@@ -5,3 +5,9 @@
     grid-template-rows: repeat(2, 1fr);
     gap: var(--ident);
 }
+
+.formBottom {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+	gap: var(--ident);
+}

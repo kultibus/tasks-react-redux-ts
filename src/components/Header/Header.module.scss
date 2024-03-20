@@ -1,13 +1,13 @@
 .header {
     flex: 0 0 var(--header-height);
-    &::after {
-        content: "";
-        position: absolute;
-        width: 100%;
-        top: var(--header-height);
-        left: 0;
-        border-bottom: var(--border-transp);
-    }
+    // &::after {
+    //     content: "";
+    //     position: absolute;
+    //     width: 100%;
+    //     top: var(--header-height);
+    //     left: 0;
+    //     border-bottom: var(--border-transp);
+    // }
 }
 
 .container {
