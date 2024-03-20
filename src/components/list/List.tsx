@@ -1,36 +1,20 @@
-import { FC } from "react";
-import { IBoard } from "../../types/types";
-import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
+import { ReactNode } from "react";
 import styles from "./List.module.scss";
 
 export enum ListVariant {
     boards = "boards",
 }
 
-interface ListProps {
-    boards: IBoard[];
+interface ListProps<T> {
     variant: ListVariant;
+    items: T[];
+    renderItem: (item: T) => ReactNode;
 }
 
-export const List: FC<ListProps> = props => {
-    const { boards, variant } = props;
-
+export function List<T>(props: ListProps<T>) {
     return (
-        <ul className={styles[variant]}>
-            {boards.map(board => (
-                <li key={board.id}>
-                    <Button
-                        type={ButtonType.button}
-                        variant={
-                            board.current
-                                ? ButtonVariant.active
-                                : ButtonVariant.list
-                        }
-                    >
-                        {board.name}
-                    </Button>
-                </li>
-            ))}
+        <ul className={styles[props.variant]}>
+            {props.items.map(props.renderItem)}
         </ul>
     );
-};
+}

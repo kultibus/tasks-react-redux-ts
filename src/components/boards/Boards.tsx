@@ -34,12 +34,13 @@ export const Boards: FC<BoardsProps> = () => {
         if (board.name) {
             const newBoard = { ...board, id: Date.now(), current: true };
 
-            const newBoards: IBoard[] = boards.map(board => ({
-                ...board,
-                current: false,
-            }));
-
-            setBoards([...newBoards, newBoard]);
+            setBoards([
+                ...boards.map(board => ({
+                    ...board,
+                    current: false,
+                })),
+                newBoard,
+            ]);
 
             setIsFormOpened(false);
 
@@ -47,14 +48,15 @@ export const Boards: FC<BoardsProps> = () => {
         }
     };
 
+
     return (
         <div className={styles.boards}>
             <BoardsBar
+                setBoards={setBoards}
                 boards={boards}
                 isFormOpened={isFormOpened}
                 setIsFormOpened={setIsFormOpened}
             />
-
 
             <div className={styles.board}>
                 <header className={classNames(styles.headerTasksBar)}>
