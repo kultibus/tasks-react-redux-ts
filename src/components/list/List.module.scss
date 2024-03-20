@@ -1,0 +1,12 @@
+.boards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ident);
+
+    li {
+        button {
+            width: calc(var(--boards-bar-width) - var(--ident) * 2);
+            overflow: hidden;
+        }
+    }
+}

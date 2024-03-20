@@ -3,6 +3,7 @@ import { IBoard } from "../../../types/types";
 import { Title } from "../../title/Title";
 import { Button, ButtonType, ButtonVariant } from "../button/Button";
 import styles from "./BoardsBar.module.scss";
+import { List, ListVariant } from "../../list/List";
 
 interface BoardsBarProps {
     boards: IBoard[];
@@ -15,28 +16,21 @@ export const BoardsBar: FC<BoardsBarProps> = props => {
 
     return (
         <aside className={styles.boardsBar}>
-            <Title>Boards</Title>
-            <ul className={styles.boardsList}>
-                {boards.map(board => (
-                    <li key={board.id}>
-                        <Button
-                            type={ButtonType.button}
-                            variant={ButtonVariant.add}
-                        >
-                            {board.name}
-                        </Button>
-                    </li>
-                ))}
-            </ul>
-            {!isFormOpened && (
+            <div className={styles.title}>
+                <Title>Boards</Title>
+            </div>
+            <div className={styles.body}>
                 <Button
                     onClick={() => setIsFormOpened(true)}
                     type={ButtonType.button}
-                    variant={ButtonVariant.add}
+                    variant={
+                        !isFormOpened ? ButtonVariant.add : ButtonVariant.hidden
+                    }
                 >
                     Add board
                 </Button>
-            )}
+                <List variant={ListVariant.boards} boards={boards} />
+            </div>
         </aside>
     );
 };

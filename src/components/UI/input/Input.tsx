@@ -25,6 +25,7 @@ export const Input: FC<InputProps> = props => {
                 [styles.error]: !validate,
             })}
             {...restProps}
+            maxLength={30}
         />
     );
 };

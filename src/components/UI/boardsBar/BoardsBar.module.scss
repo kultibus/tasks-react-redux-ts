@@ -1,26 +1,28 @@
 .boardsBar {
     border-right: var(--border-transp);
-    display: flex;
-    flex-direction: column;
-    padding: var(--ident);
-    gap: var(--ident);
-
-    h2 {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+    display: grid;
+    grid-template-rows: var(--header-height) 1fr;
+	overflow: hidden;
+    // gap: var(--ident);
 }
 
-.boardsList {
-	display: flex;
-	flex-direction: column;
-	gap: var(--ident);
+.title {
+    padding: var(--ident);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.body {
+    padding: var(--ident);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    // gap: var(--ident);
 
-	li {
-		button {
-			width: 100%;
-		}
-	}
+    & > :first-child {
+        align-self: start;
+    }
+    & > :last-child {
+        align-self: center;
+    }
 }

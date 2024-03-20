@@ -5,6 +5,9 @@ import classNames from "classnames";
 export enum ButtonVariant {
     add = "add",
     icon = "icon",
+    list = "list",
+    hidden = "hidden",
+    active = "active",
 }
 export enum ButtonType {
     submit = "submit",
@@ -24,7 +27,7 @@ export const Button: FC<ButtonProps> = props => {
 
     return (
         <button
-            className={styles[variant]}
+            className={classNames(styles.btn, styles[variant])}
             onClick={onClick}
             onMouseDown={onMouseDown}
             type={type}

@@ -44,7 +44,9 @@ $transparancies: (
     --error: rgb(255, 107, 107);
     @include makeTransparentColors("error", "255, 107, 107");
 
-    --header-height: 45px;
+    --header-height: 50px;
+
+    --boards-bar-width: 150px;
 
     --ident-left-right: 0 10px;
     --ident-top-bottom: 10px 0;
@@ -65,6 +67,7 @@ $transparancies: (
     --ibm: "Ibm", sans-serif;
 
     --border-transp: 1px solid var(--dark-40);
+    --border-hidden: 1px solid transparent;
     --border-active: 1px solid var(--primary-medium);
     --border-error: 1px solid var(--error);
     --border: 1px solid var(--dark);

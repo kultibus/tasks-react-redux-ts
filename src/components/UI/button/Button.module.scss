@@ -1,23 +1,57 @@
-.add {
+.btn {
     display: block;
+    cursor: pointer;
+}
+
+.add,
+.list,
+.hidden,
+.active {
     font-size: var(--font-small);
-    background-color: var(--primary-medium);
-    color: var(--light);
     padding: var(--ident-small);
     border-radius: var(--brs);
-    cursor: pointer;
     transition: all var(--trs);
-
-    &:hover {
-        background-color: var(--primary-medium-hover);
-    }
 
     [data-theme="dark"] & {
         color: var(--dark);
     }
 }
 
+.add,
+.active {
+    color: var(--light);
+    background-color: var(--primary-medium);
+
+    &.add:hover {
+        background-color: var(--primary-medium-hover);
+    }
+
+    &.active:hover {
+        background-color: var(--primary-medium);
+    }
+}
+
+.active {
+    cursor: auto;
+}
+
+.list {
+    border: var(--border-active);
+
+    &:hover {
+        border: var(--border-hidden);
+        background-color: var(--primary-medium);
+    }
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
 .icon {
+    color: var(--light);
     cursor: pointer;
     padding: var(--ident-small);
 
