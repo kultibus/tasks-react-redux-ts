@@ -1,0 +1,26 @@
+.boardsBar {
+    border-right: var(--border-transp);
+    display: flex;
+    flex-direction: column;
+    padding: var(--ident);
+    gap: var(--ident);
+
+    h2 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.boardsList {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ident);
+
+
+	li {
+		button {
+			width: 100%;
+		}
+	}
+}

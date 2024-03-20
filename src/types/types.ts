@@ -1,4 +1,8 @@
-import { ThemeVariant } from "../App";
+
+export enum ThemeVariant {
+    light = "light",
+    dark = "dark",
+}
 
 export interface ITheme {
     variant: ThemeVariant;

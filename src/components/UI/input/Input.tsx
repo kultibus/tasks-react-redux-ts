@@ -14,9 +14,6 @@ interface InputProps {
     onChange: ChangeEventHandler<HTMLInputElement>;
     validate: InputValidate;
     onClick: () => void;
-    // children: ReactNode;
-    // darkModeHandler?: () => void;
-    // type: ButtonVariant;
 }
 
 export const Input: FC<InputProps> = props => {
