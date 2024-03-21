@@ -1,0 +1,14 @@
+.tasks {
+    display: flex;
+    flex-direction: column;
+
+    header {
+        align-self: center;
+        display: flex;
+        gap: var(--ident);
+    }
+
+    section {
+        flex: 1 0 auto;
+    }
+}

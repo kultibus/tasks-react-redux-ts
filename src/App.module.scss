@@ -66,11 +66,11 @@ $transparancies: (
 
     --ibm: "Ibm", sans-serif;
 
-    --border-transp: 1px solid var(--dark-40);
-    --border-hidden: 1px solid transparent;
-    --border-active: 1px solid var(--primary-medium);
-    --border-error: 1px solid var(--error);
-    --border: 1px solid var(--dark);
+    --border-transp: 2px solid var(--dark-40);
+    --border-hidden: 2px solid transparent;
+    --border-active: 2px solid var(--primary-medium);
+    --border-error: 2px solid var(--error);
+    --border: 2px solid var(--dark);
 
     font-family: var(--ibm);
 
@@ -81,6 +81,8 @@ $transparancies: (
     line-height: 1.2;
 
     &[data-theme="light"] {
+        --light: rgb(247, 255, 247);
+        @include makeTransparentColors("light", "247, 255, 247");
         --light: rgb(247, 255, 247);
         @include makeTransparentColors("light", "247, 255, 247");
 

@@ -1,9 +1,8 @@
-.boardsBar {
+.bar {
     border-right: var(--border-transp);
     display: grid;
     grid-template-rows: var(--header-height) 1fr;
 	overflow: hidden;
-    // gap: var(--ident);
 }
 
 .title {
@@ -14,10 +13,12 @@
 }
 
 .body {
-    padding: var(--ident);
+    padding-bottom: var(--ident);
+    padding-right: var(--ident);
+    padding-left: var(--ident);
     display: grid;
     grid-template-rows: auto 1fr;
-    // gap: var(--ident);
+    gap: var(--ident);
 
     & > :first-child {
         align-self: start;

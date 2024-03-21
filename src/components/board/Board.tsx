@@ -1,89 +1,101 @@
-import { Dispatch, FC, FormEventHandler, SetStateAction } from "react";
-import styles from "./Board.module.scss";
+import {
+    ChangeEventHandler,
+    Dispatch,
+    FC,
+    FormEventHandler,
+    SetStateAction,
+} from "react";
 import { IBoard } from "../../types/types";
-import classNames from "classnames";
-import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
-import { Form } from "../UI/form/Form";
-import { Input, InputType } from "../UI/input/Input";
+import { BoardBar } from "../boardBar/BoardBar";
+import { Form, FormVariant } from "../UI/form/Form";
+import styles from "./Board.module.scss";
+import { Tasks } from "../tasks/Tasks";
 
-interface BoardProps {}
+interface BoardProps {
+    addBoard: FormEventHandler<HTMLFormElement>;
+    board: IBoard;
+    boards: IBoard[];
+    checkInputValidate: () => void;
+    inputValidate: boolean;
+    isFormOpened: boolean;
+    setBoardName: ChangeEventHandler<HTMLInputElement>;
+    setBoards: Dispatch<SetStateAction<IBoard[]>>;
+    setInputValidate: Dispatch<SetStateAction<boolean>>;
+    setIsFormOpened: Dispatch<SetStateAction<boolean>>;
+}
 
 export const Board: FC<BoardProps> = props => {
-    const {} = props;
+    const {
+        addBoard,
+        board,
+        boards,
+        checkInputValidate,
+        inputValidate,
+        isFormOpened,
+        setBoardName,
+        setBoards,
+        setInputValidate,
+        setIsFormOpened,
+    } = props;
 
     return (
-        // <div className={styles.main}>
-        //     <header className={classNames(styles.headerTasksBar)}>
-        //         {isFormOpened ? (
-        //             <h2>Add board</h2>
-        //         ) : (
-        //             <div className={styles.boardBar}>
-        //                 <h2>{boards.find(board => board.current).name}</h2>
-        //                 <Button
-        //                     type={ButtonType.button}
-        //                     variant={ButtonVariant.add}
-        //                 >
-        //                     Add task
-        //                 </Button>
-        //             </div>
-        //         )}
-        //     </header>
+        <div className={styles.board}>
+            <BoardBar
+                boards={boards}
+                isFormOpened={isFormOpened}
+                setBoards={setBoards}
+                setIsFormOpened={setIsFormOpened}
+            />
 
-        //     {isFormOpened ? (
-        //         <Form onSubmit={addBoard}>
-        //             <Input
-        //                 value={board.name}
-        //                 placeholder="Board name?"
-        //                 type={InputType.text}
-        //                 onChange={inputBoardNameHandler}
-        //                 validate={inputValidate}
-        //                 onClick={() => setInputValidate(true)}
-        //             />
-        //             {boards.length ? (
-        //                 <FormBottom
-        //                     cancel={() => setIsFormOpened(false)}
-        //                     checkValidate={checkInputValidate}
-        //                 />
-        //             ) : (
-        //                 <Button
-        //                     onMouseDown={checkInputValidate}
-        //                     type={ButtonType.submit}
-        //                     variant={ButtonVariant.add}
-        //                 >
-        //                     Add board
-        //                 </Button>
-        //             )}
-        //         </Form>
-        //     ) : (
-        //         <ul className={styles.board}>
-        //             <li className={styles.tasks}>
-        //                 <header>
-        //                     <h3>Opened</h3>
-        //                     <div>quantity</div>
-        //                 </header>
+            <div className={styles.body}>
+                {isFormOpened ? (
+                    <Form
+                        board={board}
+                        boards={boards}
+                        checkInputValidate={checkInputValidate}
+                        inputValidate={inputValidate}
+                        onSubmit={addBoard}
+                        setBoardName={setBoardName}
+                        setInputValidate={setInputValidate}
+                        setIsFormOpened={setIsFormOpened}
+                        variant={
+                            boards.length
+                                ? FormVariant.board
+                                : FormVariant.firstBoard
+                        }
+                    />
+                ) : (
+					<Tasks  />
+                    // <ul className={styles.tasks}>
+                    //     <li className={styles.tasks}>
+                    //         <header>
+                    //             <h3>Opened</h3>
+                    //             <div>quantity</div>
+                    //         </header>
 
-        //                 <section>tasks opened</section>
-        //             </li>
+                    //         <section>tasks opened</section>
+                    //     </li>
 
-        //             <li className={styles.tasks}>
-        //                 <header>
-        //                     <h3>In process</h3>
-        //                     <div>quantity</div>
-        //                 </header>
+                    //     <li className={styles.tasks}>
+                    //         <header>
+                    //             <h3>In process</h3>
+                    //             <div>quantity</div>
+                    //         </header>
 
-        //                 <section>tasks in process</section>
-        //             </li>
+                    //         <section>tasks in process</section>
+                    //     </li>
 
-        //             <li className={styles.tasks}>
-        //                 <header>
-        //                     <h3>Done</h3>
-        //                     <div>quantity</div>
-        //                 </header>
+                    //     <li className={styles.tasks}>
+                    //         <header>
+                    //             <h3>Done</h3>
+                    //             <div>quantity</div>
+                    //         </header>
 
-        //                 <section>tasks done</section>
-        //             </li>
-        //         </ul>
-        //     )}
-        // </div>
+                    //         <section>tasks done</section>
+                    //     </li>
+                    // </ul>
+                )}
+            </div>
+        </div>
     );
 };

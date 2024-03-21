@@ -18,31 +18,22 @@
 }
 
 .add,
-.active {
+.list {
     color: var(--light);
     background-color: var(--primary-medium);
 
-    &.add:hover {
+    &:hover {
         background-color: var(--primary-medium-hover);
     }
+}
 
-    &.active:hover {
-        background-color: var(--primary-medium);
-    }
+.list {
+    border: var(--border-hidden);
 }
 
 .active {
     cursor: auto;
-	border: var(--border-hidden);
-}
-
-.list {
     border: var(--border-active);
-
-    &:hover {
-        border: var(--border-hidden);
-        background-color: var(--primary-medium);
-    }
 }
 
 .hidden {

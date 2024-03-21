@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import styles from "./List.module.scss";
 
 export enum ListVariant {
