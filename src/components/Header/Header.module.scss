@@ -3,13 +3,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-	padding: var(--ident-top-bottom);
+    padding: var(--ident-top-bottom);
 }
 
 .title {
     color: var(--dark);
     font-family: var(--ibm-cond);
     font-weight: 600;
-    font-size: var(--font-medium);
+    font-size: var(--font-title);
     text-transform: uppercase;
 }

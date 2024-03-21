@@ -1,7 +1,7 @@
-import { ChangeEvent, FC, FormEvent, useState } from "react";
+import { FC, FormEvent, useState } from "react";
 import { IBoard } from "../../types/types";
-import { BoardsBar } from "../boardsBar/BoardsBar";
 import { Board } from "../board/Board";
+import { BoardsBar } from "../boardsBar/BoardsBar";
 import styles from "./Boards.module.scss";
 
 interface BoardsProps {}
@@ -12,13 +12,13 @@ export const Boards: FC<BoardsProps> = () => {
         name: "",
         current: false,
     });
+
+    const [currentBoard, setCurrentBoard] = useState<IBoard>(board);
+
     const [boards, setBoards] = useState<IBoard[]>([]);
     const [isFormOpened, setIsFormOpened] = useState<boolean>(true);
     const [inputValidate, setInputValidate] = useState<boolean>(true);
-
-    const setBoardName = (e: ChangeEvent<HTMLInputElement>) => {
-        setBoard({ ...board, name: e.target.value });
-    };
+	// const [formType, setFormType] = useState<string>('add')
 
     const checkInputValidate = () => {
         if (!board.name) setInputValidate(false);
@@ -26,8 +26,11 @@ export const Boards: FC<BoardsProps> = () => {
 
     const addBoard = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         if (board.name) {
             const newBoard = { ...board, id: Date.now(), current: true };
+
+            setCurrentBoard(newBoard);
 
             setBoards([
                 ...boards.map(board => ({
@@ -46,6 +49,7 @@ export const Boards: FC<BoardsProps> = () => {
     return (
         <div className={styles.boards}>
             <BoardsBar
+                setCurrentBoard={setCurrentBoard}
                 boards={boards}
                 isFormOpened={isFormOpened}
                 setBoards={setBoards}
@@ -53,13 +57,15 @@ export const Boards: FC<BoardsProps> = () => {
             />
 
             <Board
+                currentBoard={currentBoard}
+                setcurrentBoard={setCurrentBoard}
                 addBoard={addBoard}
                 board={board}
                 boards={boards}
                 checkInputValidate={checkInputValidate}
                 inputValidate={inputValidate}
                 isFormOpened={isFormOpened}
-                setBoardName={setBoardName}
+                setBoard={setBoard}
                 setBoards={setBoards}
                 setInputValidate={setInputValidate}
                 setIsFormOpened={setIsFormOpened}

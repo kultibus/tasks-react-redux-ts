@@ -1,39 +1,37 @@
-import {
-    ChangeEventHandler,
-    Dispatch,
-    FC,
-    FormEventHandler,
-    SetStateAction,
-} from "react";
+import { Dispatch, FC, FormEventHandler, SetStateAction } from "react";
 import { IBoard } from "../../types/types";
-import { BoardBar } from "../boardBar/BoardBar";
 import { Form, FormVariant } from "../UI/form/Form";
-import styles from "./Board.module.scss";
+import { BoardBar } from "../boardBar/BoardBar";
 import { Tasks } from "../tasks/Tasks";
+import styles from "./Board.module.scss";
 
-interface BoardProps {
+interface BoardProps<T> {
     addBoard: FormEventHandler<HTMLFormElement>;
-    board: IBoard;
-    boards: IBoard[];
+    board: T;
+    boards: T[];
     checkInputValidate: () => void;
+    currentBoard: T;
     inputValidate: boolean;
     isFormOpened: boolean;
-    setBoardName: ChangeEventHandler<HTMLInputElement>;
-    setBoards: Dispatch<SetStateAction<IBoard[]>>;
+    setBoard: Dispatch<SetStateAction<T>>;
+    setBoards: Dispatch<SetStateAction<T[]>>;
+    setcurrentBoard: Dispatch<SetStateAction<T>>;
     setInputValidate: Dispatch<SetStateAction<boolean>>;
     setIsFormOpened: Dispatch<SetStateAction<boolean>>;
 }
 
-export const Board: FC<BoardProps> = props => {
+export const Board: FC<BoardProps<T>> = props => {
     const {
         addBoard,
         board,
         boards,
         checkInputValidate,
+        currentBoard,
         inputValidate,
         isFormOpened,
-        setBoardName,
+        setBoard,
         setBoards,
+        setcurrentBoard,
         setInputValidate,
         setIsFormOpened,
     } = props;
@@ -42,8 +40,10 @@ export const Board: FC<BoardProps> = props => {
         <div className={styles.board}>
             <BoardBar
                 boards={boards}
+                currentBoard={currentBoard}
                 isFormOpened={isFormOpened}
                 setBoards={setBoards}
+                setCurrentBoard={setcurrentBoard}
                 setIsFormOpened={setIsFormOpened}
             />
 
@@ -55,45 +55,17 @@ export const Board: FC<BoardProps> = props => {
                         checkInputValidate={checkInputValidate}
                         inputValidate={inputValidate}
                         onSubmit={addBoard}
-                        setBoardName={setBoardName}
+                        setBoard={setBoard}
                         setInputValidate={setInputValidate}
                         setIsFormOpened={setIsFormOpened}
                         variant={
                             boards.length
-                                ? FormVariant.board
-                                : FormVariant.firstBoard
+                                ? FormVariant.actual
+                                : FormVariant.initial
                         }
                     />
                 ) : (
-					<Tasks  />
-                    // <ul className={styles.tasks}>
-                    //     <li className={styles.tasks}>
-                    //         <header>
-                    //             <h3>Opened</h3>
-                    //             <div>quantity</div>
-                    //         </header>
-
-                    //         <section>tasks opened</section>
-                    //     </li>
-
-                    //     <li className={styles.tasks}>
-                    //         <header>
-                    //             <h3>In process</h3>
-                    //             <div>quantity</div>
-                    //         </header>
-
-                    //         <section>tasks in process</section>
-                    //     </li>
-
-                    //     <li className={styles.tasks}>
-                    //         <header>
-                    //             <h3>Done</h3>
-                    //             <div>quantity</div>
-                    //         </header>
-
-                    //         <section>tasks done</section>
-                    //     </li>
-                    // </ul>
+                    <Tasks />
                 )}
             </div>
         </div>

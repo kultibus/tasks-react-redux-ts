@@ -1,18 +1,12 @@
-import {
-    ChangeEventHandler,
-    Dispatch,
-    FC,
-    FormEventHandler,
-    SetStateAction,
-} from "react";
+import { Dispatch, FC, FormEventHandler, SetStateAction } from "react";
 import { IBoard } from "../../../types/types";
 import { Button, ButtonType, ButtonVariant } from "../button/Button";
 import { Input, InputType } from "../input/Input";
 import styles from "./Form.module.scss";
 
 export enum FormVariant {
-    board = "board",
-    firstBoard = "firstBoard",
+    actual = "actual",
+    initial = "initial",
 }
 
 interface FormProps {
@@ -21,7 +15,7 @@ interface FormProps {
     checkInputValidate: () => void;
     inputValidate: boolean;
     onSubmit: FormEventHandler<HTMLFormElement>;
-    setBoardName: ChangeEventHandler<HTMLInputElement>;
+    setBoard: Dispatch<SetStateAction<IBoard>>;
     setInputValidate: Dispatch<SetStateAction<boolean>>;
     setIsFormOpened: Dispatch<SetStateAction<boolean>>;
     variant: FormVariant;
@@ -33,21 +27,23 @@ export const Form: FC<FormProps> = props => {
         checkInputValidate,
         inputValidate,
         onSubmit,
-        setBoardName,
+        setBoard,
         setInputValidate,
         setIsFormOpened,
         variant,
     } = props;
 
     switch (variant) {
-        case "firstBoard":
+        case "initial":
             return (
                 <form onSubmit={onSubmit} className={styles.form}>
                     <Input
                         value={board.name}
                         placeholder="Board name?"
                         type={InputType.text}
-                        onChange={setBoardName}
+                        onChange={e =>
+                            setBoard({ ...board, name: e.target.value })
+                        }
                         validate={inputValidate}
                         onClick={() => setInputValidate(true)}
                     />
@@ -62,14 +58,16 @@ export const Form: FC<FormProps> = props => {
                 </form>
             );
 
-        case "board":
+        case "actual":
             return (
                 <form onSubmit={onSubmit} className={styles.form}>
                     <Input
                         value={board.name}
                         placeholder="Board name?"
                         type={InputType.text}
-                        onChange={setBoardName}
+                        onChange={e =>
+                            setBoard({ ...board, name: e.target.value })
+                        }
                         validate={inputValidate}
                         onClick={() => setInputValidate(true)}
                     />
@@ -87,6 +85,11 @@ export const Form: FC<FormProps> = props => {
                             onClick={() => {
                                 setIsFormOpened(false);
                                 setInputValidate(true);
+                                setBoard({
+                                    id: null,
+                                    name: "",
+                                    current: false,
+                                });
                             }}
                             type={ButtonType.button}
                             variant={ButtonVariant.add}

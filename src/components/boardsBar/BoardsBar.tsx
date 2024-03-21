@@ -5,17 +5,28 @@ import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
 import styles from "./BoardsBar.module.scss";
 import { List, ListVariant } from "../list/List";
 
-interface BoardsBarProps {
-    boards: IBoard[];
+type MyTest<T> = Dispatch<SetStateAction<T>>;
+
+interface BoardsBarProps<T> {
+    boards: T[];
     isFormOpened: boolean;
-    setBoards: Dispatch<SetStateAction<IBoard[]>>;
-    setIsFormOpened: Dispatch<SetStateAction<boolean>>;
+    setBoards: MyTest<T[]>;
+    setCurrentBoard: MyTest<T>;
+    setIsFormOpened: MyTest<boolean>;
 }
 
-export const BoardsBar: FC<BoardsBarProps> = props => {
-    const { boards, isFormOpened, setIsFormOpened, setBoards } = props;
+export const BoardsBar: FC<BoardsBarProps<T>> = props => {
+    const {
+        boards,
+        isFormOpened,
+        setBoards,
+        setCurrentBoard,
+        setIsFormOpened,
+    } = props;
 
-    const setCurrentBoard = (board: IBoard) => {
+    const clickHandler = (board: IBoard) => {
+        setCurrentBoard(board);
+
         setBoards([
             ...boards.map(bd =>
                 bd.id === board.id
@@ -51,7 +62,7 @@ export const BoardsBar: FC<BoardsBarProps> = props => {
                     renderItem={(board: IBoard) => (
                         <li key={board.id}>
                             <Button
-                                onClick={() => setCurrentBoard(board)}
+                                onClick={() => clickHandler(board)}
                                 type={ButtonType.button}
                                 variant={
                                     board.current
