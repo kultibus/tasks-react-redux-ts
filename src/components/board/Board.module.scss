@@ -1,12 +1,4 @@
-.board {
+.body {
     display: grid;
     grid-template-rows: var(--header-height) 1fr;
 }
-
-.body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-

@@ -1,5 +1,5 @@
-import { FC, FormEvent, useState } from "react";
-import { IBoard } from "../../types/types";
+import { FC, useState } from "react";
+import { FormAction, FormOptions, FormType, IBoard } from "../../types/types";
 import { Board } from "../board/Board";
 import { BoardsBar } from "../boardsBar/BoardsBar";
 import styles from "./Boards.module.scss";
@@ -18,18 +18,30 @@ export const Boards: FC<BoardsProps> = () => {
     const [boards, setBoards] = useState<IBoard[]>([]);
     const [isFormOpened, setIsFormOpened] = useState<boolean>(true);
     const [inputValidate, setInputValidate] = useState<boolean>(true);
-	// const [formType, setFormType] = useState<string>('add')
+
+    const [formOptions, setFormOptions] = useState<FormOptions>({
+        type: "Board",
+        action: "Add",
+    });
+
+    function formCallHandler(action: FormAction, type: FormType) {
+        setFormOptions({
+            ...formOptions,
+            action: action,
+            type: type,
+        });
+
+        setIsFormOpened(true);
+    }
+
+	
 
     const checkInputValidate = () => {
         if (!board.name) setInputValidate(false);
     };
 
-    const addBoard = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
+    const addBoard = (newBoard: IBoard) => {
         if (board.name) {
-            const newBoard = { ...board, id: Date.now(), current: true };
-
             setCurrentBoard(newBoard);
 
             setBoards([
@@ -49,24 +61,28 @@ export const Boards: FC<BoardsProps> = () => {
     return (
         <div className={styles.boards}>
             <BoardsBar
-                setCurrentBoard={setCurrentBoard}
                 boards={boards}
                 isFormOpened={isFormOpened}
                 setBoards={setBoards}
+                setCurrentBoard={setCurrentBoard}
                 setIsFormOpened={setIsFormOpened}
+                formCallHandler={formCallHandler}
             />
 
             <Board
-                currentBoard={currentBoard}
-                setcurrentBoard={setCurrentBoard}
+                formCallHandler={formCallHandler}
+                setFormOptions={setFormOptions}
+                formOptions={formOptions}
                 addBoard={addBoard}
                 board={board}
                 boards={boards}
                 checkInputValidate={checkInputValidate}
+                currentBoard={currentBoard}
                 inputValidate={inputValidate}
                 isFormOpened={isFormOpened}
                 setBoard={setBoard}
                 setBoards={setBoards}
+                setcurrentBoard={setCurrentBoard}
                 setInputValidate={setInputValidate}
                 setIsFormOpened={setIsFormOpened}
             />

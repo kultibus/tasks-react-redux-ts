@@ -1,76 +1,88 @@
-import { Dispatch, FC, FormEventHandler, SetStateAction } from "react";
-import { IBoard } from "../../../types/types";
+import { Dispatch, FC, FormEvent, SetStateAction } from "react";
+import { FormOptions, IBoard } from "../../../types/types";
 import { Button, ButtonType, ButtonVariant } from "../button/Button";
 import { Input, InputType } from "../input/Input";
 import styles from "./Form.module.scss";
-
-export enum FormVariant {
-    actual = "actual",
-    initial = "initial",
-}
+import { Title } from "../../title/Title";
 
 interface FormProps {
     board: IBoard;
     boards: IBoard[];
     checkInputValidate: () => void;
     inputValidate: boolean;
-    onSubmit: FormEventHandler<HTMLFormElement>;
+    addBoard: (newBoard: IBoard) => void;
     setBoard: Dispatch<SetStateAction<IBoard>>;
     setInputValidate: Dispatch<SetStateAction<boolean>>;
     setIsFormOpened: Dispatch<SetStateAction<boolean>>;
-    variant: FormVariant;
+    formOptions: FormOptions;
+    setFormOptions: Dispatch<SetStateAction<FormOptions>>;
+    currentBoard: IBoard;
 }
 
 export const Form: FC<FormProps> = props => {
     const {
         board,
+        boards,
         checkInputValidate,
         inputValidate,
-        onSubmit,
+        addBoard,
         setBoard,
         setInputValidate,
         setIsFormOpened,
-        variant,
+        formOptions,
+        setFormOptions,
+        currentBoard,
     } = props;
 
-    switch (variant) {
-        case "initial":
-            return (
-                <form onSubmit={onSubmit} className={styles.form}>
-                    <Input
-                        value={board.name}
-                        placeholder="Board name?"
-                        type={InputType.text}
-                        onChange={e =>
-                            setBoard({ ...board, name: e.target.value })
-                        }
-                        validate={inputValidate}
-                        onClick={() => setInputValidate(true)}
-                    />
+    const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
-                    <Button
-                        onMouseDown={checkInputValidate}
-                        type={ButtonType.submit}
-                        variant={ButtonVariant.add}
-                    >
-                        Add board
-                    </Button>
-                </form>
-            );
+        const newBoard = { ...board, id: Date.now(), current: true };
 
-        case "actual":
-            return (
-                <form onSubmit={onSubmit} className={styles.form}>
-                    <Input
-                        value={board.name}
-                        placeholder="Board name?"
-                        type={InputType.text}
-                        onChange={e =>
-                            setBoard({ ...board, name: e.target.value })
-                        }
-                        validate={inputValidate}
-                        onClick={() => setInputValidate(true)}
-                    />
+        addBoard(newBoard);
+    };
+
+    const cancelHandler = () => {
+        setIsFormOpened(false);
+
+        setInputValidate(true);
+
+        setBoard({
+            id: null,
+            name: "",
+            current: false,
+        });
+    };
+
+    return (
+        <div className={styles.form}>
+            <header className={styles.header}>
+                {formOptions.action === "Add" ? (
+                    <Title>{`${
+                        formOptions.action
+                    } ${formOptions.type.toLowerCase()}`}</Title>
+                ) : (
+                    <Title>{`${
+                        formOptions.action
+                    } ${formOptions.type.toLowerCase()} "${
+                        currentBoard.name
+                    }"?`}</Title>
+                )}
+            </header>
+            <section className={styles.section}>
+                <form onSubmit={submitHandler} className={styles.body}>
+                    {formOptions.action !== "Delete" && (
+                        <Input
+                            value={board.name}
+                            placeholder={`${formOptions.type} name?`}
+                            type={InputType.text}
+                            onChange={e =>
+                                setBoard({ ...board, name: e.target.value })
+                            }
+                            validate={inputValidate}
+                            onClick={() => setInputValidate(true)}
+                        />
+                    )}
 
                     <div className={styles.btns}>
                         <Button
@@ -78,26 +90,21 @@ export const Form: FC<FormProps> = props => {
                             type={ButtonType.submit}
                             variant={ButtonVariant.add}
                         >
-                            Add board
+                            {formOptions.action}
                         </Button>
 
-                        <Button
-                            onClick={() => {
-                                setIsFormOpened(false);
-                                setInputValidate(true);
-                                setBoard({
-                                    id: null,
-                                    name: "",
-                                    current: false,
-                                });
-                            }}
-                            type={ButtonType.button}
-                            variant={ButtonVariant.add}
-                        >
-                            Cancel
-                        </Button>
+                        {boards.length ? (
+                            <Button
+                                onClick={cancelHandler}
+                                type={ButtonType.button}
+                                variant={ButtonVariant.add}
+                            >
+                                Cancel
+                            </Button>
+                        ) : null}
                     </div>
                 </form>
-            );
-    }
+            </section>
+        </div>
+    );
 };

@@ -1,27 +1,27 @@
-import { Dispatch, FC, SetStateAction } from "react";
-import { IBoard } from "../../types/types";
-import { Title } from "../title/Title";
+import { FC } from "react";
+import { FormAction, FormType, IBoard, ISetState } from "../../types/types";
 import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
-import styles from "./BoardsBar.module.scss";
 import { List, ListVariant } from "../list/List";
+import { Title } from "../title/Title";
+import styles from "./BoardsBar.module.scss";
 
-type MyTest<T> = Dispatch<SetStateAction<T>>;
-
-interface BoardsBarProps<T> {
-    boards: T[];
+interface BoardsBarProps {
+    boards: IBoard[];
     isFormOpened: boolean;
-    setBoards: MyTest<T[]>;
-    setCurrentBoard: MyTest<T>;
-    setIsFormOpened: MyTest<boolean>;
+    setBoards: ISetState<IBoard[]>;
+    setCurrentBoard: ISetState<IBoard>;
+    setIsFormOpened: ISetState<boolean>;
+    formCallHandler: (action: FormAction, type: FormType) => void;
 }
 
-export const BoardsBar: FC<BoardsBarProps<T>> = props => {
+export const BoardsBar: FC<BoardsBarProps> = props => {
     const {
         boards,
         isFormOpened,
         setBoards,
         setCurrentBoard,
         setIsFormOpened,
+        formCallHandler,
     } = props;
 
     const clickHandler = (board: IBoard) => {
@@ -47,7 +47,7 @@ export const BoardsBar: FC<BoardsBarProps<T>> = props => {
 
             <div className={styles.body}>
                 <Button
-                    onClick={() => setIsFormOpened(true)}
+                    onClick={() => formCallHandler('Add', 'Board')}
                     type={ButtonType.button}
                     variant={
                         !isFormOpened ? ButtonVariant.add : ButtonVariant.hidden

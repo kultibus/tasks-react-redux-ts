@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { Dispatch, FC, SetStateAction } from "react";
-import { IBoard } from "../../types/types";
-import { Title } from "../title/Title";
-import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
-import styles from "./BoardBar.module.scss";
-import Edit from "../../assets/icons/edit.svg";
 import Delete from "../../assets/icons/delete.svg";
+import Edit from "../../assets/icons/edit.svg";
+import { FormAction, FormOptions, FormType, IBoard } from "../../types/types";
+import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
+import { Title } from "../title/Title";
+import styles from "./BoardBar.module.scss";
 
 interface BoardBarProps {
     boards: IBoard[];
@@ -14,7 +14,9 @@ interface BoardBarProps {
     setIsFormOpened: Dispatch<SetStateAction<boolean>>;
     setBoards: Dispatch<SetStateAction<IBoard[]>>;
     setCurrentBoard: Dispatch<SetStateAction<IBoard>>;
-    setIsFormOpened: Dispatch<SetStateAction<boolean>>;
+    formOptions: FormOptions;
+    setFormOptions: Dispatch<SetStateAction<FormOptions>>;
+    formCallHandler: (action: FormAction, type: FormType) => void;
 }
 
 export const BoardBar: FC<BoardBarProps> = props => {
@@ -24,48 +26,40 @@ export const BoardBar: FC<BoardBarProps> = props => {
         currentBoard,
         setCurrentBoard,
         setIsFormOpened,
+        formOptions,
+        setFormOptions,
+        formCallHandler,
     } = props;
-
-    const clickHandler = () => {
-        setIsFormOpened(true);
-    };
 
     return (
         <header className={classNames(styles.boardBar)}>
-            {isFormOpened ? (
-                <Title>Add board</Title>
-            ) : (
-                <div className={classNames(styles.body)}>
-                    <div className={styles.box}>
-                        <Title>{currentBoard.name}</Title>
+            <div className={classNames(styles.body)}>
+                <div className={styles.box}>
+                    <Title>{currentBoard.name}</Title>
 
-                        <div className={styles.btns}>
-                            <Button
-                                onClick={setIsFormOpened}
-                                type={ButtonType.button}
-                                variant={ButtonVariant.icon}
-                            >
-                                <Edit />
-                            </Button>
+                    <div className={styles.btns}>
+                        <Button
+                            onClick={() => formCallHandler("Edit", "Board")}
+                            type={ButtonType.button}
+                            variant={ButtonVariant.icon}
+                        >
+                            <Edit />
+                        </Button>
 
-                            <Button
-                                onClick={setIsFormOpened}
-                                type={ButtonType.button}
-                                variant={ButtonVariant.icon}
-                            >
-                                <Delete />
-                            </Button>
-                        </div>
+                        <Button
+                            onClick={() => formCallHandler("Delete", "Board")}
+                            type={ButtonType.button}
+                            variant={ButtonVariant.icon}
+                        >
+                            <Delete />
+                        </Button>
                     </div>
-
-                    <Button
-                        type={ButtonType.button}
-                        variant={ButtonVariant.add}
-                    >
-                        Add task
-                    </Button>
                 </div>
-            )}
+
+                <Button type={ButtonType.button} variant={ButtonVariant.add}>
+                    Add task
+                </Button>
+            </div>
         </header>
     );
 };
