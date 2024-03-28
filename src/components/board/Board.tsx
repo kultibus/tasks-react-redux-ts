@@ -7,6 +7,7 @@ import styles from "./Board.module.scss";
 
 interface BoardProps {
     addBoard: (newBoard: IBoard) => void;
+    editBoard: (newBoard: IBoard) => void;
     board: IBoard;
     boards: IBoard[];
     checkInputValidate: () => void;
@@ -15,7 +16,7 @@ interface BoardProps {
     isFormOpened: boolean;
     setBoard: Dispatch<SetStateAction<IBoard>>;
     setBoards: Dispatch<SetStateAction<IBoard[]>>;
-    setcurrentBoard: Dispatch<SetStateAction<IBoard>>;
+    setCurrentBoard: Dispatch<SetStateAction<IBoard>>;
     setInputValidate: Dispatch<SetStateAction<boolean>>;
     setIsFormOpened: Dispatch<SetStateAction<boolean>>;
     formOptions: FormOptions;
@@ -34,18 +35,21 @@ export const Board: FC<BoardProps> = props => {
         isFormOpened,
         setBoard,
         setBoards,
-        setcurrentBoard,
+        setCurrentBoard,
         setInputValidate,
         setIsFormOpened,
         formOptions,
         setFormOptions,
         formCallHandler,
+        editBoard,
     } = props;
 
     return (
         <div>
             {isFormOpened ? (
                 <Form
+                    editBoard={editBoard}
+                    setCurrentBoard={setCurrentBoard}
                     currentBoard={currentBoard}
                     setFormOptions={setFormOptions}
                     formOptions={formOptions}
@@ -66,7 +70,7 @@ export const Board: FC<BoardProps> = props => {
                         currentBoard={currentBoard}
                         isFormOpened={isFormOpened}
                         setBoards={setBoards}
-                        setCurrentBoard={setcurrentBoard}
+                        setCurrentBoard={setCurrentBoard}
                         setIsFormOpened={setIsFormOpened}
                         formOptions={formOptions}
                         formCallHandler={formCallHandler}

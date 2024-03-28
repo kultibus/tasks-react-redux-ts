@@ -6,17 +6,19 @@ import styles from "./Form.module.scss";
 import { Title } from "../../title/Title";
 
 interface FormProps {
+    addBoard: (newBoard: IBoard) => void;
+    editBoard: (newBoard: IBoard) => void;
     board: IBoard;
     boards: IBoard[];
     checkInputValidate: () => void;
+    currentBoard: IBoard;
+    formOptions: FormOptions;
     inputValidate: boolean;
-    addBoard: (newBoard: IBoard) => void;
     setBoard: Dispatch<SetStateAction<IBoard>>;
+    setCurrentBoard: Dispatch<SetStateAction<IBoard>>;
+    setFormOptions: Dispatch<SetStateAction<FormOptions>>;
     setInputValidate: Dispatch<SetStateAction<boolean>>;
     setIsFormOpened: Dispatch<SetStateAction<boolean>>;
-    formOptions: FormOptions;
-    setFormOptions: Dispatch<SetStateAction<FormOptions>>;
-    currentBoard: IBoard;
 }
 
 export const Form: FC<FormProps> = props => {
@@ -32,14 +34,28 @@ export const Form: FC<FormProps> = props => {
         formOptions,
         setFormOptions,
         currentBoard,
+        setCurrentBoard,
+        editBoard,
     } = props;
 
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const newBoard = { ...board, id: Date.now(), current: true };
+        switch (formOptions.action) {
+            case "Edit":
+                const editedBoard = { ...currentBoard, name: board.name };
 
-        addBoard(newBoard);
+                editBoard(editedBoard);
+
+                break;
+
+            default:
+                const newBoard = { ...board, id: Date.now(), current: true };
+
+                addBoard(newBoard);
+
+                break;
+        }
     };
 
     const cancelHandler = () => {

@@ -34,8 +34,6 @@ export const Boards: FC<BoardsProps> = () => {
         setIsFormOpened(true);
     }
 
-	
-
     const checkInputValidate = () => {
         if (!board.name) setInputValidate(false);
     };
@@ -58,6 +56,26 @@ export const Boards: FC<BoardsProps> = () => {
         }
     };
 
+    const editBoard = (newBoard: IBoard) => {
+
+
+		
+        setCurrentBoard(newBoard);
+
+        setBoards([
+            ...boards.map(bd => {
+                if (bd.id === currentBoard.id) {
+                    return newBoard;
+                }
+                return bd;
+            }),
+        ]);
+
+        setIsFormOpened(false);
+
+        setBoard({ id: null, name: "", current: false });
+    };
+
     return (
         <div className={styles.boards}>
             <BoardsBar
@@ -70,19 +88,20 @@ export const Boards: FC<BoardsProps> = () => {
             />
 
             <Board
-                formCallHandler={formCallHandler}
-                setFormOptions={setFormOptions}
-                formOptions={formOptions}
                 addBoard={addBoard}
+                editBoard={editBoard}
                 board={board}
                 boards={boards}
                 checkInputValidate={checkInputValidate}
                 currentBoard={currentBoard}
+                formCallHandler={formCallHandler}
+                formOptions={formOptions}
                 inputValidate={inputValidate}
                 isFormOpened={isFormOpened}
                 setBoard={setBoard}
                 setBoards={setBoards}
-                setcurrentBoard={setCurrentBoard}
+                setCurrentBoard={setCurrentBoard}
+                setFormOptions={setFormOptions}
                 setInputValidate={setInputValidate}
                 setIsFormOpened={setIsFormOpened}
             />
