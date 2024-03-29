@@ -6,8 +6,8 @@ import { Tasks } from "../tasks/Tasks";
 import styles from "./Board.module.scss";
 
 interface BoardProps {
-    addBoard: (newBoard: IBoard) => void;
-    editBoard: (newBoard: IBoard) => void;
+    boardService: (newBoard: IBoard) => void;
+    // editBoard: (newBoard: IBoard) => void;
     board: IBoard;
     boards: IBoard[];
     checkInputValidate: () => void;
@@ -26,7 +26,7 @@ interface BoardProps {
 
 export const Board: FC<BoardProps> = props => {
     const {
-        addBoard,
+        boardService,
         board,
         boards,
         checkInputValidate,
@@ -41,14 +41,14 @@ export const Board: FC<BoardProps> = props => {
         formOptions,
         setFormOptions,
         formCallHandler,
-        editBoard,
+        // editBoard,
     } = props;
 
     return (
         <div>
             {isFormOpened ? (
                 <Form
-                    editBoard={editBoard}
+                    // editBoard={editBoard}
                     setCurrentBoard={setCurrentBoard}
                     currentBoard={currentBoard}
                     setFormOptions={setFormOptions}
@@ -57,7 +57,7 @@ export const Board: FC<BoardProps> = props => {
                     boards={boards}
                     checkInputValidate={checkInputValidate}
                     inputValidate={inputValidate}
-                    addBoard={addBoard}
+                    boardService={boardService}
                     setBoard={setBoard}
                     setInputValidate={setInputValidate}
                     setIsFormOpened={setIsFormOpened}

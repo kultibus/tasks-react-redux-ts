@@ -12,6 +12,7 @@ interface BoardsBarProps {
     setCurrentBoard: ISetState<IBoard>;
     setIsFormOpened: ISetState<boolean>;
     formCallHandler: (action: FormAction, type: FormType) => void;
+    currentBoard: IBoard;
 }
 
 export const BoardsBar: FC<BoardsBarProps> = props => {
@@ -22,21 +23,11 @@ export const BoardsBar: FC<BoardsBarProps> = props => {
         setCurrentBoard,
         setIsFormOpened,
         formCallHandler,
+        currentBoard,
     } = props;
 
     const clickHandler = (board: IBoard) => {
         setCurrentBoard(board);
-
-        setBoards([
-            ...boards.map(bd =>
-                bd.id === board.id
-                    ? { ...bd, current: true }
-                    : {
-                          ...bd,
-                          current: false,
-                      }
-            ),
-        ]);
     };
 
     return (
@@ -47,7 +38,7 @@ export const BoardsBar: FC<BoardsBarProps> = props => {
 
             <div className={styles.body}>
                 <Button
-                    onClick={() => formCallHandler('Add', 'Board')}
+                    onClick={() => formCallHandler("Add", "Board")}
                     type={ButtonType.button}
                     variant={
                         !isFormOpened ? ButtonVariant.add : ButtonVariant.hidden
@@ -65,7 +56,7 @@ export const BoardsBar: FC<BoardsBarProps> = props => {
                                 onClick={() => clickHandler(board)}
                                 type={ButtonType.button}
                                 variant={
-                                    board.current
+                                    board.id === currentBoard.id
                                         ? ButtonVariant.active
                                         : ButtonVariant.list
                                 }

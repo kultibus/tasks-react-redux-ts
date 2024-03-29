@@ -10,7 +10,6 @@ export const Boards: FC<BoardsProps> = () => {
     const [board, setBoard] = useState<IBoard>({
         id: null,
         name: "",
-        current: false,
     });
 
     const [currentBoard, setCurrentBoard] = useState<IBoard>(board);
@@ -38,47 +37,43 @@ export const Boards: FC<BoardsProps> = () => {
         if (!board.name) setInputValidate(false);
     };
 
-    const addBoard = (newBoard: IBoard) => {
+    const boardService = (newBoard: IBoard) => {
         if (board.name) {
             setCurrentBoard(newBoard);
 
-            setBoards([
-                ...boards.map(board => ({
-                    ...board,
-                    current: false,
-                })),
-                newBoard,
-            ]);
+            switch (formOptions.action) {
+                case "Delete":
+                    setBoards([
+                        ...boards.filter(bd => bd.id !== currentBoard.id),
+                    ]);
+                    break;
+
+                case "Edit":
+                    setBoards([
+                        ...boards.map(bd => {
+                            if (bd.id === currentBoard.id) {
+                                return newBoard;
+                            }
+                            return bd;
+                        }),
+                    ]);
+
+                    break;
+
+                default:
+                    setBoards([...boards, newBoard]);
+            }
 
             setIsFormOpened(false);
 
-            setBoard({ id: null, name: "", current: false });
+            setBoard({ id: null, name: "" });
         }
-    };
-
-    const editBoard = (newBoard: IBoard) => {
-
-
-		
-        setCurrentBoard(newBoard);
-
-        setBoards([
-            ...boards.map(bd => {
-                if (bd.id === currentBoard.id) {
-                    return newBoard;
-                }
-                return bd;
-            }),
-        ]);
-
-        setIsFormOpened(false);
-
-        setBoard({ id: null, name: "", current: false });
     };
 
     return (
         <div className={styles.boards}>
             <BoardsBar
+                currentBoard={currentBoard}
                 boards={boards}
                 isFormOpened={isFormOpened}
                 setBoards={setBoards}
@@ -88,8 +83,7 @@ export const Boards: FC<BoardsProps> = () => {
             />
 
             <Board
-                addBoard={addBoard}
-                editBoard={editBoard}
+                boardService={boardService}
                 board={board}
                 boards={boards}
                 checkInputValidate={checkInputValidate}

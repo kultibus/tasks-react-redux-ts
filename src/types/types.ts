@@ -12,7 +12,6 @@ export interface ITheme {
 export interface IBoard {
     id: number;
     name: string;
-    current: boolean;
 }
 
 export type InputValidate = boolean;

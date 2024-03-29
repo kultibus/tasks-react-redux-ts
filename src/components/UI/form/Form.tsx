@@ -6,8 +6,8 @@ import styles from "./Form.module.scss";
 import { Title } from "../../title/Title";
 
 interface FormProps {
-    addBoard: (newBoard: IBoard) => void;
-    editBoard: (newBoard: IBoard) => void;
+    boardService: (newBoard: IBoard) => void;
+    // editBoard: (newBoard: IBoard) => void;
     board: IBoard;
     boards: IBoard[];
     checkInputValidate: () => void;
@@ -27,7 +27,7 @@ export const Form: FC<FormProps> = props => {
         boards,
         checkInputValidate,
         inputValidate,
-        addBoard,
+        boardService,
         setBoard,
         setInputValidate,
         setIsFormOpened,
@@ -35,26 +35,27 @@ export const Form: FC<FormProps> = props => {
         setFormOptions,
         currentBoard,
         setCurrentBoard,
-        editBoard,
+        // editBoard,
     } = props;
 
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        let newBoard: IBoard;
+
         switch (formOptions.action) {
             case "Edit":
-                const editedBoard = { ...currentBoard, name: board.name };
+                newBoard = { ...currentBoard, name: board.name };
+                boardService(newBoard);
+                break;
 
-                editBoard(editedBoard);
-
+            case "Delete":
+                boardService(currentBoard);
                 break;
 
             default:
-                const newBoard = { ...board, id: Date.now(), current: true };
-
-                addBoard(newBoard);
-
-                break;
+                newBoard = { ...board, id: Date.now() };
+                boardService(newBoard);
         }
     };
 
@@ -66,7 +67,6 @@ export const Form: FC<FormProps> = props => {
         setBoard({
             id: null,
             name: "",
-            current: false,
         });
     };
 

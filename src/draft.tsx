@@ -51,7 +51,7 @@
 
 //     <main className={styles.main}>
 //         {isFormOpened ? (
-//             <Form onSubmit={addBoard}>
+//             <Form onSubmit={boardService}>
 //                 <Input
 //                     value={board.name}
 //                     placeholder="Board name?"
