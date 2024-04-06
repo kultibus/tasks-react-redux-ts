@@ -10,25 +10,19 @@ import styles from "./BoardBar.module.scss";
 interface BoardBarProps {
     boards: IBoard[];
     currentBoard: IBoard;
-    isFormOpened: boolean;
-    setIsFormOpened: Dispatch<SetStateAction<boolean>>;
     setBoards: Dispatch<SetStateAction<IBoard[]>>;
     setCurrentBoard: Dispatch<SetStateAction<IBoard>>;
     formOptions: FormOptions;
     setFormOptions: Dispatch<SetStateAction<FormOptions>>;
-    formCallHandler: (action: FormAction, type: FormType) => void;
 }
 
 export const BoardBar: FC<BoardBarProps> = props => {
     const {
         boards,
-        isFormOpened,
         currentBoard,
         setCurrentBoard,
-        setIsFormOpened,
         formOptions,
         setFormOptions,
-        formCallHandler,
     } = props;
 
     return (
@@ -39,7 +33,13 @@ export const BoardBar: FC<BoardBarProps> = props => {
 
                     <div className={styles.btns}>
                         <Button
-                            onClick={() => formCallHandler("Edit", "Board")}
+                            onClick={() =>
+                                setFormOptions({
+                                    action: "Edit",
+                                    type: "Board",
+                                    isOpened: true,
+                                })
+                            }
                             type={ButtonType.button}
                             variant={ButtonVariant.icon}
                         >
@@ -47,7 +47,11 @@ export const BoardBar: FC<BoardBarProps> = props => {
                         </Button>
 
                         <Button
-                            onClick={() => formCallHandler("Delete", "Board")}
+                            onClick={() => setFormOptions({
+								action: "Delete",
+								type: "Board",
+								isOpened: true,
+							})}
                             type={ButtonType.button}
                             variant={ButtonVariant.icon}
                         >

@@ -6,49 +6,46 @@ import { Tasks } from "../tasks/Tasks";
 import styles from "./Board.module.scss";
 
 interface BoardProps {
-    boardService: (newBoard: IBoard) => void;
-    // editBoard: (newBoard: IBoard) => void;
+    addBoard: (newBoard: IBoard) => void;
+    editBoard: (newBoard: IBoard) => void;
+    deleteBoard: (newBoard: IBoard) => void;
     board: IBoard;
     boards: IBoard[];
     checkInputValidate: () => void;
     currentBoard: IBoard;
     inputValidate: boolean;
-    isFormOpened: boolean;
     setBoard: Dispatch<SetStateAction<IBoard>>;
     setBoards: Dispatch<SetStateAction<IBoard[]>>;
     setCurrentBoard: Dispatch<SetStateAction<IBoard>>;
     setInputValidate: Dispatch<SetStateAction<boolean>>;
-    setIsFormOpened: Dispatch<SetStateAction<boolean>>;
     formOptions: FormOptions;
     setFormOptions: Dispatch<SetStateAction<FormOptions>>;
-    formCallHandler: (action: FormAction, type: FormType) => void;
 }
 
 export const Board: FC<BoardProps> = props => {
     const {
-        boardService,
+        addBoard,
+        editBoard,
         board,
         boards,
         checkInputValidate,
         currentBoard,
         inputValidate,
-        isFormOpened,
         setBoard,
         setBoards,
         setCurrentBoard,
         setInputValidate,
-        setIsFormOpened,
         formOptions,
         setFormOptions,
-        formCallHandler,
-        // editBoard,
+        deleteBoard,
     } = props;
 
     return (
         <div>
-            {isFormOpened ? (
+            {formOptions.isOpened ? (
                 <Form
-                    // editBoard={editBoard}
+                    deleteBoard={deleteBoard}
+                    editBoard={editBoard}
                     setCurrentBoard={setCurrentBoard}
                     currentBoard={currentBoard}
                     setFormOptions={setFormOptions}
@@ -57,10 +54,9 @@ export const Board: FC<BoardProps> = props => {
                     boards={boards}
                     checkInputValidate={checkInputValidate}
                     inputValidate={inputValidate}
-                    boardService={boardService}
+                    addBoard={addBoard}
                     setBoard={setBoard}
                     setInputValidate={setInputValidate}
-                    setIsFormOpened={setIsFormOpened}
                 />
             ) : (
                 <div className={styles.body}>
@@ -68,12 +64,9 @@ export const Board: FC<BoardProps> = props => {
                         setFormOptions={setFormOptions}
                         boards={boards}
                         currentBoard={currentBoard}
-                        isFormOpened={isFormOpened}
                         setBoards={setBoards}
                         setCurrentBoard={setCurrentBoard}
-                        setIsFormOpened={setIsFormOpened}
                         formOptions={formOptions}
-                        formCallHandler={formCallHandler}
                     />
                     <Tasks />
                 </div>

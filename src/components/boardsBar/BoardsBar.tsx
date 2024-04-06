@@ -1,5 +1,11 @@
-import { FC } from "react";
-import { FormAction, FormType, IBoard, ISetState } from "../../types/types";
+import { Dispatch, FC, SetStateAction } from "react";
+import {
+    FormAction,
+    FormOptions,
+    FormType,
+    IBoard,
+    ISetState,
+} from "../../types/types";
 import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
 import { List, ListVariant } from "../list/List";
 import { Title } from "../title/Title";
@@ -7,28 +13,22 @@ import styles from "./BoardsBar.module.scss";
 
 interface BoardsBarProps {
     boards: IBoard[];
-    isFormOpened: boolean;
     setBoards: ISetState<IBoard[]>;
     setCurrentBoard: ISetState<IBoard>;
-    setIsFormOpened: ISetState<boolean>;
-    formCallHandler: (action: FormAction, type: FormType) => void;
     currentBoard: IBoard;
+    formOptions: FormOptions;
+    setFormOptions: Dispatch<SetStateAction<FormOptions>>;
 }
 
 export const BoardsBar: FC<BoardsBarProps> = props => {
     const {
         boards,
-        isFormOpened,
         setBoards,
         setCurrentBoard,
-        setIsFormOpened,
-        formCallHandler,
         currentBoard,
+        formOptions,
+        setFormOptions,
     } = props;
-
-    const clickHandler = (board: IBoard) => {
-        setCurrentBoard(board);
-    };
 
     return (
         <aside className={styles.bar}>
@@ -38,10 +38,18 @@ export const BoardsBar: FC<BoardsBarProps> = props => {
 
             <div className={styles.body}>
                 <Button
-                    onClick={() => formCallHandler("Add", "Board")}
+                    onClick={() =>
+                        setFormOptions({
+                            action: "Add",
+                            type: "Board",
+                            isOpened: true,
+                        })
+                    }
                     type={ButtonType.button}
                     variant={
-                        !isFormOpened ? ButtonVariant.add : ButtonVariant.hidden
+                        !formOptions.isOpened
+                            ? ButtonVariant.add
+                            : ButtonVariant.hidden
                     }
                 >
                     Add board
@@ -53,7 +61,7 @@ export const BoardsBar: FC<BoardsBarProps> = props => {
                     renderItem={(board: IBoard) => (
                         <li key={board.id}>
                             <Button
-                                onClick={() => clickHandler(board)}
+                                onClick={() => setCurrentBoard(board)}
                                 type={ButtonType.button}
                                 variant={
                                     board.id === currentBoard.id

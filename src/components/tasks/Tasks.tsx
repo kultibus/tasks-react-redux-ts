@@ -7,9 +7,7 @@ import { Title } from "../title/Title";
 
 interface TasksProps {
     // boards: IBoard[];
-    // isFormOpened: boolean;
     // setBoards: Dispatch<SetStateAction<IBoard[]>>;
-    // setIsFormOpened: Dispatch<SetStateAction<boolean>>;
 }
 
 export const Tasks: FC<TasksProps> = props => {

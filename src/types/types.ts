@@ -25,4 +25,5 @@ export type FormAction = "Add" | "Edit" | "Delete";
 export interface FormOptions {
     action: FormAction;
     type: FormType;
+	isOpened: boolean
 }

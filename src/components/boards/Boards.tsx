@@ -18,97 +18,110 @@ export const Boards: FC<BoardsProps> = () => {
     });
 
     const [boards, setBoards] = useState<IBoard[]>([]);
-    const [isFormOpened, setIsFormOpened] = useState<boolean>(true);
     const [inputValidate, setInputValidate] = useState<boolean>(true);
 
     const [formOptions, setFormOptions] = useState<FormOptions>({
         type: "Board",
         action: "Add",
+        isOpened: true,
     });
 
-    function formCallHandler(action: FormAction, type: FormType) {
-        setFormOptions({
-            ...formOptions,
-            action: action,
-            type: type,
-        });
-
-        setIsFormOpened(true);
-    }
-
     const checkInputValidate = () => {
-        if (!board.name) setInputValidate(false);
+        // if (!board.name) setInputValidate(false);
     };
 
-    const boardService = (newBoard: IBoard) => {
-        if (!newBoard.name) {
+    const addBoard = (newBoard: IBoard) => {
+        setBoards([...boards, newBoard]);
 
-			console.log('ok')
-        } else {
-            switch (formOptions.action) {
-                case "Delete":
-                    setBoards([
-                        ...boards.filter(bd => bd.id !== currentBoard.id),
-                    ]);
+        setCurrentBoard(newBoard);
 
-                    setCurrentBoard(newBoard);
+        setFormOptions({
+            ...formOptions,
+            isOpened: false,
+        });
 
-                    break;
+        setBoard({ id: null, name: "" });
+    };
 
-                case "Edit":
-                    setBoards([
-                        ...boards.map(bd => {
-                            if (bd.id === currentBoard.id) {
-                                return newBoard;
-                            }
-                            return bd;
-                        }),
-                    ]);
+    const editBoard = (editedBoard: IBoard) => {
+        setBoards([
+            ...boards.map(bd => {
+                if (bd.id === editedBoard.id) {
+                    return editedBoard;
+                }
+                return bd;
+            }),
+        ]);
 
-                    setCurrentBoard(newBoard);
+        setCurrentBoard(editedBoard);
 
-                    break;
+        setFormOptions({
+            ...formOptions,
+            isOpened: false,
+        });
 
-                default:
-                    setBoards([...boards, newBoard]);
+        setBoard({ id: null, name: "" });
+    };
 
-                    setCurrentBoard(newBoard);
-            }
+    const deleteBoard = (deletedBoard: IBoard) => {
+        const deletedBoardIndex = boards.indexOf(deletedBoard);
+
+        if (boards.length < 2) {
+            setBoards([]);
+
+            setCurrentBoard({ id: null, name: "" });
+
+            setFormOptions({
+                action: "Add",
+                type: "Board",
+                isOpened: true,
+            });
 
             setBoard({ id: null, name: "" });
+        } else {
+            setBoards([...boards.filter(bd => bd.id !== deletedBoard.id)]);
 
-            setIsFormOpened(false);
+            if (deletedBoardIndex === 0) {
+                setCurrentBoard(boards[1]);
+            } else {
+                setCurrentBoard(boards[deletedBoardIndex - 1]);
+            }
+
+            setFormOptions({
+                ...formOptions,
+                isOpened: false,
+            });
+
+            setBoard({ id: null, name: "" });
         }
     };
 
     return (
         <div className={styles.boards}>
             <BoardsBar
+                formOptions={formOptions}
+                setFormOptions={setFormOptions}
                 currentBoard={currentBoard}
                 boards={boards}
-                isFormOpened={isFormOpened}
                 setBoards={setBoards}
                 setCurrentBoard={setCurrentBoard}
-                setIsFormOpened={setIsFormOpened}
-                formCallHandler={formCallHandler}
             />
 
             <Board
-                boardService={boardService}
+                deleteBoard={deleteBoard}
+                editBoard={editBoard}
+                addBoard={addBoard}
                 board={board}
                 boards={boards}
                 checkInputValidate={checkInputValidate}
                 currentBoard={currentBoard}
-                formCallHandler={formCallHandler}
                 formOptions={formOptions}
                 inputValidate={inputValidate}
-                isFormOpened={isFormOpened}
                 setBoard={setBoard}
                 setBoards={setBoards}
                 setCurrentBoard={setCurrentBoard}
                 setFormOptions={setFormOptions}
                 setInputValidate={setInputValidate}
-                setIsFormOpened={setIsFormOpened}
             />
         </div>
     );

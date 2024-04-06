@@ -6,8 +6,9 @@ import styles from "./Form.module.scss";
 import { Title } from "../../title/Title";
 
 interface FormProps {
-    boardService: (newBoard: IBoard) => void;
-    // editBoard: (newBoard: IBoard) => void;
+    addBoard: (newBoard: IBoard) => void;
+    editBoard: (newBoard: IBoard) => void;
+    deleteBoard: (newBoard: IBoard) => void;
     board: IBoard;
     boards: IBoard[];
     checkInputValidate: () => void;
@@ -18,7 +19,6 @@ interface FormProps {
     setCurrentBoard: Dispatch<SetStateAction<IBoard>>;
     setFormOptions: Dispatch<SetStateAction<FormOptions>>;
     setInputValidate: Dispatch<SetStateAction<boolean>>;
-    setIsFormOpened: Dispatch<SetStateAction<boolean>>;
 }
 
 export const Form: FC<FormProps> = props => {
@@ -27,46 +27,46 @@ export const Form: FC<FormProps> = props => {
         boards,
         checkInputValidate,
         inputValidate,
-        boardService,
+        addBoard,
+        editBoard,
+        deleteBoard,
         setBoard,
         setInputValidate,
-        setIsFormOpened,
         formOptions,
         setFormOptions,
         currentBoard,
         setCurrentBoard,
-        // editBoard,
     } = props;
 
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        let newBoard: IBoard;
-
         switch (formOptions.action) {
+            case "Add":
+                const newBoard = { ...board, id: Date.now() };
+
+                addBoard(newBoard);
+
+                break;
+
             case "Edit":
-                newBoard = { ...currentBoard, name: board.name };
-                boardService(newBoard);
+                const editedBoard = { ...currentBoard, name: board.name };
+
+                editBoard(editedBoard);
+
                 break;
 
             case "Delete":
-                const currentIndex = boards.indexOf(currentBoard);
+                const deletedBoard = currentBoard;
 
-                newBoard =
-                    currentIndex > 0 ? boards[currentIndex - 1] : boards[1];
-
-                boardService(newBoard);
+                deleteBoard(deletedBoard);
 
                 break;
-
-            default:
-                newBoard = { ...board, id: Date.now() };
-                boardService(newBoard);
         }
     };
 
     const cancelHandler = () => {
-        setIsFormOpened(false);
+        setFormOptions({ ...formOptions, isOpened: false });
 
         setInputValidate(true);
 
