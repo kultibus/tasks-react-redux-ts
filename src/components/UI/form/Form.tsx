@@ -50,7 +50,13 @@ export const Form: FC<FormProps> = props => {
                 break;
 
             case "Delete":
-                boardService(currentBoard);
+                const currentIndex = boards.indexOf(currentBoard);
+
+                newBoard =
+                    currentIndex > 0 ? boards[currentIndex - 1] : boards[1];
+
+                boardService(newBoard);
+
                 break;
 
             default:

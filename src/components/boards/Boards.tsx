@@ -12,7 +12,10 @@ export const Boards: FC<BoardsProps> = () => {
         name: "",
     });
 
-    const [currentBoard, setCurrentBoard] = useState<IBoard>(board);
+    const [currentBoard, setCurrentBoard] = useState<IBoard>({
+        id: null,
+        name: "",
+    });
 
     const [boards, setBoards] = useState<IBoard[]>([]);
     const [isFormOpened, setIsFormOpened] = useState<boolean>(true);
@@ -38,14 +41,18 @@ export const Boards: FC<BoardsProps> = () => {
     };
 
     const boardService = (newBoard: IBoard) => {
-        if (board.name) {
-            setCurrentBoard(newBoard);
+        if (!newBoard.name) {
 
+			console.log('ok')
+        } else {
             switch (formOptions.action) {
                 case "Delete":
                     setBoards([
                         ...boards.filter(bd => bd.id !== currentBoard.id),
                     ]);
+
+                    setCurrentBoard(newBoard);
+
                     break;
 
                 case "Edit":
@@ -58,15 +65,19 @@ export const Boards: FC<BoardsProps> = () => {
                         }),
                     ]);
 
+                    setCurrentBoard(newBoard);
+
                     break;
 
                 default:
                     setBoards([...boards, newBoard]);
+
+                    setCurrentBoard(newBoard);
             }
 
-            setIsFormOpened(false);
-
             setBoard({ id: null, name: "" });
+
+            setIsFormOpened(false);
         }
     };
 
