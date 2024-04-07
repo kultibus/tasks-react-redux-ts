@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { FormAction, FormOptions, FormType, IBoard } from "../../types/types";
+import { FormOptions, IBoard } from "../../types/types";
 import { Board } from "../board/Board";
 import { BoardsBar } from "../boardsBar/BoardsBar";
 import styles from "./Boards.module.scss";
@@ -18,17 +18,12 @@ export const Boards: FC<BoardsProps> = () => {
     });
 
     const [boards, setBoards] = useState<IBoard[]>([]);
-    const [inputValidate, setInputValidate] = useState<boolean>(true);
 
     const [formOptions, setFormOptions] = useState<FormOptions>({
         type: "Board",
         action: "Add",
         isOpened: true,
     });
-
-    const checkInputValidate = () => {
-        // if (!board.name) setInputValidate(false);
-    };
 
     const addBoard = (newBoard: IBoard) => {
         setBoards([...boards, newBoard]);
@@ -113,15 +108,12 @@ export const Boards: FC<BoardsProps> = () => {
                 addBoard={addBoard}
                 board={board}
                 boards={boards}
-                checkInputValidate={checkInputValidate}
                 currentBoard={currentBoard}
                 formOptions={formOptions}
-                inputValidate={inputValidate}
                 setBoard={setBoard}
                 setBoards={setBoards}
                 setCurrentBoard={setCurrentBoard}
                 setFormOptions={setFormOptions}
-                setInputValidate={setInputValidate}
             />
         </div>
     );

@@ -14,7 +14,7 @@ export interface IBoard {
     name: string;
 }
 
-export type InputValidate = boolean;
+// export type InputValid = boolean;
 
 export type ISetState<T> = Dispatch<SetStateAction<T>>;
 

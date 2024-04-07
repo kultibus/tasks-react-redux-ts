@@ -1,4 +1,11 @@
-import { Dispatch, FC, FormEvent, SetStateAction } from "react";
+import {
+    ChangeEvent,
+    Dispatch,
+    FC,
+    FormEvent,
+    SetStateAction,
+    useState,
+} from "react";
 import { FormOptions, IBoard } from "../../../types/types";
 import { Button, ButtonType, ButtonVariant } from "../button/Button";
 import { Input, InputType } from "../input/Input";
@@ -11,64 +18,79 @@ interface FormProps {
     deleteBoard: (newBoard: IBoard) => void;
     board: IBoard;
     boards: IBoard[];
-    checkInputValidate: () => void;
     currentBoard: IBoard;
     formOptions: FormOptions;
-    inputValidate: boolean;
     setBoard: Dispatch<SetStateAction<IBoard>>;
     setCurrentBoard: Dispatch<SetStateAction<IBoard>>;
     setFormOptions: Dispatch<SetStateAction<FormOptions>>;
-    setInputValidate: Dispatch<SetStateAction<boolean>>;
 }
 
 export const Form: FC<FormProps> = props => {
     const {
         board,
         boards,
-        checkInputValidate,
-        inputValidate,
         addBoard,
         editBoard,
         deleteBoard,
         setBoard,
-        setInputValidate,
         formOptions,
         setFormOptions,
         currentBoard,
         setCurrentBoard,
     } = props;
 
+    const [inputValid, setInputValid] = useState<boolean>(true);
+    const [inputPlaceholder, setInputPlaceholder] = useState<string>(
+        `Enter ${formOptions.type.toLowerCase()} title ...`
+    );
+
+    const onBlurInputHandler = () => {
+        setInputPlaceholder(
+            `Enter ${formOptions.type.toLowerCase()} title ...`
+        );
+        setInputValid(true);
+    };
+
+    const onClickInputHandler = () => {
+        setInputPlaceholder(
+            `Enter ${formOptions.type.toLowerCase()} title ...`
+        );
+    };
+
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        switch (formOptions.action) {
-            case "Add":
-                const newBoard = { ...board, id: Date.now() };
-
-                addBoard(newBoard);
-
-                break;
-
-            case "Edit":
-                const editedBoard = { ...currentBoard, name: board.name };
-
-                editBoard(editedBoard);
-
-                break;
-
-            case "Delete":
+        if (!board.name) {
+            if (formOptions.action === "Delete") {
                 const deletedBoard = currentBoard;
 
                 deleteBoard(deletedBoard);
+            } else {
+                setInputPlaceholder("This field can't be empty");
 
-                break;
+                setInputValid(false);
+            }
+        } else {
+            switch (formOptions.action) {
+                case "Add":
+                    const newBoard = { ...board, id: Date.now() };
+
+                    addBoard(newBoard);
+
+                    break;
+
+                case "Edit":
+                    const editedBoard = { ...currentBoard, name: board.name };
+
+                    editBoard(editedBoard);
+
+                    break;
+            }
         }
     };
 
     const cancelHandler = () => {
         setFormOptions({ ...formOptions, isOpened: false });
-
-        setInputValidate(true);
 
         setBoard({
             id: null,
@@ -95,20 +117,20 @@ export const Form: FC<FormProps> = props => {
                 <form onSubmit={submitHandler} className={styles.body}>
                     {formOptions.action !== "Delete" && (
                         <Input
+                            onBlur={onBlurInputHandler}
                             value={board.name}
-                            placeholder={`${formOptions.type} name?`}
+                            placeholder={inputPlaceholder}
                             type={InputType.text}
                             onChange={e =>
                                 setBoard({ ...board, name: e.target.value })
                             }
-                            validate={inputValidate}
-                            onClick={() => setInputValidate(true)}
+                            inputValid={inputValid}
+                            onClick={onClickInputHandler}
                         />
                     )}
 
                     <div className={styles.btns}>
                         <Button
-                            onMouseDown={checkInputValidate}
                             type={ButtonType.submit}
                             variant={ButtonVariant.add}
                         >
