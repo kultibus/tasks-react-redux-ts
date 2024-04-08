@@ -1,5 +1,13 @@
 import { Dispatch, FC, SetStateAction } from "react";
-import { FormAction, FormOptions, FormType, IBoard } from "../../types/types";
+import {
+    FormAction,
+    FormOptions,
+    FormType,
+    IBoard,
+    ISetState,
+    ITasks,
+    ITasksArr,
+} from "../../types/types";
 import { Form } from "../UI/form/Form";
 import { BoardBar } from "../boardBar/BoardBar";
 import { Tasks } from "../tasks/Tasks";
@@ -7,16 +15,23 @@ import styles from "./Board.module.scss";
 
 interface BoardProps {
     addBoard: (newBoard: IBoard) => void;
-    editBoard: (newBoard: IBoard) => void;
-    deleteBoard: (newBoard: IBoard) => void;
     board: IBoard;
     boards: IBoard[];
     currentBoard: IBoard;
+    deleteBoard: (newBoard: IBoard) => void;
+    editBoard: (newBoard: IBoard) => void;
+    formOptions: FormOptions;
     setBoard: Dispatch<SetStateAction<IBoard>>;
     setBoards: Dispatch<SetStateAction<IBoard[]>>;
     setCurrentBoard: Dispatch<SetStateAction<IBoard>>;
-    formOptions: FormOptions;
     setFormOptions: Dispatch<SetStateAction<FormOptions>>;
+    setTasksDone: ISetState<ITasks>;
+    setTasksInProcess: ISetState<ITasks>;
+    setTasksOpened: ISetState<ITasks>;
+    tasksArr: ITasksArr;
+    tasksDone: ITasks;
+    tasksInProcess: ITasks;
+    tasksOpened: ITasks;
 }
 
 export const Board: FC<BoardProps> = props => {
@@ -32,6 +47,13 @@ export const Board: FC<BoardProps> = props => {
         formOptions,
         setFormOptions,
         deleteBoard,
+        setTasksDone,
+        setTasksInProcess,
+        setTasksOpened,
+        tasksArr,
+        tasksDone,
+        tasksInProcess,
+        tasksOpened,
     } = props;
 
     return (
@@ -59,7 +81,15 @@ export const Board: FC<BoardProps> = props => {
                         setCurrentBoard={setCurrentBoard}
                         formOptions={formOptions}
                     />
-                    <Tasks />
+                    <Tasks
+                        setTasksDone={setTasksDone}
+                        setTasksInProcess={setTasksInProcess}
+                        setTasksOpened={setTasksOpened}
+                        tasksArr={tasksArr}
+                        tasksDone={tasksDone}
+                        tasksInProcess={tasksInProcess}
+                        tasksOpened={tasksOpened}
+                    />
                 </div>
             )}
         </div>

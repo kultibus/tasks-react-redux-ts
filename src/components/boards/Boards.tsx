@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { FormOptions, IBoard } from "../../types/types";
+import { FormOptions, IBoard, ITasks, ITasksArr } from "../../types/types";
 import { Board } from "../board/Board";
 import { BoardsBar } from "../boardsBar/BoardsBar";
 import styles from "./Boards.module.scss";
@@ -23,6 +23,26 @@ export const Boards: FC<BoardsProps> = () => {
         type: "Board",
         action: "Add",
         isOpened: true,
+    });
+
+    const [tasksOpened, setTasksOpened] = useState<ITasks>({
+        id: "Opened",
+        tasks: [],
+    });
+
+    const [tasksInProcess, setTasksInProcess] = useState<ITasks>({
+        id: "In process",
+        tasks: [],
+    });
+
+    const [tasksDone, setTasksDone] = useState<ITasks>({
+        id: "Done",
+        tasks: [],
+    });
+
+    const [tasksArr, setTasksArr] = useState<ITasksArr>({
+        id: null,
+        tasks: [tasksOpened, tasksInProcess, tasksDone],
     });
 
     const addBoard = (newBoard: IBoard) => {
@@ -103,6 +123,13 @@ export const Boards: FC<BoardsProps> = () => {
             />
 
             <Board
+                setTasksDone={setTasksDone}
+                setTasksInProcess={setTasksInProcess}
+                setTasksOpened={setTasksOpened}
+                tasksArr={tasksArr}
+                tasksDone={tasksDone}
+                tasksInProcess={tasksInProcess}
+                tasksOpened={tasksOpened}
                 deleteBoard={deleteBoard}
                 editBoard={editBoard}
                 addBoard={addBoard}
