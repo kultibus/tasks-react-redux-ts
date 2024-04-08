@@ -47,11 +47,13 @@ export const BoardBar: FC<BoardBarProps> = props => {
                         </Button>
 
                         <Button
-                            onClick={() => setFormOptions({
-								action: "Delete",
-								type: "Board",
-								isOpened: true,
-							})}
+                            onClick={() =>
+                                setFormOptions({
+                                    action: "Delete",
+                                    type: "Board",
+                                    isOpened: true,
+                                })
+                            }
                             type={ButtonType.button}
                             variant={ButtonVariant.icon}
                         >
@@ -60,7 +62,22 @@ export const BoardBar: FC<BoardBarProps> = props => {
                     </div>
                 </div>
 
-                <Button type={ButtonType.button} variant={ButtonVariant.add}>
+                <Button
+                    onClick={() =>
+                        setFormOptions({
+                            action: "Add",
+                            type: "Task",
+                            isOpened: true,
+                        })
+                    }
+                    type={ButtonType.button}
+                    // variant={
+                    //     !formOptions.isOpened
+                    //         ? ButtonVariant.add
+                    //         : ButtonVariant.hidden
+                    // }
+                    variant={ButtonVariant.add}
+                >
                     Add task
                 </Button>
             </div>

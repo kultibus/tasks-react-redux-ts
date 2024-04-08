@@ -5,6 +5,7 @@ import { IBoard, ISetState, ITask, ITasks, ITasksArr } from "../../types/types";
 import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
 import { Title } from "../title/Title";
 import { List, ListVariant } from "../list/List";
+import { Task } from "../task/Task";
 
 interface TasksProps {
     // boards: IBoard[];
@@ -31,7 +32,7 @@ export const Tasks: FC<TasksProps> = props => {
 
     return (
         <List
-            variant={ListVariant.tasks}
+            variant={ListVariant.tasksArr}
             items={tasksArr.tasks}
             renderItem={(tasks: ITasks) => (
                 <li key={tasks.id}>
@@ -39,9 +40,17 @@ export const Tasks: FC<TasksProps> = props => {
                         <h3>{tasks.id}</h3>
                     </header>
                     <List
-                        variant={ListVariant.task}
+                        variant={ListVariant.tasks}
                         items={tasks.tasks}
-                        renderItem={(task: ITask) => <div>{task.title}</div>}
+                        renderItem={(task: ITask) => (
+                            <li key={task.id}>
+                                <Task
+                                    id={task.id}
+                                    title={task.title}
+                                    description={task.description}
+                                />
+                            </li>
+                        )}
                     />
                 </li>
             )}

@@ -1,5 +1,11 @@
 import { FC, useState } from "react";
-import { FormOptions, IBoard, ITasks, ITasksArr } from "../../types/types";
+import {
+    FormOptions,
+    IBoard,
+    ITask,
+    ITasks,
+    ITasksArr,
+} from "../../types/types";
 import { Board } from "../board/Board";
 import { BoardsBar } from "../boardsBar/BoardsBar";
 import styles from "./Boards.module.scss";
@@ -10,6 +16,12 @@ export const Boards: FC<BoardsProps> = () => {
     const [board, setBoard] = useState<IBoard>({
         id: null,
         name: "",
+    });
+
+    const [task, setTask] = useState<ITask>({
+        id: null,
+        title: "",
+        description: "",
     });
 
     const [currentBoard, setCurrentBoard] = useState<IBoard>({

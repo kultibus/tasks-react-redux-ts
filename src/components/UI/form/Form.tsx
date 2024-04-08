@@ -115,19 +115,54 @@ export const Form: FC<FormProps> = props => {
             </header>
             <section className={styles.section}>
                 <form onSubmit={submitHandler} className={styles.body}>
-                    {formOptions.action !== "Delete" && (
-                        <Input
-                            onBlur={onBlurInputHandler}
-                            value={board.name}
-                            placeholder={inputPlaceholder}
-                            type={InputType.text}
-                            onChange={e =>
-                                setBoard({ ...board, name: e.target.value })
-                            }
-                            inputValid={inputValid}
-                            onClick={onClickInputHandler}
-                        />
-                    )}
+                    {formOptions.action !== "Delete" &&
+                        formOptions.type === "Board" && (
+                            <Input
+                                onBlur={onBlurInputHandler}
+                                value={board.name}
+                                placeholder={inputPlaceholder}
+                                type={InputType.text}
+                                onChange={e =>
+                                    setBoard({ ...board, name: e.target.value })
+                                }
+                                inputValid={inputValid}
+                                onClick={onClickInputHandler}
+                            />
+                        )}
+
+                    {formOptions.action !== "Delete" &&
+                        formOptions.type === "Task" && (
+                            <>
+                                <Input
+                                    onBlur={onBlurInputHandler}
+                                    value={board.name}
+                                    placeholder={inputPlaceholder}
+                                    type={InputType.text}
+                                    onChange={e =>
+                                        setBoard({
+                                            ...board,
+                                            name: e.target.value,
+                                        })
+                                    }
+                                    inputValid={inputValid}
+                                    onClick={onClickInputHandler}
+                                />
+                                <Input
+                                    onBlur={onBlurInputHandler}
+                                    value={board.name}
+                                    placeholder={inputPlaceholder}
+                                    type={InputType.text}
+                                    onChange={e =>
+                                        setBoard({
+                                            ...board,
+                                            name: e.target.value,
+                                        })
+                                    }
+                                    inputValid={inputValid}
+                                    onClick={onClickInputHandler}
+                                />
+                            </>
+                        )}
 
                     <div className={styles.btns}>
                         <Button
