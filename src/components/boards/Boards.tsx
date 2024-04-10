@@ -1,11 +1,5 @@
 import { FC, useState } from "react";
-import {
-    FormOptions,
-    IBoard,
-    ITask,
-    ITasks,
-    ITasksArr,
-} from "../../types/types";
+import { FormOptions, IBoard, ITask, ITasks } from "../../types/types";
 import { Board } from "../board/Board";
 import { BoardsBar } from "../boardsBar/BoardsBar";
 import styles from "./Boards.module.scss";
@@ -38,24 +32,25 @@ export const Boards: FC<BoardsProps> = () => {
     });
 
     const [tasksOpened, setTasksOpened] = useState<ITasks>({
-        id: "Opened",
+        name: "Opened",
         tasks: [],
     });
 
     const [tasksInProcess, setTasksInProcess] = useState<ITasks>({
-        id: "In process",
+        name: "In process",
         tasks: [],
     });
 
     const [tasksDone, setTasksDone] = useState<ITasks>({
-        id: "Done",
+        name: "Done",
         tasks: [],
     });
 
-    const [tasksArr, setTasksArr] = useState<ITasksArr>({
-        id: null,
-        tasks: [tasksOpened, tasksInProcess, tasksDone],
-    });
+    const [tasks, setTasks] = useState<Array<ITasks>>([
+        tasksOpened,
+        tasksInProcess,
+        tasksDone,
+    ]);
 
     const addBoard = (newBoard: IBoard) => {
         setBoards([...boards, newBoard]);
@@ -68,6 +63,24 @@ export const Boards: FC<BoardsProps> = () => {
         });
 
         setBoard({ id: null, name: "" });
+    };
+
+    const addTask = (newTask: ITask) => {
+        setTasksOpened({
+            ...tasksOpened,
+            tasks: [...tasksOpened.tasks, newTask],
+        });
+
+        setFormOptions({
+            ...formOptions,
+            isOpened: false,
+        });
+
+        setTask({
+            id: null,
+            title: "",
+            description: "",
+        });
     };
 
     const editBoard = (editedBoard: IBoard) => {
@@ -135,10 +148,13 @@ export const Boards: FC<BoardsProps> = () => {
             />
 
             <Board
+                addTask={addTask}
+                task={task}
+                setTask={setTask}
                 setTasksDone={setTasksDone}
                 setTasksInProcess={setTasksInProcess}
                 setTasksOpened={setTasksOpened}
-                tasksArr={tasksArr}
+                tasks={tasks}
                 tasksDone={tasksDone}
                 tasksInProcess={tasksInProcess}
                 tasksOpened={tasksOpened}

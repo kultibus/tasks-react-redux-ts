@@ -14,9 +14,6 @@ export interface IBoard {
     name: string;
 }
 
-// export interface ITask {
-// 	title: string;
-// }
 
 export interface ITask {
     id: number;
@@ -25,14 +22,14 @@ export interface ITask {
 }
 
 export interface ITasks {
-    id: string;
+    name: string;
     tasks: ITask[];
 }
 
-export interface ITasksArr {
-    id: string;
-    tasks: ITasks[];
-}
+// export interface ITasksArr {
+//     id: string;
+//     tasks: ITasks[];
+// }
 
 // export type InputValid = boolean;
 

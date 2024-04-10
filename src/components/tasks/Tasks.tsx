@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { Dispatch, FC, SetStateAction } from "react";
 import styles from "./Tasks.module.scss";
-import { IBoard, ISetState, ITask, ITasks, ITasksArr } from "../../types/types";
+import { IBoard, ISetState, ITask, ITasks } from "../../types/types";
 import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
 import { Title } from "../title/Title";
 import { List, ListVariant } from "../list/List";
@@ -9,7 +9,7 @@ import { Task } from "../task/Task";
 
 interface TasksProps {
     // boards: IBoard[];
-    tasksArr: ITasksArr;
+    tasks: Array<ITasks>;
     tasksOpened: ITasks;
     tasksInProcess: ITasks;
     tasksDone: ITasks;
@@ -24,7 +24,7 @@ export const Tasks: FC<TasksProps> = props => {
         setTasksDone,
         setTasksInProcess,
         setTasksOpened,
-        tasksArr,
+        tasks,
         tasksDone,
         tasksInProcess,
         tasksOpened,
@@ -33,11 +33,11 @@ export const Tasks: FC<TasksProps> = props => {
     return (
         <List
             variant={ListVariant.tasksArr}
-            items={tasksArr.tasks}
+            items={tasks}
             renderItem={(tasks: ITasks) => (
-                <li key={tasks.id}>
+                <li key={tasks.name}>
                     <header>
-                        <h3>{tasks.id}</h3>
+                        <h3>{tasks.name}</h3>
                     </header>
                     <List
                         variant={ListVariant.tasks}

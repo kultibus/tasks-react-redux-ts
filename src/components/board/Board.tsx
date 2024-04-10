@@ -1,12 +1,10 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import {
-    FormAction,
     FormOptions,
-    FormType,
     IBoard,
     ISetState,
+    ITask,
     ITasks,
-    ITasksArr,
 } from "../../types/types";
 import { Form } from "../UI/form/Form";
 import { BoardBar } from "../boardBar/BoardBar";
@@ -28,10 +26,13 @@ interface BoardProps {
     setTasksDone: ISetState<ITasks>;
     setTasksInProcess: ISetState<ITasks>;
     setTasksOpened: ISetState<ITasks>;
-    tasksArr: ITasksArr;
+    tasks: Array<ITasks>;
     tasksDone: ITasks;
     tasksInProcess: ITasks;
     tasksOpened: ITasks;
+    addTask: (newTask: ITask) => void;
+    task: ITask;
+    setTask: Dispatch<SetStateAction<ITask>>;
 }
 
 export const Board: FC<BoardProps> = props => {
@@ -50,16 +51,22 @@ export const Board: FC<BoardProps> = props => {
         setTasksDone,
         setTasksInProcess,
         setTasksOpened,
-        tasksArr,
+        tasks,
         tasksDone,
         tasksInProcess,
         tasksOpened,
+        task,
+        addTask,
+        setTask,
     } = props;
 
     return (
         <div>
             {formOptions.isOpened ? (
                 <Form
+                    setTask={setTask}
+                    task={task}
+                    addTask={addTask}
                     deleteBoard={deleteBoard}
                     editBoard={editBoard}
                     setCurrentBoard={setCurrentBoard}
@@ -85,7 +92,7 @@ export const Board: FC<BoardProps> = props => {
                         setTasksDone={setTasksDone}
                         setTasksInProcess={setTasksInProcess}
                         setTasksOpened={setTasksOpened}
-                        tasksArr={tasksArr}
+                        tasks={tasks}
                         tasksDone={tasksDone}
                         tasksInProcess={tasksInProcess}
                         tasksOpened={tasksOpened}

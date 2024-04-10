@@ -6,7 +6,7 @@ import {
     SetStateAction,
     useState,
 } from "react";
-import { FormOptions, IBoard } from "../../../types/types";
+import { FormOptions, IBoard, ITask } from "../../../types/types";
 import { Button, ButtonType, ButtonVariant } from "../button/Button";
 import { Input, InputType } from "../input/Input";
 import styles from "./Form.module.scss";
@@ -19,6 +19,9 @@ interface FormProps {
     board: IBoard;
     boards: IBoard[];
     currentBoard: IBoard;
+    addTask: (newTask: ITask) => void;
+    task: ITask;
+    setTask: Dispatch<SetStateAction<ITask>>;
     formOptions: FormOptions;
     setBoard: Dispatch<SetStateAction<IBoard>>;
     setCurrentBoard: Dispatch<SetStateAction<IBoard>>;
@@ -37,6 +40,9 @@ export const Form: FC<FormProps> = props => {
         setFormOptions,
         currentBoard,
         setCurrentBoard,
+        addTask,
+        task,
+        setTask,
     } = props;
 
     const [inputValid, setInputValid] = useState<boolean>(true);
@@ -44,17 +50,22 @@ export const Form: FC<FormProps> = props => {
         `Enter ${formOptions.type.toLowerCase()} title ...`
     );
 
+    const [inputErrorPlaceholder, setInputErrorPlaceholder] =
+        useState<string>("");
+
     const onBlurInputHandler = () => {
-        setInputPlaceholder(
-            `Enter ${formOptions.type.toLowerCase()} title ...`
-        );
+        // setInputPlaceholder(
+        //     `Enter ${formOptions.type.toLowerCase()} title ...`
+        // );
+        setInputErrorPlaceholder("");
         setInputValid(true);
     };
 
     const onClickInputHandler = () => {
-        setInputPlaceholder(
-            `Enter ${formOptions.type.toLowerCase()} title ...`
-        );
+        setInputErrorPlaceholder("");
+        // setInputPlaceholder(
+        //     `Enter ${formOptions.type.toLowerCase()} title ...`
+        // );
     };
 
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -66,7 +77,9 @@ export const Form: FC<FormProps> = props => {
 
                 deleteBoard(deletedBoard);
             } else {
-                setInputPlaceholder("This field can't be empty");
+                // setInputPlaceholder("This field can't be empty");
+
+                setInputErrorPlaceholder("This field can't be empty");
 
                 setInputValid(false);
             }
@@ -120,13 +133,18 @@ export const Form: FC<FormProps> = props => {
                             <Input
                                 onBlur={onBlurInputHandler}
                                 value={board.name}
-                                placeholder={inputPlaceholder}
+                                // placeholder={inputPlaceholder}
+                                placeholder={
+                                    inputErrorPlaceholder ||
+                                    `Enter ${formOptions.type.toLowerCase()} title ...`
+                                }
                                 type={InputType.text}
                                 onChange={e =>
                                     setBoard({ ...board, name: e.target.value })
                                 }
                                 inputValid={inputValid}
                                 onClick={onClickInputHandler}
+                                maxLength={30}
                             />
                         )}
 
@@ -134,28 +152,36 @@ export const Form: FC<FormProps> = props => {
                         formOptions.type === "Task" && (
                             <>
                                 <Input
+                                    maxLength={30}
                                     onBlur={onBlurInputHandler}
-                                    value={board.name}
-                                    placeholder={inputPlaceholder}
+                                    value={task.title}
+                                    placeholder={
+                                        inputErrorPlaceholder ||
+                                        `Enter ${formOptions.type.toLowerCase()} title ...`
+                                    }
                                     type={InputType.text}
                                     onChange={e =>
-                                        setBoard({
-                                            ...board,
-                                            name: e.target.value,
+                                        setTask({
+                                            ...task,
+                                            title: e.target.value,
                                         })
                                     }
                                     inputValid={inputValid}
                                     onClick={onClickInputHandler}
                                 />
                                 <Input
+                                    maxLength={100}
                                     onBlur={onBlurInputHandler}
-                                    value={board.name}
-                                    placeholder={inputPlaceholder}
+                                    value={task.description}
+                                    placeholder={
+                                        inputErrorPlaceholder ||
+                                        `Enter ${formOptions.type.toLowerCase()} description ...`
+                                    }
                                     type={InputType.text}
                                     onChange={e =>
-                                        setBoard({
-                                            ...board,
-                                            name: e.target.value,
+                                        setTask({
+                                            ...task,
+                                            description: e.target.value,
                                         })
                                     }
                                     inputValid={inputValid}
