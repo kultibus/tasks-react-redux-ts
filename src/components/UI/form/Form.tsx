@@ -28,10 +28,6 @@ interface FormProps {
     setFormOptions: Dispatch<SetStateAction<FormOptions>>;
 }
 
-interface CurrentInput {
-    name: string;
-}
-
 export const Form: FC<FormProps> = props => {
     const {
         board,
@@ -106,7 +102,11 @@ export const Form: FC<FormProps> = props => {
         } else {
             switch (formOptions.action) {
                 case "Add":
-                    const newTask = { ...task, id: Date.now() };
+                    const newTask: ITask = {
+                        ...task,
+                        id: Date.now(),
+                        boardName: currentBoard.name,
+                    };
 
                     addTask(newTask);
 

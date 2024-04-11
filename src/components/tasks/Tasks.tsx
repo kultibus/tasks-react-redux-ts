@@ -16,6 +16,7 @@ interface TasksProps {
     setTasksOpened: ISetState<ITasks>;
     setTasksInProcess: ISetState<ITasks>;
     setTasksDone: ISetState<ITasks>;
+    currentBoard: IBoard;
     // setBoards: Dispatch<SetStateAction<IBoard[]>>;
 }
 
@@ -28,6 +29,7 @@ export const Tasks: FC<TasksProps> = props => {
         tasksDone,
         tasksInProcess,
         tasksOpened,
+        currentBoard,
     } = props;
 
     return (
@@ -42,15 +44,17 @@ export const Tasks: FC<TasksProps> = props => {
                     <List
                         variant={ListVariant.tasks}
                         items={tasks.tasks}
-                        renderItem={(task: ITask) => (
-                            <li key={task.id}>
-                                <Task
-                                    id={task.id}
-                                    name={task.name}
-                                    description={task.description}
-                                />
-                            </li>
-                        )}
+                        renderItem={(task: ITask) =>
+                            task.boardName === currentBoard.name ? (
+                                <li key={task.id}>
+                                    <Task
+                                        id={task.id}
+                                        name={task.name}
+                                        description={task.description}
+                                    />
+                                </li>
+                            ) : null
+                        }
                     />
                 </li>
             )}

@@ -19,6 +19,7 @@ export interface ITask {
     id: number;
     name: string;
     description: string;
+    boardName?: string;
 }
 
 export interface ITasks {

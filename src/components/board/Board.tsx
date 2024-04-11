@@ -89,6 +89,7 @@ export const Board: FC<BoardProps> = props => {
                         formOptions={formOptions}
                     />
                     <Tasks
+                        currentBoard={currentBoard}
                         setTasksDone={setTasksDone}
                         setTasksInProcess={setTasksInProcess}
                         setTasksOpened={setTasksOpened}

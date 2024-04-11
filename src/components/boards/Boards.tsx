@@ -81,8 +81,6 @@ export const Boards: FC<BoardsProps> = () => {
 
         setTasks(newTasks);
 
-		
-
         setFormOptions({
             ...formOptions,
             isOpened: false,
