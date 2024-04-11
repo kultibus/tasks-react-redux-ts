@@ -46,7 +46,7 @@ export const Tasks: FC<TasksProps> = props => {
                             <li key={task.id}>
                                 <Task
                                     id={task.id}
-                                    title={task.title}
+                                    name={task.name}
                                     description={task.description}
                                 />
                             </li>

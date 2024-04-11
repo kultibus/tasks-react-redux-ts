@@ -12,12 +12,12 @@ export interface ITheme {
 export interface IBoard {
     id: number;
     name: string;
+    tasks?: ITasks[];
 }
-
 
 export interface ITask {
     id: number;
-    title: string;
+    name: string;
     description: string;
 }
 

@@ -14,7 +14,7 @@ export const Boards: FC<BoardsProps> = () => {
 
     const [task, setTask] = useState<ITask>({
         id: null,
-        title: "",
+        name: "",
         description: "",
     });
 
@@ -66,10 +66,22 @@ export const Boards: FC<BoardsProps> = () => {
     };
 
     const addTask = (newTask: ITask) => {
-        setTasksOpened({
+        const newTasksOpened = {
             ...tasksOpened,
             tasks: [...tasksOpened.tasks, newTask],
-        });
+        };
+
+        setTasksOpened(newTasksOpened);
+
+        const newTasks = [
+            ...tasks.map(item =>
+                item.name === "Opened" ? newTasksOpened : item
+            ),
+        ];
+
+        setTasks(newTasks);
+
+		
 
         setFormOptions({
             ...formOptions,
@@ -78,7 +90,7 @@ export const Boards: FC<BoardsProps> = () => {
 
         setTask({
             id: null,
-            title: "",
+            name: "",
             description: "",
         });
     };

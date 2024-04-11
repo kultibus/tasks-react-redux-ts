@@ -3,11 +3,11 @@ import { ITask } from "../../types/types";
 import styles from "./Task.module.scss";
 
 export const Task: FC<ITask> = props => {
-    const { title, description } = props;
+    const { name, description } = props;
 
     return (
         <div className={styles.task}>
-            <h4>{title}</h4>
+            <h4>{name}</h4>
             <p>{description}</p>
         </div>
     );
