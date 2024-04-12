@@ -1,11 +1,17 @@
 .tasks {
     display: grid;
-	grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto 1fr;
 
+    // &:not(:last-child) > div {
+    //     border-right: var(--border-transp);
+    // }
 }
 
-.column {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+.title {
+    padding: var(--ident);
+}
+
+.body {
+    padding-left: var(--ident);
+    padding-right: var(--ident);
 }

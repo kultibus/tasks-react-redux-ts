@@ -1,14 +1,56 @@
-import { FC } from "react";
-import { ITask } from "../../types/types";
+import { Dispatch, FC, SetStateAction } from "react";
+import { FormOptions, ITask } from "../../types/types";
 import styles from "./Task.module.scss";
+import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
+import Delete from "../../assets/icons/delete.svg";
+import Edit from "../../assets/icons/edit.svg";
 
-export const Task: FC<ITask> = props => {
-    const { name, description } = props;
+interface TaskProps extends ITask {
+    setFormOptions: Dispatch<SetStateAction<FormOptions>>;
+}
+
+export const Task: FC<TaskProps> = props => {
+    const { name, description, setFormOptions } = props;
 
     return (
         <div className={styles.task}>
-            <h4>{name}</h4>
+            <header className={styles.header}>
+                <h4 className={styles.title}>{name}</h4>
+                <div className={styles.btns}>
+                    <Button
+                        onClick={() =>
+                            setFormOptions({
+                                action: "Delete",
+                                type: "Task",
+                                isOpened: true,
+                            })
+                        }
+                        type={ButtonType.button}
+                        variant={ButtonVariant.icon}
+                    >
+                        <Edit />
+                    </Button>
+
+                    <Button
+                        onClick={() =>
+                            setFormOptions({
+                                action: "Delete",
+                                type: "Task",
+                                isOpened: true,
+                            })
+                        }
+                        type={ButtonType.button}
+                        variant={ButtonVariant.icon}
+                    >
+                        <Delete />
+                    </Button>
+                </div>
+            </header>
             <p>{description}</p>
+            <div className={styles.bottom}>
+                <div className={styles.bottomLeft}>Days Left:</div>
+                <div className={styles.bottomRight}>10</div>
+            </div>
         </div>
     );
 };

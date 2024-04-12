@@ -11,11 +11,13 @@
     }
 }
 
-.tasks {
+.tasksArr {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 }
 
-.task {
-    display: block;
+.tasksItem {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ident);
 }

@@ -199,7 +199,7 @@ export const Form: FC<FormProps> = props => {
                                     onClick={onClickInputHandler}
                                 />
                                 <Input
-                                    maxLength={100}
+                                    // maxLength={100}
                                     onBlur={onBlurInputHandler}
                                     value={task.description}
                                     placeholder={

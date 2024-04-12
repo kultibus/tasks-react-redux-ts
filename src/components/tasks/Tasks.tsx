@@ -1,7 +1,13 @@
 import classNames from "classnames";
 import { Dispatch, FC, SetStateAction } from "react";
 import styles from "./Tasks.module.scss";
-import { IBoard, ISetState, ITask, ITasks } from "../../types/types";
+import {
+    FormOptions,
+    IBoard,
+    ISetState,
+    ITask,
+    ITasks,
+} from "../../types/types";
 import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
 import { Title } from "../title/Title";
 import { List, ListVariant } from "../list/List";
@@ -17,6 +23,7 @@ interface TasksProps {
     setTasksInProcess: ISetState<ITasks>;
     setTasksDone: ISetState<ITasks>;
     currentBoard: IBoard;
+    setFormOptions: Dispatch<SetStateAction<FormOptions>>;
     // setBoards: Dispatch<SetStateAction<IBoard[]>>;
 }
 
@@ -30,32 +37,36 @@ export const Tasks: FC<TasksProps> = props => {
         tasksInProcess,
         tasksOpened,
         currentBoard,
+        setFormOptions,
     } = props;
 
     return (
         <List
             variant={ListVariant.tasksArr}
             items={tasks}
-            renderItem={(tasks: ITasks) => (
-                <li key={tasks.name}>
-                    <header>
-                        <h3>{tasks.name}</h3>
+            renderItem={(tasksItem: ITasks) => (
+                <li className={styles.tasks} key={tasksItem.name}>
+                    <header className={styles.title}>
+                        <h3>{tasksItem.name}</h3>
                     </header>
-                    <List
-                        variant={ListVariant.tasks}
-                        items={tasks.tasks}
-                        renderItem={(task: ITask) =>
-                            task.boardName === currentBoard.name ? (
-                                <li key={task.id}>
-                                    <Task
-                                        id={task.id}
-                                        name={task.name}
-                                        description={task.description}
-                                    />
-                                </li>
-                            ) : null
-                        }
-                    />
+                    <div className={styles.body}>
+                        <List
+                            variant={ListVariant.tasksItem}
+                            items={tasksItem.tasks}
+                            renderItem={(task: ITask) =>
+                                task.boardName === currentBoard.name ? (
+                                    <li key={task.id}>
+                                        <Task
+                                            setFormOptions={setFormOptions}
+                                            id={task.id}
+                                            name={task.name}
+                                            description={task.description}
+                                        />
+                                    </li>
+                                ) : null
+                            }
+                        />
+                    </div>
                 </li>
             )}
         />

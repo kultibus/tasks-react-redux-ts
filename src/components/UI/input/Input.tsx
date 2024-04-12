@@ -14,7 +14,7 @@ interface InputProps {
     onBlur: ChangeEventHandler<HTMLInputElement>;
     inputValid: boolean;
     onClick: () => void;
-    maxLength: number;
+    maxLength?: number;
 }
 
 export const Input: FC<InputProps> = props => {

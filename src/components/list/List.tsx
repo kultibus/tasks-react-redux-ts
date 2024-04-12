@@ -3,8 +3,8 @@ import styles from "./List.module.scss";
 
 export enum ListVariant {
     boards = "boards",
-    tasksArr = "tasks",
-    tasks = "task",
+    tasksArr = "tasksArr",
+    tasksItem = "tasksItem",
 }
 
 interface ListProps<T> {
