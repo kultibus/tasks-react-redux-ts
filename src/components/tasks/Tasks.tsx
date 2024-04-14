@@ -1,64 +1,40 @@
-import classNames from "classnames";
 import { Dispatch, FC, SetStateAction } from "react";
-import styles from "./Tasks.module.scss";
-import {
-    FormOptions,
-    IBoard,
-    ISetState,
-    ITask,
-    ITasks,
-} from "../../types/types";
-import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
-import { Title } from "../title/Title";
+import { FormOptions, IBoard, ITask, TaskType } from "../../types/types";
 import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
+import styles from "./Tasks.module.scss";
 
 interface TasksProps {
-    // boards: IBoard[];
-    tasks: Array<ITasks>;
-    tasksOpened: ITasks;
-    tasksInProcess: ITasks;
-    tasksDone: ITasks;
-    setTasksOpened: ISetState<ITasks>;
-    setTasksInProcess: ISetState<ITasks>;
-    setTasksDone: ISetState<ITasks>;
     currentBoard: IBoard;
     setFormOptions: Dispatch<SetStateAction<FormOptions>>;
-    // setBoards: Dispatch<SetStateAction<IBoard[]>>;
+    tasks: ITask[];
 }
 
 export const Tasks: FC<TasksProps> = props => {
-    const {
-        setTasksDone,
-        setTasksInProcess,
-        setTasksOpened,
-        tasks,
-        tasksDone,
-        tasksInProcess,
-        tasksOpened,
-        currentBoard,
-        setFormOptions,
-    } = props;
+    const { tasks, currentBoard, setFormOptions } = props;
+
+    const tasksColumns: TaskType[] = ["Opened", "In process", "Done"];
 
     return (
         <List
-            variant={ListVariant.tasksArr}
-            items={tasks}
-            renderItem={(tasksItem: ITasks) => (
-                <li className={styles.tasks} key={tasksItem.name}>
+            variant={ListVariant.tasksColumns}
+            items={tasksColumns}
+            renderItem={(tasksColumn: TaskType) => (
+                <li className={styles.tasks} key={tasksColumn}>
                     <header className={styles.title}>
-                        <h3>{tasksItem.name}</h3>
+                        <h3>{tasksColumn}</h3>
                     </header>
                     <div className={styles.body}>
                         <List
                             variant={ListVariant.tasksItem}
-                            items={tasksItem.tasks}
+                            items={tasks.filter(
+                                task => task.type === tasksColumn
+                            )}
                             renderItem={(task: ITask) =>
-                                task.boardName === currentBoard.name ? (
+                                task.boardId === currentBoard.id ? (
                                     <li key={task.id}>
                                         <Task
                                             setFormOptions={setFormOptions}
-                                            id={task.id}
                                             name={task.name}
                                             description={task.description}
                                         />
@@ -70,30 +46,5 @@ export const Tasks: FC<TasksProps> = props => {
                 </li>
             )}
         />
-        // <ul className={styles.tasks}>
-        //     <li className={styles.column}>
-        //         <header>
-        //             <h3>Opened</h3>
-        //         </header>
-
-        //         <section>tasks opened</section>
-        //     </li>
-
-        //     <li className={styles.column}>
-        //         <header>
-        //             <h3>In process</h3>
-        //         </header>
-
-        //         <section>tasks in process</section>
-        //     </li>
-
-        //     <li className={styles.column}>
-        //         <header>
-        //             <h3>Done</h3>
-        //         </header>
-
-        //         <section>tasks done</section>
-        //     </li>
-        // </ul>
     );
 };

@@ -3,7 +3,7 @@ import styles from "./List.module.scss";
 
 export enum ListVariant {
     boards = "boards",
-    tasksArr = "tasksArr",
+    tasksColumns = "tasksColumns",
     tasksItem = "tasksItem",
 }
 

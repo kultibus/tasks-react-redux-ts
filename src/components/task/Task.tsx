@@ -5,8 +5,11 @@ import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
 import Delete from "../../assets/icons/delete.svg";
 import Edit from "../../assets/icons/edit.svg";
 
-interface TaskProps extends ITask {
+interface TaskProps {
+    name: string;
+    description: string;
     setFormOptions: Dispatch<SetStateAction<FormOptions>>;
+    setCurrentTask: Dispatch<SetStateAction<ITask>>;
 }
 
 export const Task: FC<TaskProps> = props => {
@@ -20,7 +23,7 @@ export const Task: FC<TaskProps> = props => {
                     <Button
                         onClick={() =>
                             setFormOptions({
-                                action: "Delete",
+                                action: "Edit",
                                 type: "Task",
                                 isOpened: true,
                             })

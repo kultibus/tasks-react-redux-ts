@@ -12,19 +12,21 @@ export interface ITheme {
 export interface IBoard {
     id: number;
     name: string;
-    tasks?: ITasks[];
 }
+
+export type TaskType = "Opened" | "In process" | "Done";
 
 export interface ITask {
     id: number;
     name: string;
     description: string;
-    boardName?: string;
+    type: TaskType;
+	boardId: number
 }
 
 export interface ITasks {
-    name: string;
-    tasks: ITask[];
+    boardId: number;
+    tasksList: ITask[];
 }
 
 // export interface ITasksArr {

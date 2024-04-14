@@ -1,11 +1,5 @@
 import { Dispatch, FC, SetStateAction } from "react";
-import {
-    FormOptions,
-    IBoard,
-    ISetState,
-    ITask,
-    ITasks,
-} from "../../types/types";
+import { FormOptions, IBoard, ITask } from "../../types/types";
 import { Form } from "../UI/form/Form";
 import { BoardBar } from "../boardBar/BoardBar";
 import { Tasks } from "../tasks/Tasks";
@@ -23,81 +17,66 @@ interface BoardProps {
     setBoards: Dispatch<SetStateAction<IBoard[]>>;
     setCurrentBoard: Dispatch<SetStateAction<IBoard>>;
     setFormOptions: Dispatch<SetStateAction<FormOptions>>;
-    setTasksDone: ISetState<ITasks>;
-    setTasksInProcess: ISetState<ITasks>;
-    setTasksOpened: ISetState<ITasks>;
-    tasks: Array<ITasks>;
-    tasksDone: ITasks;
-    tasksInProcess: ITasks;
-    tasksOpened: ITasks;
+    tasks: ITask[];
     addTask: (newTask: ITask) => void;
     task: ITask;
     setTask: Dispatch<SetStateAction<ITask>>;
+    editTask: (editedTask: ITask) => void;
 }
 
 export const Board: FC<BoardProps> = props => {
     const {
         addBoard,
-        editBoard,
+        addTask,
         board,
         boards,
         currentBoard,
+        deleteBoard,
+        editBoard,
+        formOptions,
         setBoard,
         setBoards,
         setCurrentBoard,
-        formOptions,
         setFormOptions,
-        deleteBoard,
-        setTasksDone,
-        setTasksInProcess,
-        setTasksOpened,
-        tasks,
-        tasksDone,
-        tasksInProcess,
-        tasksOpened,
-        task,
-        addTask,
         setTask,
+        task,
+        tasks,
+        editTask,
     } = props;
 
     return (
         <div>
             {formOptions.isOpened ? (
                 <Form
-                    setTask={setTask}
-                    task={task}
+                    editTask={editTask}
+                    addBoard={addBoard}
                     addTask={addTask}
-                    deleteBoard={deleteBoard}
-                    editBoard={editBoard}
-                    setCurrentBoard={setCurrentBoard}
-                    currentBoard={currentBoard}
-                    setFormOptions={setFormOptions}
-                    formOptions={formOptions}
                     board={board}
                     boards={boards}
-                    addBoard={addBoard}
+                    currentBoard={currentBoard}
+                    deleteBoard={deleteBoard}
+                    editBoard={editBoard}
+                    formOptions={formOptions}
                     setBoard={setBoard}
+                    setCurrentBoard={setCurrentBoard}
+                    setFormOptions={setFormOptions}
+                    setTask={setTask}
+                    task={task}
                 />
             ) : (
                 <div className={styles.body}>
                     <BoardBar
-                        setFormOptions={setFormOptions}
                         boards={boards}
                         currentBoard={currentBoard}
+                        formOptions={formOptions}
                         setBoards={setBoards}
                         setCurrentBoard={setCurrentBoard}
-                        formOptions={formOptions}
+                        setFormOptions={setFormOptions}
                     />
                     <Tasks
-                        setFormOptions={setFormOptions}
                         currentBoard={currentBoard}
-                        setTasksDone={setTasksDone}
-                        setTasksInProcess={setTasksInProcess}
-                        setTasksOpened={setTasksOpened}
+                        setFormOptions={setFormOptions}
                         tasks={tasks}
-                        tasksDone={tasksDone}
-                        tasksInProcess={tasksInProcess}
-                        tasksOpened={tasksOpened}
                     />
                 </div>
             )}

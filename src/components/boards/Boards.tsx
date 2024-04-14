@@ -16,6 +16,8 @@ export const Boards: FC<BoardsProps> = () => {
         id: null,
         name: "",
         description: "",
+        type: "Opened",
+        boardId: null,
     });
 
     const [currentBoard, setCurrentBoard] = useState<IBoard>({
@@ -31,26 +33,15 @@ export const Boards: FC<BoardsProps> = () => {
         isOpened: true,
     });
 
-    const [tasksOpened, setTasksOpened] = useState<ITasks>({
-        name: "Opened",
-        tasks: [],
+    const [currentTask, setCurrentTask] = useState<ITask>({
+        id: null,
+        name: "",
+        description: "",
+        type: "Opened",
+        boardId: null,
     });
 
-    const [tasksInProcess, setTasksInProcess] = useState<ITasks>({
-        name: "In process",
-        tasks: [],
-    });
-
-    const [tasksDone, setTasksDone] = useState<ITasks>({
-        name: "Done",
-        tasks: [],
-    });
-
-    const [tasks, setTasks] = useState<Array<ITasks>>([
-        tasksOpened,
-        tasksInProcess,
-        tasksDone,
-    ]);
+    const [tasks, setTasks] = useState<ITask[]>([]);
 
     const addBoard = (newBoard: IBoard) => {
         setBoards([...boards, newBoard]);
@@ -63,34 +54,6 @@ export const Boards: FC<BoardsProps> = () => {
         });
 
         setBoard({ id: null, name: "" });
-    };
-
-    const addTask = (newTask: ITask) => {
-        const newTasksOpened = {
-            ...tasksOpened,
-            tasks: [...tasksOpened.tasks, newTask],
-        };
-
-        setTasksOpened(newTasksOpened);
-
-        const newTasks = [
-            ...tasks.map(item =>
-                item.name === "Opened" ? newTasksOpened : item
-            ),
-        ];
-
-        setTasks(newTasks);
-
-        setFormOptions({
-            ...formOptions,
-            isOpened: false,
-        });
-
-        setTask({
-            id: null,
-            name: "",
-            description: "",
-        });
     };
 
     const editBoard = (editedBoard: IBoard) => {
@@ -115,6 +78,8 @@ export const Boards: FC<BoardsProps> = () => {
 
     const deleteBoard = (deletedBoard: IBoard) => {
         const deletedBoardIndex = boards.indexOf(deletedBoard);
+
+        setTasks([...tasks.filter(task => task.boardId !== deletedBoard.id)]);
 
         if (boards.length < 2) {
             setBoards([]);
@@ -146,6 +111,38 @@ export const Boards: FC<BoardsProps> = () => {
         }
     };
 
+    const addTask = (newTask: ITask) => {
+        setTasks([...tasks, newTask]);
+
+        setFormOptions({
+            ...formOptions,
+            isOpened: false,
+        });
+
+        setTask({
+            id: null,
+            name: "",
+            description: "",
+            type: "Opened",
+            boardId: null,
+        });
+    };
+
+    const editTask = (editedTask: ITask) => {
+        setFormOptions({
+            ...formOptions,
+            isOpened: false,
+        });
+
+        setTask({
+            id: null,
+            name: "",
+            description: "",
+            type: "Opened",
+            boardId: null,
+        });
+    };
+
     return (
         <div className={styles.boards}>
             <BoardsBar
@@ -158,16 +155,11 @@ export const Boards: FC<BoardsProps> = () => {
             />
 
             <Board
+                editTask={editTask}
                 addTask={addTask}
                 task={task}
                 setTask={setTask}
-                setTasksDone={setTasksDone}
-                setTasksInProcess={setTasksInProcess}
-                setTasksOpened={setTasksOpened}
                 tasks={tasks}
-                tasksDone={tasksDone}
-                tasksInProcess={tasksInProcess}
-                tasksOpened={tasksOpened}
                 deleteBoard={deleteBoard}
                 editBoard={editBoard}
                 addBoard={addBoard}

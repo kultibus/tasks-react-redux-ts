@@ -20,6 +20,7 @@ interface FormProps {
     boards: IBoard[];
     currentBoard: IBoard;
     addTask: (newTask: ITask) => void;
+    editTask: (editedTask: ITask) => void;
     task: ITask;
     setTask: Dispatch<SetStateAction<ITask>>;
     formOptions: FormOptions;
@@ -43,6 +44,7 @@ export const Form: FC<FormProps> = props => {
         addTask,
         task,
         setTask,
+        editTask,
     } = props;
 
     const [inputValid, setInputValid] = useState<boolean>(true);
@@ -105,19 +107,22 @@ export const Form: FC<FormProps> = props => {
                     const newTask: ITask = {
                         ...task,
                         id: Date.now(),
-                        boardName: currentBoard.name,
+                        boardId: currentBoard.id,
                     };
 
                     addTask(newTask);
 
                     break;
 
-                // case "Edit":
-                //     const editedBoard = { ...currentBoard, name: board.name };
+                case "Edit":
+                    const editedTask: ITask = {
+                        ...currentBoard,
+                        name: board.name,
+                    };
 
-                //     editBoard(editedBoard);
+                    editTask(editedTask);
 
-                //     break;
+                    break;
             }
         }
     };
