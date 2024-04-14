@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import { FormOptions, ITask } from "../../types/types";
-import styles from "./Task.module.scss";
+import styles, { task } from "./Task.module.scss";
 import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
 import Delete from "../../assets/icons/delete.svg";
 import Edit from "../../assets/icons/edit.svg";
@@ -9,11 +9,13 @@ interface TaskProps {
     name: string;
     description: string;
     setFormOptions: Dispatch<SetStateAction<FormOptions>>;
-    setCurrentTask: Dispatch<SetStateAction<ITask>>;
+    setTasks: Dispatch<SetStateAction<ITask[]>>;
+    tasks: ITask[];
+    id: number;
 }
 
 export const Task: FC<TaskProps> = props => {
-    const { name, description, setFormOptions } = props;
+    const { name, description, setFormOptions, setTasks, tasks, id } = props;
 
     return (
         <div className={styles.task}>
@@ -21,13 +23,23 @@ export const Task: FC<TaskProps> = props => {
                 <h4 className={styles.title}>{name}</h4>
                 <div className={styles.btns}>
                     <Button
-                        onClick={() =>
+                        onClick={() => {
+                            setTasks([
+                                ...tasks.map(task => {
+                                    if (task.id === id) {
+                                        task.action = "Edit";
+                                    } else {
+                                        task.action = "Add";
+                                    }
+                                    return task;
+                                }),
+                            ]);
                             setFormOptions({
                                 action: "Edit",
                                 type: "Task",
                                 isOpened: true,
-                            })
-                        }
+                            });
+                        }}
                         type={ButtonType.button}
                         variant={ButtonVariant.icon}
                     >
@@ -35,13 +47,23 @@ export const Task: FC<TaskProps> = props => {
                     </Button>
 
                     <Button
-                        onClick={() =>
+                        onClick={() => {
+                            setTasks([
+                                ...tasks.map(task => {
+                                    if (task.id === id) {
+                                        task.action = "Delete";
+                                    } else {
+                                        task.action = "Add";
+                                    }
+                                    return task;
+                                }),
+                            ]);
                             setFormOptions({
                                 action: "Delete",
                                 type: "Task",
                                 isOpened: true,
-                            })
-                        }
+                            });
+                        }}
                         type={ButtonType.button}
                         variant={ButtonVariant.icon}
                     >

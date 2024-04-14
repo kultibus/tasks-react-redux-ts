@@ -12,14 +12,6 @@ export const Boards: FC<BoardsProps> = () => {
         name: "",
     });
 
-    const [task, setTask] = useState<ITask>({
-        id: null,
-        name: "",
-        description: "",
-        type: "Opened",
-        boardId: null,
-    });
-
     const [currentBoard, setCurrentBoard] = useState<IBoard>({
         id: null,
         name: "",
@@ -33,12 +25,13 @@ export const Boards: FC<BoardsProps> = () => {
         isOpened: true,
     });
 
-    const [currentTask, setCurrentTask] = useState<ITask>({
+    const [task, setTask] = useState<ITask>({
         id: null,
         name: "",
         description: "",
-        type: "Opened",
+        status: "Opened",
         boardId: null,
+        action: "Add",
     });
 
     const [tasks, setTasks] = useState<ITask[]>([]);
@@ -123,12 +116,22 @@ export const Boards: FC<BoardsProps> = () => {
             id: null,
             name: "",
             description: "",
-            type: "Opened",
+            status: "Opened",
             boardId: null,
+            action: "Add",
         });
     };
 
     const editTask = (editedTask: ITask) => {
+        setTasks([
+            ...tasks.map(task => {
+                if (task.id === editedTask.id) {
+                    return editedTask;
+                }
+                return task;
+            }),
+        ]);
+
         setFormOptions({
             ...formOptions,
             isOpened: false,
@@ -138,8 +141,9 @@ export const Boards: FC<BoardsProps> = () => {
             id: null,
             name: "",
             description: "",
-            type: "Opened",
+            status: "Opened",
             boardId: null,
+            action: "Add",
         });
     };
 
@@ -155,6 +159,7 @@ export const Boards: FC<BoardsProps> = () => {
             />
 
             <Board
+                setTasks={setTasks}
                 editTask={editTask}
                 addTask={addTask}
                 task={task}

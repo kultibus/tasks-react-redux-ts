@@ -14,14 +14,17 @@ export interface IBoard {
     name: string;
 }
 
-export type TaskType = "Opened" | "In process" | "Done";
+export type TaskStatus = "Opened" | "In process" | "Done";
+
+export type TaskAction = "Edit" | "Delete" | "Move" | "Add";
 
 export interface ITask {
     id: number;
     name: string;
     description: string;
-    type: TaskType;
-	boardId: number
+    status: TaskStatus;
+    boardId: number;
+    action: TaskAction;
 }
 
 export interface ITasks {

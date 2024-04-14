@@ -22,6 +22,7 @@ interface BoardProps {
     task: ITask;
     setTask: Dispatch<SetStateAction<ITask>>;
     editTask: (editedTask: ITask) => void;
+    setTasks: Dispatch<SetStateAction<ITask[]>>;
 }
 
 export const Board: FC<BoardProps> = props => {
@@ -42,12 +43,14 @@ export const Board: FC<BoardProps> = props => {
         task,
         tasks,
         editTask,
+        setTasks,
     } = props;
 
     return (
         <div>
             {formOptions.isOpened ? (
                 <Form
+                    tasks={tasks}
                     editTask={editTask}
                     addBoard={addBoard}
                     addTask={addTask}
@@ -74,6 +77,7 @@ export const Board: FC<BoardProps> = props => {
                         setFormOptions={setFormOptions}
                     />
                     <Tasks
+                        setTasks={setTasks}
                         currentBoard={currentBoard}
                         setFormOptions={setFormOptions}
                         tasks={tasks}

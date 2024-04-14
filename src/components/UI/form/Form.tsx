@@ -27,6 +27,7 @@ interface FormProps {
     setBoard: Dispatch<SetStateAction<IBoard>>;
     setCurrentBoard: Dispatch<SetStateAction<IBoard>>;
     setFormOptions: Dispatch<SetStateAction<FormOptions>>;
+    tasks: ITask[];
 }
 
 export const Form: FC<FormProps> = props => {
@@ -45,6 +46,7 @@ export const Form: FC<FormProps> = props => {
         task,
         setTask,
         editTask,
+        tasks,
     } = props;
 
     const [inputValid, setInputValid] = useState<boolean>(true);
@@ -115,10 +117,12 @@ export const Form: FC<FormProps> = props => {
                     break;
 
                 case "Edit":
-                    const editedTask: ITask = {
-                        ...currentBoard,
-                        name: board.name,
-                    };
+                    const editedTask: ITask = tasks.find(
+                        task => task.action === "Edit"
+                    );
+
+                    editedTask.name = task.name;
+                    editedTask.description = task.description;
 
                     editTask(editedTask);
 
@@ -157,7 +161,9 @@ export const Form: FC<FormProps> = props => {
                     <Title>{`${
                         formOptions.action
                     } ${formOptions.type.toLowerCase()} "${
-                        currentBoard.name
+                        formOptions.type === "Board"
+                            ? currentBoard.name
+                            : tasks.find(task => task.action === "Edit").name
                     }"?`}</Title>
                 )}
             </header>
