@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { FormOptions, IBoard, ITask, ITasks } from "../../types/types";
+import { FormOptions, IBoard, ITask } from "../../types/types";
 import { Board } from "../board/Board";
 import { BoardsBar } from "../boardsBar/BoardsBar";
 import styles from "./Boards.module.scss";
@@ -147,6 +147,24 @@ export const Boards: FC<BoardsProps> = () => {
         });
     };
 
+    const deleteTask = (deletedTask: ITask) => {
+        setTasks([...tasks.filter(task => task.id !== deletedTask.id)]);
+
+        setFormOptions({
+            ...formOptions,
+            isOpened: false,
+        });
+
+        setTask({
+            id: null,
+            name: "",
+            description: "",
+            status: "Opened",
+            boardId: null,
+            action: "Add",
+        });
+    };
+
     return (
         <div className={styles.boards}>
             <BoardsBar
@@ -159,6 +177,7 @@ export const Boards: FC<BoardsProps> = () => {
             />
 
             <Board
+                deleteTask={deleteTask}
                 setTasks={setTasks}
                 editTask={editTask}
                 addTask={addTask}

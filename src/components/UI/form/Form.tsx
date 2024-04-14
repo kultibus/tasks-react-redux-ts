@@ -21,6 +21,7 @@ interface FormProps {
     currentBoard: IBoard;
     addTask: (newTask: ITask) => void;
     editTask: (editedTask: ITask) => void;
+    deleteTask: (deletedTask: ITask) => void;
     task: ITask;
     setTask: Dispatch<SetStateAction<ITask>>;
     formOptions: FormOptions;
@@ -46,6 +47,7 @@ export const Form: FC<FormProps> = props => {
         task,
         setTask,
         editTask,
+        deleteTask,
         tasks,
     } = props;
 
@@ -96,8 +98,11 @@ export const Form: FC<FormProps> = props => {
     const taskHandler = () => {
         if (!task.name || !task.description) {
             if (formOptions.action === "Delete") {
-                // const deletedBoard = currentBoard;
-                // deleteBoard(deletedBoard);
+                const deletedTask: ITask = tasks.find(
+                    task => task.action === "Delete"
+                );
+
+                deleteTask(deletedTask);
             } else {
                 setErrorPlaceholder("This field can't be empty");
 
@@ -163,7 +168,11 @@ export const Form: FC<FormProps> = props => {
                     } ${formOptions.type.toLowerCase()} "${
                         formOptions.type === "Board"
                             ? currentBoard.name
-                            : tasks.find(task => task.action === "Edit").name
+                            : tasks.find(
+                                  task =>
+                                      task.action === "Edit" ||
+                                      task.action === "Delete"
+                              ).name
                     }"?`}</Title>
                 )}
             </header>

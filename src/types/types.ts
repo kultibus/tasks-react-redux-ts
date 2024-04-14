@@ -27,17 +27,7 @@ export interface ITask {
     action: TaskAction;
 }
 
-export interface ITasks {
-    boardId: number;
-    tasksList: ITask[];
-}
 
-// export interface ITasksArr {
-//     id: string;
-//     tasks: ITasks[];
-// }
-
-// export type InputValid = boolean;
 
 export type ISetState<T> = Dispatch<SetStateAction<T>>;
 
