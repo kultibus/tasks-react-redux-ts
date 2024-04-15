@@ -9,10 +9,12 @@ interface TasksProps {
     setFormOptions: Dispatch<SetStateAction<FormOptions>>;
     tasks: ITask[];
     setTasks: Dispatch<SetStateAction<ITask[]>>;
+    setCurrentTask: Dispatch<SetStateAction<ITask>>;
 }
 
 export const Tasks: FC<TasksProps> = props => {
-    const { tasks, currentBoard, setFormOptions, setTasks } = props;
+    const { tasks, currentBoard, setFormOptions, setTasks, setCurrentTask } =
+        props;
 
     const tasksStatus: TaskStatus[] = ["Opened", "In process", "Done"];
 
@@ -35,6 +37,7 @@ export const Tasks: FC<TasksProps> = props => {
                                 task.boardId === currentBoard.id ? (
                                     <li key={task.id}>
                                         <Task
+                                            setCurrentTask={setCurrentTask}
                                             tasks={tasks}
                                             setTasks={setTasks}
                                             id={task.id}

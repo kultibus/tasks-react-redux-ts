@@ -10,12 +10,21 @@ interface TaskProps {
     description: string;
     setFormOptions: Dispatch<SetStateAction<FormOptions>>;
     setTasks: Dispatch<SetStateAction<ITask[]>>;
+    setCurrentTask: Dispatch<SetStateAction<ITask>>;
     tasks: ITask[];
     id: number;
 }
 
 export const Task: FC<TaskProps> = props => {
-    const { name, description, setFormOptions, setTasks, tasks, id } = props;
+    const {
+        name,
+        description,
+        setFormOptions,
+        setTasks,
+        tasks,
+        id,
+        setCurrentTask,
+    } = props;
 
     return (
         <div className={styles.task}>

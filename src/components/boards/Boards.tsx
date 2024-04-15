@@ -34,6 +34,15 @@ export const Boards: FC<BoardsProps> = () => {
         action: "Add",
     });
 
+    const [currentTask, setCurrentTask] = useState<ITask>({
+        id: null,
+        name: "",
+        description: "",
+        status: "Opened",
+        boardId: null,
+        action: "Add",
+    });
+
     const [tasks, setTasks] = useState<ITask[]>([]);
 
     const addBoard = (newBoard: IBoard) => {
@@ -177,6 +186,7 @@ export const Boards: FC<BoardsProps> = () => {
             />
 
             <Board
+                setCurrentTask={setCurrentTask}
                 deleteTask={deleteTask}
                 setTasks={setTasks}
                 editTask={editTask}

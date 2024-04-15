@@ -71,10 +71,7 @@ export const Form: FC<FormProps> = props => {
     //     setInputError("");
     // };
 
-    const onBlurInputHandler = e => {
-        if (e.target.name === "title") {
-        }
-    };
+    const onBlurInputHandler = () => {};
 
     const onClickInputHandler = () => {
         setInputError("");
@@ -123,21 +120,13 @@ export const Form: FC<FormProps> = props => {
     };
 
     const taskHandler = () => {
-        if (!task.name || !task.description) {
-            if (formOptions.action === "Delete") {
-                const deletedTask: ITask = tasks.find(
-                    task => task.action === "Delete"
-                );
+        switch (formOptions.action) {
+            case "Add":
+                if (!task.name) {
+                    setInputError("This field can't be empty");
 
-                deleteTask(deletedTask);
-            } else {
-                setInputError("This field can't be empty");
-
-                setInputValid(false);
-            }
-        } else {
-            switch (formOptions.action) {
-                case "Add":
+                    setInputValid(false);
+                } else {
                     const newTask: ITask = {
                         ...task,
                         id: Date.now(),
@@ -145,10 +134,16 @@ export const Form: FC<FormProps> = props => {
                     };
 
                     addTask(newTask);
+                }
 
-                    break;
+                break;
 
-                case "Edit":
+            case "Edit":
+                if (!task.name) {
+                    setInputError("This field can't be empty");
+
+                    setInputValid(false);
+                } else {
                     const editedTask: ITask = tasks.find(
                         task => task.action === "Edit"
                     );
@@ -157,18 +152,18 @@ export const Form: FC<FormProps> = props => {
                     editedTask.description = task.description;
 
                     editTask(editedTask);
+                }
 
-                    break;
+                break;
 
-                case "Delete":
-                    const deletedTask: ITask = tasks.find(
-                        task => task.action === "Delete"
-                    );
+            case "Delete":
+                const deletedTask: ITask = tasks.find(
+                    task => task.action === "Delete"
+                );
 
-                    deleteTask(deletedTask);
+                deleteTask(deletedTask);
 
-                    break;
-            }
+                break;
         }
     };
 
@@ -280,7 +275,14 @@ export const Form: FC<FormProps> = props => {
                                     name="title"
                                     maxLength={30}
                                     onBlur={onBlurInputHandler}
-                                    value={task.name}
+                                    // value={task.name}
+                                    value={
+                                        formOptions.action === "Add"
+                                            ? task.name
+                                            : tasks.find(
+                                                  task => task.action === "Edit"
+                                              ).name
+                                    }
                                     placeholder={
                                         inputError ||
                                         `Enter ${formOptions.type.toLowerCase()} title ...`
