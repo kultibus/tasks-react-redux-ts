@@ -53,45 +53,72 @@ export const Form: FC<FormProps> = props => {
 
     const [inputValid, setInputValid] = useState<boolean>(true);
 
-    const [errorPlaceholder, setErrorPlaceholder] = useState<string>("");
+    const [titleValid, setTitleValid] = useState<boolean>(true);
+    const [descriptionValid, setDescriptionValid] = useState<boolean>(true);
 
-    const onBlurInputHandler = () => {
-        setErrorPlaceholder("");
+    const [inputError, setInputError] = useState<string>("");
 
-        setInputValid(true);
+    // const onBlurInputHandler = () => {
+    //     setInputError("");
+
+    //     setInputValid(true);
+
+    //     setTitleValid(true);
+    //     setDescriptionValid(true);
+    // };
+
+    // const onClickInputHandler = () => {
+    //     setInputError("");
+    // };
+
+    const onBlurInputHandler = e => {
+        if (e.target.name === "title") {
+        }
     };
 
     const onClickInputHandler = () => {
-        setErrorPlaceholder("");
+        setInputError("");
     };
 
     const boardHandler = () => {
-        if (!board.name) {
-            if (formOptions.action === "Delete") {
-                const deletedBoard = currentBoard;
+        switch (formOptions.action) {
+            case "Add":
+                if (!board.name) {
+                    setInputError("This field can't be empty");
 
-                deleteBoard(deletedBoard);
-            } else {
-                setErrorPlaceholder("This field can't be empty");
-
-                setInputValid(false);
-            }
-        } else {
-            switch (formOptions.action) {
-                case "Add":
+                    // setInputValid(false);
+                    setTitleValid(false);
+                } else {
                     const newBoard = { ...board, id: Date.now() };
 
                     addBoard(newBoard);
+                }
 
-                    break;
+                break;
 
-                case "Edit":
-                    const editedBoard = { ...currentBoard, name: board.name };
+            case "Edit":
+                if (!currentBoard.name) {
+                    setInputError("This field can't be empty");
+
+                    // setInputValid(false);
+                    setTitleValid(false);
+                } else {
+                    const editedBoard = {
+                        ...currentBoard,
+                        name: currentBoard.name,
+                    };
 
                     editBoard(editedBoard);
+                }
 
-                    break;
-            }
+                break;
+
+            case "Delete":
+                const deletedBoard = currentBoard;
+
+                deleteBoard(deletedBoard);
+
+                break;
         }
     };
 
@@ -104,7 +131,7 @@ export const Form: FC<FormProps> = props => {
 
                 deleteTask(deletedTask);
             } else {
-                setErrorPlaceholder("This field can't be empty");
+                setInputError("This field can't be empty");
 
                 setInputValid(false);
             }
@@ -132,6 +159,15 @@ export const Form: FC<FormProps> = props => {
                     editTask(editedTask);
 
                     break;
+
+                case "Delete":
+                    const deletedTask: ITask = tasks.find(
+                        task => task.action === "Delete"
+                    );
+
+                    deleteTask(deletedTask);
+
+                    break;
             }
         }
     };
@@ -149,10 +185,36 @@ export const Form: FC<FormProps> = props => {
     const cancelHandler = () => {
         setFormOptions({ ...formOptions, isOpened: false });
 
-        setBoard({
-            id: null,
-            name: "",
-        });
+        switch (formOptions.type) {
+            case "Board":
+                if (formOptions.action === "Edit") {
+                    editBoard(
+                        boards.find(board => board.id === currentBoard.id)
+                    );
+                }
+
+                setBoard({
+                    id: null,
+                    name: "",
+                });
+
+                break;
+
+            case "Task":
+                if (formOptions.action === "Edit") {
+                }
+
+                setTask({
+                    id: null,
+                    name: "",
+                    description: "",
+                    status: "Opened",
+                    boardId: null,
+                    action: "Add",
+                });
+
+                break;
+        }
     };
 
     return (
@@ -167,7 +229,8 @@ export const Form: FC<FormProps> = props => {
                         formOptions.action
                     } ${formOptions.type.toLowerCase()} "${
                         formOptions.type === "Board"
-                            ? currentBoard.name
+                            ? boards.find(board => board.id === currentBoard.id)
+                                  .name
                             : tasks.find(
                                   task =>
                                       task.action === "Edit" ||
@@ -181,17 +244,30 @@ export const Form: FC<FormProps> = props => {
                     {formOptions.action !== "Delete" &&
                         formOptions.type === "Board" && (
                             <Input
+                                name="title"
                                 onBlur={onBlurInputHandler}
-                                value={board.name}
+                                value={
+                                    formOptions.action === "Add"
+                                        ? board.name
+                                        : currentBoard.name
+                                }
                                 placeholder={
-                                    errorPlaceholder ||
+                                    inputError ||
                                     `Enter ${formOptions.type.toLowerCase()} title ...`
                                 }
                                 type={InputType.text}
-                                onChange={e =>
-                                    setBoard({ ...board, name: e.target.value })
-                                }
-                                inputValid={inputValid}
+                                onChange={e => {
+                                    formOptions.action === "Add"
+                                        ? setBoard({
+                                              ...board,
+                                              name: e.target.value,
+                                          })
+                                        : setCurrentBoard({
+                                              ...currentBoard,
+                                              name: e.target.value,
+                                          });
+                                }}
+                                inputValid={titleValid}
                                 onClick={onClickInputHandler}
                                 maxLength={30}
                             />
@@ -201,11 +277,12 @@ export const Form: FC<FormProps> = props => {
                         formOptions.type === "Task" && (
                             <>
                                 <Input
+                                    name="title"
                                     maxLength={30}
                                     onBlur={onBlurInputHandler}
                                     value={task.name}
                                     placeholder={
-                                        errorPlaceholder ||
+                                        inputError ||
                                         `Enter ${formOptions.type.toLowerCase()} title ...`
                                     }
                                     type={InputType.text}
@@ -215,15 +292,16 @@ export const Form: FC<FormProps> = props => {
                                             name: e.target.value,
                                         })
                                     }
-                                    inputValid={inputValid}
+                                    inputValid={titleValid}
                                     onClick={onClickInputHandler}
                                 />
                                 <Input
+                                    name="description"
                                     // maxLength={100}
                                     onBlur={onBlurInputHandler}
                                     value={task.description}
                                     placeholder={
-                                        errorPlaceholder ||
+                                        inputError ||
                                         `Enter ${formOptions.type.toLowerCase()} description ...`
                                     }
                                     type={InputType.text}
@@ -233,7 +311,7 @@ export const Form: FC<FormProps> = props => {
                                             description: e.target.value,
                                         })
                                     }
-                                    inputValid={inputValid}
+                                    inputValid={descriptionValid}
                                     onClick={onClickInputHandler}
                                 />
                             </>

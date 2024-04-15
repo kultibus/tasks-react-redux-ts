@@ -15,6 +15,7 @@ interface InputProps {
     inputValid: boolean;
     onClick: () => void;
     maxLength?: number;
+    name: string;
 }
 
 export const Input: FC<InputProps> = props => {
