@@ -4,7 +4,6 @@ import { Boards } from "./components/boards/Boards";
 import { Header } from "./components/header/Header";
 import { ITheme, ThemeVariant } from "./types/types";
 import { switchAppTheme } from "./utils/switchAppTheme";
-import { BoardsPage } from "./pages/BoardsPage";
 
 export const App: FC = () => {
     const [theme, setTheme] = useState<ITheme>({ variant: ThemeVariant.dark });
@@ -12,11 +11,11 @@ export const App: FC = () => {
     return (
         <div className={styles.theme} data-theme={theme.variant}>
             <div className={styles.wrapper}>
-                {/* <Header
+                <Header
                     switchAppTheme={() => switchAppTheme(theme, setTheme)}
                     theme={theme}
                 />
-                <Boards /> */}
+                <Boards />
             </div>
         </div>
     );

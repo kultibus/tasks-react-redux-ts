@@ -1,12 +1,19 @@
 @use "./assets/fonts/fonts";
 
-.wrapper {
-    max-width: 1440px;
-    margin: 0 auto;
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: var(--ident-left-right);
+* {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
 }
 
 $transparancies: (
@@ -25,7 +32,13 @@ $transparancies: (
     }
 }
 
-.theme {
+:root {
+    --light: rgb(247, 255, 247);
+    @include makeTransparentColors("light", "247, 255, 247");
+
+    --dark: rgb(41, 47, 54);
+    @include makeTransparentColors("dark", "41, 47, 54");
+
     --primary: rgb(79, 204, 196);
     @include makeTransparentColors("primary", "78, 205, 196");
 
@@ -72,30 +85,63 @@ $transparancies: (
     --border-active: 2px solid var(--primary-medium);
     --border-error: 2px solid var(--error);
     --border: 2px solid var(--dark);
+}
 
+body {
     font-family: var(--ibm);
 
-    background-color: var(--light);
+    background-color: var(--dark);
 
-    color: var(--dark);
+    color: var(--light);
 
     line-height: 1.2;
 
-    &[data-theme="light"] {
-        --light: rgb(247, 255, 247);
-        @include makeTransparentColors("light", "247, 255, 247");
-        // --light: rgb(247, 255, 247);
-        // @include makeTransparentColors("light", "247, 255, 247");
+    // &[data-theme="dark"] {
+    //     --dark: rgb(247, 255, 247);
+    //     @include makeTransparentColors("dark", "247, 255, 247");
 
-        --dark: rgb(41, 47, 54);
-        @include makeTransparentColors("dark", "41, 47, 54");
+    //     --light: rgb(41, 47, 54);
+    //     @include makeTransparentColors("light", "41, 47, 54");
+    // }
+
+    // &[data-theme="light"] {
+    //     --light: rgb(247, 255, 247);
+    //     @include makeTransparentColors("light", "247, 255, 247");
+
+    //     --dark: rgb(41, 47, 54);
+    //     @include makeTransparentColors("dark", "41, 47, 54");
+    // }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: inherit;
+    font-size: inherit;
+}
+
+button {
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+
+    &::-moz-focus-inner {
+        border: 0;
+        padding: 0;
     }
+}
 
-    &[data-theme="dark"] {
-        --dark: rgb(247, 255, 247);
-        @include makeTransparentColors("dark", "247, 255, 247");
+li {
+    list-style-type: none;
+}
 
-        --light: rgb(41, 47, 54);
-        @include makeTransparentColors("light", "41, 47, 54");
-    }
+a {
+    font-weight: 400;
+    text-decoration: none;
+    color: inherit;
 }
