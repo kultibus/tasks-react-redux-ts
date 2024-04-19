@@ -8,23 +8,14 @@ import {
     Routes,
     Route,
 } from "react-router-dom";
-import { Layout } from "./Layout";
-import { About } from "./About";
-import { Blog } from "./Blog";
-import { Home } from "./Home";
-import { Post } from "./Post";
-import { ErrorPage } from "./ErrorPage";
-import classNames from "classnames";
 
-export const AppPractice: FC = () => {
+export const Layout: FC = () => {
     return (
         <div className={styles.wrapper}>
             <header className={styles.header}>
                 <NavLink
                     className={({ isActive }) =>
-                        isActive
-                            ? `${styles.acitveLink} ${styles.link}`
-                            : styles.link
+                        isActive ? styles.acitveLink : ""
                     }
                     to="/"
                 >
@@ -32,9 +23,7 @@ export const AppPractice: FC = () => {
                 </NavLink>
                 <NavLink
                     className={({ isActive }) =>
-                        isActive
-                            ? `${styles.acitveLink} ${styles.link}`
-                            : styles.link
+                        isActive ? styles.acitveLink : ""
                     }
                     to="/about"
                 >
@@ -42,9 +31,7 @@ export const AppPractice: FC = () => {
                 </NavLink>
                 <NavLink
                     className={({ isActive }) =>
-                        isActive
-                            ? `${styles.acitveLink} ${styles.link}`
-                            : styles.link
+                        isActive ? styles.acitveLink : ""
                     }
                     to="/blog"
                 >
