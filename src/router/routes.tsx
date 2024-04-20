@@ -1,26 +1,34 @@
-import { RouteObject } from "react-router-dom";
+import { Navigate, RouteObject } from "react-router-dom";
 import { BoardsPage } from "../pages/BoardsPage";
 import { LoginPage } from "../pages/LoginPage";
 import { Layout } from "../components/layout/Layout";
+import { RequireAuth } from "../hoc/RequireAuth";
 
-// export interface IRoute {
-//     path: string;
-//     element: React.ComponentType;
-// }
+export enum RouteNames {
+    login = "login",
+    home = "/",
+}
 
-// export const publicRoutes: IRoute[] = [{ path: "login", element: Layout }];
 export const publicRoutes: RouteObject[] = [
     {
-        path: "login",
+        path: RouteNames.login,
         element: <Layout />,
         children: [{ index: true, element: <LoginPage /> }],
+    },
+    {
+        path: "*",
+        element: <Navigate to={RouteNames.login} />,
     },
 ];
 
 export const privateRoutes: RouteObject[] = [
     {
-        path: "/",
+        path: RouteNames.home,
         element: <Layout />,
         children: [{ index: true, element: <BoardsPage /> }],
+    },
+    {
+        path: "*",
+        element: <Navigate to={RouteNames.home} />,
     },
 ];
