@@ -87,7 +87,7 @@ $mainPalette: (
     }
 }
 
-@mixin makePrimaryColor($prefix) {
+@mixin makeMainColor($prefix) {
     @each $colorIndex, $colorValue in $mainPalette {
         @each $tpIndex, $tpValue in $transparancies {
             --#{$prefix}-#{$colorIndex}-#{$tpIndex}: #{"rgba(" +
@@ -101,7 +101,7 @@ $mainPalette: (
 
 :root {
     @include makeGreyColor("grey");
-    @include makePrimaryColor("main");
+    @include makeMainColor("main");
 
     // --light: rgb(247, 255, 247);
     // @include makeTransparentColors("light", "247, 255, 247");
@@ -119,19 +119,21 @@ $mainPalette: (
     --error: rgb(255, 107, 107);
     @include makeTransparentColors("error", "255, 107, 107");
 
-    --header-height: 50px;
+    --header-h: 90px;
+    --max-w: 1920px;
+    --ident-small: 5px;
+    --ident-medium: 10px;
+    --ident-big: 15px;
 
     --boards-bar-width: 150px;
 
-    --ident-left-right: 0 10px;
-    --ident-top-bottom: 10px 0;
-    --ident: 10px;
-    --ident-small: 5px;
+    // --ident-left-right: 0 10px;
+    // --ident-top-bottom: 10px 0;
 
-    --font-title: 1.2rem;
-    --font-sub-title: 1.3rem;
-    --font-button: 1rem;
-    --font-text: 1rem;
+    --fsz-title: 1.6rem;
+    --fsz-sub-title: 1.4rem;
+    --fsz-button: 1.2rem;
+    --fsz-text: 1rem;
 
     --trs: 300ms ease;
 
@@ -151,9 +153,7 @@ $mainPalette: (
 body {
     font-family: var(--ibm);
 
-    background-color: var(--main-100-full);
-
-    color: var(--grey-50-full);
+    color: var(--main-900-full);
 
     line-height: 1.2;
 
