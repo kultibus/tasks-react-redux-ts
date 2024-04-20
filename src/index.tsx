@@ -1,12 +1,16 @@
 import { createRoot } from "react-dom/client";
+
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
+import "./index.scss";
 import { App } from "./App";
 
-import { BrowserRouter, RouterProvider } from "react-router-dom";
-import { router } from "./router";
-
-// import "./global.scss";
-import "./index.scss";
-import { AppPractice } from "./practice-router/AppPractice";
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <App />,
+    },
+]);
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 

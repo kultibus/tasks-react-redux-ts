@@ -17,13 +17,56 @@ html {
 }
 
 $transparancies: (
+    "full": 1,
+    "hover": 0.5,
     "90": 0.9,
     "80": 0.8,
+    "70": 0.7,
     "60": 0.6,
-    "hover": 0.5,
+    "50": 0.5,
     "40": 0.4,
+    "30": 0.3,
     "20": 0.2,
     "10": 0.1,
+);
+
+$greyPalette: (
+    "50": "238, 238, 239",
+    "100": "210, 214, 219",
+    "200": "180, 187, 196",
+    "300": "149, 160, 173",
+    "400": "126, 140, 155",
+    "500": "104, 120, 138",
+    "600": "91, 106, 121",
+    "700": "74, 86, 99",
+    "800": "59, 68, 77",
+    "900": "41, 47, 54",
+);
+
+// $primaryPalette: (
+//     "50": "216, 243, 241",
+//     "100": "158, 224, 219",
+//     "200": "79, 204, 196",
+//     "300": "0, 182, 170",
+//     "400": "0, 165, 151",
+//     "500": "0, 148, 131",
+//     "600": "0, 135, 118",
+//     "700": "0, 119, 102",
+//     "800": "0, 103, 86",
+//     "900": "0, 75, 57",
+// );
+
+$mainPalette: (
+    "50": "237, 231, 246",
+    "100": "209, 196, 233",
+    "200": "179, 157, 219",
+    "300": "149, 117, 205",
+    "400": "126, 87, 194",
+    "500": "103, 58, 183",
+    "600": "94, 53, 177",
+    "700": "81, 45, 168",
+    "800": "69, 39, 160",
+    "900": "49, 27, 146",
 );
 
 @mixin makeTransparentColors($prefix, $value) {
@@ -32,24 +75,43 @@ $transparancies: (
     }
 }
 
+@mixin makeGreyColor($prefix) {
+    @each $colorIndex, $colorValue in $greyPalette {
+        @each $tpIndex, $tpValue in $transparancies {
+            --#{$prefix}-#{$colorIndex}-#{$tpIndex}: #{"rgba(" +
+                $colorValue +
+                "," +
+                $tpValue +
+                ")"};
+        }
+    }
+}
+
+@mixin makePrimaryColor($prefix) {
+    @each $colorIndex, $colorValue in $mainPalette {
+        @each $tpIndex, $tpValue in $transparancies {
+            --#{$prefix}-#{$colorIndex}-#{$tpIndex}: #{"rgba(" +
+                $colorValue +
+                "," +
+                $tpValue +
+                ")"};
+        }
+    }
+}
+
 :root {
-    --light: rgb(247, 255, 247);
-    @include makeTransparentColors("light", "247, 255, 247");
+    @include makeGreyColor("grey");
+    @include makePrimaryColor("main");
 
-    --dark: rgb(41, 47, 54);
-    @include makeTransparentColors("dark", "41, 47, 54");
+    // --light: rgb(247, 255, 247);
+    // @include makeTransparentColors("light", "247, 255, 247");
 
-    --primary: rgb(79, 204, 196);
-    @include makeTransparentColors("primary", "78, 205, 196");
+    // --dark: rgb(41, 47, 54);
+    // @include makeTransparentColors("dark", "41, 47, 54");
 
-    --primary-medium: rgb(0, 166, 152);
-    @include makeTransparentColors("primary-medium", "0, 166, 152");
-
-    --primary-dark: rgb(0, 136, 119);
-    @include makeTransparentColors("primary-dark", "0, 136, 119");
-
-    --primary-darkest: rgb(0, 104, 88);
-    @include makeTransparentColors("primary-darkest", "0, 104, 88");
+    // --primary: rgb(79, 204, 196);
+    // --primary: #4fccc4;
+    // @include makeTransparentColors("primary", "78, 205, 196");
 
     --warning: rgb(255, 230, 109);
     @include makeTransparentColors("warning", "255, 230, 109");
@@ -72,7 +134,6 @@ $transparancies: (
     --font-text: 1rem;
 
     --trs: 300ms ease;
-    // --trs: 1500ms ease;
 
     --brs: 5px;
 
@@ -90,9 +151,9 @@ $transparancies: (
 body {
     font-family: var(--ibm);
 
-    background-color: var(--dark);
+    background-color: var(--main-100-full);
 
-    color: var(--light);
+    color: var(--grey-50-full);
 
     line-height: 1.2;
 
