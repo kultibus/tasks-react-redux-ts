@@ -3,6 +3,6 @@ import { privateRoutes, publicRoutes } from "./routes";
 
 const auth = false;
 
-let routes = auth ? privateRoutes : publicRoutes;
+const routes = auth ? privateRoutes : publicRoutes;
 
 export const router = createBrowserRouter(routes);

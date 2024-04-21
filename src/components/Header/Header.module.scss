@@ -8,13 +8,28 @@
     margin: 0 auto;
     display: flex;
     align-items: center;
-    padding-left: var(--ident-medium);
-    padding-right: var(--ident-medium);
+    justify-content: space-between;
+    padding-left: var(--ident-m);
+    padding-right: var(--ident-m);
 }
 
 .title {
     color: var(--grey-100-full);
     font-family: var(--ibm-cond);
-    font-size: var(--fsz-title);
+    font-size: var(--fsz-l);
+    font-weight: 400;
     text-transform: uppercase;
+}
+
+.login {
+    font-family: var(--ibm-cond);
+    text-transform: uppercase;
+    font-size: var(--fsz-l);
+    font-weight: 400;
+    color: var(--grey-100-full);
+    transition: var(--trs);
+
+    &:hover {
+        color: var(--grey-300-full);
+    }
 }

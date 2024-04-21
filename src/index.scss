@@ -43,19 +43,6 @@ $greyPalette: (
     "900": "41, 47, 54",
 );
 
-// $primaryPalette: (
-//     "50": "216, 243, 241",
-//     "100": "158, 224, 219",
-//     "200": "79, 204, 196",
-//     "300": "0, 182, 170",
-//     "400": "0, 165, 151",
-//     "500": "0, 148, 131",
-//     "600": "0, 135, 118",
-//     "700": "0, 119, 102",
-//     "800": "0, 103, 86",
-//     "900": "0, 75, 57",
-// );
-
 $mainPalette: (
     "50": "237, 231, 246",
     "100": "209, 196, 233",
@@ -68,6 +55,34 @@ $mainPalette: (
     "800": "69, 39, 160",
     "900": "49, 27, 146",
 );
+
+$fsz: (
+    "s": 0.8,
+    "m": 1,
+    "l": 1.2,
+    "xl": 1.4,
+    "xxl": 1.6,
+);
+
+$identSize: (
+    "s": 5,
+    "m": 10,
+    "l": 20,
+    "xl": 40,
+    "xxl": 80,
+);
+
+@mixin makeFontSize($prefix) {
+    @each $fszName, $fszValue in $fsz {
+        --#{$prefix}-#{$fszName}: #{$fszValue + "rem"};
+    }
+}
+
+@mixin makeIdentSize($prefix) {
+    @each $identName, $identValue in $identSize {
+        --#{$prefix}-#{$identName}: #{$identValue + "px"};
+    }
+}
 
 @mixin makeTransparentColors($prefix, $value) {
     @each $name, $tp in $transparancies {
@@ -102,6 +117,8 @@ $mainPalette: (
 :root {
     @include makeGreyColor("grey");
     @include makeMainColor("main");
+    @include makeFontSize("fsz");
+    @include makeIdentSize("ident");
 
     // --light: rgb(247, 255, 247);
     // @include makeTransparentColors("light", "247, 255, 247");
@@ -130,10 +147,10 @@ $mainPalette: (
     // --ident-left-right: 0 10px;
     // --ident-top-bottom: 10px 0;
 
-    --fsz-title: 1.6rem;
-    --fsz-sub-title: 1.4rem;
-    --fsz-button: 1.2rem;
-    --fsz-text: 1rem;
+    // --fsz-big: 1.6rem;
+    // --fsz-medium: 1.4rem;
+    // --fsz-small: 1.2rem;
+    // --fsz-micro: 0.8rem;
 
     --trs: 300ms ease;
 
@@ -153,7 +170,9 @@ $mainPalette: (
 body {
     font-family: var(--ibm);
 
-    color: var(--main-900-full);
+    // color: var(--main-900-full);
+
+    color: var(--grey-100-full);
 
     line-height: 1.2;
 
@@ -199,4 +218,8 @@ button {
 
 li {
     list-style-type: none;
+}
+
+a {
+    text-decoration: none;
 }

@@ -1,8 +1,7 @@
 import { Navigate, RouteObject } from "react-router-dom";
+import { App } from "../App";
 import { BoardsPage } from "../pages/BoardsPage";
 import { LoginPage } from "../pages/LoginPage";
-import { Layout } from "../components/layout/Layout";
-import { RequireAuth } from "../hoc/RequireAuth";
 
 export enum RouteNames {
     login = "login",
@@ -12,23 +11,23 @@ export enum RouteNames {
 export const publicRoutes: RouteObject[] = [
     {
         path: RouteNames.login,
-        element: <Layout />,
+        element: <App />,
         children: [{ index: true, element: <LoginPage /> }],
     },
     {
         path: "*",
-        element: <Navigate to={RouteNames.login} />,
+        element: <Navigate to={RouteNames.login} replace />,
     },
 ];
 
 export const privateRoutes: RouteObject[] = [
     {
         path: RouteNames.home,
-        element: <Layout />,
+        element: <App />,
         children: [{ index: true, element: <BoardsPage /> }],
     },
     {
         path: "*",
-        element: <Navigate to={RouteNames.home} />,
+        element: <Navigate to={RouteNames.home} replace />,
     },
 ];

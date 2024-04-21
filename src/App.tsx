@@ -1,11 +1,11 @@
-import { FC, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "./hooks/redux";
-import { fetchUsers } from "./store/reducers/ActionCreators";
-import { RouterProvider } from "react-router-dom";
-import { router } from "./router/router";
-import { Layout } from "./components/layout/Layout";
+import { FC } from "react";
+import { Outlet } from "react-router-dom";
+import { Header } from "./components/header/Header";
+import styles from "./App.module.scss";
 
 export const App: FC = () => {
+    
+
     // const dispatch = useAppDispatch();
 
     // const { users, isLoading, error } = useAppSelector(
@@ -17,8 +17,9 @@ export const App: FC = () => {
     // }, []);
 
     return (
-        <div>
-            <RouterProvider router={router} />
-        </div>
+        <main className={styles.app}>
+            <Header />
+            <Outlet />
+        </main>
     );
 };

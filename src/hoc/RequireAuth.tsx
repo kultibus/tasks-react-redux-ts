@@ -1,12 +1,14 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAppSelector } from "../hooks/redux";
+import { App } from "../App";
 
-export const RequireAuth = ({ children }) => {
+export const RequireAuth = () => {
     const location = useLocation();
-    const auth = false;
+    const { isAuth } = useAppSelector(state => state.authReducer);
 
-    if (!auth) {
-        return <Navigate to="login"/>;
-    }
+    // if (!isAuth) {
+    //     return <Navigate to="login" replace />;
+    // }
 
-    return children;
+    return <Outlet />;
 };
