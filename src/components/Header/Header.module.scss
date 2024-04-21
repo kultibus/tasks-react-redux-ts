@@ -20,15 +20,33 @@
     text-transform: uppercase;
 }
 
-.login {
+.link,
+.hi {
     font-family: var(--ibm-cond);
     text-transform: uppercase;
     font-size: var(--fsz-l);
     font-weight: 400;
-    // color: var(--grey-100-full);
+    color: var(--grey-100-full);
     transition: var(--trs);
+    position: relative;
 
+    &:first-child {
+        padding-right: var(--ident-m);
+        border-right: 1px solid var(--grey-100-full);
+    }
+}
+
+.link {
     &:hover {
         color: var(--grey-300-full);
     }
+}
+
+.active {
+    color: var(--grey-300-full);
+}
+
+.right {
+    display: flex;
+    gap: var(--ident-m);
 }

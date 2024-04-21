@@ -1,14 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IUser } from "../../models/IUser";
-import { fetchUsers } from "./ActionCreators";
 
 interface AuthState {
     isAuth: boolean;
 }
 
 const initialState: AuthState = {
-    // isAuth: false,
-    isAuth: true,
+    isAuth: false,
+    // isAuth: true,
 };
 
 export const authSlice = createSlice({

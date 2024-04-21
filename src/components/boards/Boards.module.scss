@@ -1,9 +1,7 @@
 .boards {
-    flex: 1 0 auto;
-    margin-bottom: var(--ident);
-    border: var(--border-transp);
-    border-radius: var(--brs);
-    display: grid;
-    grid-template-columns: var(--boards-bar-width) 1fr;
-    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+	color: var(--main-600-full);
 }
