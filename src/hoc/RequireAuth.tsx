@@ -1,14 +1,17 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAppSelector } from "../hooks/redux";
-import { App } from "../App";
+import { RouteNames } from "../routes";
 
 export const RequireAuth = () => {
-    const location = useLocation();
     const { isAuth } = useAppSelector(state => state.authReducer);
 
-    // if (!isAuth) {
-    //     return <Navigate to="login" replace />;
-    // }
-
-    return <Outlet />;
+    return (
+        <>
+            {isAuth ? (
+                <Navigate to={RouteNames.home} replace />
+            ) : (
+                <Navigate to={RouteNames.login} replace />
+            )}
+        </>
+    );
 };

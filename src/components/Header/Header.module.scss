@@ -14,7 +14,6 @@
 }
 
 .title {
-    color: var(--grey-100-full);
     font-family: var(--ibm-cond);
     font-size: var(--fsz-l);
     font-weight: 400;
@@ -26,7 +25,7 @@
     text-transform: uppercase;
     font-size: var(--fsz-l);
     font-weight: 400;
-    color: var(--grey-100-full);
+    // color: var(--grey-100-full);
     transition: var(--trs);
 
     &:hover {

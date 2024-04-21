@@ -15,13 +15,9 @@ export const Header: FC<HeaderProps> = props => {
                 <h1 className={styles.title}>Tasks manager</h1>
 
                 {isAuth ? (
-                    <Link className={styles.login} to={RouteNames.login}>
-                        Logout
-                    </Link>
+                    <div className={styles.login}>Logout</div>
                 ) : (
-                    <Link className={styles.login} to={RouteNames.login}>
-                        Login
-                    </Link>
+                    <div className={styles.login}>Login</div>
                 )}
             </div>
         </header>

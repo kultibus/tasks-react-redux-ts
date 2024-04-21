@@ -1,10 +1,14 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { Layout } from "../components/layout/Layout";
+import { useAppSelector } from "../hooks/redux";
+import { RouteNames } from "../routes";
 
 export const LoginPage = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
+    const { isAuth } = useAppSelector(state => state.authReducer);
 
-    const fromPage = location.state?.from?.pathName || "/";
+    if (isAuth) {
+        return <Navigate to={RouteNames.home} replace />;
+    }
 
-    return <div>login page</div>;
+    return <Layout />;
 };
