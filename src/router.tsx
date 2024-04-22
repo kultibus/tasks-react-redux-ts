@@ -7,7 +7,7 @@ import { RegisterPage } from "./pages/RegisterPage";
 
 export enum RouteNames {
     login = "login",
-    register = "registration",
+    register = "register",
     home = "/",
 }
 

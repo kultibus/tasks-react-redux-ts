@@ -1,0 +1,31 @@
+.input {
+    background-color: transparent;
+    padding: var(--ident-small);
+    border: var(--border);
+    border-radius: var(--brs);
+    font-size: var(--font-text);
+    color: var(--dark);
+    line-height: 1;
+    outline: none;
+    font-family: var(--ibm);
+    transition: all var(--trs);
+
+    &::placeholder {
+        transition: all var(--trs);
+        color: var(--dark);
+    }
+
+    &:focus {
+        border: var(--border-active);
+        &::placeholder {
+            color: var(--dark-hover);
+        }
+    }
+}
+
+.error {
+    border: var(--border-error);
+    &::placeholder {
+        color: var(--error);
+    }
+}

@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import { FormOptions, ITask } from "../../types/types";
 import styles, { task } from "./Task.module.scss";
-import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
+import { Button, ButtonType, ButtonVariant } from "../UI/buttons/ButtonSubmit";
 import Delete from "../../assets/icons/delete.svg";
 import Edit from "../../assets/icons/edit.svg";
 

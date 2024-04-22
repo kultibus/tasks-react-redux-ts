@@ -3,7 +3,7 @@ import { Dispatch, FC, SetStateAction } from "react";
 import Delete from "../../assets/icons/delete.svg";
 import Edit from "../../assets/icons/edit.svg";
 import { FormAction, FormOptions, FormType, IBoard } from "../../types/types";
-import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
+import { Button, ButtonType, ButtonVariant } from "../UI/buttons/ButtonSubmit";
 import { Title } from "../title/Title";
 import styles from "./BoardBar.module.scss";
 

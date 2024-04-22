@@ -1,0 +1,19 @@
+.input {
+    background-color: var(--grey-200-full);
+    font-size: var(--fsz-xxl);
+    padding: var(--ident-m);
+    border-radius: var(--brs);
+    color: var(--grey-700-full);
+    font-family: var(--ibm);
+    outline: none;
+    line-height: 1.2;
+    transition: var(--trs);
+
+    &::placeholder {
+        color: var(--grey-400-full);
+    }
+
+    &:focus {
+        background-color: var(--grey-100-full);
+    }
+}

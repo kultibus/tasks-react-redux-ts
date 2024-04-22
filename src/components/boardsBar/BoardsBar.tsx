@@ -6,7 +6,7 @@ import {
     IBoard,
     ISetState,
 } from "../../types/types";
-import { Button, ButtonType, ButtonVariant } from "../UI/button/Button";
+import { Button, ButtonType, ButtonVariant } from "../UI/buttons/ButtonSubmit";
 import { List, ListVariant } from "../list/List";
 import { Title } from "../title/Title";
 import styles from "./BoardsBar.module.scss";
