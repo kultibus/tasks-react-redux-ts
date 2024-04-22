@@ -29,3 +29,5 @@ export const fetchUsers = createAsyncThunk(
         }
     }
 );
+
+// export const userAuth = () => 

@@ -1,19 +1,26 @@
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged } from "firebase/auth";
 import { FC } from "react";
+import { useAppDispatch } from "../../hooks/redux";
+import { FormLogin } from "../UI/forms/FormLogin";
 import styles from "./Register.module.scss";
-import { useAppSelector } from "../../hooks/redux";
-import { Navigate } from "react-router-dom";
-import { RouteNames } from "../../router";
+// import { auth } from "../../firebase";
 
 export const Register: FC = () => {
-    const { isAuth } = useAppSelector(state => state.authReducer);
+    const dispatch = useAppDispatch();
 
-    if (isAuth) {
-        return <Navigate to={RouteNames.home} replace />;
-    }
+    const handleRegister = (email: string, password: string) => {
+        const auth = getAuth();
+
+        createUserWithEmailAndPassword(auth, email, password)
+            .then()
+            .catch(error => console.log(error));
+
+       
+    };
 
     return (
-        <div className={styles.cnt}>
-            <div className={styles.login}>Register</div>
+        <div className={styles.register}>
+            <FormLogin title="Sign up" handleClick={handleRegister} />
         </div>
     );
 };

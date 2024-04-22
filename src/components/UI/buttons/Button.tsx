@@ -1,12 +1,12 @@
 import { ButtonHTMLAttributes, FC, ReactNode } from "react";
-import styles from "./ButtonSubmit.module.scss";
+import styles from "./Button.module.scss";
 
-interface ButtonSubmitProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode;
 
 }
 
-export const ButtonSubmit: FC<ButtonSubmitProps> = props => {
+export const Button: FC<ButtonProps> = props => {
     const { children } = props;
 
     return (

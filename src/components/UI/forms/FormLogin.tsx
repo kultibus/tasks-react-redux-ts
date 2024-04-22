@@ -1,26 +1,21 @@
-import { FC, FormEvent, useState } from "react";
-import { ButtonSubmit } from "../buttons/ButtonSubmit";
+import { FC, useState } from "react";
+import { Button } from "../buttons/Button";
 import { Input } from "../inputs/Input";
 import styles from "./FormLogin.module.scss";
 
 interface FormLoginProps {
-    handleClick: () => void;
+    handleClick: (email: string, password: string) => void;
+    title: string;
 }
 
 export const FormLogin: FC<FormLoginProps> = props => {
-    const { handleClick } = props;
+    const { handleClick, title } = props;
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-    };
-
-
-
     return (
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={e => e.preventDefault()} className={styles.form}>
             <Input
                 value={email}
                 type="text"
@@ -33,9 +28,9 @@ export const FormLogin: FC<FormLoginProps> = props => {
                 placeholder="Enter password..."
                 onChange={e => setPassword(e.target.value)}
             />
-            <ButtonSubmit onClick={handleClick} type="submit">
-                Sigh in
-            </ButtonSubmit>
+            <Button onClick={() => handleClick(email, password)} type="submit">
+                {title}
+            </Button>
         </form>
     );
 };
