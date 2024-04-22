@@ -19,6 +19,7 @@ module.exports = {
             template: path.resolve(__dirname, "public", "index.html"),
         }),
         new ReactRefreshWebpackPlugin(),
+        new Dotenv(),
     ],
 
     module: {

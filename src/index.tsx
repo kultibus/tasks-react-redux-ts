@@ -3,9 +3,9 @@ import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 import "./index.scss";
 import { router } from "./router";
-import { setupStore } from "./store/store";
+import {  store } from "./store/store";
 
-const store = setupStore();
+// const store = setupStore();
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 
