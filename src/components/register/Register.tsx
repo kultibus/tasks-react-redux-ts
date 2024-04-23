@@ -10,10 +10,12 @@ import styles from "./Register.module.scss";
 import { authSlice } from "../../store/slices/authSlice/authSlice";
 import { Button } from "../UI/buttons/Button";
 import { signup } from "../../store/slices/authSlice/actionCreators";
+import { IUser } from "../../models/IUser";
+import { FormError } from "../UI/formError/RegisterError";
 
 export const Register: FC = () => {
     // const dispatch = useAppDispatch();
-    // const { user: appUser } = useAppSelector(state => state.authReducer);
+    // const { user } = useAppSelector(state => state.authReducer);
 
     // const handleRegister = async (
     //     email: string,
@@ -43,14 +45,18 @@ export const Register: FC = () => {
     //     }
     // };
 
+    // const register = (
+    //     email: string,
+    //     password: string,
+    //     login: string,
+    //     user: IUser
+    // ) => signup(email, password, login, user);
+
     return (
         <div className={styles.register}>
             {/* <FormAuth isSignup btnName="Sign up" handleAuth={handleRegister} /> */}
-            <FormAuth
-                isSignup
-                btnName="Sign up"
-                // handleAuth={() => dispatch(signup)}
-            />
+            {/* <FormAuth isSignup btnName="Sign up" handleAuth={signup} /> */}
+            <FormError />
         </div>
     );
 };

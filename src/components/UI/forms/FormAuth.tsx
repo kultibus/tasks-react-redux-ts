@@ -1,13 +1,20 @@
 import { FC, FormEvent, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
+import { IUser } from "../../../models/IUser";
+import { AppDispatch } from "../../../store/store";
 import { Button } from "../buttons/Button";
 import { Input } from "../inputs/Input";
 import styles from "./FormAuth.module.scss";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { signup } from "../../../store/slices/authSlice/actionCreators";
 
 interface FormAuthProps {
-    // handleAuth: (email: string, password: string, displayName: string) => void;
+    // handleAuth: (email: string, password: string, login: string, user: IUser) => void;
+    handleAuth: (
+        email: string,
+        password: string,
+        login: string,
+        appUser: IUser
+    ) => (dispatch: AppDispatch) => Promise<void>;
     btnName: string;
     isSignup?: boolean;
 }
@@ -15,10 +22,12 @@ interface FormAuthProps {
 export const FormAuth: FC<FormAuthProps> = props => {
     const dispatch = useAppDispatch();
 
-    const { user } = useAppSelector(state => state.authReducer);
+    const { user, isLoading, error } = useAppSelector(
+        state => state.authReducer
+    );
 
-    // const { btnName, isSignup, handleAuth } = props;
-    const { btnName, isSignup } = props;
+    const { btnName, isSignup, handleAuth } = props;
+    // const { btnName, isSignup } = props;
 
     const email = useInput("", "Enter email...", "Email is empty!");
     const password = useInput("", "Enter password...", "Password is empty!");
@@ -53,7 +62,9 @@ export const FormAuth: FC<FormAuthProps> = props => {
 
         // handleAuth(email.value, password.value, displayName.value);
 
-        dispatch(signup(email.value, password.value, displayName.value, user));
+        dispatch(
+            handleAuth(email.value, password.value, displayName.value, user)
+        );
 
         email.cleanValue();
         password.cleanValue();
@@ -92,8 +103,12 @@ export const FormAuth: FC<FormAuthProps> = props => {
                 type="password"
                 value={password.value}
             />
-            <Button onClick={handleClick} type="submit">
-                {btnName}
+            <Button
+                disabled={isLoading ? true : false}
+                onClick={handleClick}
+                type="submit"
+            >
+                {isLoading ? "Loading..." : btnName}
             </Button>
         </form>
     );

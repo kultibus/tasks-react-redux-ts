@@ -5,12 +5,14 @@ interface AuthState {
     user: IUser;
     isLoading: boolean;
     error: string;
+    isAuth: boolean;
 }
 
 const initialState: AuthState = {
     user: {} as IUser,
     isLoading: false,
     error: "",
+    isAuth: false,
 };
 
 export const authSlice = createSlice({
@@ -24,6 +26,7 @@ export const authSlice = createSlice({
             state.isLoading = false;
             state.error = "";
             state.user = action.payload;
+            // state.isAuth = true;
         },
         authError(state, action: PayloadAction<string>) {
             state.isLoading = false;

@@ -6,9 +6,9 @@
     color: var(--grey-100-full);
     line-height: 1.2;
     transition: var(--trs);
-    cursor: pointer;
 
-    &:hover {
+    &:not(.disabled):hover {
         background-color: var(--main-400-full);
+        cursor: pointer;
     }
 }

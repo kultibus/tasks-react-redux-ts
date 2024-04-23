@@ -12,8 +12,8 @@ export const App: FC = () => {
     //     dispatch(fetchUsers());
     // }, []);
 
-	const { user } = useAppSelector(state => state.authReducer);
-	console.log(user)
+	// const { user } = useAppSelector(state => state.authReducer);
+	// console.log(user)
 
 
     return (
