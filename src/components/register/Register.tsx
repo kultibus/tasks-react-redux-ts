@@ -12,7 +12,7 @@ import { Button } from "../UI/buttons/Button";
 import { signup } from "../../store/slices/authSlice/actionCreators";
 
 export const Register: FC = () => {
-    const dispatch = useAppDispatch();
+    // const dispatch = useAppDispatch();
     // const { user: appUser } = useAppSelector(state => state.authReducer);
 
     // const handleRegister = async (
@@ -49,7 +49,7 @@ export const Register: FC = () => {
             <FormAuth
                 isSignup
                 btnName="Sign up"
-                handleAuth={() => dispatch(signup)}
+                // handleAuth={() => dispatch(signup)}
             />
         </div>
     );

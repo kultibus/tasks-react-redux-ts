@@ -3,15 +3,22 @@ import { useInput } from "../../../hooks/useInput";
 import { Button } from "../buttons/Button";
 import { Input } from "../inputs/Input";
 import styles from "./FormAuth.module.scss";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { signup } from "../../../store/slices/authSlice/actionCreators";
 
 interface FormAuthProps {
-    handleAuth: (email: string, password: string, displayName: string) => void;
+    // handleAuth: (email: string, password: string, displayName: string) => void;
     btnName: string;
     isSignup?: boolean;
 }
 
 export const FormAuth: FC<FormAuthProps> = props => {
-    const { btnName, isSignup, handleAuth } = props;
+    const dispatch = useAppDispatch();
+
+    const { user } = useAppSelector(state => state.authReducer);
+
+    // const { btnName, isSignup, handleAuth } = props;
+    const { btnName, isSignup } = props;
 
     const email = useInput("", "Enter email...", "Email is empty!");
     const password = useInput("", "Enter password...", "Password is empty!");
@@ -44,7 +51,9 @@ export const FormAuth: FC<FormAuthProps> = props => {
         e.preventDefault();
         if (!formValid) return;
 
-        handleAuth(email.value, password.value, displayName.value);
+        // handleAuth(email.value, password.value, displayName.value);
+
+        dispatch(signup(email.value, password.value, displayName.value, user));
 
         email.cleanValue();
         password.cleanValue();

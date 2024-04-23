@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface IInput {
     email: string;
@@ -18,9 +18,9 @@ export const inputSlice = createSlice({
     name: "input",
     initialState,
     reducers: {
-        setInput(state, PayloadAction<IInput>) {
-			
-		},
+        setInput(state, action: PayloadAction<IInput>) {
+            state.input = action.payload;
+        },
     },
 });
 
