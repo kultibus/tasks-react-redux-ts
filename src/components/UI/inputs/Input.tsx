@@ -18,7 +18,7 @@ export const Input: FC<InputProps> = props => {
     return (
         <input
             className={classNames(styles.input, {
-                [styles.error]: !placeholderError,
+                [styles.error]: placeholderError,
             })}
             {...rest}
         />

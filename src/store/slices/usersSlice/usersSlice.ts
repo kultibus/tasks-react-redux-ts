@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IUser } from "../../models/IUser";
-import { fetchUsers } from "../actionCreators";
+import { IUser } from "../../../models/IUser";
+import { fetchUsers } from "./actionCreators";
 
 interface UsersState {
     users: IUser[];

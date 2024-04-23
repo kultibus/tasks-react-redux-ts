@@ -8,9 +8,10 @@
     outline: none;
     line-height: 1.2;
     transition: var(--trs);
-
+	
     &::placeholder {
-        color: var(--grey-400-full);
+		color: var(--grey-400-full);
+		transition: var(--trs);
     }
 	
 	

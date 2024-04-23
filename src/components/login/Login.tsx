@@ -1,8 +1,9 @@
 import { FC } from "react";
 import styles from "./Login.module.scss";
-import { FormLogin } from "../UI/forms/FormLogin";
+import { FormAuth } from "../UI/forms/FormAuth";
 import { useAppDispatch } from "../../hooks/redux";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { RouteNames } from "../../router";
 
 export const Login: FC = () => {
     const dispatch = useAppDispatch();
@@ -17,7 +18,7 @@ export const Login: FC = () => {
     return (
         <div className={styles.login}>
             {/* <FormLogin title="Sign in" handleClick={handleLogin} /> */}
-            <FormLogin btnName="Sign in" />
+            <FormAuth btnName="Sign in" handleAuth={handleLogin} />
         </div>
     );
 };

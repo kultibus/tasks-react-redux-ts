@@ -9,6 +9,7 @@ export enum ButtonVariant {
     hidden = "hidden",
     active = "active",
 }
+
 export enum ButtonType {
     submit = "submit",
     button = "button",
