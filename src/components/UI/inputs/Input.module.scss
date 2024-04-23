@@ -12,8 +12,18 @@
     &::placeholder {
         color: var(--grey-400-full);
     }
-
+	
+	
     &:focus {
-        background-color: var(--grey-100-full);
+		background-color: var(--grey-100-full);
     }
 }
+
+.error {
+	&::placeholder {
+		color: var(--error);
+	}
+	
+	
+}
+

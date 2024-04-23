@@ -1,18 +1,26 @@
-import { ChangeEventHandler, FC } from "react";
+import { ChangeEventHandler, FC, MouseEventHandler } from "react";
 import styles from "./Input.module.scss";
-
-export enum InputVariant {
-    text = "text",
-    password = "password",
-}
+import classNames from "classnames";
 
 interface InputProps {
-    type: string;
-    placeholder: string;
-    value: string;
+    name: string;
     onChange: ChangeEventHandler<HTMLInputElement>;
+    onClick: MouseEventHandler<HTMLInputElement>;
+    placeholder: string;
+    placeholderError: boolean;
+    type: string;
+    value: string;
 }
 
 export const Input: FC<InputProps> = props => {
-    return <input className={styles.input} {...props} />;
+    const { placeholderError, ...rest } = props;
+
+    return (
+        <input
+            className={classNames(styles.input, {
+                [styles.error]: !placeholderError,
+            })}
+            {...rest}
+        />
+    );
 };

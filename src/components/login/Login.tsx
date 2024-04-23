@@ -9,7 +9,6 @@ export const Login: FC = () => {
 
     const handleLogin = (email: string, password: string) => {
         // const auth = getAuth();
-
         // signInWithEmailAndPassword(auth, email, password)
         //     .then(console.log)
         //     .catch(error => console.log(error));
@@ -17,7 +16,8 @@ export const Login: FC = () => {
 
     return (
         <div className={styles.login}>
-            <FormLogin title="Sign in" handleClick={handleLogin} />
+            {/* <FormLogin title="Sign in" handleClick={handleLogin} /> */}
+            <FormLogin btnName="Sign in" />
         </div>
     );
 };

@@ -1,4 +1,8 @@
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged } from "firebase/auth";
+import {
+    createUserWithEmailAndPassword,
+    getAuth,
+    onAuthStateChanged,
+} from "firebase/auth";
 import { FC } from "react";
 import { useAppDispatch } from "../../hooks/redux";
 import { FormLogin } from "../UI/forms/FormLogin";
@@ -9,18 +13,16 @@ export const Register: FC = () => {
     const dispatch = useAppDispatch();
 
     const handleRegister = (email: string, password: string) => {
-        const auth = getAuth();
-
-        createUserWithEmailAndPassword(auth, email, password)
-            .then()
-            .catch(error => console.log(error));
-
-       
+        // const auth = getAuth();
+        // createUserWithEmailAndPassword(auth, email, password)
+        //     .then()
+        //     .catch(error => console.log(error));
     };
 
     return (
         <div className={styles.register}>
-            <FormLogin title="Sign up" handleClick={handleRegister} />
+            {/* <FormLogin title="Sign up" handleClick={handleRegister} /> */}
+            <FormLogin btnName="Sign up" />
         </div>
     );
 };
