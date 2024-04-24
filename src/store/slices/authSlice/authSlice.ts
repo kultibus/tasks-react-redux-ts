@@ -35,6 +35,9 @@ export const authSlice = createSlice({
         userSignout(state) {
             state.user = {} as IUser;
         },
+        deleteError(state) {
+            state.error = "";
+        },
     },
 });
 

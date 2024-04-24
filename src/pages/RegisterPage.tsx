@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { Register } from "../components/register/Register";
 import { useAppSelector } from "../hooks/redux";
 import { RouteNames } from "../router";
@@ -11,5 +11,6 @@ export const RegisterPage: FC = () => {
         return <Navigate to={RouteNames.home} replace />;
     }
 
+    // return <>{error ? <Outlet /> : <Register />}</>;
     return <Register />;
 };
