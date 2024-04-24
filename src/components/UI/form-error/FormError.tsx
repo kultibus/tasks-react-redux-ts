@@ -1,26 +1,29 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { useAppDispatch } from "../../../hooks/redux";
 import { authSlice } from "../../../store/slices/authSlice/authSlice";
 import { Button } from "../buttons/Button";
-import styles from "./LoginError.module.scss";
+import styles from "./FormError.module.scss";
 
-export const LoginError: FC = () => {
+interface FormErrorProps {
+    children: ReactNode;
+}
+
+export const FormError: FC<FormErrorProps> = props => {
+    const { children } = props;
+
     const dispatch = useAppDispatch();
 
-    const { deleteError } = authSlice.actions;
+    const { setError } = authSlice.actions;
 
     const handeleClick = () => {
-        dispatch(deleteError());
+        dispatch(setError(""));
     };
 
     return (
         <div className={styles.cnt}>
             <div className={styles.content}>
-                <h2 className={styles.title}>An error has occurred!</h2>
-                <p className={styles.text}>
-                    Maybe the entered email is already registered or is
-                    incorrect or the password is too weak
-                </p>
+                <h2>An error has occurred!</h2>
+                {children}
             </div>
             <Button onClick={handeleClick} disabled={false}>
                 Try again

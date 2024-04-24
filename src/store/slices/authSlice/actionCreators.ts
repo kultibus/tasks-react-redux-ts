@@ -1,7 +1,9 @@
 import {
     createUserWithEmailAndPassword,
     getAuth,
+    onAuthStateChanged,
     signInWithEmailAndPassword,
+    signOut,
     updateProfile,
 } from "firebase/auth";
 import { IUser } from "../../../models/IUser";
@@ -14,7 +16,7 @@ export const signup =
         const auth = getAuth();
 
         try {
-            dispatch(authSlice.actions.userAuth());
+            dispatch(authSlice.actions.setIsLoading());
 
             await createUserWithEmailAndPassword(auth, email, password);
 
@@ -24,7 +26,7 @@ export const signup =
 
             if (user !== null) {
                 dispatch(
-                    authSlice.actions.authSuccess({
+                    authSlice.actions.setUser({
                         ...appUser,
                         email: user.email,
                         login: user.displayName,
@@ -32,7 +34,7 @@ export const signup =
                 );
             }
         } catch (error) {
-            dispatch(authSlice.actions.authError(error.message));
+            dispatch(authSlice.actions.setError(error.message));
         }
     };
 
@@ -42,7 +44,7 @@ export const signin =
         const auth = getAuth();
 
         try {
-            dispatch(authSlice.actions.userAuth());
+            dispatch(authSlice.actions.setIsLoading());
 
             await signInWithEmailAndPassword(auth, email, password);
 
@@ -50,7 +52,7 @@ export const signin =
 
             if (user !== null) {
                 dispatch(
-                    authSlice.actions.authSuccess({
+                    authSlice.actions.setUser({
                         ...appUser,
                         email: user.email,
                         login: user.displayName,
@@ -58,6 +60,28 @@ export const signin =
                 );
             }
         } catch (error) {
-            dispatch(authSlice.actions.authError(error.message));
+            dispatch(authSlice.actions.setError(error.message));
         }
     };
+
+export const signout = () => async (dispatch: AppDispatch) => {
+    const auth = getAuth();
+
+    try {
+        dispatch(authSlice.actions.setIsLoading());
+
+        await signOut(auth);
+
+        // onAuthStateChanged(auth, user => {
+        //     if (user) {
+        //         console.log("user in");
+        //     } else {
+        //         console.log("user out");
+        //     }
+        // });
+
+        dispatch(authSlice.actions.setUser({} as IUser));
+    } catch (error) {
+        dispatch(authSlice.actions.setError(error.message));
+    }
+};

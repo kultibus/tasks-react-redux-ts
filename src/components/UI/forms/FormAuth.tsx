@@ -7,6 +7,11 @@ import { Button } from "../buttons/Button";
 import { Input } from "../inputs/Input";
 import styles from "./FormAuth.module.scss";
 
+export enum FormVariant {
+    signup = "signup",
+    signin = "signin",
+}
+
 interface FormAuthProps {
     handleAuth: (
         email: string,
@@ -15,11 +20,11 @@ interface FormAuthProps {
         login?: string
     ) => (dispatch: AppDispatch) => Promise<void>;
     btnName: string;
-    isSignup?: boolean;
+    variant: FormVariant;
 }
 
 export const FormAuth: FC<FormAuthProps> = props => {
-    const { btnName, isSignup, handleAuth } = props;
+    const { btnName, handleAuth, variant } = props;
 
     const dispatch = useAppDispatch();
 
@@ -32,11 +37,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
     const [formValid, setFormValid] = useState<boolean>(false);
 
     const handleClick = () => {
-        if (
-            !email.value.length ||
-            !password.value.length ||
-            !displayName.value.length
-        ) {
+        if (!email.value.length || !password.value.length) {
             setFormValid(false);
             if (!email.value.length) {
                 email.setError();
@@ -44,9 +45,9 @@ export const FormAuth: FC<FormAuthProps> = props => {
             if (!password.value.length) {
                 password.setError();
             }
-            if (!displayName.value.length) {
-                displayName.setError();
-            }
+        } else if (variant === "signup" && !displayName.value.length) {
+            setFormValid(false);
+            displayName.setError();
         } else {
             setFormValid(true);
         }
@@ -54,6 +55,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         if (!formValid) return;
 
         dispatch(
@@ -67,7 +69,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            {isSignup && (
+            {variant === "signup" && (
                 <Input
                     name="login"
                     placeholderError={displayName.isError}

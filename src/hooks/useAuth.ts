@@ -1,7 +1,21 @@
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useAppSelector } from "./redux";
+import { useState } from "react";
+
+// export function useAuth() {
+//     const { user } = useAppSelector(state => state.authReducer);
+
+//     return { isAuth: !!user.token, ...user };
+// }
 
 export function useAuth() {
-    const { user } = useAppSelector(state => state.authReducer);
+    const [appAuth, setAppAuth] = useState<boolean>(false);
+    const auth = getAuth();
 
-    return { isAuth: !!user.token, ...user };
+    onAuthStateChanged(auth, user => {
+        if (user) setAppAuth(true);
+        else setAppAuth(false);
+    });
+
+    return appAuth;
 }

@@ -1,0 +1,27 @@
+.bottom {
+    display: flex;
+    align-items: center;
+	justify-content: space-between;
+    gap: var(--ident-m);
+}
+
+.text {
+    font-size: var(--fsz-xxl);
+    border-radius: var(--brs);
+    color: var(--grey-400-full);
+}
+
+.link {
+    background-color: var(--main-300-full);
+    font-size: var(--fsz-xxl);
+    padding: var(--ident-m);
+    border-radius: var(--brs);
+    color: var(--grey-100-full);
+    line-height: 1.2;
+    transition: var(--trs);
+
+    &:not(.disabled):hover {
+        background-color: var(--main-400-full);
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,7 @@
+.cnt {
+    display: flex;
+    flex-direction: column;
+    padding: var(--ident-m);
+    gap: var(--ident-m);
+	flex: 0 1 420px;
+}

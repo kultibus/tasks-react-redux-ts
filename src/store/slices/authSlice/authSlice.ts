@@ -19,24 +19,22 @@ export const authSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        userAuth(state) {
+        setIsLoading(state) {
             state.isLoading = true;
         },
-        authSuccess(state, action: PayloadAction<IUser>) {
+        setUser(state, action: PayloadAction<IUser>) {
             state.isLoading = false;
             state.error = "";
             state.user = action.payload;
             // state.isAuth = true;
         },
-        authError(state, action: PayloadAction<string>) {
+        setError(state, action: PayloadAction<string>) {
             state.isLoading = false;
             state.error = action.payload;
         },
-        userSignout(state) {
-            state.user = {} as IUser;
-        },
-        deleteError(state) {
-            state.error = "";
+        setAuth(state, action: PayloadAction<boolean>) {
+            state.isAuth = action.payload;
+            state.isLoading = false;
         },
     },
 });
