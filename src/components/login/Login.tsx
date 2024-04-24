@@ -1,24 +1,20 @@
 import { FC } from "react";
-import styles from "./Login.module.scss";
+import { useAppSelector } from "../../hooks/redux";
+import { signin } from "../../store/slices/authSlice/actionCreators";
 import { FormAuth } from "../UI/forms/FormAuth";
-import { useAppDispatch } from "../../hooks/redux";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { RouteNames } from "../../router";
+import { LoginError } from "../UI/login-error/LoginError";
+import styles from "./Login.module.scss";
 
 export const Login: FC = () => {
-    const dispatch = useAppDispatch();
-
-    const handleLogin = (email: string, password: string) => {
-        // const auth = getAuth();
-        // signInWithEmailAndPassword(auth, email, password)
-        //     .then(console.log)
-        //     .catch(error => console.log(error));
-    };
+    const { error } = useAppSelector(state => state.authReducer);
 
     return (
         <div className={styles.login}>
-            {/* <FormLogin title="Sign in" handleClick={handleLogin} /> */}
-            <FormAuth btnName="Sign in" handleAuth={handleLogin} />
+            {error ? (
+                <LoginError />
+            ) : (
+                <FormAuth btnName="Sign up" handleAuth={signin} />
+            )}
         </div>
     );
 };

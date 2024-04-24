@@ -8,26 +8,22 @@ import { Input } from "../inputs/Input";
 import styles from "./FormAuth.module.scss";
 
 interface FormAuthProps {
-    // handleAuth: (email: string, password: string, login: string, user: IUser) => void;
     handleAuth: (
         email: string,
         password: string,
-        login: string,
-        appUser: IUser
+        appUser: IUser,
+        login?: string
     ) => (dispatch: AppDispatch) => Promise<void>;
     btnName: string;
     isSignup?: boolean;
 }
 
 export const FormAuth: FC<FormAuthProps> = props => {
+    const { btnName, isSignup, handleAuth } = props;
+
     const dispatch = useAppDispatch();
 
-    const { user, isLoading, error } = useAppSelector(
-        state => state.authReducer
-    );
-
-    const { btnName, isSignup, handleAuth } = props;
-    // const { btnName, isSignup } = props;
+    const { user, isLoading } = useAppSelector(state => state.authReducer);
 
     const email = useInput("", "Enter email...", "Email is empty!");
     const password = useInput("", "Enter password...", "Password is empty!");
@@ -60,10 +56,8 @@ export const FormAuth: FC<FormAuthProps> = props => {
         e.preventDefault();
         if (!formValid) return;
 
-        // handleAuth(email.value, password.value, displayName.value);
-
         dispatch(
-            handleAuth(email.value, password.value, displayName.value, user)
+            handleAuth(email.value, password.value, user, displayName.value)
         );
 
         email.cleanValue();
