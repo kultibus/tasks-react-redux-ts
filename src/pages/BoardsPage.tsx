@@ -7,6 +7,7 @@ import { Boards } from "../components/boards/Boards";
 export const BoardsPage: FC = () => {
     const { isAuth } = useAppSelector(state => state.authReducer);
 
+
     if (isAuth) {
         return <Boards />;
     }

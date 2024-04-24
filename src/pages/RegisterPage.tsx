@@ -7,9 +7,9 @@ import { RouteNames } from "../router";
 export const RegisterPage: FC = () => {
     const { isAuth } = useAppSelector(state => state.authReducer);
 
-    if (isAuth) {
-        return <Navigate to={RouteNames.home} replace />;
+    if (!isAuth) {
+        return <Register />;
     }
 
-    return <Register />;
+    return <Navigate to={RouteNames.home} replace />;
 };

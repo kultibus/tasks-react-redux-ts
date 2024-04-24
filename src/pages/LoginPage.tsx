@@ -8,9 +8,9 @@ import { useAuth } from "../hooks/useAuth";
 export const LoginPage: FC = () => {
     const { isAuth } = useAppSelector(state => state.authReducer);
 
-    if (isAuth) {
-        return <Navigate to={RouteNames.home} replace />;
+    if (!isAuth) {
+        return <Login />;
     }
-
-    return <Login />;
+	
+    return <Navigate to={RouteNames.home} replace />;
 };

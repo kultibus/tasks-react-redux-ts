@@ -1,11 +1,10 @@
 import {
     createUserWithEmailAndPassword,
-    getAuth,
-    onAuthStateChanged,
     signInWithEmailAndPassword,
     signOut,
     updateProfile,
 } from "firebase/auth";
+import { auth } from "../../../firebase";
 import { IUser } from "../../../models/IUser";
 import { AppDispatch } from "../../store";
 import { authSlice } from "./authSlice";
@@ -13,8 +12,6 @@ import { authSlice } from "./authSlice";
 export const signup =
     (email: string, password: string, appUser: IUser, login: string) =>
     async (dispatch: AppDispatch) => {
-        const auth = getAuth();
-
         try {
             dispatch(authSlice.actions.setIsLoading());
 
@@ -32,6 +29,8 @@ export const signup =
                         login: user.displayName,
                     })
                 );
+                dispatch(authSlice.actions.setAuth(true));
+                localStorage.setItem("auth", "true");
             }
         } catch (error) {
             dispatch(authSlice.actions.setError(error.message));
@@ -41,8 +40,6 @@ export const signup =
 export const signin =
     (email: string, password: string, appUser: IUser) =>
     async (dispatch: AppDispatch) => {
-        const auth = getAuth();
-
         try {
             dispatch(authSlice.actions.setIsLoading());
 
@@ -58,6 +55,9 @@ export const signin =
                         login: user.displayName,
                     })
                 );
+
+                dispatch(authSlice.actions.setAuth(true));
+                localStorage.setItem("auth", "true");
             }
         } catch (error) {
             dispatch(authSlice.actions.setError(error.message));
@@ -65,22 +65,16 @@ export const signin =
     };
 
 export const signout = () => async (dispatch: AppDispatch) => {
-    const auth = getAuth();
-
     try {
         dispatch(authSlice.actions.setIsLoading());
 
         await signOut(auth);
 
-        // onAuthStateChanged(auth, user => {
-        //     if (user) {
-        //         console.log("user in");
-        //     } else {
-        //         console.log("user out");
-        //     }
-        // });
-
         dispatch(authSlice.actions.setUser({} as IUser));
+
+        dispatch(authSlice.actions.setAuth(false));
+
+        localStorage.removeItem("auth");
     } catch (error) {
         dispatch(authSlice.actions.setError(error.message));
     }

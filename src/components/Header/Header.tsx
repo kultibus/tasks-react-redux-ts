@@ -1,13 +1,18 @@
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { RouteNames } from "../../router";
 import styles from "./Header.module.scss";
+import { Button } from "../UI/buttons/Button";
+import { signout } from "../../store/slices/authSlice/actionCreators";
 
 interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = props => {
-    const { isAuth } = useAppSelector(state => state.authReducer);
+    const { isAuth, user } = useAppSelector(state => state.authReducer);
+
+
+    const dispatch = useAppDispatch();
 
     return (
         <header className={styles.header}>
@@ -16,8 +21,14 @@ export const Header: FC<HeaderProps> = props => {
 
                 {isAuth ? (
                     <div className={styles.right}>
-                        <div className={styles.hi}>Hi, User!</div>
-                        <div className={styles.link}>Sign out</div>
+                        <div className={styles.hi}>Hi, {user.login}!</div>
+                        <Button
+                            type="button"
+                            onClick={() => dispatch(signout())}
+                            className={styles.signout}
+                        >
+                            Sign out
+                        </Button>
                     </div>
                 ) : (
                     <div className={styles.right}>

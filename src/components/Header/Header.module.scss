@@ -21,14 +21,13 @@
 }
 
 .link,
-.hi {
+.hi,
+.signout {
     font-family: var(--ibm-cond);
     text-transform: uppercase;
     font-size: var(--fsz-l);
     font-weight: 400;
-    color: var(--grey-300-full);
     transition: var(--trs);
-    position: relative;
 
     &:first-child {
         padding-right: var(--ident-m);
@@ -37,6 +36,21 @@
 }
 
 .link {
+    color: var(--grey-300-full);
+	
+    &:hover {
+        color: var(--grey-100-full);
+    }
+}
+
+.hi {
+    color: var(--grey-100-full);
+}
+
+.signout {
+	cursor: pointer;
+	color: var(--grey-300-full);
+	
     &:hover {
         color: var(--grey-100-full);
     }

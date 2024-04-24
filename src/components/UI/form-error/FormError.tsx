@@ -25,7 +25,7 @@ export const FormError: FC<FormErrorProps> = props => {
                 <h2>An error has occurred!</h2>
                 {children}
             </div>
-            <Button onClick={handeleClick} disabled={false}>
+            <Button type="button" onClick={handeleClick}>
                 Try again
             </Button>
         </div>

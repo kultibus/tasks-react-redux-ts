@@ -100,9 +100,9 @@ export const FormAuth: FC<FormAuthProps> = props => {
                 value={password.value}
             />
             <Button
+				type='submit'
                 disabled={isLoading ? true : false}
                 onClick={handleClick}
-                type="submit"
             >
                 {isLoading ? "Loading..." : btnName}
             </Button>
