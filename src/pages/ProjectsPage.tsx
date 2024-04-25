@@ -1,15 +1,14 @@
 import { FC } from "react";
-import { useAppSelector } from "../hooks/redux";
 import { Navigate } from "react-router-dom";
+import { Projects } from "../components/projects/Projects";
+import { useAppSelector } from "../hooks/redux";
 import { RouteNames } from "../router";
-import { Boards } from "../components/boards/Boards";
 
-export const BoardsPage: FC = () => {
+export const ProjectsPage: FC = () => {
     const { isAuth } = useAppSelector(state => state.authReducer);
 
-
     if (isAuth) {
-        return <Boards />;
+        return <Projects />;
     }
 
     return <Navigate to={RouteNames.login} replace />;

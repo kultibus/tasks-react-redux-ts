@@ -2,18 +2,18 @@ import { FC, ReactNode } from "react";
 import styles from "./Button.module.scss";
 import classNames from "classnames";
 
-export enum ButtonVariant {
-    add = "add",
-    icon = "icon",
-    list = "list",
-    hidden = "hidden",
-    active = "active",
-}
+// export enum ButtonVariant {
+//     add = "add",
+//     icon = "icon",
+//     list = "list",
+//     hidden = "hidden",
+//     active = "active",
+// }
 
-export enum ButtonType {
-    submit = "submit",
-    button = "button",
-}
+// export enum ButtonType {
+//     submit = "submit",
+//     button = "button",
+// }
 
 interface ButtonProps {
     children: ReactNode;

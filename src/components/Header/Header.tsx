@@ -1,17 +1,30 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { RouteNames } from "../../router";
 import styles from "./Header.module.scss";
-import { Button } from "../UI/buttons/Button";
+import { BtnVariant, Button } from "../UI/buttons/Button";
 import { signout } from "../../store/slices/authSlice/actionCreators";
+import { HeaderLinks } from "../header-links/HeaderLinks";
+import DarkModeIcon from "../../assets/icons/darkMode.svg";
+import LightModeIcon from "../../assets/icons/lightMode.svg";
 
 interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = props => {
+    const [themeVariant, setThemeVariant] = useState<string>("Dark");
+
     const { isAuth, user } = useAppSelector(state => state.authReducer);
 
     const dispatch = useAppDispatch();
+
+    const btnThemeHandler = () => {
+        if (themeVariant === "Light") {
+            setThemeVariant("Dark");
+        } else {
+            setThemeVariant("Light");
+        }
+    };
 
     return (
         <header className={styles.header}>
@@ -19,40 +32,54 @@ export const Header: FC<HeaderProps> = props => {
                 <h1 className={styles.title}>Tasks manager</h1>
 
                 {isAuth ? (
-                    <div className={styles.right}>
+                    <HeaderLinks>
                         <div className={styles.hi}>Hi, {user.login}!</div>
                         <Button
+                            variant={BtnVariant.header}
                             type="button"
                             onClick={() => dispatch(signout())}
-                            className={styles.signout}
                         >
                             Sign out
                         </Button>
-                    </div>
+                    </HeaderLinks>
                 ) : (
-                    <div className={styles.right}>
-                        <NavLink
-                            to={RouteNames.login}
-                            className={({ isActive }) =>
-                                isActive
-                                    ? `${styles.active} ${styles.link}`
-                                    : styles.link
-                            }
-                        >
-                            {RouteNames.login}
+                    <HeaderLinks>
+                        <NavLink to={RouteNames.login}>
+                            {({ isActive }) => (
+                                <Button
+                                    variant={
+                                        isActive
+                                            ? BtnVariant.headerAcive
+                                            : BtnVariant.header
+                                    }
+                                >
+                                    {RouteNames.login}
+                                </Button>
+                            )}
                         </NavLink>
-                        <NavLink
-                            to={RouteNames.register}
-                            className={({ isActive }) =>
-                                isActive
-                                    ? `${styles.active} ${styles.link}`
-                                    : styles.link
-                            }
-                        >
-                            {RouteNames.register}
+                        <NavLink to={RouteNames.register}>
+                            {({ isActive }) => (
+                                <Button
+                                    variant={
+                                        isActive
+                                            ? BtnVariant.headerAcive
+                                            : BtnVariant.header
+                                    }
+                                >
+                                    {RouteNames.register}
+                                </Button>
+                            )}
                         </NavLink>
-                    </div>
+                    </HeaderLinks>
                 )}
+                <Button onClick={btnThemeHandler} variant={BtnVariant.icon}>
+                    <div>{themeVariant}</div>
+                    {themeVariant === "Dark" ? (
+                        <DarkModeIcon />
+                    ) : (
+                        <LightModeIcon />
+                    )}
+                </Button>
             </div>
         </header>
     );

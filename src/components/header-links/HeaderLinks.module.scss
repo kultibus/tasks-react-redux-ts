@@ -1,0 +1,13 @@
+.links {
+    padding-left: var(--fsz-s);
+    padding-right: var(--fsz-s);
+    display: flex;
+    align-items: center;
+	justify-content: center;
+    gap: var(--ident-m);
+
+    & > :first-child {
+        padding-right: var(--ident-m);
+        border-right: 1px solid var(--grey-100-full);
+    }
+}

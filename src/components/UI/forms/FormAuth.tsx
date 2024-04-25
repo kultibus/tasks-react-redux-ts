@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
 import { IUser } from "../../../models/IUser";
 import { AppDispatch } from "../../../store/store";
-import { Button } from "../buttons/Button";
+import { BtnVariant, Button } from "../buttons/Button";
 import { Input } from "../inputs/Input";
 import styles from "./FormAuth.module.scss";
 
@@ -100,7 +100,8 @@ export const FormAuth: FC<FormAuthProps> = props => {
                 value={password.value}
             />
             <Button
-				type='submit'
+                type="submit"
+                variant={isLoading ? BtnVariant.formDisabled : BtnVariant.form}
                 disabled={isLoading ? true : false}
                 onClick={handleClick}
             >

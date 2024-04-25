@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 import { useAppDispatch } from "../../../hooks/redux";
 import { authSlice } from "../../../store/slices/authSlice/authSlice";
-import { Button } from "../buttons/Button";
+import { BtnVariant, Button } from "../buttons/Button";
 import styles from "./FormError.module.scss";
 
 interface FormErrorProps {
@@ -25,7 +25,7 @@ export const FormError: FC<FormErrorProps> = props => {
                 <h2>An error has occurred!</h2>
                 {children}
             </div>
-            <Button type="button" onClick={handeleClick}>
+            <Button variant={BtnVariant.btn} type="button" onClick={handeleClick}>
                 Try again
             </Button>
         </div>

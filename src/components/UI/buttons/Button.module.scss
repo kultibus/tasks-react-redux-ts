@@ -1,4 +1,5 @@
-.btn {
+.form,
+.formDisabled {
     background-color: var(--main-300-full);
     font-size: var(--fsz-xxl);
     padding: var(--ident-m);
@@ -7,8 +8,41 @@
     line-height: 1.2;
     transition: var(--trs);
 
-    &:not(.disabled):hover {
+    &:not(.formDisabled):hover {
         background-color: var(--main-400-full);
         cursor: pointer;
+    }
+}
+
+.header,
+.headerAcive,
+.icon div {
+    text-transform: uppercase;
+    font-family: var(--ibm-cond);
+    font-size: var(--fsz-l);
+    font-weight: 400;
+    transition: var(--trs);
+    color: var(--grey-300-full);
+    cursor: pointer;
+
+    &:not(.headerAcive):hover {
+        color: var(--grey-100-full);
+    }
+}
+
+.headerAcive {
+    color: var(--grey-100-full);
+}
+
+.icon {
+	transition: var(--trs);
+    display: flex;
+    align-items: center;
+    gap: var(--ident-s);
+    svg {
+        cursor: pointer;
+        fill: var(--grey-100-full);
+        width: 27px;
+        height: 27px;
     }
 }

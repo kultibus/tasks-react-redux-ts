@@ -10,7 +10,8 @@
         "start": "webpack serve",
         "fb:login": "firebase login",
         "fb:list": "firebase projects:list",
-        "fb:inithosting": "firebase init hosting"
+        "fb:inithosting": "firebase init hosting",
+        "fb:deploy": "firebase deploy --only hosting"
     },
     "devDependencies": {
         "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
