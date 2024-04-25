@@ -30,7 +30,9 @@ export const signup =
                     })
                 );
                 dispatch(authSlice.actions.setAuth(true));
+
                 localStorage.setItem("auth", "true");
+                localStorage.setItem("displayname", user.displayName);
             }
         } catch (error) {
             dispatch(authSlice.actions.setError(error.message));
@@ -57,7 +59,9 @@ export const signin =
                 );
 
                 dispatch(authSlice.actions.setAuth(true));
+
                 localStorage.setItem("auth", "true");
+                localStorage.setItem("displayname", user.displayName);
             }
         } catch (error) {
             dispatch(authSlice.actions.setError(error.message));
@@ -75,6 +79,7 @@ export const signout = () => async (dispatch: AppDispatch) => {
         dispatch(authSlice.actions.setAuth(false));
 
         localStorage.removeItem("auth");
+        localStorage.removeItem("displayname");
     } catch (error) {
         dispatch(authSlice.actions.setError(error.message));
     }

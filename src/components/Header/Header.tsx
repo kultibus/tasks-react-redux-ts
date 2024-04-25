@@ -11,7 +11,6 @@ interface HeaderProps {}
 export const Header: FC<HeaderProps> = props => {
     const { isAuth, user } = useAppSelector(state => state.authReducer);
 
-
     const dispatch = useAppDispatch();
 
     return (

@@ -24,30 +24,31 @@
 .hi,
 .signout {
     font-family: var(--ibm-cond);
-    text-transform: uppercase;
     font-size: var(--fsz-l);
     font-weight: 400;
     transition: var(--trs);
-
+	
     &:first-child {
-        padding-right: var(--ident-m);
+		padding-right: var(--ident-m);
         border-right: 1px solid var(--grey-100-full);
     }
 }
 
 .link {
+	text-transform: uppercase;
     color: var(--grey-300-full);
 	
     &:hover {
-        color: var(--grey-100-full);
+		color: var(--grey-100-full);
     }
 }
 
 .hi {
-    color: var(--grey-100-full);
+	color: var(--grey-100-full);
 }
 
 .signout {
+	text-transform: uppercase;
 	cursor: pointer;
 	color: var(--grey-300-full);
 	

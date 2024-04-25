@@ -1,19 +1,27 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import styles from "./App.module.scss";
 import { Header } from "./components/header/Header";
 import { useAppDispatch, useAppSelector } from "./hooks/redux";
+import { auth } from "./firebase";
+import { authSlice } from "./store/slices/authSlice/authSlice";
+import { IUser } from "./models/IUser";
 
 export const App: FC = () => {
-    // const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
-    // const {} = useAppSelector(state => state.authReducer);
+    const { setAuth, setUser } = authSlice.actions;
 
-    // const { users } = useAppSelector(state => state.usersReducer);
-
-    // useEffect(() => {
-    //     dispatch(fetchUsers());
-    // }, []);
+    useEffect(() => {
+        if (localStorage.getItem("auth")) {
+            dispatch(setAuth(true));
+            dispatch(
+                setUser({
+                    login: localStorage.getItem("displayname" || ""),
+                } as IUser)
+            );
+        }
+    }, []);
 
     return (
         <main className={styles.app}>
