@@ -3,8 +3,7 @@ import styles from "./List.module.scss";
 
 export enum ListVariant {
     boards = "boards",
-    tasksColumns = "tasksColumns",
-    tasksItem = "tasksItem",
+	tasks = 'tasks'
 }
 
 interface ListProps<T> {
@@ -14,9 +13,9 @@ interface ListProps<T> {
 }
 
 export function List<T>(props: ListProps<T>) {
+    const { variant } = props;
+
     return (
-        <ul className={styles[props.variant]}>
-            {props.items.map(props.renderItem)}
-        </ul>
+        <ul className={styles[variant]}>{props.items.map(props.renderItem)}</ul>
     );
 }

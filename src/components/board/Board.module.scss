@@ -1,5 +1,4 @@
-.body {
-    display: grid;
-    grid-template-rows: var(--header-height) 1fr;
-	height: 100%;
+.board {
+	display: grid;
+	grid-template-rows: 0.5fr 6fr;
 }

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Navigate } from "react-router-dom";
-import { Register } from "../components/register/Register";
+import { Register } from "../components/UI/Register";
 import { useAppSelector } from "../hooks/redux";
 import { RouteNames } from "../router";
 

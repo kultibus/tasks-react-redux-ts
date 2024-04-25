@@ -1,16 +1,16 @@
 import { FC } from "react";
 import { useAppSelector } from "../../hooks/redux";
 import { signup } from "../../store/slices/authSlice/actionCreators";
-import { FormError } from "../UI/form-error/FormError";
-import { FormAuth, FormVariant } from "../UI/forms/FormAuth";
-import styles from "./Register.module.scss";
+import { FormError } from "./form-error/FormError";
+import { FormAuth, FormVariant } from "./forms/FormAuth";
 import { FormContainer } from "../form-container/FormContainer";
+import { MainCnt } from "../main-cnt/MainCnt";
 
 export const Register: FC = () => {
     const { error } = useAppSelector(state => state.authReducer);
 
     return (
-        <div className={styles.register}>
+        <MainCnt>
             <FormContainer>
                 {error ? (
                     <FormError>
@@ -27,6 +27,6 @@ export const Register: FC = () => {
                     />
                 )}
             </FormContainer>
-        </div>
+        </MainCnt>
     );
 };
