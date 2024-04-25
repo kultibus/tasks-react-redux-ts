@@ -4,22 +4,34 @@ const ReactRefreshTypeScript = require("react-refresh-typescript");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
+const isDev = false;
+
 module.exports = {
-    mode: "development",
+    mode: isDev ? "development" : "production",
 
     entry: path.resolve(__dirname, "src", "index.tsx"),
 
     output: {
-        filename: "[name].[contenthash:8].js",
+        // filename: "[name].[contenthash:8].js",
+        filename: "[name].[contenthash].js",
         path: path.resolve(__dirname, "build"),
         clean: true,
+    },
+
+    devServer: {
+        port: 5000,
+        open: true,
+        historyApiFallback: true,
+        hot: true,
     },
 
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "public", "index.html"),
+            favicon: path.resolve(__dirname, "public", "favicon.ico"),
         }),
-        new ReactRefreshWebpackPlugin(),
+        // new ReactRefreshWebpackPlugin(),
+		isDev && new ReactRefreshWebpackPlugin(),
         new Dotenv(),
     ],
 
@@ -49,7 +61,10 @@ module.exports = {
                     loader: "ts-loader",
                     options: {
                         getCustomTransformers: () => ({
-                            before: [ReactRefreshTypeScript()],
+                            // before: [ReactRefreshTypeScript()],
+                            before: [isDev && ReactRefreshTypeScript()].filter(
+                                Boolean
+                            ),
                         }),
 
                         transpileOnly: true,
@@ -85,12 +100,5 @@ module.exports = {
 
     resolve: {
         extensions: [".tsx", ".ts", ".js"],
-    },
-
-    devServer: {
-        port: 5000,
-        open: true,
-        historyApiFallback: true,
-        hot: true,
     },
 };
