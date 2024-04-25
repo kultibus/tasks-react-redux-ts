@@ -1,18 +1,21 @@
 import { FC } from "react";
 import { useRouteError } from "react-router-dom";
+import { MainCnt } from "../components/main-cnt/MainCnt";
 
 export const NotFound: FC = () => {
     // const error = useRouteError();
     // console.error(error);
 
     return (
-        <div style={{ color: "black" }}>
-            Page not found
-            {/* <h1>Oops!</h1>
+        <MainCnt>
+            <div style={{ color: "black" }}>
+                <div style={{fontSize: '5rem', color: 'black'}}>Page not found</div>
+                {/* <h1>Oops!</h1>
             <p>Sorry, an unexpected error has occurred.</p> */}
-            {/* <p>
+                {/* <p>
                 <i>{error.statusText || error.message}</i>
             </p> */}
-        </div>
+            </div>
+        </MainCnt>
     );
 };

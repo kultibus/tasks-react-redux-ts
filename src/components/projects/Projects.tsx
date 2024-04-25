@@ -20,20 +20,20 @@ export const Projects: FC<ProjectsProps> = () => {
     return (
         <MainCnt>
             <div className={styles.projects}>
-                <header className={styles.topBar}>header</header>
+                <header className={styles.topBar}>Top Bar</header>
                 <aside className={styles.sideBar}>
-                    <header>Projects</header>
+                    <header>Title</header>
 
-                    <Button variant={BtnVariant.form}>Add new project</Button>
+                    <Button variant={BtnVariant.form}>Button</Button>
 
-                    <nav>navigation</nav>
+                    <nav>Navigation</nav>
                 </aside>
                 <main className={styles.boards}>
                     <List
                         variant={ListVariant.boards}
                         items={boards}
                         renderItem={board => (
-                            <Board>
+                            <Board key={board}>
                                 <header className={styles.boardHeader}>
                                     {board}
                                 </header>
@@ -41,7 +41,9 @@ export const Projects: FC<ProjectsProps> = () => {
                                     <List
                                         variant={ListVariant.tasks}
                                         items={tasks}
-                                        renderItem={task => <Task>{task}</Task>}
+                                        renderItem={task => (
+                                            <Task key={task}>{task}</Task>
+                                        )}
                                     />
                                 </section>
                             </Board>

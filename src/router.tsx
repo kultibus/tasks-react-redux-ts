@@ -12,27 +12,40 @@ export enum RouteNames {
 }
 
 export const router = createBrowserRouter([
+    // {
+    //     path: "*/*",
+    //     element: <App />,
+    //     // errorElement: <NotFound />,
+    //     children: [
+    //         {
+    //             index: true,
+    //             element: <NotFound />,
+    //         },
+    //     ],
+    //     // element: <Navigate to={RouteNames.home} />,
+    // },
     {
         path: RouteNames.home,
         element: <App />,
-        errorElement: <NotFound />,
+        // errorElement: <NotFound />,
         children: [
-            {
-                index: true,
-                element: <ProjectsPage />,
-            },
-            {
-                path: RouteNames.login,
-                element: <LoginPage />,
-            },
-            {
-                path: RouteNames.register,
-                element: <RegisterPage />,
+            {	
+                errorElement: <NotFound />,
+                children: [
+                    {
+                        index: true,
+                        element: <ProjectsPage />,
+                    },
+                    {
+                        path: RouteNames.login,
+                        element: <LoginPage />,
+                    },
+                    {
+                        path: RouteNames.register,
+                        element: <RegisterPage />,
+                    },
+                ],
             },
         ],
-    },
-    {
-        path: "*",
-        element: <Navigate to={RouteNames.home} />,
     },
 ]);
