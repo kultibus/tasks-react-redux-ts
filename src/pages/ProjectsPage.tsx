@@ -4,12 +4,16 @@ import { Projects } from "../components/projects/Projects";
 import { useAppSelector } from "../hooks/redux";
 import { RouteNames } from "../router";
 
+// export const ProjectsPage: FC = () => {
+//     const { isAuth } = useAppSelector(state => state.authReducer);
+
+//     if (isAuth) {
+//         return <Projects />;
+//     }
+
+//     return <Navigate to={RouteNames.login} replace />;
+// };
+
 export const ProjectsPage: FC = () => {
-    const { isAuth } = useAppSelector(state => state.authReducer);
-
-    if (isAuth) {
-        return <Projects />;
-    }
-
-    return <Navigate to={RouteNames.login} replace />;
+    return <Projects />;
 };

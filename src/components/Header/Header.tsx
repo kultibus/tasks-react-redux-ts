@@ -1,13 +1,15 @@
 import { FC, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { RouteNames } from "../../router";
+import { RouteNames, addSlash } from "../../router";
 import styles from "./Header.module.scss";
 import { BtnVariant, Button } from "../UI/buttons/Button";
 import { signout } from "../../store/slices/authSlice/actionCreators";
 import { HeaderLinks } from "../header-links/HeaderLinks";
 import DarkModeIcon from "../../assets/icons/darkMode.svg";
 import LightModeIcon from "../../assets/icons/lightMode.svg";
+import classNames from "classnames";
+import { auth } from "../../firebase";
 
 interface HeaderProps {}
 
@@ -44,7 +46,7 @@ export const Header: FC<HeaderProps> = props => {
                     </HeaderLinks>
                 ) : (
                     <HeaderLinks>
-                        <NavLink to={RouteNames.login}>
+                        <NavLink to={addSlash(RouteNames.login)}>
                             {({ isActive }) => (
                                 <Button
                                     variant={
@@ -57,7 +59,7 @@ export const Header: FC<HeaderProps> = props => {
                                 </Button>
                             )}
                         </NavLink>
-                        <NavLink to={RouteNames.register}>
+                        <NavLink to={addSlash(RouteNames.register)}>
                             {({ isActive }) => (
                                 <Button
                                     variant={
@@ -72,14 +74,16 @@ export const Header: FC<HeaderProps> = props => {
                         </NavLink>
                     </HeaderLinks>
                 )}
-                <Button onClick={btnThemeHandler} variant={BtnVariant.icon}>
-                    <div>{themeVariant}</div>
-                    {themeVariant === "Dark" ? (
-                        <DarkModeIcon />
-                    ) : (
-                        <LightModeIcon />
-                    )}
-                </Button>
+                <div className={styles.btnCnt}>
+                    <Button onClick={btnThemeHandler} variant={BtnVariant.icon}>
+                        <div>{themeVariant}</div>
+                        {themeVariant === "Dark" ? (
+                            <DarkModeIcon />
+                        ) : (
+                            <LightModeIcon />
+                        )}
+                    </Button>
+                </div>
             </div>
         </header>
     );

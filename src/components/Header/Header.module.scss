@@ -2,32 +2,21 @@
     background-color: var(--main-600-full);
 }
 
-// .cnt {
-//     height: 100%;
-//     max-width: var(--max-w);
-//     margin: 0 auto;
-//     display: flex;
-//     align-items: center;
-//     justify-content: space-between;
-//     padding-left: var(--ident-m);
-//     padding-right: var(--ident-m);
-// }
-
 .cnt {
     height: 100%;
     max-width: var(--max-w);
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-
     align-items: center;
     padding-left: var(--ident-m);
     padding-right: var(--ident-m);
 
-    button {
-        display: flex;
-        justify-content: right;
-    }
+}
+
+.btnCnt {
+	display: flex;
+	justify-content: right;
 }
 
 .title {
@@ -43,3 +32,5 @@
     color: var(--grey-100-full);
     text-align: right;
 }
+
+

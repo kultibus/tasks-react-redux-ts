@@ -16,13 +16,7 @@ module.exports = {
         filename: "[name].[contenthash].js",
         path: path.resolve(__dirname, "build"),
         clean: true,
-    },
-
-    devServer: {
-        port: 5000,
-        open: true,
-        historyApiFallback: true,
-        hot: true,
+        publicPath: "/",
     },
 
     plugins: [
@@ -30,8 +24,7 @@ module.exports = {
             template: path.resolve(__dirname, "public", "index.html"),
             favicon: path.resolve(__dirname, "public", "favicon.ico"),
         }),
-        // new ReactRefreshWebpackPlugin(),
-		isDev && new ReactRefreshWebpackPlugin(),
+        isDev && new ReactRefreshWebpackPlugin(),
         new Dotenv(),
     ],
 
@@ -61,7 +54,6 @@ module.exports = {
                     loader: "ts-loader",
                     options: {
                         getCustomTransformers: () => ({
-                            // before: [ReactRefreshTypeScript()],
                             before: [isDev && ReactRefreshTypeScript()].filter(
                                 Boolean
                             ),
@@ -100,5 +92,12 @@ module.exports = {
 
     resolve: {
         extensions: [".tsx", ".ts", ".js"],
+    },
+
+    devServer: {
+        port: 5000,
+        open: true,
+        historyApiFallback: true,
+        hot: true,
     },
 };

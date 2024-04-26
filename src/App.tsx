@@ -6,6 +6,7 @@ import { useAppDispatch } from "./hooks/redux";
 import { IUser } from "./models/IUser";
 import { authSlice } from "./store/slices/authSlice/authSlice";
 import { MainCnt } from "./components/main-cnt/MainCnt";
+import { AppCnt } from "./components/app-cnt/AppCnt";
 
 export const App: FC = () => {
     const dispatch = useAppDispatch();
@@ -24,9 +25,11 @@ export const App: FC = () => {
     }, []);
 
     return (
-        <div className={styles.app}>
+        <AppCnt>
             <Header />
-            <Outlet />
-        </div>
+            <MainCnt>
+                <Outlet />
+            </MainCnt>
+        </AppCnt>
     );
 };
