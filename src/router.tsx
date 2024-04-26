@@ -17,39 +17,6 @@ export const addSlash = (routeName: RouteNames) => {
     return `/${routeName}`;
 };
 
-// export const router = createBrowserRouter([
-//     {
-//         path: RouteNames.home,
-//         element: <App />,
-//         errorElement: <NotFound />,
-//         children: [
-//             {
-//                 index: true,
-//                 element: <ProjectsPage />,
-//             },
-//         ],
-//     },
-//     {
-//         path: addSlash(RouteNames.login),
-//         element: <App />,
-//         children: [
-//             {
-//                 index: true,
-//                 element: <LoginPage />,
-//             },
-//         ],
-//     },
-//     {
-//         path: addSlash(RouteNames.register),
-//         element: <App />,
-//         children: [
-//             {
-//                 index: true,
-//                 element: <RegisterPage />,
-//             },
-//         ],
-//     },
-// ]);
 
 export const router = createBrowserRouter([
     {

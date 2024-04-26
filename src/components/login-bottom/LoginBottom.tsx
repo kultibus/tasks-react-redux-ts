@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../../hooks/redux";
-import { RouteNames } from "../../../router";
-import { authSlice } from "../../../store/slices/authSlice/authSlice";
-import styles from "./FormBottom.module.scss";
+import { useAppDispatch } from "../../hooks/redux";
+import { RouteNames } from "../../router";
+import { authSlice } from "../../store/slices/authSlice/authSlice";
+import styles from "./LoginBottom.module.scss";
 
-export const FormBottom: FC = () => {
+export const LoginBottom: FC = () => {
     const { setError } = authSlice.actions;
 
     const dispatch = useAppDispatch();

@@ -1,20 +1,31 @@
 import { FC } from "react";
-import { Navigate } from "react-router-dom";
 import { useAppSelector } from "../hooks/redux";
-import { RouteNames } from "../router";
-import { Login } from "../components/Login";
-import { useAuth } from "../hooks/useAuth";
-
-// export const LoginPage: FC = () => {
-//     const { isAuth } = useAppSelector(state => state.authReducer);
-
-//     if (!isAuth) {
-//         return <Login />;
-//     }
-
-//     return <Navigate to={RouteNames.home} replace />;
-// };
+import { signin } from "../store/slices/authSlice/actionCreators";
+import { FormContainer } from "../components/form-container/FormContainer";
+import { FormError } from "../components/UI/form-error/FormError";
+import {
+    FormAuth,
+    FormAuthVariant,
+} from "../components/UI/forms/form-auth/FormAuth";
+import { LoginBottom } from "../components/login-bottom/LoginBottom";
 
 export const LoginPage: FC = () => {
-    return <Login />;
+    const { error } = useAppSelector(state => state.authReducer);
+
+    return (
+        <FormContainer>
+            {error ? (
+                <FormError>
+                    <p>The entered email or password is incorrect.</p>
+                </FormError>
+            ) : (
+                <FormAuth
+                    variant={FormAuthVariant.signin}
+                    btnName="Sign in"
+                    handleAuth={signin}
+                />
+            )}
+            <LoginBottom />
+        </FormContainer>
+    );
 };

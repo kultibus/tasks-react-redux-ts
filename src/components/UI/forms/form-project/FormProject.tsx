@@ -1,18 +1,15 @@
 import { FC, FormEvent, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { useInput } from "../../../hooks/useInput";
-import { IUser } from "../../../models/IUser";
-import { AppDispatch } from "../../../store/store";
-import { BtnVariant, Button } from "../buttons/Button";
-import { Input } from "../inputs/Input";
-import styles from "./FormAuth.module.scss";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
+import { useInput } from "../../../../hooks/useInput";
+import { IUser } from "../../../../models/IUser";
+import { AppDispatch } from "../../../../store/store";
+import { BtnVariant, Button } from "../../buttons/Button";
+import { Input } from "../../inputs/Input";
+import styles from "./FormProject.module.scss";
 
-export enum FormVariant {
-    signup = "signup",
-    signin = "signin",
-}
+export enum FormProjectVariant {}
 
-interface FormAuthProps {
+interface FormProjectProps {
     handleAuth: (
         email: string,
         password: string,
@@ -20,10 +17,10 @@ interface FormAuthProps {
         login?: string
     ) => (dispatch: AppDispatch) => Promise<void>;
     btnName: string;
-    variant: FormVariant;
+    variant: FormProjectVariant;
 }
 
-export const FormAuth: FC<FormAuthProps> = props => {
+export const FormProject: FC<FormProjectProps> = props => {
     const { btnName, handleAuth, variant } = props;
 
     const dispatch = useAppDispatch();
