@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useState, useEffect } from "react";
+import { ChangeEvent, useState } from "react";
 
 export const useInput = (
     initialValue: string,

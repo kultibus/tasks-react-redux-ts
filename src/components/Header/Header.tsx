@@ -1,15 +1,13 @@
 import { FC, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { RouteNames, addSlash } from "../../router";
-import styles from "./Header.module.scss";
-import { BtnVariant, Button } from "../UI/buttons/Button";
-import { signout } from "../../store/slices/authSlice/actionCreators";
-import { HeaderLinks } from "../header-links/HeaderLinks";
 import DarkModeIcon from "../../assets/icons/darkMode.svg";
 import LightModeIcon from "../../assets/icons/lightMode.svg";
-import classNames from "classnames";
-import { auth } from "../../firebase";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { RouteNames, addSlash } from "../../router";
+import { signout } from "../../store/slices/authSlice/actionCreators";
+import { BtnVariant, Button } from "../UI/buttons/Button";
+import { HeaderLinks } from "../header-links/HeaderLinks";
+import styles from "./Header.module.scss";
 
 interface HeaderProps {}
 

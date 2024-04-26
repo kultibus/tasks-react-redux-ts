@@ -121,16 +121,6 @@ $identSize: (
     @include makeFontSize("fsz");
     @include makeIdentSize("ident");
 
-    // --light: rgb(247, 255, 247);
-    // @include makeTransparentColors("light", "247, 255, 247");
-
-    // --dark: rgb(41, 47, 54);
-    // @include makeTransparentColors("dark", "41, 47, 54");
-
-    // --primary: rgb(79, 204, 196);
-    // --primary: #4fccc4;
-    // @include makeTransparentColors("primary", "78, 205, 196");
-
     --warning: rgb(255, 230, 109);
     @include makeTransparentColors("warning", "255, 230, 109");
 
@@ -144,14 +134,6 @@ $identSize: (
     --ident-big: 15px;
 
     --boards-bar-width: 150px;
-
-    // --ident-left-right: 0 10px;
-    // --ident-top-bottom: 10px 0;
-
-    // --fsz-big: 1.6rem;
-    // --fsz-medium: 1.4rem;
-    // --fsz-small: 1.2rem;
-    // --fsz-micro: 0.8rem;
 
     --trs: 300ms ease;
 
@@ -170,8 +152,6 @@ $identSize: (
 
 body {
     font-family: var(--ibm);
-
-    // color: var(--main-900-full);
 
     color: var(--grey-100-full);
 

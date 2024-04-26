@@ -1,10 +1,13 @@
 import { FC, useState } from "react";
-import { MainCnt } from "../main-cnt/MainCnt";
-import styles from "./Projects.module.scss";
 import { BtnVariant, Button } from "../UI/buttons/Button";
-import { List, ListVariant } from "../list/List";
+import {
+    FormProject,
+    FormProjectVariant,
+} from "../UI/forms/form-project/FormProject";
 import { Board } from "../board/Board";
-import { Task } from "../task/Task";
+import { FormContainer } from "../form-container/FormContainer";
+import { List, ListVariant } from "../list/List";
+import styles from "./Projects.module.scss";
 
 interface ProjectsProps {}
 
@@ -15,7 +18,7 @@ export const Projects: FC<ProjectsProps> = () => {
         "Done",
     ]);
 
-    const [tasks, setTasks] = useState<string[]>(["task1", "task2", "task3"]);
+    const test = true;
 
     return (
         <div className={styles.projects}>
@@ -27,28 +30,25 @@ export const Projects: FC<ProjectsProps> = () => {
 
                 <nav>Navigation</nav>
             </aside>
-            <main className={styles.boards}>
-                <List
-                    variant={ListVariant.boards}
-                    items={boards}
-                    renderItem={board => (
-                        <Board key={board}>
-                            <header className={styles.boardHeader}>
-                                {board}
-                            </header>
-                            <section className={styles.boardSection}>
-                                <List
-                                    variant={ListVariant.tasks}
-                                    items={tasks}
-                                    renderItem={task => (
-                                        <Task key={task}>{task}</Task>
-                                    )}
-                                />
-                            </section>
-                        </Board>
-                    )}
-                />
-            </main>
+            <div className={styles.content}>
+                {test ? (
+                    <FormContainer>
+                        <FormProject
+                            variant={FormProjectVariant.createProject}
+                        />
+                    </FormContainer>
+                ) : (
+                    <main className={styles.boards}>
+                        <List
+                            variant={ListVariant.boards}
+                            items={boards}
+                            renderItem={board => (
+                                <Board board={board} key={board} />
+                            )}
+                        />
+                    </main>
+                )}
+            </div>
         </div>
     );
 };

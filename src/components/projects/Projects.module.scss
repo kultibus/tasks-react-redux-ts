@@ -12,8 +12,8 @@
 }
 
 .sideBar,
-.boards,
-.topBar {
+.topBar,
+.boards {
     border-radius: var(--brs);
     padding: var(--ident-m);
 }
@@ -28,16 +28,21 @@
     background-color: var(--main-200-full);
 }
 
-.boards {
+.content {
     grid-area: boards;
-    background-color: var(--main-200-full);
+	border-radius: var(--brs);
     display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-.boardHeader {
-    color: #000;
+.boards{
+	background-color: var(--main-200-full);
+	height: 100%;
+	flex: 1 0 100%;
+	display: flex;
+
 }
 
-.boardSection {
-    display: flex;
-}
+
+

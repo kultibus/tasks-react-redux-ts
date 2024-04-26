@@ -7,44 +7,31 @@ import { BtnVariant, Button } from "../../buttons/Button";
 import { Input } from "../../inputs/Input";
 import styles from "./FormProject.module.scss";
 
-export enum FormProjectVariant {}
+export enum FormProjectVariant {
+    createProject = "Create new project",
+    editProject = "Edit project",
+    deleteProject = "Delete project",
+}
 
 interface FormProjectProps {
-    handleAuth: (
-        email: string,
-        password: string,
-        appUser: IUser,
-        login?: string
-    ) => (dispatch: AppDispatch) => Promise<void>;
-    btnName: string;
     variant: FormProjectVariant;
 }
 
 export const FormProject: FC<FormProjectProps> = props => {
-    const { btnName, handleAuth, variant } = props;
+    const { variant } = props;
 
-    const dispatch = useAppDispatch();
-
-    const { user, isLoading } = useAppSelector(state => state.authReducer);
-
-    const email = useInput("", "Enter email...", "Email is empty!");
-    const password = useInput("", "Enter password...", "Password is empty!");
-    const displayName = useInput("", "Enter login...", "Login is empty!");
+    const projectName = useInput(
+        "",
+        "Enter project name...",
+        "Project name is empty!"
+    );
 
     const [formValid, setFormValid] = useState<boolean>(false);
 
     const handleClick = () => {
-        if (!email.value.length || !password.value.length) {
+        if (!projectName.value.length) {
             setFormValid(false);
-            if (!email.value.length) {
-                email.setError();
-            }
-            if (!password.value.length) {
-                password.setError();
-            }
-        } else if (variant === "signup" && !displayName.value.length) {
-            setFormValid(false);
-            displayName.setError();
+            projectName.setError();
         } else {
             setFormValid(true);
         }
@@ -54,55 +41,26 @@ export const FormProject: FC<FormProjectProps> = props => {
         e.preventDefault();
 
         if (!formValid) return;
-
-        dispatch(
-            handleAuth(email.value, password.value, user, displayName.value)
-        );
-
-        email.cleanValue();
-        password.cleanValue();
-        displayName.cleanValue();
     };
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            {variant === "signup" && (
-                <Input
-                    name="login"
-                    placeholderError={displayName.isError}
-                    onChange={displayName.onChange}
-                    onClick={displayName.deleteError}
-                    placeholder={displayName.placeholder}
-                    type="text"
-                    value={displayName.value}
-                />
-            )}
-
             <Input
-                name="email"
-                placeholderError={email.isError}
-                onChange={email.onChange}
-                onClick={email.deleteError}
-                placeholder={email.placeholder}
+                name="projectName"
+                placeholderError={projectName.isError}
+                onChange={projectName.onChange}
+                onClick={projectName.deleteError}
+                placeholder={projectName.placeholder}
                 type="text"
-                value={email.value}
+                value={projectName.value}
             />
-            <Input
-                name="password"
-                placeholderError={password.isError}
-                onChange={password.onChange}
-                onClick={password.deleteError}
-                placeholder={password.placeholder}
-                type="password"
-                value={password.value}
-            />
+
             <Button
                 type="submit"
-                variant={isLoading ? BtnVariant.formDisabled : BtnVariant.form}
-                disabled={isLoading ? true : false}
+                variant={BtnVariant.form}
                 onClick={handleClick}
             >
-                {isLoading ? "Loading..." : btnName}
+                {variant}
             </Button>
         </form>
     );
