@@ -29,7 +29,7 @@ export const Header: FC<HeaderProps> = props => {
     return (
         <header className={styles.header}>
             <div className={styles.cnt}>
-                <h1 className={styles.title}>Tasks manager</h1>
+                <h1 className={styles.title}>Task manager</h1>
 
                 {isAuth ? (
                     <HeaderLinks>
@@ -60,6 +60,7 @@ export const Header: FC<HeaderProps> = props => {
                         <NavLink to={addSlash(RouteNames.register)}>
                             {({ isActive }) => (
                                 <Button
+                                    type="button"
                                     variant={
                                         isActive
                                             ? BtnVariant.headerAcive
@@ -73,7 +74,11 @@ export const Header: FC<HeaderProps> = props => {
                     </HeaderLinks>
                 )}
                 <div className={styles.btnCnt}>
-                    <Button onClick={btnThemeHandler} variant={BtnVariant.icon}>
+                    <Button
+                        type="button"
+                        onClick={btnThemeHandler}
+                        variant={BtnVariant.icon}
+                    >
                         <div>{themeVariant}</div>
                         {themeVariant === "Dark" ? (
                             <DarkModeIcon />
