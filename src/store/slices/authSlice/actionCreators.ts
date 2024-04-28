@@ -17,7 +17,9 @@ export const signup =
 
             await createUserWithEmailAndPassword(auth, email, password);
 
-            await updateProfile(auth.currentUser, { displayName: login });
+            await updateProfile(auth.currentUser, {
+                displayName: login,
+            });
 
             const user = auth.currentUser;
 
