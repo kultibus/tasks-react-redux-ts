@@ -18,7 +18,8 @@ export const App: FC = () => {
             dispatch(setAuth(true));
             dispatch(
                 setUser({
-                    login: localStorage.getItem("displayname" || ""),
+                    displayName: localStorage.getItem("name" || ""),
+                    uid: localStorage.getItem("id"),
                 } as IUser)
             );
         }

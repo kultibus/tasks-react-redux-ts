@@ -6,6 +6,7 @@ import { AppDispatch } from "../../../../store/store";
 import { BtnVariant, Button } from "../../buttons/Button";
 import { Input } from "../../inputs/Input";
 import styles from "./FormAuth.module.scss";
+import { ISignUp } from "../../../../store/slices/authSlice/actionCreators";
 
 export enum FormAuthVariant {
     signup = "signup",
@@ -13,12 +14,7 @@ export enum FormAuthVariant {
 }
 
 interface FormAuthProps {
-    handleAuth: (
-        email: string,
-        password: string,
-        appUser: IUser,
-        login?: string
-    ) => (dispatch: AppDispatch) => Promise<void>;
+    handleAuth: ISignUp;
     btnName: string;
     variant: FormAuthVariant;
 }
@@ -28,7 +24,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
 
     const dispatch = useAppDispatch();
 
-    const { user, isLoading } = useAppSelector(state => state.authReducer);
+    const { isLoading } = useAppSelector(state => state.authReducer);
 
     const email = useInput("", "Enter email...", "Email is empty!");
     const password = useInput("", "Enter password...", "Password is empty!");
@@ -58,9 +54,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
 
         if (!formValid) return;
 
-        dispatch(
-            handleAuth(email.value, password.value, user, displayName.value)
-        );
+        dispatch(handleAuth(email.value, password.value, displayName.value));
 
         email.cleanValue();
         password.cleanValue();

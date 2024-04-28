@@ -16,6 +16,7 @@ export const Header: FC<HeaderProps> = props => {
 
     const { isAuth, user } = useAppSelector(state => state.authReducer);
 
+
     const dispatch = useAppDispatch();
 
     const btnThemeHandler = () => {
@@ -33,7 +34,7 @@ export const Header: FC<HeaderProps> = props => {
 
                 {isAuth ? (
                     <HeaderLinks>
-                        <div className={styles.hi}>Hi, {user.login}!</div>
+                        <div className={styles.hi}>Hi, {user.displayName}!</div>
                         <Button
                             variant={BtnVariant.header}
                             type="button"
