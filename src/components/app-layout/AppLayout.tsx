@@ -5,30 +5,23 @@ import { Header } from "../header/Header";
 import { NotFound } from "../not-found/NotFound";
 import { MainCnt } from "../main-cnt/MainCnt";
 
-interface AppLayoutProps {}
+interface AppLayoutProps {
+    error: unknown;
+}
 
-export const AppLayout: FC<AppLayoutProps> = () => {
-    const error = useRouteError();
-
+export const AppLayout: FC<AppLayoutProps> = ({ error }) => {
     const message = (error as { data?: string })?.data;
     const status = (error as { status?: string })?.status;
 
-    if (error) {
-        return (
-            <div className={styles.cnt}>
-                <Header />
-                <MainCnt>
-                    <NotFound message={message} status={status} />
-                </MainCnt>
-            </div>
-        );
-    }
-
     return (
-        <div className={styles.cnt}>
+        <div className={styles.appCnt}>
             <Header />
             <MainCnt>
-                <Outlet />
+                {error ? (
+                    <NotFound message={message} status={status} />
+                ) : (
+                    <Outlet />
+                )}
             </MainCnt>
         </div>
     );

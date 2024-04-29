@@ -1,14 +1,10 @@
+import { ref, set } from "firebase/database";
 import { FC, FormEvent, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
+import { auth, database } from "../../../../firebase";
 import { useInput } from "../../../../hooks/useInput";
-import { IUser } from "../../../../models/IUser";
-import { AppDispatch } from "../../../../store/store";
 import { BtnVariant, Button } from "../../buttons/Button";
 import { Input } from "../../inputs/Input";
 import styles from "./FormProject.module.scss";
-import { auth, database } from "../../../../firebase";
-import { ref, set } from "firebase/database";
-import { onAuthStateChanged } from "firebase/auth";
 
 export enum FormProjectVariant {
     createProject = "Create new project",
@@ -47,10 +43,6 @@ export const FormProject: FC<FormProjectProps> = props => {
         }
     };
 
-    // function writeProjectData({ id, name }: IProject) {
-    //     set(ref(database, "projects/" + id), { projectName: name });
-    // }
-
     function writeProjectData({ id, name }: IProject) {
         set(ref(database, `projects/${auth.currentUser.uid}/${id}`), {
             projectName: name,
@@ -73,7 +65,7 @@ export const FormProject: FC<FormProjectProps> = props => {
 
         if (!formValid) return;
 
-        writeProjectData(createNewProject());
+        // writeProjectData(createNewProject());
     };
 
     return (
@@ -94,26 +86,6 @@ export const FormProject: FC<FormProjectProps> = props => {
                 onClick={handleClick}
             >
                 {variant}
-            </Button>
-            <Button
-                type="button"
-                variant={BtnVariant.form}
-                // onClick={() =>
-                //     console.log(project)
-                // }
-                onClick={
-                    () => console.log(auth.currentUser)
-
-                    // onAuthStateChanged(auth, user => {
-                    //     if (user) {
-                    //         console.log(user.uid);
-                    //     } else {
-                    //         console.log("user is sign out");
-                    //     }
-                    // })
-                }
-            >
-                test
             </Button>
         </form>
     );

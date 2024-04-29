@@ -16,6 +16,36 @@ export type ISignUp = (
     displayName?: string
 ) => (dispatch: AppDispatch) => Promise<void>;
 
+const handleAuthStateChanged = (
+    dispatch: AppDispatch,
+    isUpdate?: boolean,
+    displayName?: string
+) =>
+    onAuthStateChanged(auth, async user => {
+        if (user) {
+            if (isUpdate) {
+                await updateProfile(user, {
+                    displayName: displayName,
+                });
+            }
+
+            dispatch(
+                authSlice.actions.setUser({
+                    uid: user.email,
+                    displayName: user.displayName,
+                })
+            );
+
+            dispatch(authSlice.actions.setAuth(true));
+
+            localStorage.setItem("auth", "true");
+
+            localStorage.setItem("name", user.displayName);
+
+            localStorage.setItem("id", user.uid);
+        }
+    });
+
 export const signup: ISignUp =
     (email: string, password: string, displayName: string) =>
     async (dispatch: AppDispatch) => {
@@ -24,30 +54,7 @@ export const signup: ISignUp =
 
             await createUserWithEmailAndPassword(auth, email, password);
 
-            onAuthStateChanged(auth, async user => {
-                if (user) {
-                    await updateProfile(user, {
-                        displayName: displayName,
-                    });
-
-                    dispatch(
-                        authSlice.actions.setUser({
-                            uid: user.email,
-                            displayName: user.displayName,
-                        })
-                    );
-
-                    dispatch(authSlice.actions.setAuth(true));
-
-                    localStorage.setItem("auth", "true");
-
-                    localStorage.setItem("name", user.displayName);
-
-                    localStorage.setItem("id", user.uid);
-
-					console.log(user)
-                }
-            });
+            handleAuthStateChanged(dispatch, true, displayName);
         } catch (error) {
             dispatch(authSlice.actions.setError(error.message));
         }
@@ -60,40 +67,22 @@ export const signin =
 
             await signInWithEmailAndPassword(auth, email, password);
 
-            const user = auth.currentUser;
-
-            if (user !== null) {
-                dispatch(
-                    authSlice.actions.setUser({
-                        ...appUser,
-                        email: user.email,
-                        login: user.displayName,
-                    })
-                );
-
-                dispatch(authSlice.actions.setAuth(true));
-
-                localStorage.setItem("auth", "true");
-                localStorage.setItem("displayname", user.displayName);
-            }
+            handleAuthStateChanged(dispatch);
         } catch (error) {
             dispatch(authSlice.actions.setError(error.message));
         }
     };
 
 export const signout = () => async (dispatch: AppDispatch) => {
-    try {
-        dispatch(authSlice.actions.setIsLoading());
+    dispatch(authSlice.actions.setIsLoading());
 
-        await signOut(auth);
+    await signOut(auth);
 
-        dispatch(authSlice.actions.setUser({} as IUser));
+    dispatch(authSlice.actions.setUser({} as IUser));
 
-        dispatch(authSlice.actions.setAuth(false));
+    dispatch(authSlice.actions.setAuth(false));
 
-        localStorage.removeItem("auth");
-        localStorage.removeItem("displayname");
-    } catch (error) {
-        dispatch(authSlice.actions.setError(error.message));
-    }
+    localStorage.removeItem("auth");
+    localStorage.removeItem("name");
+    localStorage.removeItem("id");
 };

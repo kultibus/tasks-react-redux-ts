@@ -1,67 +1,22 @@
-import { Navigate, createBrowserRouter, json } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import { App } from "./App";
-import { ProjectsPage } from "./pages/ProjectsPage";
-import { LoginPage } from "./pages/LoginPage";
-import { RegisterPage } from "./pages/RegisterPage";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { PublicRoute } from "./components/PublicRoute";
+import { Projects } from "./components/projects/Projects";
+import { LoginPage } from "./pages/LoginPage";
+import { RegisterPage } from "./pages/RegisterPage";
+import { HomePage } from "./pages/HomePage";
 
 export enum RouteNames {
     login = "login",
     register = "register",
+    projects = "projects",
     home = "/",
 }
 
 export const addSlash = (routeName: RouteNames) => {
     return `/${routeName}`;
 };
-
-// export const router = createBrowserRouter([
-//     {
-//         path: RouteNames.home,
-//         element: (
-//             <PublicRoute>
-//                 <App />
-//             </PublicRoute>
-//         ),
-//         errorElement: <NotFound />,
-//         children: [
-//             {
-//                 index: true,
-//                 element: <ProjectsPage />,
-//             },
-//         ],
-//     },
-
-//     {
-//         path: addSlash(RouteNames.login),
-//         element: (
-//             <PrivateRoute>
-//                 <App />
-//             </PrivateRoute>
-//         ),
-//         children: [
-//             {
-//                 index: true,
-//                 element: <LoginPage />,
-//             },
-//         ],
-//     },
-//     {
-//         path: addSlash(RouteNames.register),
-//         element: (
-//             <PrivateRoute>
-//                 <App />
-//             </PrivateRoute>
-//         ),
-//         children: [
-//             {
-//                 index: true,
-//                 element: <RegisterPage />,
-//             },
-//         ],
-//     },
-// ]);
 
 export const router = createBrowserRouter([
     {
@@ -71,15 +26,35 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <ProjectsPage />,
+                element: (
+                    <PrivateRoute>
+                        <HomePage />
+                    </PrivateRoute>
+                ),
             },
             {
-                path: addSlash(RouteNames.login),
-                element: <LoginPage />,
+                path: RouteNames.projects,
+                element: (
+                    <PrivateRoute>
+                        <HomePage />
+                    </PrivateRoute>
+                ),
             },
             {
-                path: addSlash(RouteNames.register),
-                element: <RegisterPage />,
+                path: RouteNames.login,
+                element: (
+                    <PublicRoute>
+                        <LoginPage />
+                    </PublicRoute>
+                ),
+            },
+            {
+                path: RouteNames.register,
+                element: (
+                    <PublicRoute>
+                        <RegisterPage />
+                    </PublicRoute>
+                ),
             },
         ],
     },

@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import DarkModeIcon from "../../assets/icons/darkMode.svg";
 import LightModeIcon from "../../assets/icons/lightMode.svg";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { RouteNames, addSlash } from "../../router";
+import { RouteNames } from "../../router";
 import { signout } from "../../store/slices/authSlice/actionCreators";
 import { BtnVariant, Button } from "../UI/buttons/Button";
 import { HeaderLinks } from "../header-links/HeaderLinks";
@@ -11,11 +11,10 @@ import styles from "./Header.module.scss";
 
 interface HeaderProps {}
 
-export const Header: FC<HeaderProps> = (props) => {
+export const Header: FC<HeaderProps> = props => {
     const [themeVariant, setThemeVariant] = useState<string>("Dark");
 
     const { isAuth, user } = useAppSelector(state => state.authReducer);
-
 
     const dispatch = useAppDispatch();
 
@@ -45,7 +44,7 @@ export const Header: FC<HeaderProps> = (props) => {
                     </HeaderLinks>
                 ) : (
                     <HeaderLinks>
-                        <NavLink to={addSlash(RouteNames.login)}>
+                        <NavLink to={RouteNames.login}>
                             {({ isActive }) => (
                                 <Button
                                     variant={
@@ -58,7 +57,7 @@ export const Header: FC<HeaderProps> = (props) => {
                                 </Button>
                             )}
                         </NavLink>
-                        <NavLink to={addSlash(RouteNames.register)}>
+                        <NavLink to={RouteNames.register}>
                             {({ isActive }) => (
                                 <Button
                                     type="button"

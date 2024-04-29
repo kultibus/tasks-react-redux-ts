@@ -1,13 +1,9 @@
 import { FC, useEffect } from "react";
-import { Outlet, useNavigate, useRouteError } from "react-router-dom";
-import styles from "./App.module.scss";
-import { Header } from "./components/header/Header";
+import { useRouteError } from "react-router-dom";
+import { AppLayout } from "./components/app-layout/AppLayout";
 import { useAppDispatch } from "./hooks/redux";
 import { IUser } from "./models/IUser";
 import { authSlice } from "./store/slices/authSlice/authSlice";
-import { MainCnt } from "./components/main-cnt/MainCnt";
-import { AppLayout } from "./components/app-layout/AppLayout";
-import { NotFound } from "./components/not-found/NotFound";
 
 // export const App: FC = () => {
 //     const dispatch = useAppDispatch();
@@ -53,5 +49,7 @@ export const App: FC = () => {
         }
     }, []);
 
-    return <AppLayout />;
+    const error = useRouteError();
+
+    return <AppLayout error={error} />;
 };

@@ -1,20 +1,19 @@
 import { FC, ReactNode } from "react";
 import { useAppSelector } from "../hooks/redux";
 import { RouteNames, addSlash } from "../router";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
+import { MainCnt } from "./main-cnt/MainCnt";
 
 interface PrivateRouteProps {
     children: ReactNode;
 }
 
 export const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
-    // const { isAuth } = useAppSelector(state => state.authReducer);
-
-	const isAuth = true
+    const { isAuth } = useAppSelector(state => state.authReducer);
 
     if (isAuth) {
-		return <Navigate to={RouteNames.home} replace />;
+        return <>{children}</>;
     }
 
-	return <div>{children}</div>;
+    return <Navigate to={RouteNames.login} replace />;
 };

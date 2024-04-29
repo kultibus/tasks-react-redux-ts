@@ -1,8 +1,6 @@
 .cnt {
-    max-width: 760px;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     color: var(--grey-700-full);
     gap: var(--ident-m);
     line-height: 1;
@@ -25,8 +23,6 @@
     }
 }
 
-
-
 .title {
     font-size: var(--fsz-huge);
     text-align: center;
@@ -34,4 +30,6 @@
 
 .message {
     font-size: var(--fsz-l);
+    max-width: 420px;
+    overflow: hidden;
 }
