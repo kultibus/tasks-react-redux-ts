@@ -1,5 +1,6 @@
 export interface IProject {
     id: string;
-    // userId: string;
+    uid: string;
     name: string;
+	current: boolean
 }

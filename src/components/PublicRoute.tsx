@@ -8,7 +8,11 @@ interface PublicRouteProps {
 }
 
 export const PublicRoute: FC<PublicRouteProps> = ({ children }) => {
-    const { isAuth } = useAppSelector(state => state.authReducer);
+    const { isAuth, isLoading } = useAppSelector(state => state.authReducer);
 
-    return isAuth ? <Navigate to={RouteNames.home} replace /> : <>{children}</>;
+    return isAuth || isLoading ? (
+        <Navigate to={RouteNames.home} replace />
+    ) : (
+        <>{children}</>
+    );
 };

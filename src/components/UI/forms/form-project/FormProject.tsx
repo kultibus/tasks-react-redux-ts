@@ -62,6 +62,8 @@ export const FormProject: FC<FormProjectProps> = props => {
             createNewProject(projects, {
                 id: Date.now().toString(),
                 name: projectName.value,
+                uid: auth.currentUser.uid,
+                current: true,
             })
         );
 

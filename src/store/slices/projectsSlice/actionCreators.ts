@@ -14,13 +14,9 @@ export type ICreateNewProject = (
 export const createNewProject: ICreateNewProject =
     (projects, project) => async (dispatch: AppDispatch) => {
         try {
-            dispatch(projectsSlice.actions.setIsLoading());
+            // dispatch(projectsSlice.actions.setIsLoading());
 
             dispatch(projectsSlice.actions.setProjects([...projects, project]));
-
-			localStorage.setItem("projects", "true");
-
-
         } catch (error) {
             dispatch(projectsSlice.actions.setError(error.message));
         }

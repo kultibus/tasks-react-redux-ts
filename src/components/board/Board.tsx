@@ -4,17 +4,17 @@ import { Task } from "../task/Task";
 import styles from "./Board.module.scss";
 
 interface BoardProps {
-    board: string;
+    name: string;
 }
 
 export const Board: FC<BoardProps> = props => {
-    const { board } = props;
+    const { name } = props;
 
     const [tasks, setTasks] = useState<string[]>(["task1", "task2", "task3"]);
 
     return (
         <li className={styles.board}>
-            <header>{board}</header>
+            <header>{name}</header>
             <section className={styles.tasks}>
                 <List
                     variant={ListVariant.tasks}

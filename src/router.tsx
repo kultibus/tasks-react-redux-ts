@@ -15,9 +15,9 @@ export enum RouteNames {
     home = "/",
 }
 
-export const addSlash = (routeName: RouteNames) => {
-    return `/${routeName}`;
-};
+// export const addSlash = (routeName: RouteNames) => {
+//     return `/${routeName}`;
+// };
 
 export const router = createBrowserRouter([
     {

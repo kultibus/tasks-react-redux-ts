@@ -8,11 +8,11 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
-    const { isAuth } = useAppSelector(state => state.authReducer);
+    const { isAuth, isLoading } = useAppSelector(state => state.authReducer);
 
-    return isAuth ? (
+    return isAuth || isLoading ? (
         <>{children}</>
     ) : (
-        <Navigate to={RouteNames.login} replace />
+        <Navigate to={`/${RouteNames.login}`} replace />
     );
 };
