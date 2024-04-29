@@ -31,19 +31,19 @@ const handleAuthStateChanged = (
 
             dispatch(
                 authSlice.actions.setUser({
-                    uid: user.email,
+                    uid: user.uid,
                     displayName: user.displayName,
                 })
             );
 
             dispatch(authSlice.actions.setAuth(true));
 
-            localStorage.setItem("auth", "true");
+            // localStorage.setItem("auth", "true");
 
-            localStorage.setItem("name", user.displayName);
+            // localStorage.setItem("name", user.displayName);
 
-            localStorage.setItem("id", user.uid);
-        }
+            // localStorage.setItem("id", user.uid);
+        } 
     });
 
 export const signup: ISignUp =
@@ -82,7 +82,17 @@ export const signout = () => async (dispatch: AppDispatch) => {
 
     dispatch(authSlice.actions.setAuth(false));
 
-    localStorage.removeItem("auth");
-    localStorage.removeItem("name");
-    localStorage.removeItem("id");
+    // localStorage.removeItem("auth");
+    // localStorage.removeItem("name");
+    // localStorage.removeItem("id");
+};
+
+export const checkAuth = () => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(authSlice.actions.setIsLoading());
+
+        handleAuthStateChanged(dispatch);
+    } catch (error) {
+        dispatch(authSlice.actions.setError(error.message));
+    }
 };

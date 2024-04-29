@@ -5,6 +5,11 @@ import { useInput } from "../../../../hooks/useInput";
 import { BtnVariant, Button } from "../../buttons/Button";
 import { Input } from "../../inputs/Input";
 import styles from "./FormProject.module.scss";
+import { IProject } from "../../../../models/IProject";
+import { authSlice } from "../../../../store/slices/authSlice/authSlice";
+import { projectsSlice } from "../../../../store/slices/projectsSlice/projectsSlice";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
+import { createNewProject } from "../../../../store/slices/projectsSlice/actionCreators";
 
 export enum FormProjectVariant {
     createProject = "Create new project",
@@ -16,15 +21,14 @@ interface FormProjectProps {
     variant: FormProjectVariant;
 }
 
-interface IProject {
-    id: string;
-    name: string;
-}
-
 export const FormProject: FC<FormProjectProps> = props => {
     const { variant } = props;
 
-    const [project, setProject] = useState<IProject>({} as IProject);
+    const dispatch = useAppDispatch();
+
+    const { projects } = useAppSelector(state => state.projectsReducer);
+
+    // const { setProjects } = projectsSlice.actions;
 
     const projectName = useInput(
         "",
@@ -43,27 +47,25 @@ export const FormProject: FC<FormProjectProps> = props => {
         }
     };
 
-    function writeProjectData({ id, name }: IProject) {
-        set(ref(database, `projects/${auth.currentUser.uid}/${id}`), {
-            projectName: name,
-        });
-    }
-
-    const createNewProject = () => {
-        const newProject: IProject = {
-            id: Date.now().toString(),
-            name: projectName.value,
-        };
-
-        setProject({ ...newProject });
-
-        return newProject;
-    };
+    // function writeProjectData({ id, name }: IProject) {
+    //     set(ref(database, `projects/${auth.currentUser.uid}/${id}`), {
+    //         projectName: name,
+    //     });
+    // }
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!formValid) return;
+
+        dispatch(
+            createNewProject(projects, {
+                id: Date.now().toString(),
+                name: projectName.value,
+            })
+        );
+
+        projectName.cleanValue();
 
         // writeProjectData(createNewProject());
     };
@@ -86,6 +88,13 @@ export const FormProject: FC<FormProjectProps> = props => {
                 onClick={handleClick}
             >
                 {variant}
+            </Button>
+            <Button
+                type="button"
+                variant={BtnVariant.form}
+                onClick={() => console.log(projects)}
+            >
+                test
             </Button>
         </form>
     );

@@ -22,7 +22,7 @@ export const projectsSlice = createSlice({
         setIsLoading(state) {
             state.isLoading = true;
         },
-        setUser(state, action: PayloadAction<IProject[]>) {
+        setProjects(state, action: PayloadAction<IProject[]>) {
             state.isLoading = false;
             state.error = "";
             state.projects = action.payload;
@@ -30,10 +30,6 @@ export const projectsSlice = createSlice({
         setError(state, action: PayloadAction<string>) {
             state.isLoading = false;
             state.error = action.payload;
-        },
-        setAuth(state, action: PayloadAction<boolean>) {
-            state.isAuth = action.payload;
-            state.isLoading = false;
         },
     },
 });

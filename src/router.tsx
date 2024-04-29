@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import { App } from "./App";
-import { PrivateRoute } from "./components/PrivateRoute";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 import { PublicRoute } from "./components/PublicRoute";
 import { Projects } from "./components/projects/Projects";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { HomePage } from "./pages/HomePage";
+import { ProjectsPage } from "./pages/ProjectsPage";
 
 export enum RouteNames {
     login = "login",
@@ -27,17 +28,17 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 element: (
-                    <PrivateRoute>
+                    <ProtectedRoute>
                         <HomePage />
-                    </PrivateRoute>
+                    </ProtectedRoute>
                 ),
             },
             {
                 path: RouteNames.projects,
                 element: (
-                    <PrivateRoute>
-                        <HomePage />
-                    </PrivateRoute>
+                    <ProtectedRoute>
+                        <ProjectsPage />
+                    </ProtectedRoute>
                 ),
             },
             {

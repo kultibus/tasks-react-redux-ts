@@ -1,7 +1,7 @@
 import { authReducer } from "./slices/authSlice/authSlice";
-import { usersReducer } from "./slices/usersSlice/usersSlice";
+import { projectsReducer } from "./slices/projectsSlice/projectsSlice";
 
 export const reducers = {
-    usersReducer,
+    projectsReducer,
     authReducer,
 };

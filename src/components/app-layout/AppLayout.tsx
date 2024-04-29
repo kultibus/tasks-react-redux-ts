@@ -1,15 +1,25 @@
-import { FC, ReactNode } from "react";
-import styles from "./AppLayout.module.scss";
-import { Outlet, RouterProvider, useRouteError } from "react-router-dom";
+import { FC, useEffect } from "react";
+import { Outlet } from "react-router-dom";
+import { useAppDispatch } from "../../hooks/redux";
+import { authSlice } from "../../store/slices/authSlice/authSlice";
 import { Header } from "../header/Header";
-import { NotFound } from "../not-found/NotFound";
 import { MainCnt } from "../main-cnt/MainCnt";
+import { NotFound } from "../not-found/NotFound";
+import styles from "./AppLayout.module.scss";
+import { IUser } from "../../models/IUser";
+import { checkAuth } from "../../store/slices/authSlice/actionCreators";
 
 interface AppLayoutProps {
     error: unknown;
 }
 
 export const AppLayout: FC<AppLayoutProps> = ({ error }) => {
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(checkAuth());
+    }, []);
+
     const message = (error as { data?: string })?.data;
     const status = (error as { status?: string })?.status;
 

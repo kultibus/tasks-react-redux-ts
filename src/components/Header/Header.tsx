@@ -14,7 +14,9 @@ interface HeaderProps {}
 export const Header: FC<HeaderProps> = props => {
     const [themeVariant, setThemeVariant] = useState<string>("Dark");
 
-    const { isAuth, user } = useAppSelector(state => state.authReducer);
+    const { isAuth, user, isLoading } = useAppSelector(
+        state => state.authReducer
+    );
 
     const dispatch = useAppDispatch();
 
