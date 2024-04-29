@@ -1,0 +1,37 @@
+.cnt {
+    max-width: 760px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: var(--grey-700-full);
+    gap: var(--ident-m);
+    line-height: 1;
+    padding: var(--ident-m);
+}
+
+.link {
+    background-color: var(--main-300-full);
+    font-size: var(--fsz-xxl);
+    padding: var(--ident-m);
+    border-radius: var(--brs);
+    color: var(--grey-100-full);
+    line-height: 1.2;
+    transition: var(--trs);
+    text-align: center;
+
+    &:hover {
+        background-color: var(--main-400-full);
+        cursor: pointer;
+    }
+}
+
+
+
+.title {
+    font-size: var(--fsz-huge);
+    text-align: center;
+}
+
+.message {
+    font-size: var(--fsz-l);
+}

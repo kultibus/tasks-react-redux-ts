@@ -11,7 +11,7 @@ import styles from "./Header.module.scss";
 
 interface HeaderProps {}
 
-export const Header: FC<HeaderProps> = props => {
+export const Header: FC<HeaderProps> = (props) => {
     const [themeVariant, setThemeVariant] = useState<string>("Dark");
 
     const { isAuth, user } = useAppSelector(state => state.authReducer);

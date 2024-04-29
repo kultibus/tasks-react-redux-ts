@@ -5,17 +5,18 @@ import { Navigate } from "react-router-dom";
 import { authSlice } from "../store/slices/authSlice/authSlice";
 import { IUser } from "../models/IUser";
 
-interface PublicRouteProps {
+interface RouterProviderProps {
     children: ReactNode;
 }
 
-export const PublicRoute: FC<PublicRouteProps> = ({ children }) => {
+export const RouterProvider: FC<RouterProviderProps> = ({ children }) => {
+    // const { isAuth } = useAppSelector(state => state.authReducer);
 
-    const { isAuth } = useAppSelector(state => state.authReducer);
+    const isAuth = true;
 
-    if (isAuth) {
+    if (!isAuth) {
         return <div>{children}</div>;
     }
 
-    return <Navigate to={addSlash(RouteNames.login)} replace />;
+    return <Navigate to={RouteNames.home} replace />;
 };

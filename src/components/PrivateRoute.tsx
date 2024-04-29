@@ -8,7 +8,9 @@ interface PrivateRouteProps {
 }
 
 export const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
-    const { isAuth } = useAppSelector(state => state.authReducer);
+    // const { isAuth } = useAppSelector(state => state.authReducer);
+
+	const isAuth = true
 
     if (isAuth) {
 		return <Navigate to={RouteNames.home} replace />;
