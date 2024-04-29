@@ -6,10 +6,10 @@ import { BtnVariant, Button } from "../../buttons/Button";
 import { Input } from "../../inputs/Input";
 import styles from "./FormProject.module.scss";
 import { IProject } from "../../../../models/IProject";
-import { authSlice } from "../../../../store/slices/authSlice/authSlice";
-import { projectsSlice } from "../../../../store/slices/projectsSlice/projectsSlice";
+import { authSlice } from "../../../../store/slices/auth-slice/authSlice";
+import { projectsSlice } from "../../../../store/slices/projects-slice/projectsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
-import { createNewProject } from "../../../../store/slices/projectsSlice/actionCreators";
+import { createNewProject } from "../../../../store/slices/projects-slice/actionCreators";
 
 export enum FormProjectVariant {
     createProject = "Create new project",

@@ -1,45 +1,39 @@
 import { FC, useMemo, useState } from "react";
 import { useAppSelector } from "../../hooks/redux";
-import { BtnVariant, Button } from "../UI/buttons/Button";
 import {
-    FormProject,
-    FormProjectVariant,
+	FormProject,
+	FormProjectVariant,
 } from "../UI/forms/form-project/FormProject";
+import { Boards } from "../boards/Boards";
 import { FormContainer } from "../form-container/FormContainer";
-import { List, ListVariant } from "../list/List";
+import { SideBar } from "../side-bar/SideBar";
 import styles from "./Projects.module.scss";
-import { Board } from "../board/Board";
-import { auth } from "../../firebase";
 
 interface ProjectsProps {}
 
 export const Projects: FC<ProjectsProps> = () => {
-    const [isFormOpened, setIsFormOpened] = useState<boolean>(false);
+    const { isOpened: isFormOpened } = useAppSelector(
+        state => state.projectFormReducer
+    );
 
     const { projects } = useAppSelector(state => state.projectsReducer);
 
+    const currentProject = useMemo(() => {
+        return projects.find(project => project.current);
+    }, [projects]);
 
-	const currentProject = useMemo(() => {
-		return projects.find(project => project.current)
-	}, projects)
-
-
-    const [boards] = useState<string[]>([
-        "Opened",
-        "In process",
-        "Done",
-    ]);
+    const [boards] = useState<string[]>(["Opened", "In process", "Done"]);
 
     return (
         <div className={styles.projects}>
-            <header className={styles.topBar}>Project name: {currentProject.name}</header>
-            <aside className={styles.sideBar}>
-                <header>Projects</header>
+            <header className={styles.topBar}>
+                Project name: {currentProject.name}
+            </header>
 
-                <Button variant={BtnVariant.form}>Button</Button>
+            <div className={styles.sideBar}>
+                <SideBar />
+            </div>
 
-                <nav>Navigation</nav>
-            </aside>
             <div className={styles.content}>
                 {isFormOpened ? (
                     <FormContainer>
@@ -48,15 +42,7 @@ export const Projects: FC<ProjectsProps> = () => {
                         />
                     </FormContainer>
                 ) : (
-                    <main className={styles.boards}>
-                        <List
-                            variant={ListVariant.boards}
-                            items={boards}
-                            renderItem={board => (
-                                <Board name={board} key={board} />
-                            )}
-                        />
-                    </main>
+                    <Boards />
                 )}
             </div>
         </div>

@@ -1,9 +1,9 @@
 .projects {
     height: 100%;
     flex: 0 1 1920px;
-    color: #000;
+    color: var(--grey-800-full);
     display: grid;
-    grid-template: 1fr 5fr /1fr 4fr;
+    grid-template: auto 1fr /1fr 4fr;
     grid-template-areas:
         "sideBar topBar"
         "sideBar boards";
@@ -12,8 +12,7 @@
 }
 
 .sideBar,
-.topBar,
-.boards {
+.topBar {
     border-radius: var(--brs);
     padding: var(--ident-m);
 }
@@ -30,19 +29,9 @@
 
 .content {
     grid-area: boards;
-	border-radius: var(--brs);
+    border-radius: var(--brs);
     display: flex;
-	justify-content: center;
-	align-items: center;
+    justify-content: center;
+    align-items: center;
 }
-
-.boards{
-	background-color: var(--main-200-full);
-	height: 100%;
-	flex: 1 0 100%;
-	display: flex;
-
-}
-
-
 

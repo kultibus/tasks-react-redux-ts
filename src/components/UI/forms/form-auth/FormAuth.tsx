@@ -6,7 +6,7 @@ import { AppDispatch } from "../../../../store/store";
 import { BtnVariant, Button } from "../../buttons/Button";
 import { Input } from "../../inputs/Input";
 import styles from "./FormAuth.module.scss";
-import { ISignUp } from "../../../../store/slices/authSlice/actionCreators";
+import { ISignUp } from "../../../../store/slices/auth-slice/actionCreators";
 
 export enum FormAuthVariant {
     signup = "signup",

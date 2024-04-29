@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useAppSelector } from "../hooks/redux";
-import { signin } from "../store/slices/authSlice/actionCreators";
+import { signin } from "../store/slices/auth-slice/actionCreators";
 import { FormContainer } from "../components/form-container/FormContainer";
 import { FormError } from "../components/UI/form-error/FormError";
 import {

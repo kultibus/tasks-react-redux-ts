@@ -2,7 +2,7 @@ import { FC, ReactNode } from "react";
 import styles from "./HeaderLinks.module.scss";
 import { BtnVariant, Button } from "../UI/buttons/Button";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { signout } from "../../store/slices/authSlice/actionCreators";
+import { signout } from "../../store/slices/auth-slice/actionCreators";
 import { RouteNames } from "../../router";
 import { NavLink } from "react-router-dom";
 
