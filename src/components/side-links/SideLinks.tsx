@@ -1,10 +1,9 @@
 import { FC, MouseEvent } from "react";
 import { NavLink } from "react-router-dom";
 import { IProject } from "../../models/IProject";
-import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
 import { RouteNames } from "../../router";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { projectsSlice } from "../../store/slices/projects-slice/projectsSlice";
+import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
+import styles from "./SideLinks.module.scss";
 
 interface SideLinksProps {
     project: IProject;
@@ -13,6 +12,7 @@ interface SideLinksProps {
 
 export const SideLinks: FC<SideLinksProps> = props => {
     const { project, handleClick } = props;
+
 
     return (
         <li>

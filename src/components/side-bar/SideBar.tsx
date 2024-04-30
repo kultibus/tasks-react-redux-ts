@@ -18,8 +18,6 @@ export const SideBar: FC<SideBarProps> = () => {
     const { setCurrentProject, setIsFormOpened } = projectsSlice.actions;
 
     const navigate = useNavigate();
-	const location = useLocation()
-	console.log(location)
 
     const dispatch = useAppDispatch();
 
@@ -31,11 +29,12 @@ export const SideBar: FC<SideBarProps> = () => {
                 projects.find(project => project.id === projectId)
             )
         );
+        dispatch(setIsFormOpened(false));
     };
 
     const btnClick = () => {
         dispatch(setIsFormOpened(true));
-        navigate(`/${RouteNames.projects}/${RouteNames.newProject}`)
+        navigate(`/${RouteNames.projects}/${RouteNames.addProject}`);
     };
 
     return (

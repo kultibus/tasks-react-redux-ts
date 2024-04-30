@@ -8,6 +8,7 @@ import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../../router";
+import { projectsSlice } from "../../../store/slices/projects-slice/projectsSlice";
 
 export enum FormProjectVariant {
     initial = "Create new project",
@@ -29,7 +30,9 @@ export const FormProject: FC<FormProjectProps> = props => {
 
     const [formValid, setFormValid] = useState<boolean>(false);
 
-    const { projects } = useAppSelector(state => state.projectsReducer);
+    // const { projects } = useAppSelector(state => state.projectsReducer);
+
+    const { setIsFormOpened } = projectsSlice.actions;
 
     const projectName = useInput(
         "",
@@ -58,19 +61,27 @@ export const FormProject: FC<FormProjectProps> = props => {
         if (!formValid) return;
 
         const newProject = {
-            id: Date.now().toString(),
-            // id: Math.floor(Math.random() * 10000).toString(),
+            id: Math.random().toString(36).substring(2, 9),
             name: projectName.value,
             uid: auth.currentUser.uid,
         };
 
         dispatch(createNewProject(newProject));
 
-        navigate(`/${RouteNames.projects}/${newProject.name}`);
+        navigate(`/${RouteNames.projects}/${newProject.id}`);
 
         projectName.cleanValue();
 
         // writeProjectData(createNewProject());
+    };
+
+    const handleReset = () => {
+        // navigate(`/${RouteNames.projects}/${newProject.id}`);
+        dispatch(setIsFormOpened(false));
+
+        navigate(-1);
+
+        projectName.cleanValue();
     };
 
     return (
@@ -98,7 +109,7 @@ export const FormProject: FC<FormProjectProps> = props => {
                     <AppBtn
                         type="reset"
                         variant={AppBtnVariant.form}
-                        onClick={() => console.log(projects)}
+                        onClick={handleReset}
                     >
                         Cancel
                     </AppBtn>

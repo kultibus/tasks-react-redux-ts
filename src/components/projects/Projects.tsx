@@ -1,12 +1,6 @@
 import { FC } from "react";
+import { Outlet } from "react-router-dom";
 import { useAppSelector } from "../../hooks/redux";
-import { useCurrentProject } from "../../hooks/useCurrentProject";
-import {
-    FormProject,
-    FormProjectVariant,
-} from "../UI/form-project/FormProject";
-import { Boards } from "../boards/Boards";
-import { FormContainer } from "../form-container/FormContainer";
 import { SideBar } from "../side-bar/SideBar";
 import styles from "./Projects.module.scss";
 
@@ -30,15 +24,7 @@ export const Projects: FC<ProjectsProps> = () => {
             </div>
 
             <div className={styles.content}>
-                {isFormOpened ? (
-                    <FormContainer>
-                        <FormProject
-                            variant={FormProjectVariant.new}
-                        />
-                    </FormContainer>
-                ) : (
-                    <Boards />
-                )}
+                <Outlet />
             </div>
         </div>
     );

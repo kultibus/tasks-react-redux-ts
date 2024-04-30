@@ -7,12 +7,18 @@ import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { HomePage } from "./pages/HomePage";
 import { ProjectsPage } from "./pages/ProjectsPage";
+import { FormContainer } from "./components/form-container/FormContainer";
+import {
+    FormProject,
+    FormProjectVariant,
+} from "./components/UI/form-project/FormProject";
+import { Boards } from "./components/boards/Boards";
 
 export enum RouteNames {
     login = "login",
     register = "register",
     projects = "projects",
-    newProject = "new",
+    addProject = "add",
     home = "/",
 }
 
@@ -31,23 +37,23 @@ export const router = createBrowserRouter([
                 ),
             },
             {
-                path: `${RouteNames.projects}/:projectId`,
+                path: `${RouteNames.projects}`,
                 element: (
                     <ProtectedRoute>
                         <ProjectsPage />
                     </ProtectedRoute>
                 ),
-                // loader: ({ params }) => {
-                //     console.log(params);
-                //     return params;
-                // },
                 children: [
                     {
-                        path: RouteNames.newProject,
+                        path: ":projectId",
+                        element: <Boards />,
+                    },
+                    {
+                        path: RouteNames.addProject,
                         element: (
-                            <ProtectedRoute>
-                                <ProjectsPage />
-                            </ProtectedRoute>
+                            <FormContainer>
+                                <FormProject variant={FormProjectVariant.new} />
+                            </FormContainer>
                         ),
                     },
                 ],
