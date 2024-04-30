@@ -1,23 +1,26 @@
-import { FC } from "react";
+import { FC, MouseEvent } from "react";
 import { NavLink } from "react-router-dom";
 import { IProject } from "../../models/IProject";
 import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
 import { RouteNames } from "../../router";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { projectsSlice } from "../../store/slices/projects-slice/projectsSlice";
 
 interface SideLinksProps {
     project: IProject;
+    handleClick: (e: MouseEvent<HTMLAnchorElement>) => void;
 }
 
 export const SideLinks: FC<SideLinksProps> = props => {
-    const { project } = props;
-
-	
-
+    const { project, handleClick } = props;
 
     return (
         <li>
-            <NavLink to={`/${RouteNames.projects}/${project.name}`}>
+            <NavLink
+                onClick={handleClick}
+                data-project-id={project.id}
+                to={`/${RouteNames.projects}/${project.name}`}
+            >
                 {({ isActive }) => (
                     <LinkInner
                         variant={

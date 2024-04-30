@@ -1,24 +1,18 @@
 import { FC } from "react";
-import { Projects } from "../components/projects/Projects";
-import { FormContainer } from "../components/form-container/FormContainer";
+import { Navigate } from "react-router-dom";
 import {
-    FormProject,
-    FormProjectVariant,
+	FormProject,
+	FormProjectVariant,
 } from "../components/UI/form-project/FormProject";
+import { FormContainer } from "../components/form-container/FormContainer";
 import { useAppSelector } from "../hooks/redux";
-import { Navigate, useParams } from "react-router-dom";
 import { RouteNames } from "../router";
-import { useCurrentProject } from "../hooks/useCurrentProject";
 
 export const HomePage: FC = () => {
     const { projects } = useAppSelector(state => state.projectsReducer);
 
-    const { name } = useCurrentProject(projects);
-
-    // return projects.length ? (
-    //     <Navigate to={RouteNames.projects} />
-    return projects.length && name ? (
-        <Navigate to={`${RouteNames.projects}/${name}`} />
+    return projects.length ? (
+        <Navigate to={RouteNames.projects} />
     ) : (
         <FormContainer>
             <FormProject variant={FormProjectVariant.createProject} />

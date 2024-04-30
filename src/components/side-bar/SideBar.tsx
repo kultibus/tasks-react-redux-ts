@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, MouseEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { List, ListVariant } from "../list/List";
@@ -15,7 +15,19 @@ export const SideBar: FC<SideBarProps> = () => {
 
     const { projects } = useAppSelector(state => state.projectsReducer);
 
-  
+    const { setCurrentProject } = projectsSlice.actions;
+
+    const dispatch = useAppDispatch();
+
+    const linkClick = (e: MouseEvent<HTMLAnchorElement>) => {
+        const projectId = e.currentTarget.dataset.projectId;
+
+        dispatch(
+            setCurrentProject(
+                projects.find(project => project.id === projectId)
+            )
+        );
+    };
 
     return (
         <aside className={styles.sideBar}>
@@ -27,7 +39,11 @@ export const SideBar: FC<SideBarProps> = () => {
                         items={projects}
                         variant={ListVariant.sideLinks}
                         renderItem={project => (
-                            <SideLinks project={project} key={project.id} />
+                            <SideLinks
+                                handleClick={linkClick}
+                                project={project}
+                                key={project.id}
+                            />
                         )}
                     />
                 </nav>

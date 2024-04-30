@@ -30,14 +30,14 @@ export const router = createBrowserRouter([
                 ),
             },
             {
-                path: `${RouteNames.projects}/:projectName`,
+                path: `${RouteNames.projects}/:projectId`,
                 element: (
                     <ProtectedRoute>
                         <ProjectsPage />
                     </ProtectedRoute>
                 ),
                 // loader: ({ params }) => {
-                //     console.log(params.name);
+                //     console.log(params);
                 //     return params;
                 // },
             },

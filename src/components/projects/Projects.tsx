@@ -19,10 +19,8 @@ export const Projects: FC<ProjectsProps> = () => {
 
     const { projects } = useAppSelector(state => state.projectsReducer);
 
-    // const currentProject = useCurrentProject(projects);
     const currentProject = projects.find(project => project.current);
 
-    console.log(currentProject);
 
     return (
         <div className={styles.projects}>

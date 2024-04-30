@@ -58,7 +58,8 @@ export const FormProject: FC<FormProjectProps> = props => {
         if (!formValid) return;
 
         const newProject = {
-            id: Date.now().toString(),
+            // id: Date.now().toString(),
+            id: Math.floor(Math.random() * 100).toString(),
             name: projectName.value,
             uid: auth.currentUser.uid,
         };
