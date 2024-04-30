@@ -30,6 +30,12 @@ export const projectsSlice = createSlice({
             state.projects.push(action.payload);
             state.isFormOpened = false;
         },
+        deleteCurrentProject(state) {
+            state.isLoading = false;
+            state.error = "";
+            state.projects = state.projects.filter(project => !project.current);
+            state.isFormOpened = false;
+        },
         setCurrentProject(state, action: PayloadAction<IProject>) {
             state.isLoading = false;
             state.error = "";

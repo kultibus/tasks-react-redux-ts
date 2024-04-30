@@ -19,6 +19,7 @@ export enum RouteNames {
     register = "register",
     projects = "projects",
     addProject = "add",
+    deleteProject = "delete",
     home = "/",
 }
 
@@ -52,7 +53,15 @@ export const router = createBrowserRouter([
                         path: RouteNames.addProject,
                         element: (
                             <FormContainer>
-                                <FormProject variant={FormProjectVariant.new} />
+                                <FormProject variant={FormProjectVariant.add} />
+                            </FormContainer>
+                        ),
+                    },
+                    {
+                        path: RouteNames.deleteProject,
+                        element: (
+                            <FormContainer>
+                                <FormProject variant={FormProjectVariant.delete} />
                             </FormContainer>
                         ),
                     },

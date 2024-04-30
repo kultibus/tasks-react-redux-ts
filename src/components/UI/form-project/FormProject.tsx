@@ -12,7 +12,7 @@ import { projectsSlice } from "../../../store/slices/projects-slice/projectsSlic
 
 export enum FormProjectVariant {
     initial = "Create new project",
-    new = "Add new project",
+    add = "Add new project",
     edit = "Edit project",
     delete = "Delete project",
 }
@@ -30,7 +30,7 @@ export const FormProject: FC<FormProjectProps> = props => {
 
     const [formValid, setFormValid] = useState<boolean>(false);
 
-    // const { projects } = useAppSelector(state => state.projectsReducer);
+    const { projects } = useAppSelector(state => state.projectsReducer);
 
     const { setIsFormOpened } = projectsSlice.actions;
 
@@ -60,15 +60,31 @@ export const FormProject: FC<FormProjectProps> = props => {
 
         if (!formValid) return;
 
-        const newProject = {
-            id: Math.random().toString(36).substring(2, 9),
-            name: projectName.value,
-            uid: auth.currentUser.uid,
-        };
+        switch (variant) {
+            case FormProjectVariant.initial:
+            case FormProjectVariant.add:
+                console.log(variant);
+                const newProject = {
+                    id: Math.random().toString(36).substring(2, 9),
+                    name: projectName.value,
+                    uid: auth.currentUser.uid,
+                };
 
-        dispatch(createNewProject(newProject));
+                dispatch(createNewProject(newProject));
 
-        navigate(`/${RouteNames.projects}/${newProject.id}`);
+                navigate(`/${RouteNames.projects}/${newProject.id}`);
+
+                break;
+
+            case FormProjectVariant.delete:
+                // const currentProject = projects.find(
+                //     project => project.current
+                // );
+
+                dispatch();
+
+                break;
+        }
 
         projectName.cleanValue();
 
@@ -76,7 +92,6 @@ export const FormProject: FC<FormProjectProps> = props => {
     };
 
     const handleReset = () => {
-        // navigate(`/${RouteNames.projects}/${newProject.id}`);
         dispatch(setIsFormOpened(false));
 
         navigate(-1);
@@ -86,15 +101,17 @@ export const FormProject: FC<FormProjectProps> = props => {
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            <AppInput
-                name="projectName"
-                placeholderError={projectName.isError}
-                onChange={projectName.onChange}
-                onClick={projectName.deleteError}
-                placeholder={projectName.placeholder}
-                type="text"
-                value={projectName.value}
-            />
+            {variant !== FormProjectVariant.delete && (
+                <AppInput
+                    name="projectName"
+                    placeholderError={projectName.isError}
+                    onChange={projectName.onChange}
+                    onClick={projectName.deleteError}
+                    placeholder={projectName.placeholder}
+                    type="text"
+                    value={projectName.value}
+                />
+            )}
 
             <div className={styles.btns}>
                 <AppBtn

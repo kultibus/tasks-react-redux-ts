@@ -35,7 +35,7 @@
 }
 
 .icon {
-	transition: var(--trs);
+    transition: var(--trs);
     display: flex;
     align-items: center;
     gap: var(--ident-s);
@@ -44,5 +44,22 @@
         fill: var(--grey-100-full);
         width: 27px;
         height: 27px;
+    }
+}
+
+.iconTopBar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+    svg {
+        transition: var(--trs);
+        cursor: pointer;
+        fill: var(--grey-800-full);
+        width: 35px;
+        height: 35px;
+
+        &:hover {
+            fill: var(--grey-500-full);
+        }
     }
 }

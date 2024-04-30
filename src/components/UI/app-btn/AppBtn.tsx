@@ -5,6 +5,7 @@ import classNames from "classnames";
 export enum AppBtnVariant {
     form = "form",
     icon = "icon",
+    iconTopBar = "iconTopBar",
     formDisabled = "formDisabled",
     header = "header",
     headerAcive = "headerAcive",
