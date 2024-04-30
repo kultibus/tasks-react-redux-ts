@@ -5,7 +5,7 @@ interface ProjectsFormState {
 }
 
 const initialState: ProjectsFormState = {
-    isOpened: false,
+    isOpened: true,
 };
 
 export const projectFormSlice = createSlice({

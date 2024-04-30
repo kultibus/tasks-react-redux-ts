@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import DarkModeIcon from "../../assets/icons/darkMode.svg";
 import LightModeIcon from "../../assets/icons/lightMode.svg";
-import { BtnVariant, Button } from "../UI/buttons/Button";
 import { HeaderLinks } from "../header-links/HeaderLinks";
 import styles from "./Header.module.scss";
+import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 
 interface HeaderProps {}
 
@@ -26,10 +26,10 @@ export const Header: FC<HeaderProps> = props => {
                 <HeaderLinks />
 
                 <div className={styles.btnCnt}>
-                    <Button
+                    <AppBtn
                         type="button"
                         onClick={btnThemeHandler}
-                        variant={BtnVariant.icon}
+                        variant={AppBtnVariant.icon}
                     >
                         <div>{themeVariant}</div>
                         {themeVariant === "Dark" ? (
@@ -37,7 +37,7 @@ export const Header: FC<HeaderProps> = props => {
                         ) : (
                             <LightModeIcon />
                         )}
-                    </Button>
+                    </AppBtn>
                 </div>
             </div>
         </header>

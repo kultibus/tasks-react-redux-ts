@@ -1,8 +1,8 @@
 import { ChangeEventHandler, FC, MouseEventHandler } from "react";
-import styles from "./Input.module.scss";
+import styles from "./AppInput.module.scss";
 import classNames from "classnames";
 
-interface InputProps {
+interface AppInputProps {
     name: string;
     onChange: ChangeEventHandler<HTMLInputElement>;
     onClick: MouseEventHandler<HTMLInputElement>;
@@ -12,7 +12,7 @@ interface InputProps {
     value: string;
 }
 
-export const Input: FC<InputProps> = props => {
+export const AppInput: FC<AppInputProps> = props => {
     const { placeholderError, ...rest } = props;
 
     return (

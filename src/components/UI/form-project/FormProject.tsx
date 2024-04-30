@@ -1,15 +1,11 @@
-import { ref, set } from "firebase/database";
 import { FC, FormEvent, useState } from "react";
-import { auth, database } from "../../../../firebase";
-import { useInput } from "../../../../hooks/useInput";
-import { BtnVariant, Button } from "../../buttons/Button";
-import { Input } from "../../inputs/Input";
+import { auth } from "../../../firebase";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { useInput } from "../../../hooks/useInput";
+import { createNewProject } from "../../../store/slices/projects-slice/actionCreators";
 import styles from "./FormProject.module.scss";
-import { IProject } from "../../../../models/IProject";
-import { authSlice } from "../../../../store/slices/auth-slice/authSlice";
-import { projectsSlice } from "../../../../store/slices/projects-slice/projectsSlice";
-import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
-import { createNewProject } from "../../../../store/slices/projects-slice/actionCreators";
+import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
+import { AppInput } from "../app-input/AppInput";
 
 export enum FormProjectVariant {
     createProject = "Create new project",
@@ -74,7 +70,7 @@ export const FormProject: FC<FormProjectProps> = props => {
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            <Input
+            <AppInput
                 name="projectName"
                 placeholderError={projectName.isError}
                 onChange={projectName.onChange}
@@ -84,20 +80,20 @@ export const FormProject: FC<FormProjectProps> = props => {
                 value={projectName.value}
             />
 
-            <Button
+            <AppBtn
                 type="submit"
-                variant={BtnVariant.form}
+                variant={AppBtnVariant.form}
                 onClick={handleClick}
             >
                 {variant}
-            </Button>
-            <Button
+            </AppBtn>
+            <AppBtn
                 type="button"
-                variant={BtnVariant.form}
+                variant={AppBtnVariant.form}
                 onClick={() => console.log(projects)}
             >
                 test
-            </Button>
+            </AppBtn>
         </form>
     );
 };

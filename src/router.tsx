@@ -15,10 +15,6 @@ export enum RouteNames {
     home = "/",
 }
 
-// export const addSlash = (routeName: RouteNames) => {
-//     return `/${routeName}`;
-// };
-
 export const router = createBrowserRouter([
     {
         path: RouteNames.home,
@@ -34,12 +30,16 @@ export const router = createBrowserRouter([
                 ),
             },
             {
-                path: RouteNames.projects,
+                path: `${RouteNames.projects}/:projectName`,
                 element: (
                     <ProtectedRoute>
                         <ProjectsPage />
                     </ProtectedRoute>
                 ),
+                // loader: ({ params }) => {
+                //     console.log(params.name);
+                //     return params;
+                // },
             },
             {
                 path: RouteNames.login,

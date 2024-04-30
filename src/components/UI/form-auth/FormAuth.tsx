@@ -1,12 +1,10 @@
 import { FC, FormEvent, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
-import { useInput } from "../../../../hooks/useInput";
-import { IUser } from "../../../../models/IUser";
-import { AppDispatch } from "../../../../store/store";
-import { BtnVariant, Button } from "../../buttons/Button";
-import { Input } from "../../inputs/Input";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { useInput } from "../../../hooks/useInput";
+import { ISignUp } from "../../../store/slices/auth-slice/actionCreators";
 import styles from "./FormAuth.module.scss";
-import { ISignUp } from "../../../../store/slices/auth-slice/actionCreators";
+import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
+import { AppInput } from "../app-input/AppInput";
 
 export enum FormAuthVariant {
     signup = "signup",
@@ -64,7 +62,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
             {variant === "signup" && (
-                <Input
+                <AppInput
                     name="login"
                     placeholderError={displayName.isError}
                     onChange={displayName.onChange}
@@ -75,7 +73,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
                 />
             )}
 
-            <Input
+            <AppInput
                 name="email"
                 placeholderError={email.isError}
                 onChange={email.onChange}
@@ -84,7 +82,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
                 type="text"
                 value={email.value}
             />
-            <Input
+            <AppInput
                 name="password"
                 placeholderError={password.isError}
                 onChange={password.onChange}
@@ -93,14 +91,16 @@ export const FormAuth: FC<FormAuthProps> = props => {
                 type="password"
                 value={password.value}
             />
-            <Button
+            <AppBtn
                 type="submit"
-                variant={isLoading ? BtnVariant.formDisabled : BtnVariant.form}
+                variant={
+                    isLoading ? AppBtnVariant.formDisabled : AppBtnVariant.form
+                }
                 disabled={isLoading ? true : false}
                 onClick={handleClick}
             >
                 {isLoading ? "Loading..." : btnName}
-            </Button>
+            </AppBtn>
         </form>
     );
 };

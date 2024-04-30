@@ -1,10 +1,10 @@
 import { FC, useMemo } from "react";
 import { useAppSelector } from "../../hooks/redux";
-import { BtnVariant, Button } from "../UI/buttons/Button";
 import styles from "./SideBar.module.scss";
 import { List, ListVariant } from "../list/List";
 import { NavLink } from "react-router-dom";
-import { LinkChild, LinkChildVariant } from "../UI/link-child/LinkChild";
+import { LinkInner, LinkInnerVariant } from "../link-inner/LinkInner";
+import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 
 interface SideBarProps {}
 
@@ -17,7 +17,7 @@ export const SideBar: FC<SideBarProps> = () => {
 
     return (
         <aside className={styles.sideBar}>
-            <Button variant={BtnVariant.form}>Add Project</Button>
+            <AppBtn variant={AppBtnVariant.form}>Add Project</AppBtn>
             <div className={styles.bottom}>
                 <h2 className={styles.title}>Projects:</h2>
                 <nav className={styles.links}>
@@ -25,19 +25,21 @@ export const SideBar: FC<SideBarProps> = () => {
                         items={projects}
                         variant={ListVariant.sideLinks}
                         renderItem={project => (
-                            <NavLink key={project.id} to={"/"}>
-                                {({ isActive }) => (
-                                    <LinkChild
-                                        variant={
-                                            isActive
-                                                ? LinkChildVariant.active
-                                                : LinkChildVariant.link
-                                        }
-                                    >
-                                        {project.name}
-                                    </LinkChild>
-                                )}
-                            </NavLink>
+                            <li>
+                                <NavLink key={project.id} to={"/"}>
+                                    {({ isActive }) => (
+                                        <LinkInner
+                                            variant={
+                                                isActive
+                                                    ? LinkInnerVariant.sideActive
+                                                    : LinkInnerVariant.side
+                                            }
+                                        >
+                                            {project.name}
+                                        </LinkInner>
+                                    )}
+                                </NavLink>
+                            </li>
                         )}
                     />
                 </nav>

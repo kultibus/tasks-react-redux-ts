@@ -1,8 +1,8 @@
 import { ButtonHTMLAttributes, FC, ReactNode } from "react";
-import styles from "./Button.module.scss";
+import styles from "./AppBtn.module.scss";
 import classNames from "classnames";
 
-export enum BtnVariant {
+export enum AppBtnVariant {
     form = "form",
     icon = "icon",
     formDisabled = "formDisabled",
@@ -10,13 +10,13 @@ export enum BtnVariant {
     headerAcive = "headerAcive",
 }
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface AppBtnProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode;
-    variant: BtnVariant;
+    variant: AppBtnVariant;
     disabled?: boolean;
 }
 
-export const Button: FC<ButtonProps> = props => {
+export const AppBtn: FC<AppBtnProps> = props => {
     const { children, variant } = props;
 
     return (
