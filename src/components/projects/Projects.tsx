@@ -12,15 +12,15 @@ import { RouteNames } from "../../router";
 interface ProjectsProps {}
 
 export const Projects: FC<ProjectsProps> = () => {
-    const { projects, isFormOpened } = useAppSelector(
+    const { projects, isFormOpened, formState } = useAppSelector(
         state => state.projectsReducer
     );
 
-	const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const currentProject = projects.find(project => project.current);
 
-    const { setIsFormOpened } = projectsSlice.actions;
+    const { setIsFormOpened, setFormState } = projectsSlice.actions;
 
     // const navigate = useNavigate();
 
@@ -28,6 +28,7 @@ export const Projects: FC<ProjectsProps> = () => {
 
     const handleDelete = () => {
         dispatch(setIsFormOpened(true));
+        dispatch(setFormState("Delete"));
         navigate(`/${RouteNames.projects}/${RouteNames.deleteProject}`);
     };
 
@@ -47,10 +48,21 @@ export const Projects: FC<ProjectsProps> = () => {
                     </AppBtn>
                 </div>
                 <h2 className={styles.title}>
-                    <span>Project name:</span>
-                    <span>{isFormOpened ? "" : currentProject.name}</span>
+                    <span>
+                        {formState ? `${formState} project` : "Project name:"}
+                    </span>
+                    <span>
+                        {isFormOpened
+                            ? `'${currentProject.name}'?`
+                            : currentProject.name}
+                    </span>
                 </h2>
-                <AppBtn onClick={() => console.log(projects)} variant={AppBtnVariant.form}>Add task</AppBtn>
+                <AppBtn
+                    onClick={() => console.log(projects)}
+                    variant={AppBtnVariant.form}
+                >
+                    Add task
+                </AppBtn>
             </header>
 
             <div className={styles.sideBar}>

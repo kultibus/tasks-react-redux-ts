@@ -1,11 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IProject } from "../../../models/IProject";
 
+type IFormState = "" | "Delete" | "Edit";
+
 interface ProjectsState {
     projects: IProject[];
     isLoading: boolean;
     error: string;
     isFormOpened: boolean;
+    formState: IFormState;
     // isAuth: boolean;
 }
 
@@ -14,6 +17,7 @@ const initialState: ProjectsState = {
     isLoading: false,
     error: "",
     isFormOpened: false,
+    formState: "",
     // isAuth: false,
 };
 
@@ -33,7 +37,13 @@ export const projectsSlice = createSlice({
         deleteCurrentProject(state) {
             state.isLoading = false;
             state.error = "";
-            state.projects = state.projects.filter(project => !project.current);
+            if (state.projects.length) {
+                state.projects = state.projects.filter(
+                    project => !project.current
+                );
+            } else {
+                state.projects = [];
+            }
             state.isFormOpened = false;
         },
         setCurrentProject(state, action: PayloadAction<IProject>) {
@@ -48,6 +58,10 @@ export const projectsSlice = createSlice({
         },
         setIsFormOpened(state, action: PayloadAction<boolean>) {
             state.isFormOpened = action.payload;
+            state.formState = "";
+        },
+        setFormState(state, action: PayloadAction<IFormState>) {
+            state.formState = action.payload;
         },
         setError(state, action: PayloadAction<string>) {
             state.isLoading = false;

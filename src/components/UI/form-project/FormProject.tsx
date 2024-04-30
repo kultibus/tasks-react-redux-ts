@@ -2,7 +2,10 @@ import { FC, FormEvent, useMemo, useState } from "react";
 import { auth } from "../../../firebase";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
-import { createNewProject } from "../../../store/slices/projects-slice/actionCreators";
+import {
+    createNewProject,
+    deleteProject,
+} from "../../../store/slices/projects-slice/actionCreators";
 import styles from "./FormProject.module.scss";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
@@ -58,12 +61,11 @@ export const FormProject: FC<FormProjectProps> = props => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!formValid) return;
-
         switch (variant) {
             case FormProjectVariant.initial:
             case FormProjectVariant.add:
-                console.log(variant);
+                if (!formValid) return;
+
                 const newProject = {
                     id: Math.random().toString(36).substring(2, 9),
                     name: projectName.value,
@@ -77,11 +79,34 @@ export const FormProject: FC<FormProjectProps> = props => {
                 break;
 
             case FormProjectVariant.delete:
-                // const currentProject = projects.find(
-                //     project => project.current
-                // );
+                const currentProjectIndex = projects.findIndex(
+                    project => project.current
+                );
 
-                dispatch();
+                const length = projects.length;
+                const pervProject = projects[currentProjectIndex - 1];
+                const nextProject = projects[currentProjectIndex + 1];
+
+				
+                // const pervIndex = currentProjectIndex - 1;
+                // const nextIndex = currentProjectIndex + 1;
+
+				// console.log(pervIndex, currentProjectIndex, nextIndex, length)
+
+
+                if (length > 1 && currentProjectIndex === 0) {
+                    dispatch(deleteProject(nextProject));
+
+                    navigate(`/${RouteNames.projects}/${nextProject.id}`);
+                } else if (length > 1) {
+                    dispatch(deleteProject(pervProject));
+
+                    navigate(`/${RouteNames.projects}/${pervProject.id}`);
+                } else {
+                    dispatch(deleteProject(null));
+
+                    navigate(RouteNames.home);
+                }
 
                 break;
         }
