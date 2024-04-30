@@ -15,7 +15,7 @@ export const HomePage: FC = () => {
         <Navigate to={RouteNames.projects} />
     ) : (
         <FormContainer>
-            <FormProject variant={FormProjectVariant.createProject} />
+            <FormProject variant={FormProjectVariant.initial} />
         </FormContainer>
     );
 };

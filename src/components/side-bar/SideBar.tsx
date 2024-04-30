@@ -5,17 +5,21 @@ import { List, ListVariant } from "../list/List";
 import { SideLinks } from "../side-links/SideLinks";
 import styles from "./SideBar.module.scss";
 import { projectsSlice } from "../../store/slices/projects-slice/projectsSlice";
+import { useLocation, useNavigate } from "react-router-dom";
+import { RouteNames } from "../../router";
 
 interface SideBarProps {}
 
 export const SideBar: FC<SideBarProps> = () => {
-    const { isOpened: isFormOpened } = useAppSelector(
-        state => state.projectFormReducer
+    const { projects, isFormOpened } = useAppSelector(
+        state => state.projectsReducer
     );
 
-    const { projects } = useAppSelector(state => state.projectsReducer);
+    const { setCurrentProject, setIsFormOpened } = projectsSlice.actions;
 
-    const { setCurrentProject } = projectsSlice.actions;
+    const navigate = useNavigate();
+	const location = useLocation()
+	console.log(location)
 
     const dispatch = useAppDispatch();
 
@@ -29,9 +33,24 @@ export const SideBar: FC<SideBarProps> = () => {
         );
     };
 
+    const btnClick = () => {
+        dispatch(setIsFormOpened(true));
+        navigate(`/${RouteNames.projects}/${RouteNames.newProject}`)
+    };
+
     return (
         <aside className={styles.sideBar}>
-            <AppBtn variant={AppBtnVariant.form}>Add Project</AppBtn>
+            <AppBtn
+                onClick={btnClick}
+                variant={
+                    isFormOpened
+                        ? AppBtnVariant.formDisabled
+                        : AppBtnVariant.form
+                }
+                disabled={isFormOpened ? true : false}
+            >
+                New project
+            </AppBtn>
             <div className={styles.bottom}>
                 <h2 className={styles.title}>Projects list</h2>
                 <nav className={styles.links}>

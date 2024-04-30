@@ -12,6 +12,7 @@ export enum RouteNames {
     login = "login",
     register = "register",
     projects = "projects",
+    newProject = "new",
     home = "/",
 }
 
@@ -40,6 +41,16 @@ export const router = createBrowserRouter([
                 //     console.log(params);
                 //     return params;
                 // },
+                children: [
+                    {
+                        path: RouteNames.newProject,
+                        element: (
+                            <ProtectedRoute>
+                                <ProjectsPage />
+                            </ProtectedRoute>
+                        ),
+                    },
+                ],
             },
             {
                 path: RouteNames.login,

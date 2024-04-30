@@ -5,14 +5,16 @@ interface ProjectsState {
     projects: IProject[];
     isLoading: boolean;
     error: string;
-    isAuth: boolean;
+    isFormOpened: boolean;
+    // isAuth: boolean;
 }
 
 const initialState: ProjectsState = {
     projects: [],
     isLoading: false,
     error: "",
-    isAuth: false,
+    isFormOpened: false,
+    // isAuth: false,
 };
 
 export const projectsSlice = createSlice({
@@ -26,6 +28,7 @@ export const projectsSlice = createSlice({
             state.isLoading = false;
             state.error = "";
             state.projects.push(action.payload);
+            state.isFormOpened = false;
         },
         setCurrentProject(state, action: PayloadAction<IProject>) {
             state.isLoading = false;
@@ -36,6 +39,9 @@ export const projectsSlice = createSlice({
                 }
                 return { ...project, current: false };
             });
+        },
+        setIsFormOpened(state, action: PayloadAction<boolean>) {
+            state.isFormOpened = action.payload;
         },
         setError(state, action: PayloadAction<string>) {
             state.isLoading = false;
