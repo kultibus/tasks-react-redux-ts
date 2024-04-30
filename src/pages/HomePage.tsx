@@ -15,8 +15,6 @@ export const HomePage: FC = () => {
 
     const { name } = useCurrentProject(projects);
 
-    console.log(name);
-
     // return projects.length ? (
     //     <Navigate to={RouteNames.projects} />
     return projects.length && name ? (

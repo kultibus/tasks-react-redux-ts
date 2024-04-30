@@ -4,8 +4,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { signout } from "../../store/slices/auth-slice/actionCreators";
 import { RouteNames } from "../../router";
 import { NavLink } from "react-router-dom";
-import { LinkInner, LinkInnerVariant } from "../link-inner/LinkInner";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
+import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
 
 interface HeaderLinksProps {}
 

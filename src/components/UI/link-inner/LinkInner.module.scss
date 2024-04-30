@@ -7,6 +7,8 @@
     line-height: 1.2;
     transition: var(--trs);
     width: 100%;
+	display: block;
+	text-align: center;
 
     &:hover {
         background-color: var(--main-400-full);

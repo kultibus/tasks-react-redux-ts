@@ -1,10 +1,9 @@
-import { FC, useMemo } from "react";
+import { FC } from "react";
 import { useAppSelector } from "../../hooks/redux";
-import styles from "./SideBar.module.scss";
-import { List, ListVariant } from "../list/List";
-import { NavLink } from "react-router-dom";
-import { LinkInner, LinkInnerVariant } from "../link-inner/LinkInner";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
+import { List, ListVariant } from "../list/List";
+import { SideLinks } from "../side-links/SideLinks";
+import styles from "./SideBar.module.scss";
 
 interface SideBarProps {}
 
@@ -25,21 +24,7 @@ export const SideBar: FC<SideBarProps> = () => {
                         items={projects}
                         variant={ListVariant.sideLinks}
                         renderItem={project => (
-                            <li>
-                                <NavLink key={project.id} to={"/"}>
-                                    {({ isActive }) => (
-                                        <LinkInner
-                                            variant={
-                                                isActive
-                                                    ? LinkInnerVariant.sideActive
-                                                    : LinkInnerVariant.side
-                                            }
-                                        >
-                                            {project.name}
-                                        </LinkInner>
-                                    )}
-                                </NavLink>
-                            </li>
+                            <SideLinks project={project} key={project.id} />
                         )}
                     />
                 </nav>
