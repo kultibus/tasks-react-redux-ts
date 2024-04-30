@@ -22,10 +22,20 @@ export const projectsSlice = createSlice({
         setIsLoading(state) {
             state.isLoading = true;
         },
-        setProjects(state, action: PayloadAction<IProject[]>) {
+        addProject(state, action: PayloadAction<IProject>) {
             state.isLoading = false;
             state.error = "";
-            state.projects = action.payload;
+            state.projects.push(action.payload);
+        },
+        setCurrentProject(state, action: PayloadAction<IProject>) {
+            state.isLoading = false;
+            state.error = "";
+            state.projects = state.projects.map(project => {
+                if (project.id === action.payload.id) {
+                    return { ...project, current: true };
+                }
+                return { ...project, current: false };
+            });
         },
         setError(state, action: PayloadAction<string>) {
             state.isLoading = false;

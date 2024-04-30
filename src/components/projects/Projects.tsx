@@ -1,5 +1,6 @@
-import { FC, useMemo, useState } from "react";
+import { FC } from "react";
 import { useAppSelector } from "../../hooks/redux";
+import { useCurrentProject } from "../../hooks/useCurrentProject";
 import {
     FormProject,
     FormProjectVariant,
@@ -8,7 +9,6 @@ import { Boards } from "../boards/Boards";
 import { FormContainer } from "../form-container/FormContainer";
 import { SideBar } from "../side-bar/SideBar";
 import styles from "./Projects.module.scss";
-import { useCurrentProject } from "../../hooks/useCurrentProject";
 
 interface ProjectsProps {}
 
@@ -19,9 +19,10 @@ export const Projects: FC<ProjectsProps> = () => {
 
     const { projects } = useAppSelector(state => state.projectsReducer);
 
-    const currentProject = useCurrentProject(projects);
+    // const currentProject = useCurrentProject(projects);
+    const currentProject = projects.find(project => project.current);
 
-    const [boards] = useState<string[]>(["Opened", "In process", "Done"]);
+    console.log(currentProject);
 
     return (
         <div className={styles.projects}>

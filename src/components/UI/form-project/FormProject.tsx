@@ -1,4 +1,4 @@
-import { FC, FormEvent, useState } from "react";
+import { FC, FormEvent, useMemo, useState } from "react";
 import { auth } from "../../../firebase";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
@@ -6,6 +6,8 @@ import { createNewProject } from "../../../store/slices/projects-slice/actionCre
 import styles from "./FormProject.module.scss";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
+import { useLocation, useNavigate } from "react-router-dom";
+import { RouteNames } from "../../../router";
 
 export enum FormProjectVariant {
     createProject = "Create new project",
@@ -18,21 +20,22 @@ interface FormProjectProps {
 }
 
 export const FormProject: FC<FormProjectProps> = props => {
-    const { variant } = props;
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const dispatch = useAppDispatch();
 
-    const { projects } = useAppSelector(state => state.projectsReducer);
+    const { variant } = props;
 
-    // const { setProjects } = projectsSlice.actions;
+    const [formValid, setFormValid] = useState<boolean>(false);
+
+    const { projects } = useAppSelector(state => state.projectsReducer);
 
     const projectName = useInput(
         "",
         "Enter project name...",
         "Project name is empty!"
     );
-
-    const [formValid, setFormValid] = useState<boolean>(false);
 
     const handleClick = () => {
         if (!projectName.value.length) {
@@ -54,14 +57,15 @@ export const FormProject: FC<FormProjectProps> = props => {
 
         if (!formValid) return;
 
-        dispatch(
-            createNewProject(projects, {
-                id: Date.now().toString(),
-                name: projectName.value,
-                uid: auth.currentUser.uid,
-                current: true,
-            })
-        );
+        const newProject = {
+            id: Date.now().toString(),
+            name: projectName.value,
+            uid: auth.currentUser.uid,
+        };
+
+        dispatch(createNewProject(newProject));
+
+        navigate(`/${RouteNames.projects}/${newProject.name}`);
 
         projectName.cleanValue();
 

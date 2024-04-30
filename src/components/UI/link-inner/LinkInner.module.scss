@@ -1,4 +1,5 @@
-.side {
+.side,
+.sideActive {
     background-color: var(--main-300-full);
     font-size: var(--fsz-xxl);
     padding: var(--ident-m);
@@ -17,7 +18,7 @@
 }
 
 .sideActive {
-    color: var(--grey-900-full);
+	background-color: var(--main-400-full);
 }
 
 .header,

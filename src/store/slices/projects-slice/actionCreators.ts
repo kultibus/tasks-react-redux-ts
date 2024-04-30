@@ -7,16 +7,17 @@ import { projectsSlice } from "./projectsSlice";
 //     project: IProject
 // ) => (dispatch: AppDispatch) => Promise<void>;
 export type ICreateNewProject = (
-    projects: IProject[],
+    // projects: IProject[],
     project: IProject
 ) => (dispatch: AppDispatch) => void;
 
 export const createNewProject: ICreateNewProject =
-    (projects, project) => async (dispatch: AppDispatch) => {
+    project => async (dispatch: AppDispatch) => {
         try {
             // dispatch(projectsSlice.actions.setIsLoading());
 
-            dispatch(projectsSlice.actions.setProjects([...projects, project]));
+            dispatch(projectsSlice.actions.addProject(project));
+            dispatch(projectsSlice.actions.setCurrentProject(project));
         } catch (error) {
             dispatch(projectsSlice.actions.setError(error.message));
         }
