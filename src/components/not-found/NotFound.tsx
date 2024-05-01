@@ -1,7 +1,5 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { BtnVariant, Button } from "../UI/buttons/Button";
-import { MainCnt } from "../main-cnt/MainCnt";
 import { RouteNames } from "../../router";
 import styles from "./NotFound.module.scss";
 

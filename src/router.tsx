@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { App } from "./App";
-import { ProtectedRoute } from "./components/ProtectedRoute";
-import { PublicRoute } from "./components/PublicRoute";
+import { ProtectedRoute } from "./components/routes/ProtectedRoute";
+import { PublicRoute } from "./components/routes/PublicRoute";
 import { FormProject } from "./components/UI/form-project/FormProject";
 import { Boards } from "./components/boards/Boards";
 import { FormContainer } from "./components/form-container/FormContainer";
