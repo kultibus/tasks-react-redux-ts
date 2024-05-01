@@ -14,11 +14,11 @@ interface AppLayoutProps {
 }
 
 export const AppLayout: FC<AppLayoutProps> = ({ error }) => {
-    const dispatch = useAppDispatch();
+    // const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        dispatch(checkAuth());
-    }, []);
+    // useEffect(() => {
+    //     dispatch(checkAuth());
+    // }, []);
 
     const message = (error as { data?: string })?.data;
     const status = (error as { status?: string })?.status;

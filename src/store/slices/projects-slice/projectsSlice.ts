@@ -1,7 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IProject } from "../../../models/IProject";
 
-type IFormState = "" | "Delete" | "Edit";
+export enum IFormState {
+    initial = "Create new project",
+    add = "Add new project",
+    edit = "Edit project",
+    delete = "Delete project",
+}
 
 interface ProjectsState {
     projects: IProject[];
@@ -9,7 +14,6 @@ interface ProjectsState {
     error: string;
     isFormOpened: boolean;
     formState: IFormState;
-    // isAuth: boolean;
 }
 
 const initialState: ProjectsState = {
@@ -17,8 +21,7 @@ const initialState: ProjectsState = {
     isLoading: false,
     error: "",
     isFormOpened: false,
-    formState: "",
-    // isAuth: false,
+    formState: IFormState.initial,
 };
 
 export const projectsSlice = createSlice({
@@ -33,18 +36,20 @@ export const projectsSlice = createSlice({
             state.error = "";
             state.projects.push(action.payload);
             state.isFormOpened = false;
+            state.formState = IFormState.initial;
         },
         deleteCurrentProject(state) {
-            state.isLoading = false;
+			state.isLoading = false;
             state.error = "";
             if (state.projects.length) {
-                state.projects = state.projects.filter(
-                    project => !project.current
+				state.projects = state.projects.filter(
+					project => !project.current
                 );
             } else {
-                state.projects = [];
+				state.projects = [];
             }
             state.isFormOpened = false;
+			state.formState = IFormState.initial;
         },
         setCurrentProject(state, action: PayloadAction<IProject>) {
             state.isLoading = false;
@@ -58,7 +63,6 @@ export const projectsSlice = createSlice({
         },
         setIsFormOpened(state, action: PayloadAction<boolean>) {
             state.isFormOpened = action.payload;
-            state.formState = "";
         },
         setFormState(state, action: PayloadAction<IFormState>) {
             state.formState = action.payload;

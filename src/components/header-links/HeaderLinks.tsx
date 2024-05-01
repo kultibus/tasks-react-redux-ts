@@ -10,7 +10,7 @@ import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
 interface HeaderLinksProps {}
 
 export const HeaderLinks: FC<HeaderLinksProps> = () => {
-    const { isAuth, user, isLoading } = useAppSelector(
+    const { isAuth, user } = useAppSelector(
         state => state.authReducer
     );
 
@@ -27,8 +27,6 @@ export const HeaderLinks: FC<HeaderLinksProps> = () => {
                 Sign out
             </AppBtn>
         </div>
-    ) : isLoading ? (
-        <div className={styles.links}>Loading...</div>
     ) : (
         <div className={styles.links}>
             <NavLink to={`/${RouteNames.login}`}>

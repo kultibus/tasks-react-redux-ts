@@ -7,10 +7,11 @@ interface ProtectedRouteProps {
     children: ReactNode;
 }
 
-export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
-    const { isAuth, isLoading } = useAppSelector(state => state.authReducer);
 
-    return isAuth || isLoading ? (
+export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
+    const { isAuth } = useAppSelector(state => state.authReducer);
+
+    return isAuth ? (
         <>{children}</>
     ) : (
         <Navigate to={`/${RouteNames.login}`} replace />

@@ -1,20 +1,13 @@
 import { IProject } from "../../../models/IProject";
 import { AppDispatch } from "../../store";
-import { projectsSlice } from "./projectsSlice";
+import { IFormState, projectsSlice } from "./projectsSlice";
 
-// export type IProjectActionCreator = (
-//     projects: IProject[],
-//     project: IProject
-// ) => (dispatch: AppDispatch) => Promise<void>;
 export type IProjectActionCreator = (
-    // projects: IProject[],
-    project?: IProject,
-    currentProjectIndex?: number,
-    projects?: IProject[]
+    project: IProject
 ) => (dispatch: AppDispatch) => void;
 
 export const createNewProject: IProjectActionCreator =
-    project => async (dispatch: AppDispatch) => {
+    project => (dispatch: AppDispatch) => {
         try {
             // dispatch(projectsSlice.actions.setIsLoading());
 
@@ -27,7 +20,7 @@ export const createNewProject: IProjectActionCreator =
     };
 
 export const deleteProject: IProjectActionCreator =
-    project => async (dispatch: AppDispatch) => {
+    project => (dispatch: AppDispatch) => {
         try {
             dispatch(projectsSlice.actions.deleteCurrentProject());
 
@@ -36,5 +29,23 @@ export const deleteProject: IProjectActionCreator =
             }
         } catch (error) {
             dispatch(projectsSlice.actions.setError(error.message));
+        }
+    };
+
+export type IProjectFormActionCreator = (
+    isFormOpened: boolean,
+    formState: IFormState
+) => (dispatch: AppDispatch) => void;
+
+export const openForm: IProjectFormActionCreator =
+    (isFormOpened, formState) => (dispatch: AppDispatch) => {
+        if (isFormOpened) {
+            dispatch(projectsSlice.actions.setIsFormOpened(isFormOpened));
+
+            dispatch(projectsSlice.actions.setFormState(formState));
+        } else {
+            dispatch(projectsSlice.actions.setIsFormOpened(isFormOpened));
+
+            dispatch(projectsSlice.actions.setFormState(IFormState.initial));
         }
     };

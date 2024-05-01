@@ -35,7 +35,7 @@ export const signup: ISignUp =
                         })
                     );
 
-                    dispatch(authSlice.actions.setAuth(true));
+                    // dispatch(authSlice.actions.setAuth(true));
                 }
             });
         } catch (error) {
@@ -59,7 +59,7 @@ export const signin =
                         })
                     );
 
-                    dispatch(authSlice.actions.setAuth(true));
+                    // dispatch(authSlice.actions.setAuth(true));
                 }
             });
         } catch (error) {
@@ -72,29 +72,47 @@ export const signout = () => async (dispatch: AppDispatch) => {
 
     dispatch(authSlice.actions.setUser({} as IUser));
 
-    dispatch(authSlice.actions.setAuth(false));
+    // dispatch(authSlice.actions.setAuth(false));
 };
 
+// export const checkAuth = () => (dispatch: AppDispatch) => {
+//     try {
+//         dispatch(authSlice.actions.setIsLoading(true));
+
+//         onAuthStateChanged(auth, user => {
+//             if (user) {
+//                 dispatch(
+//                     authSlice.actions.setUser({
+//                         uid: user.uid,
+//                         displayName: user.displayName,
+//                     })
+//                 );
+//                 dispatch(authSlice.actions.setAuth(true));
+//             } else {
+//                 dispatch(authSlice.actions.setAuth(false));
+
+//                 dispatch(authSlice.actions.setIsLoading(false));
+//             }
+//         });
+//     } catch (error) {
+//         dispatch(authSlice.actions.setError(error.message));
+//     }
+// };
+
 export const checkAuth = () => (dispatch: AppDispatch) => {
-    try {
-        dispatch(authSlice.actions.setIsLoading(true));
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            dispatch(
+                authSlice.actions.setUser({
+                    uid: user.uid,
+                    displayName: user.displayName,
+                })
+            );
+            dispatch(authSlice.actions.setAuth(true));
+        } else {
+            dispatch(authSlice.actions.setUser({} as IUser));
 
-        onAuthStateChanged(auth, user => {
-            if (user) {
-                dispatch(
-                    authSlice.actions.setUser({
-                        uid: user.uid,
-                        displayName: user.displayName,
-                    })
-                );
-                dispatch(authSlice.actions.setAuth(true));
-            } else {
-                dispatch(authSlice.actions.setAuth(false));
-
-                dispatch(authSlice.actions.setIsLoading(false));
-            }
-        });
-    } catch (error) {
-        dispatch(authSlice.actions.setError(error.message));
-    }
+            dispatch(authSlice.actions.setAuth(false));
+        }
+    });
 };

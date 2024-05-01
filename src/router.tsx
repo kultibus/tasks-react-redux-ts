@@ -8,11 +8,9 @@ import { RegisterPage } from "./pages/RegisterPage";
 import { HomePage } from "./pages/HomePage";
 import { ProjectsPage } from "./pages/ProjectsPage";
 import { FormContainer } from "./components/form-container/FormContainer";
-import {
-    FormProject,
-    FormProjectVariant,
-} from "./components/UI/form-project/FormProject";
+import { FormProject } from "./components/UI/form-project/FormProject";
 import { Boards } from "./components/boards/Boards";
+import { IFormState } from "./store/slices/projects-slice/projectsSlice";
 
 export enum RouteNames {
     login = "login",
@@ -53,15 +51,15 @@ export const router = createBrowserRouter([
                         path: RouteNames.addProject,
                         element: (
                             <FormContainer>
-                                <FormProject variant={FormProjectVariant.add} />
+                                <FormProject />
                             </FormContainer>
                         ),
                     },
                     {
-                        path: RouteNames.deleteProject,
+                        path: `:projectId/${RouteNames.deleteProject}`,
                         element: (
                             <FormContainer>
-                                <FormProject variant={FormProjectVariant.delete} />
+                                <FormProject />
                             </FormContainer>
                         ),
                     },

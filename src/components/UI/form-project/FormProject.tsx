@@ -1,41 +1,33 @@
-import { FC, FormEvent, useMemo, useState } from "react";
-import { auth } from "../../../firebase";
+import { FC, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
+import { RouteNames } from "../../../router";
 import {
-    createNewProject,
-    deleteProject,
+	createNewProject,
+	deleteProject,
+	openForm,
 } from "../../../store/slices/projects-slice/actionCreators";
-import styles from "./FormProject.module.scss";
+import {
+	IFormState
+} from "../../../store/slices/projects-slice/projectsSlice";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
-import { useLocation, useNavigate } from "react-router-dom";
-import { RouteNames } from "../../../router";
-import { projectsSlice } from "../../../store/slices/projects-slice/projectsSlice";
+import styles from "./FormProject.module.scss";
 
-export enum FormProjectVariant {
-    initial = "Create new project",
-    add = "Add new project",
-    edit = "Edit project",
-    delete = "Delete project",
-}
+interface FormProjectProps {}
 
-interface FormProjectProps {
-    variant: FormProjectVariant;
-}
-
-export const FormProject: FC<FormProjectProps> = props => {
+export const FormProject: FC<FormProjectProps> = () => {
     const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
 
-    const { variant } = props;
-
     const [formValid, setFormValid] = useState<boolean>(false);
 
-    const { projects } = useAppSelector(state => state.projectsReducer);
+    const { projects, formState } = useAppSelector(
+        state => state.projectsReducer
+    );
 
-    const { setIsFormOpened } = projectsSlice.actions;
 
     const projectName = useInput(
         "",
@@ -58,27 +50,30 @@ export const FormProject: FC<FormProjectProps> = props => {
     //     });
     // }
 
+
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        switch (variant) {
-            case FormProjectVariant.initial:
-            case FormProjectVariant.add:
+        switch (formState) {
+            case IFormState.initial:
+            case IFormState.add:
                 if (!formValid) return;
 
                 const newProject = {
                     id: Math.random().toString(36).substring(2, 9),
                     name: projectName.value,
-                    uid: auth.currentUser.uid,
+                    // uid: auth.currentUser.uid,
                 };
 
                 dispatch(createNewProject(newProject));
 
                 navigate(`/${RouteNames.projects}/${newProject.id}`);
 
+                projectName.cleanValue();
+
                 break;
 
-            case FormProjectVariant.delete:
+            case IFormState.delete:
                 const currentProjectIndex = projects.findIndex(
                     project => project.current
                 );
@@ -86,13 +81,6 @@ export const FormProject: FC<FormProjectProps> = props => {
                 const length = projects.length;
                 const pervProject = projects[currentProjectIndex - 1];
                 const nextProject = projects[currentProjectIndex + 1];
-
-				
-                // const pervIndex = currentProjectIndex - 1;
-                // const nextIndex = currentProjectIndex + 1;
-
-				// console.log(pervIndex, currentProjectIndex, nextIndex, length)
-
 
                 if (length > 1 && currentProjectIndex === 0) {
                     dispatch(deleteProject(nextProject));
@@ -111,22 +99,25 @@ export const FormProject: FC<FormProjectProps> = props => {
                 break;
         }
 
-        projectName.cleanValue();
-
         // writeProjectData(createNewProject());
     };
 
     const handleReset = () => {
-        dispatch(setIsFormOpened(false));
+        dispatch(openForm(false, IFormState.initial));
 
         navigate(-1);
 
-        projectName.cleanValue();
+        switch (formState) {
+            case IFormState.initial:
+            case IFormState.add:
+                projectName.cleanValue();
+                break;
+        }
     };
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            {variant !== FormProjectVariant.delete && (
+            {formState !== IFormState.delete && (
                 <AppInput
                     name="projectName"
                     placeholderError={projectName.isError}
@@ -144,10 +135,10 @@ export const FormProject: FC<FormProjectProps> = props => {
                     variant={AppBtnVariant.form}
                     onClick={handleClick}
                 >
-                    {variant}
+                    {formState}
                 </AppBtn>
 
-                {variant !== FormProjectVariant.initial && (
+                {formState !== IFormState.initial && (
                     <AppBtn
                         type="reset"
                         variant={AppBtnVariant.form}

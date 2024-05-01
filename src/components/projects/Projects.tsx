@@ -1,13 +1,18 @@
 import { FC } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { SideBar } from "../side-bar/SideBar";
-import styles from "./Projects.module.scss";
 import DeleteIcon from "../../assets/icons/delete.svg";
 import EditIcon from "../../assets/icons/edit.svg";
-import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
-import { projectsSlice } from "../../store/slices/projects-slice/projectsSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { RouteNames } from "../../router";
+import {
+	openForm
+} from "../../store/slices/projects-slice/actionCreators";
+import {
+	IFormState
+} from "../../store/slices/projects-slice/projectsSlice";
+import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
+import { SideBar } from "../side-bar/SideBar";
+import styles from "./Projects.module.scss";
 
 interface ProjectsProps {}
 
@@ -20,16 +25,15 @@ export const Projects: FC<ProjectsProps> = () => {
 
     const currentProject = projects.find(project => project.current);
 
-    const { setIsFormOpened, setFormState } = projectsSlice.actions;
-
-    // const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
 
-    const handleDelete = () => {
-        dispatch(setIsFormOpened(true));
-        dispatch(setFormState("Delete"));
-        navigate(`/${RouteNames.projects}/${RouteNames.deleteProject}`);
+    const handleDelBtn = () => {
+        dispatch(openForm(true, IFormState.delete));
+
+        navigate(
+            `/${RouteNames.projects}/${currentProject.id}/${RouteNames.deleteProject}`
+        );
     };
 
     return (
@@ -37,7 +41,7 @@ export const Projects: FC<ProjectsProps> = () => {
             <header className={styles.topBar}>
                 <div className={styles.topBarBtns}>
                     <AppBtn
-                        onClick={handleDelete}
+                        onClick={handleDelBtn}
                         type="button"
                         variant={AppBtnVariant.iconTopBar}
                     >
@@ -49,12 +53,23 @@ export const Projects: FC<ProjectsProps> = () => {
                 </div>
                 <h2 className={styles.title}>
                     <span>
-                        {formState ? `${formState} project` : "Project name:"}
+                        {isFormOpened
+                            ? `${formState}\u00A0`
+                            : "Project name:\u00A0"}
                     </span>
                     <span>
-                        {isFormOpened
-                            ? `'${currentProject.name}'?`
-                            : currentProject.name}
+                        {!isFormOpened
+                            ? currentProject.name
+                            : formState !== IFormState.add
+                            ? `"${currentProject.name}"\u00A0`
+                            : ""}
+                    </span>
+                    <span>
+                        {!isFormOpened
+                            ? ""
+                            : formState !== IFormState.add
+                            ? '?'
+                            : ""}
                     </span>
                 </h2>
                 <AppBtn

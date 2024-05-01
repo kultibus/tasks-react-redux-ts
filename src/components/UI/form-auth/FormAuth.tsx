@@ -70,6 +70,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
                     placeholder={displayName.placeholder}
                     type="text"
                     value={displayName.value}
+					disabled={isLoading ? true : false}
                 />
             )}
 
@@ -81,7 +82,9 @@ export const FormAuth: FC<FormAuthProps> = props => {
                 placeholder={email.placeholder}
                 type="text"
                 value={email.value}
-            />
+				disabled={isLoading ? true : false}
+
+            />	
             <AppInput
                 name="password"
                 placeholderError={password.isError}
@@ -90,6 +93,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
                 placeholder={password.placeholder}
                 type="password"
                 value={password.value}
+				disabled={isLoading ? true : false}
             />
             <AppBtn
                 type="submit"
