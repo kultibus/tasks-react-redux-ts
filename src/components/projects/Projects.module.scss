@@ -25,9 +25,6 @@
 .topBar {
     grid-area: topBar;
     background-color: var(--main-200-full);
-	display: flex;
-	align-items: center;
-	gap: var(--ident-m);
 }
 
 .content {
@@ -36,24 +33,4 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.title {
-    font-size: var(--fsz-xxl);
-	flex-grow: 1;
-	display: flex;
-	// gap: var(--ident-m);
-	
-    span:nth-child(2) {
-		font-weight: 600;
-    }
-
-}
-
-.topBarBtns {
-	font-size: var(--fsz-xl);
-	display: flex;
-	border-right: 2px solid var(--grey-800-full);
-	padding-right: var(--ident-m);
-
 }
