@@ -11,9 +11,20 @@ export const createNewProject: IProjectActionCreator =
         try {
             // dispatch(projectsSlice.actions.setIsLoading());
 
-            dispatch(projectsSlice.actions.addProject(project));
+            dispatch(projectsSlice.actions.pushNewProject(project));
 
             dispatch(projectsSlice.actions.setCurrentProject(project));
+        } catch (error) {
+            dispatch(projectsSlice.actions.setError(error.message));
+        }
+    };
+
+export const editProject: IProjectActionCreator =
+    project => (dispatch: AppDispatch) => {
+        try {
+            // dispatch(projectsSlice.actions.setIsLoading());
+
+            dispatch(projectsSlice.actions.editCurrentProject(project));
         } catch (error) {
             dispatch(projectsSlice.actions.setError(error.message));
         }

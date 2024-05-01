@@ -103,7 +103,7 @@ module.exports = env => {
 
         devServer: {
             port: 5000,
-            open: true,
+            // open: true,
             historyApiFallback: true,
             hot: true,
         },

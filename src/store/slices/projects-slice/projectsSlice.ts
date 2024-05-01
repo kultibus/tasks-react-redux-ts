@@ -31,25 +31,37 @@ export const projectsSlice = createSlice({
         setIsLoading(state) {
             state.isLoading = true;
         },
-        addProject(state, action: PayloadAction<IProject>) {
+        pushNewProject(state, action: PayloadAction<IProject>) {
             state.isLoading = false;
             state.error = "";
             state.projects.push(action.payload);
             state.isFormOpened = false;
             state.formState = IFormState.initial;
         },
+        editCurrentProject(state, action: PayloadAction<IProject>) {
+            state.isLoading = false;
+            state.error = "";
+            state.projects = state.projects.map(project => {
+                if (project.current) {
+                    return { ...action.payload };
+                }
+                return { ...project };
+            });
+            state.isFormOpened = false;
+            state.formState = IFormState.initial;
+        },
         deleteCurrentProject(state) {
-			state.isLoading = false;
+            state.isLoading = false;
             state.error = "";
             if (state.projects.length) {
-				state.projects = state.projects.filter(
-					project => !project.current
+                state.projects = state.projects.filter(
+                    project => !project.current
                 );
             } else {
-				state.projects = [];
+                state.projects = [];
             }
             state.isFormOpened = false;
-			state.formState = IFormState.initial;
+            state.formState = IFormState.initial;
         },
         setCurrentProject(state, action: PayloadAction<IProject>) {
             state.isLoading = false;

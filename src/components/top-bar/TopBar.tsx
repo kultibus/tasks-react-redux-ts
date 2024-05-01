@@ -30,6 +30,14 @@ export const TopBar: FC<TopBarProps> = () => {
         );
     };
 
+    const handleEditBtn = () => {
+        dispatch(openForm(true, IFormState.edit));
+
+        navigate(
+            `/${RouteNames.projects}/${currentProject.id}/${RouteNames.editProject}`
+        );
+    };
+
     return (
         <header className={styles.topBar}>
             <div className={styles.topBarBtns}>
@@ -37,10 +45,16 @@ export const TopBar: FC<TopBarProps> = () => {
                     onClick={handleDelBtn}
                     type="button"
                     variant={AppBtnVariant.iconTopBar}
-                >
+                    disabled={isFormOpened ? true : false}
+					>
                     <DeleteIcon />
                 </AppBtn>
-                <AppBtn type="button" variant={AppBtnVariant.iconTopBar}>
+                <AppBtn
+                    onClick={handleEditBtn}
+                    disabled={isFormOpened ? true : false}
+                    type="button"
+                    variant={AppBtnVariant.iconTopBar}
+                >
                     <EditIcon />
                 </AppBtn>
             </div>
@@ -68,6 +82,7 @@ export const TopBar: FC<TopBarProps> = () => {
             <AppBtn
                 onClick={() => console.log(projects)}
                 variant={AppBtnVariant.form}
+                disabled={isFormOpened ? true : false}
             >
                 Add task
             </AppBtn>

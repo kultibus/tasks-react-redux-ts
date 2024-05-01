@@ -4,13 +4,12 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
 import { RouteNames } from "../../../router";
 import {
-	createNewProject,
-	deleteProject,
-	openForm,
+    createNewProject,
+    deleteProject,
+    editProject,
+    openForm,
 } from "../../../store/slices/projects-slice/actionCreators";
-import {
-	IFormState
-} from "../../../store/slices/projects-slice/projectsSlice";
+import { IFormState } from "../../../store/slices/projects-slice/projectsSlice";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormProject.module.scss";
@@ -27,7 +26,6 @@ export const FormProject: FC<FormProjectProps> = () => {
     const { projects, formState } = useAppSelector(
         state => state.projectsReducer
     );
-
 
     const projectName = useInput(
         "",
@@ -49,7 +47,6 @@ export const FormProject: FC<FormProjectProps> = () => {
     //         projectName: name,
     //     });
     // }
-
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -95,6 +92,21 @@ export const FormProject: FC<FormProjectProps> = () => {
 
                     navigate(RouteNames.home);
                 }
+
+                break;
+            case IFormState.edit:
+                if (!formValid) return;
+
+                const currentProject = {
+                    ...projects.find(project => project.current),
+                    name: projectName.value,
+                };
+
+                dispatch(editProject(currentProject));
+
+                navigate(`/${RouteNames.projects}/${currentProject.id}`);
+
+                projectName.cleanValue();
 
                 break;
         }

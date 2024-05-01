@@ -18,6 +18,7 @@ export enum RouteNames {
     projects = "projects",
     addProject = "add",
     deleteProject = "delete",
+    editProject = "edit",
     home = "/",
 }
 
@@ -56,7 +57,8 @@ export const router = createBrowserRouter([
                         ),
                     },
                     {
-                        path: `:projectId/${RouteNames.deleteProject}`,
+                        // path: `:projectId/${RouteNames.deleteProject}`,
+                        path: `:projectId/:formState`,
                         element: (
                             <FormContainer>
                                 <FormProject />
