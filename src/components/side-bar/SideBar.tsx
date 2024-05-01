@@ -8,7 +8,7 @@ import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { List, ListVariant } from "../list/List";
 import { SideLinks } from "../side-links/SideLinks";
 import styles from "./SideBar.module.scss";
-import { toggleProjectsForm } from "../../store/slices/form-projects-slice/formProjectsActionCreators";
+import { toggleForm } from "../../store/slices/form-slice/formActionCreators";
 
 interface SideBarProps {}
 
@@ -31,7 +31,7 @@ export const SideBar: FC<SideBarProps> = () => {
         );
 
         dispatch(
-            toggleProjectsForm({
+            toggleForm({
                 isOpened: false,
                 variant: IFormVariant.initial,
             })
@@ -40,7 +40,7 @@ export const SideBar: FC<SideBarProps> = () => {
 
     const btnClick = () => {
         dispatch(
-            toggleProjectsForm({
+            toggleForm({
                 isOpened: true,
                 variant: IFormVariant.addProject,
             })

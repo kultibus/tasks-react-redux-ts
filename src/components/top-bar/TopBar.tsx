@@ -7,14 +7,12 @@ import { RouteNames } from "../../router";
 import { IFormVariant } from "../../models/IForm";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import styles from "./TopBar.module.scss";
-import { toggleProjectsForm } from "../../store/slices/form-projects-slice/formProjectsActionCreators";
+import { toggleForm } from "../../store/slices/form-slice/formActionCreators";
 
 interface TopBarProps {}
 
 export const TopBar: FC<TopBarProps> = () => {
-    const { isOpened, variant } = useAppSelector(
-        state => state.formProjectsReducer
-    );
+    const { isOpened, variant } = useAppSelector(state => state.formReducer);
     const { projects } = useAppSelector(state => state.projectsReducer);
     const currentProject = projects.find(project => project.current);
 
@@ -24,7 +22,7 @@ export const TopBar: FC<TopBarProps> = () => {
 
     const handleDelBtn = () => {
         dispatch(
-            toggleProjectsForm({
+            toggleForm({
                 isOpened: true,
                 variant: IFormVariant.deleteProject,
             })
@@ -37,7 +35,7 @@ export const TopBar: FC<TopBarProps> = () => {
 
     const handleEditBtn = () => {
         dispatch(
-            toggleProjectsForm({
+            toggleForm({
                 isOpened: true,
                 variant: IFormVariant.editProject,
             })

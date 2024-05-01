@@ -6,6 +6,8 @@ export enum IFormVariant {
     addTask = "Add new task",
     editTask = "Edit task",
     deleteTask = "Delete task",
+    signUp = "Sign up",
+    signIn = "Sign In",
 }
 
 export interface IForm {

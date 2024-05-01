@@ -1,13 +1,13 @@
-import { authReducer } from "./slices/auth-slice/authSlice";
+import { userReducer } from "./slices/user-slice/userSlice";
 import { boardsReducer } from "./slices/boards-slice/boardsSlice";
-import { formProjectsReducer } from "./slices/form-projects-slice/formProjectsSlice";
+import { formReducer } from "./slices/form-slice/formSlice";
 import { projectsReducer } from "./slices/projects-slice/projectsSlice";
 import { tasksReducer } from "./slices/tasks-slice/tasksSlice";
 
 export const reducers = {
     projectsReducer,
-    authReducer,
+    userReducer,
     tasksReducer,
     boardsReducer,
-    formProjectsReducer,
+    formReducer,
 };

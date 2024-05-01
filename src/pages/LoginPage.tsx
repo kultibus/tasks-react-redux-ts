@@ -1,13 +1,14 @@
 import { FC } from "react";
 import { useAppSelector } from "../hooks/redux";
-import { signin } from "../store/slices/auth-slice/authActionCreators";
+import { signInUser } from "../store/slices/user-slice/userActionCreators";
 import { FormContainer } from "../components/form-container/FormContainer";
 import { FormError } from "../components/UI/form-error/FormError";
-import { FormAuth, FormAuthVariant } from "../components/UI/form-auth/FormAuth";
+import { FormAuth } from "../components/UI/form-auth/FormAuth";
 import { LoginBottom } from "../components/login-bottom/LoginBottom";
+import { IFormVariant } from "../models/IForm";
 
 export const LoginPage: FC = () => {
-    const { error } = useAppSelector(state => state.authReducer);
+    const { error } = useAppSelector(state => state.userReducer);
 
     return (
         <FormContainer>
@@ -16,11 +17,7 @@ export const LoginPage: FC = () => {
                     <p>The entered email or password is incorrect.</p>
                 </FormError>
             ) : (
-                <FormAuth
-                    variant={FormAuthVariant.signin}
-                    btnName="Sign in"
-                    handleAuth={signin}
-                />
+                <FormAuth btnName={IFormVariant.signIn} />
             )}
             <LoginBottom />
         </FormContainer>

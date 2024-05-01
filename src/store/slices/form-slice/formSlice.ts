@@ -7,20 +7,20 @@ const initialState: IForm = {
     variant: IFormVariant.initial,
 };
 
-export const formProjectSlice = createSlice({
-    name: "formProjects",
+export const formSlice = createSlice({
+    name: "form",
     initialState,
     reducers: {
         setIsOpened(state, action: PayloadAction<boolean>) {
             state.isOpened = action.payload;
         },
+		setIsValid(state, action: PayloadAction<boolean>) {
+			state.isValid = action.payload;
+		},
         setVariant(state, action: PayloadAction<IFormVariant>) {
             state.variant = action.payload;
-        },
-        setIsValid(state, action: PayloadAction<boolean>) {
-            state.isValid = action.payload;
         },
     },
 });
 
-export const formProjectsReducer = formProjectSlice.reducer;
+export const formReducer = formSlice.reducer;

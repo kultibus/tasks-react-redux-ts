@@ -1,13 +1,9 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { Outlet } from "react-router-dom";
-import { useAppDispatch } from "../../hooks/redux";
-import { authSlice } from "../../store/slices/auth-slice/authSlice";
 import { Header } from "../header/Header";
 import { MainCnt } from "../main-cnt/MainCnt";
 import { NotFound } from "../not-found/NotFound";
 import styles from "./AppLayout.module.scss";
-import { IUser } from "../../models/IUser";
-import { checkAuth } from "../../store/slices/auth-slice/authActionCreators";
 
 interface AppLayoutProps {
     error: unknown;

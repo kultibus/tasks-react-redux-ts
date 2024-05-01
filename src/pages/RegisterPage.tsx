@@ -1,12 +1,12 @@
 import { FC } from "react";
-import { useAppSelector } from "../hooks/redux";
-import { signup } from "../store/slices/auth-slice/authActionCreators";
-import { FormContainer } from "../components/form-container/FormContainer";
+import { FormAuth } from "../components/UI/form-auth/FormAuth";
 import { FormError } from "../components/UI/form-error/FormError";
-import { FormAuth, FormAuthVariant } from "../components/UI/form-auth/FormAuth";
+import { FormContainer } from "../components/form-container/FormContainer";
+import { useAppSelector } from "../hooks/redux";
+import { IFormVariant } from "../models/IForm";
 
 export const RegisterPage: FC = () => {
-    const { error } = useAppSelector(state => state.authReducer);
+    const { error } = useAppSelector(state => state.userReducer);
 
     return (
         <FormContainer>
@@ -18,11 +18,7 @@ export const RegisterPage: FC = () => {
                     </p>
                 </FormError>
             ) : (
-                <FormAuth
-                    variant={FormAuthVariant.signup}
-                    btnName="Sign up"
-                    handleAuth={signup}
-                />
+                <FormAuth btnName={IFormVariant.signUp} />
             )}
         </FormContainer>
     );

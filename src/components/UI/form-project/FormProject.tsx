@@ -5,9 +5,9 @@ import { useInput } from "../../../hooks/useInput";
 import { IFormVariant } from "../../../models/IForm";
 import { RouteNames } from "../../../router";
 import {
-    setIsValidProjectsForm,
-    toggleProjectsForm,
-} from "../../../store/slices/form-projects-slice/formProjectsActionCreators";
+    setIsValidForm,
+    toggleForm,
+} from "../../../store/slices/form-slice/formActionCreators";
 import {
     createNewProject,
     deleteCurrentProject,
@@ -25,9 +25,7 @@ export const FormProject: FC<FormProjectProps> = () => {
     const dispatch = useAppDispatch();
 
     const { projects } = useAppSelector(state => state.projectsReducer);
-    const { variant, isValid } = useAppSelector(
-        state => state.formProjectsReducer
-    );
+    const { variant, isValid } = useAppSelector(state => state.formReducer);
 
     const projectName = useInput(
         "",
@@ -37,11 +35,11 @@ export const FormProject: FC<FormProjectProps> = () => {
 
     const handleClick = () => {
         if (!projectName.value.length) {
-            dispatch(setIsValidProjectsForm({ isValid: false }));
+            dispatch(setIsValidForm({ isValid: false }));
 
             projectName.setError();
         } else {
-            dispatch(setIsValidProjectsForm({ isValid: true }));
+            dispatch(setIsValidForm({ isValid: true }));
         }
     };
 
@@ -115,7 +113,7 @@ export const FormProject: FC<FormProjectProps> = () => {
                 break;
         }
         dispatch(
-            toggleProjectsForm({
+            toggleForm({
                 isOpened: false,
                 variant: IFormVariant.initial,
             })
@@ -126,7 +124,7 @@ export const FormProject: FC<FormProjectProps> = () => {
 
     const handleReset = () => {
         dispatch(
-            toggleProjectsForm({
+            toggleForm({
                 isOpened: false,
                 variant: IFormVariant.initial,
             })
