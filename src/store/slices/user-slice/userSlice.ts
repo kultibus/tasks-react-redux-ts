@@ -17,7 +17,7 @@ export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        setIsLoading(state, action: PayloadAction<boolean>) {
+        setUserIsLoading(state, action: PayloadAction<boolean>) {
             state.isLoading = action.payload;
         },
         setUser(state, action: PayloadAction<IUser>) {
@@ -25,7 +25,7 @@ export const userSlice = createSlice({
             state.error = "";
             state.user = action.payload;
         },
-        setError(state, action: PayloadAction<string>) {
+        setUserError(state, action: PayloadAction<string>) {
             state.isLoading = false;
             state.error = action.payload;
         },
@@ -33,3 +33,5 @@ export const userSlice = createSlice({
 });
 
 export const userReducer = userSlice.reducer;
+
+export const { setUserError, setUserIsLoading, setUser } = userSlice.actions;

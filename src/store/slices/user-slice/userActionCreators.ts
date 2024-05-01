@@ -8,16 +8,13 @@ import {
 import { auth } from "../../../firebase";
 import { IUser } from "../../../models/IUser";
 import { AppDispatch } from "../../store";
-import { userSlice } from "./userSlice";
-
-
-const { setError, setIsLoading, setUser } = userSlice.actions;
+import { setUserError, setUserIsLoading, setUser } from "./userSlice";
 
 export const signUpUser =
     ({ displayName, email, password }: IUser) =>
     async (dispatch: AppDispatch) => {
         try {
-            dispatch(setIsLoading(true));
+            dispatch(setUserIsLoading(true));
 
             await createUserWithEmailAndPassword(auth, email, password);
 
@@ -34,7 +31,7 @@ export const signUpUser =
                 }
             });
         } catch (error) {
-            dispatch(setError(error.message));
+            dispatch(setUserError(error.message));
         }
     };
 
@@ -42,7 +39,7 @@ export const signInUser =
     ({ email, password }: IUser) =>
     async (dispatch: AppDispatch) => {
         try {
-            dispatch(setIsLoading(true));
+            dispatch(setUserIsLoading(true));
 
             await signInWithEmailAndPassword(auth, email, password);
 
@@ -57,7 +54,7 @@ export const signInUser =
                 }
             });
         } catch (error) {
-            dispatch(setError(error.message));
+            dispatch(setUserError(error.message));
         }
     };
 

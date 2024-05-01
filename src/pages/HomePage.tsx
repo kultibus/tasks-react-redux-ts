@@ -1,14 +1,20 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import {
-	FormProject,
-} from "../components/UI/form-project/FormProject";
+import { FormProject } from "../components/UI/form-project/FormProject";
 import { FormContainer } from "../components/form-container/FormContainer";
-import { useAppSelector } from "../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { RouteNames } from "../router";
+import { IFormVariant } from "../models/IForm";
+import { setFormVariant } from "../store/slices/form-slice/formSlice";
 
 export const HomePage: FC = () => {
     const { projects } = useAppSelector(state => state.projectsReducer);
+
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(setFormVariant(IFormVariant.initial));
+    }, []);
 
     return projects.length ? (
         <Navigate to={RouteNames.projects} />

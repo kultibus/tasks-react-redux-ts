@@ -5,10 +5,6 @@ import { useInput } from "../../../hooks/useInput";
 import { IFormVariant } from "../../../models/IForm";
 import { RouteNames } from "../../../router";
 import {
-    setIsValidForm,
-    toggleForm,
-} from "../../../store/slices/form-slice/formActionCreators";
-import {
     createNewProject,
     deleteCurrentProject,
     editCurrentProject,
@@ -16,6 +12,7 @@ import {
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormProject.module.scss";
+import { setIsFormOpened } from "../../../store/slices/form-slice/formSlice";
 
 interface FormProjectProps {}
 
@@ -35,11 +32,11 @@ export const FormProject: FC<FormProjectProps> = () => {
 
     const handleClick = () => {
         if (!projectName.value.length) {
-            dispatch(setIsValidForm({ isValid: false }));
+            dispatch(setIsFormOpened(false));
 
             projectName.setError();
         } else {
-            dispatch(setIsValidForm({ isValid: true }));
+            dispatch(setIsFormOpened(true));
         }
     };
 
@@ -112,23 +109,14 @@ export const FormProject: FC<FormProjectProps> = () => {
 
                 break;
         }
-        dispatch(
-            toggleForm({
-                isOpened: false,
-                variant: IFormVariant.initial,
-            })
-        );
+
+        dispatch(setIsFormOpened(false));
 
         // writeProjectData(createNewProject());
     };
 
     const handleReset = () => {
-        dispatch(
-            toggleForm({
-                isOpened: false,
-                variant: IFormVariant.initial,
-            })
-        );
+        dispatch(setIsFormOpened(false));
 
         navigate(-1);
 

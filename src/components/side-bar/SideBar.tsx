@@ -8,14 +8,17 @@ import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { List, ListVariant } from "../list/List";
 import { SideLinks } from "../side-links/SideLinks";
 import styles from "./SideBar.module.scss";
-import { toggleForm } from "../../store/slices/form-slice/formActionCreators";
+import {
+    setFormVariant,
+    setIsFormOpened,
+} from "../../store/slices/form-slice/formSlice";
 
 interface SideBarProps {}
 
 export const SideBar: FC<SideBarProps> = () => {
     const { projects } = useAppSelector(state => state.projectsReducer);
 
-    const { isOpened } = useAppSelector(state => state.formProjectsReducer);
+    const { isOpened } = useAppSelector(state => state.formReducer);
 
     const navigate = useNavigate();
 
@@ -30,21 +33,12 @@ export const SideBar: FC<SideBarProps> = () => {
             )
         );
 
-        dispatch(
-            toggleForm({
-                isOpened: false,
-                variant: IFormVariant.initial,
-            })
-        );
+        dispatch(setIsFormOpened(false));
     };
 
     const btnClick = () => {
-        dispatch(
-            toggleForm({
-                isOpened: true,
-                variant: IFormVariant.addProject,
-            })
-        );
+        dispatch(setIsFormOpened(true));
+        dispatch(setFormVariant(IFormVariant.addProject));
 
         navigate(`/${RouteNames.projects}/${RouteNames.addProject}`);
     };

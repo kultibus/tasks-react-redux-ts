@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import DeleteIcon from "../../assets/icons/delete.svg";
 import EditIcon from "../../assets/icons/edit.svg";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { RouteNames } from "../../router";
 import { IFormVariant } from "../../models/IForm";
+import { RouteNames } from "../../router";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import styles from "./TopBar.module.scss";
-import { toggleForm } from "../../store/slices/form-slice/formActionCreators";
+import {
+    setFormVariant,
+    setIsFormOpened,
+} from "../../store/slices/form-slice/formSlice";
 
 interface TopBarProps {}
 
@@ -21,12 +24,8 @@ export const TopBar: FC<TopBarProps> = () => {
     const dispatch = useAppDispatch();
 
     const handleDelBtn = () => {
-        dispatch(
-            toggleForm({
-                isOpened: true,
-                variant: IFormVariant.deleteProject,
-            })
-        );
+        dispatch(setIsFormOpened(true));
+        dispatch(setFormVariant(IFormVariant.deleteProject));
 
         navigate(
             `/${RouteNames.projects}/${currentProject.id}/${RouteNames.deleteProject}`
@@ -34,12 +33,8 @@ export const TopBar: FC<TopBarProps> = () => {
     };
 
     const handleEditBtn = () => {
-        dispatch(
-            toggleForm({
-                isOpened: true,
-                variant: IFormVariant.editProject,
-            })
-        );
+        dispatch(setIsFormOpened(true));
+        dispatch(setFormVariant(IFormVariant.editProject));
 
         navigate(
             `/${RouteNames.projects}/${currentProject.id}/${RouteNames.editProject}`

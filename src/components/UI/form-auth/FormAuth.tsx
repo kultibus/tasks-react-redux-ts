@@ -1,15 +1,21 @@
-import { FC, FormEvent, useState } from "react";
+import { FC, FormEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
-import styles from "./FormAuth.module.scss";
+import { IFormVariant } from "../../../models/IForm";
+import {
+    signInUser,
+    signUpUser,
+} from "../../../store/slices/user-slice/userActionCreators";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
-import { toggleForm } from "../../../store/slices/form-slice/formActionCreators";
-import { IFormVariant } from "../../../models/IForm";
-import { signUpUser } from "../../../store/slices/user-slice/userActionCreators";
+import styles from "./FormAuth.module.scss";
+import {
+    setIsFormOpened,
+    setIsFormValid,
+} from "../../../store/slices/form-slice/formSlice";
 
 interface FormAuthProps {
-    btnName: string;
+    btnName: IFormVariant;
 }
 
 export const FormAuth: FC<FormAuthProps> = props => {
@@ -25,36 +31,22 @@ export const FormAuth: FC<FormAuthProps> = props => {
     const displayName = useInput("", "Enter login...", "Login is empty!");
 
     const handleClick = () => {
-        if (!email.value.length || !password.value.length) {
-            dispatch(
-                toggleForm({
-                    isValid: false,
-                })
-            );
+        dispatch(setIsFormValid(true));
 
-            if (!email.value.length) {
-                email.setError();
-            }
-            if (!password.value.length) {
-                password.setError();
-            }
-        } else if (
-            variant === IFormVariant.signUp &&
-            !displayName.value.length
-        ) {
-            dispatch(
-                toggleForm({
-                    isValid: false,
-                })
-            );
+        if (!email.value.length) {
+            dispatch(setIsFormValid(false));
+
+            email.setError();
+        }
+        if (!password.value.length) {
+            dispatch(setIsFormValid(false));
+
+            password.setError();
+        }
+        if (variant === IFormVariant.signUp && !displayName.value.length) {
+            dispatch(setIsFormValid(false));
 
             displayName.setError();
-        } else {
-            dispatch(
-                toggleForm({
-                    isValid: true,
-                })
-            );
         }
     };
 
@@ -66,17 +58,22 @@ export const FormAuth: FC<FormAuthProps> = props => {
         switch (variant) {
             case IFormVariant.signUp:
                 dispatch(
-                    signUpUser({ email: email.value, password: password.value })
-                );
-
-                break;
-				
-            case IFormVariant.signIn:
-                dispatch(
                     signUpUser({
                         email: email.value,
                         password: password.value,
                         displayName: displayName.value,
+                    })
+                );
+
+                displayName.cleanValue();
+
+                break;
+
+            case IFormVariant.signIn:
+                dispatch(
+                    signInUser({
+                        email: email.value,
+                        password: password.value,
                     })
                 );
 
@@ -85,7 +82,6 @@ export const FormAuth: FC<FormAuthProps> = props => {
 
         email.cleanValue();
         password.cleanValue();
-        displayName.cleanValue();
     };
 
     return (
