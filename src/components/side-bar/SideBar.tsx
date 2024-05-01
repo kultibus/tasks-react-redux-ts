@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { IFormState } from "../../models/IForm";
 import { RouteNames } from "../../router";
-import { openForm } from "../../store/slices/projects-slice/actionCreators";
+import { openForm } from "../../store/slices/projects-slice/projectsActionCreators";
 import { projectsSlice } from "../../store/slices/projects-slice/projectsSlice";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { List, ListVariant } from "../list/List";

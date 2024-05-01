@@ -4,7 +4,7 @@ import DeleteIcon from "../../assets/icons/delete.svg";
 import EditIcon from "../../assets/icons/edit.svg";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { RouteNames } from "../../router";
-import { openForm } from "../../store/slices/projects-slice/actionCreators";
+import { openForm } from "../../store/slices/projects-slice/projectsActionCreators";
 import { IFormState } from "../../models/IForm";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import styles from "./TopBar.module.scss";

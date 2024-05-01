@@ -10,7 +10,7 @@ import {
 } from "../../store/slices/projects-slice/projectsSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../router";
-import { openForm } from "../../store/slices/projects-slice/actionCreators";
+import { openForm } from "../../store/slices/projects-slice/projectsActionCreators";
 
 interface SideBarProps {}
 

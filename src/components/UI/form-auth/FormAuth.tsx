@@ -1,7 +1,7 @@
 import { FC, FormEvent, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
-import { ISignUp } from "../../../store/slices/auth-slice/actionCreators";
+import { ISignUp } from "../../../store/slices/auth-slice/authActionCreators";
 import styles from "./FormAuth.module.scss";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
@@ -70,7 +70,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
                     placeholder={displayName.placeholder}
                     type="text"
                     value={displayName.value}
-					disabled={isLoading ? true : false}
+                    disabled={isLoading ? true : false}
                 />
             )}
 
@@ -82,9 +82,8 @@ export const FormAuth: FC<FormAuthProps> = props => {
                 placeholder={email.placeholder}
                 type="text"
                 value={email.value}
-				disabled={isLoading ? true : false}
-
-            />	
+                disabled={isLoading ? true : false}
+            />
             <AppInput
                 name="password"
                 placeholderError={password.isError}
@@ -93,7 +92,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
                 placeholder={password.placeholder}
                 type="password"
                 value={password.value}
-				disabled={isLoading ? true : false}
+                disabled={isLoading ? true : false}
             />
             <AppBtn
                 type="submit"

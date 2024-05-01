@@ -7,7 +7,7 @@ import { MainCnt } from "../main-cnt/MainCnt";
 import { NotFound } from "../not-found/NotFound";
 import styles from "./AppLayout.module.scss";
 import { IUser } from "../../models/IUser";
-import { checkAuth } from "../../store/slices/auth-slice/actionCreators";
+import { checkAuth } from "../../store/slices/auth-slice/authActionCreators";
 
 interface AppLayoutProps {
     error: unknown;

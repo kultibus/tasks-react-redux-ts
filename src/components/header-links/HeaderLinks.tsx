@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 import styles from "./HeaderLinks.module.scss";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { signout } from "../../store/slices/auth-slice/actionCreators";
+import { signout } from "../../store/slices/auth-slice/authActionCreators";
 import { RouteNames } from "../../router";
 import { NavLink } from "react-router-dom";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
@@ -10,9 +10,7 @@ import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
 interface HeaderLinksProps {}
 
 export const HeaderLinks: FC<HeaderLinksProps> = () => {
-    const { isAuth, user } = useAppSelector(
-        state => state.authReducer
-    );
+    const { isAuth, user } = useAppSelector(state => state.authReducer);
 
     const dispatch = useAppDispatch();
 

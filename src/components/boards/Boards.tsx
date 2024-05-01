@@ -1,13 +1,11 @@
-import { FC, useMemo, useState } from "react";
-import { useAppSelector } from "../../hooks/redux";
+import { FC } from "react";
+import { ITaskState } from "../../models/ITask";
 import { Board } from "../board/Board";
 import { List, ListVariant } from "../list/List";
 import styles from "./Boards.module.scss";
 
-interface BoardsProps {}
-
-export const Boards: FC<BoardsProps> = () => {
-    const [boards] = useState<string[]>(["Opened", "In process", "Done"]);
+export const Boards: FC = () => {
+    const boards = [ITaskState.opened, ITaskState.inProcess, ITaskState.done];
 
     return (
         <main className={styles.boards}>

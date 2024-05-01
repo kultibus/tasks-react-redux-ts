@@ -8,7 +8,7 @@ import {
     deleteProject,
     editProject,
     openForm,
-} from "../../../store/slices/projects-slice/actionCreators";
+} from "../../../store/slices/projects-slice/projectsActionCreators";
 import { IFormState } from "../../../models/IForm";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
