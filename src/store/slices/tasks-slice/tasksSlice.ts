@@ -1,22 +1,16 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IForm, IFormVariant } from "../../../models/IForm";
 import { ITask } from "../../../models/ITask";
 
 interface TasksState {
     tasks: ITask[];
     isLoading: boolean;
     error: string;
-    form: IForm;
 }
 
 const initialState: TasksState = {
     tasks: [],
     isLoading: false,
     error: "",
-    form: {
-        isOpened: false,
-        state: IFormVariant.initial,
-    },
 };
 
 export const tasksSlice = createSlice({
@@ -26,14 +20,12 @@ export const tasksSlice = createSlice({
         setIsLoading(state) {
             state.isLoading = true;
         },
-        pushNewTask(state, action: PayloadAction<ITask>) {
+        createNew(state, action: PayloadAction<ITask>) {
             state.isLoading = false;
             state.error = "";
             state.tasks.push(action.payload);
-            state.form.isOpened = false;
-            state.form.state = IFormVariant.initial;
         },
-        editCurrentTask(state, action: PayloadAction<ITask>) {
+        editCurrent(state, action: PayloadAction<ITask>) {
             state.isLoading = false;
             state.error = "";
             state.tasks = state.tasks.map(task => {
@@ -42,10 +34,8 @@ export const tasksSlice = createSlice({
                 }
                 return { ...task };
             });
-            state.form.isOpened = false;
-            state.form.state = IFormVariant.initial;
         },
-        deleteCurrentTask(state) {
+        deleteCurrent(state) {
             state.isLoading = false;
             state.error = "";
             if (state.tasks.length) {
@@ -53,10 +43,8 @@ export const tasksSlice = createSlice({
             } else {
                 state.tasks = [];
             }
-            state.form.isOpened = false;
-            state.form.state = IFormVariant.initial;
         },
-        setCurrentTask(state, action: PayloadAction<ITask>) {
+        setCurrent(state, action: PayloadAction<ITask>) {
             state.isLoading = false;
             state.error = "";
             state.tasks = state.tasks.map(task => {
@@ -65,12 +53,6 @@ export const tasksSlice = createSlice({
                 }
                 return { ...task, current: false };
             });
-        },
-        setIsFormOpened(state, action: PayloadAction<boolean>) {
-            state.form.isOpened = action.payload;
-        },
-        setFormState(state, action: PayloadAction<IFormVariant>) {
-            state.form.state = action.payload;
         },
         setError(state, action: PayloadAction<string>) {
             state.isLoading = false;

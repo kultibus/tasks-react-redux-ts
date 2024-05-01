@@ -1,62 +1,28 @@
 import { ITask } from "../../../models/ITask";
 import { AppDispatch } from "../../store";
 import { tasksSlice } from "./tasksSlice";
-import { IFormVariant } from "../../../models/IForm";
 
-export type ITaskActionCreator = (
-    task: ITask
-) => (dispatch: AppDispatch) => void;
+const { createNew, setCurrent, editCurrent, deleteCurrent } =
+    tasksSlice.actions;
 
-export const createNewTask: ITaskActionCreator =
-    task => (dispatch: AppDispatch) => {
-        try {
-            // dispatch(tasksSlice.actions.setIsLoading());
+export const createNewTask = (task: ITask) => (dispatch: AppDispatch) => {
+    dispatch(createNew(task));
 
-            dispatch(tasksSlice.actions.pushNewTask(task));
+    dispatch(setCurrent(task));
+};
 
-            dispatch(tasksSlice.actions.setCurrentTask(task));
-        } catch (error) {
-            dispatch(tasksSlice.actions.setError(error.message));
-        }
-    };
+export const editCurrentTask = (task: ITask) => (dispatch: AppDispatch) => {
+    dispatch(editCurrent(task));
+};
 
-export const editTask: ITaskActionCreator = task => (dispatch: AppDispatch) => {
-    try {
-        // dispatch(tasksSlice.actions.setIsLoading());
+export const deleteCurrentTask = (task: ITask) => (dispatch: AppDispatch) => {
+    dispatch(deleteCurrent());
 
-        dispatch(tasksSlice.actions.editCurrentTask(task));
-    } catch (error) {
-        dispatch(tasksSlice.actions.setError(error.message));
+    if (task) {
+        dispatch(setCurrent(task));
     }
 };
 
-export const deleteTask: ITaskActionCreator =
-    task => (dispatch: AppDispatch) => {
-        try {
-            dispatch(tasksSlice.actions.deleteCurrentTask());
-
-            if (task) {
-                dispatch(tasksSlice.actions.setCurrentTask(task));
-            }
-        } catch (error) {
-            dispatch(tasksSlice.actions.setError(error.message));
-        }
-    };
-
-export type ITaskFormActionCreator = (
-    isFormOpened: boolean,
-    formState: IFormVariant
-) => (dispatch: AppDispatch) => void;
-
-export const openForm: ITaskFormActionCreator =
-    (isFormOpened, formState) => (dispatch: AppDispatch) => {
-        if (isFormOpened) {
-            dispatch(tasksSlice.actions.setIsFormOpened(isFormOpened));
-
-            dispatch(tasksSlice.actions.setFormState(formState));
-        } else {
-            dispatch(tasksSlice.actions.setIsFormOpened(isFormOpened));
-
-            dispatch(tasksSlice.actions.setFormState(IFormVariant.initial));
-        }
-    };
+export const setCurrentTask = (task: ITask) => (dispatch: AppDispatch) => {
+    dispatch(setCurrent(task));
+};
