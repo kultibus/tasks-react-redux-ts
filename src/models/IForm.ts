@@ -1,4 +1,4 @@
-export enum IFormState {
+export enum IFormVariant {
     initial = "Create new project",
     addProject = "Add new project",
     editProject = "Edit project",
@@ -9,6 +9,7 @@ export enum IFormState {
 }
 
 export interface IForm {
-    isOpened: boolean;
-    state: IFormState;
+    isOpened?: boolean;
+    isValid?: boolean;
+    variant?: IFormVariant;
 }

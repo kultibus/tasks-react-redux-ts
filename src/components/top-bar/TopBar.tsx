@@ -4,24 +4,31 @@ import DeleteIcon from "../../assets/icons/delete.svg";
 import EditIcon from "../../assets/icons/edit.svg";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { RouteNames } from "../../router";
-import { openForm } from "../../store/slices/projects-slice/projectsActionCreators";
-import { IFormState } from "../../models/IForm";
+import { IFormVariant } from "../../models/IForm";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import styles from "./TopBar.module.scss";
+import { toggleProjectsForm } from "../../store/slices/form-projects-slice/formProjectsActionCreators";
 
 interface TopBarProps {}
 
 export const TopBar: FC<TopBarProps> = () => {
-    const { projects, form } = useAppSelector(state => state.projectsReducer);
+    const { isOpened, variant } = useAppSelector(
+        state => state.formProjectsReducer
+    );
+    const { projects } = useAppSelector(state => state.projectsReducer);
+    const currentProject = projects.find(project => project.current);
 
     const navigate = useNavigate();
-
-    const currentProject = projects.find(project => project.current);
 
     const dispatch = useAppDispatch();
 
     const handleDelBtn = () => {
-        dispatch(openForm(true, IFormState.deleteProject));
+        dispatch(
+            toggleProjectsForm({
+                isOpened: true,
+                variant: IFormVariant.deleteProject,
+            })
+        );
 
         navigate(
             `/${RouteNames.projects}/${currentProject.id}/${RouteNames.deleteProject}`
@@ -29,7 +36,12 @@ export const TopBar: FC<TopBarProps> = () => {
     };
 
     const handleEditBtn = () => {
-        dispatch(openForm(true, IFormState.editProject));
+        dispatch(
+            toggleProjectsForm({
+                isOpened: true,
+                variant: IFormVariant.editProject,
+            })
+        );
 
         navigate(
             `/${RouteNames.projects}/${currentProject.id}/${RouteNames.editProject}`
@@ -43,13 +55,13 @@ export const TopBar: FC<TopBarProps> = () => {
                     onClick={handleDelBtn}
                     type="button"
                     variant={AppBtnVariant.iconTopBar}
-                    disabled={form.isOpened ? true : false}
+                    disabled={isOpened ? true : false}
                 >
                     <DeleteIcon />
                 </AppBtn>
                 <AppBtn
                     onClick={handleEditBtn}
-                    disabled={form.isOpened ? true : false}
+                    disabled={isOpened ? true : false}
                     type="button"
                     variant={AppBtnVariant.iconTopBar}
                 >
@@ -58,21 +70,19 @@ export const TopBar: FC<TopBarProps> = () => {
             </div>
             <h2 className={styles.title}>
                 <span>
-                    {form.isOpened
-                        ? `${form.state}\u00A0`
-                        : "Project name:\u00A0"}
+                    {isOpened ? `${variant}\u00A0` : "Project name:\u00A0"}
                 </span>
                 <span>
-                    {!form.isOpened
+                    {!isOpened
                         ? currentProject.name
-                        : form.state !== IFormState.addProject
+                        : variant !== IFormVariant.addProject
                         ? `"${currentProject.name}"\u00A0`
                         : ""}
                 </span>
                 <span>
-                    {!form.isOpened
+                    {!isOpened
                         ? ""
-                        : form.state !== IFormState.addProject
+                        : variant !== IFormVariant.addProject
                         ? "?"
                         : ""}
                 </span>
@@ -80,7 +90,7 @@ export const TopBar: FC<TopBarProps> = () => {
             <AppBtn
                 onClick={() => console.log(projects)}
                 variant={AppBtnVariant.form}
-                disabled={form.isOpened ? true : false}
+                disabled={isOpened ? true : false}
             >
                 Add task
             </AppBtn>

@@ -1,21 +1,21 @@
 import { FC, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { IFormState } from "../../models/IForm";
+import { IFormVariant } from "../../models/IForm";
 import { RouteNames } from "../../router";
-import { openForm } from "../../store/slices/projects-slice/projectsActionCreators";
-import { projectsSlice } from "../../store/slices/projects-slice/projectsSlice";
+import { setCurrentProject } from "../../store/slices/projects-slice/projectsActionCreators";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { List, ListVariant } from "../list/List";
 import { SideLinks } from "../side-links/SideLinks";
 import styles from "./SideBar.module.scss";
+import { toggleProjectsForm } from "../../store/slices/form-projects-slice/formProjectsActionCreators";
 
 interface SideBarProps {}
 
 export const SideBar: FC<SideBarProps> = () => {
-    const { projects, form } = useAppSelector(state => state.projectsReducer);
+    const { projects } = useAppSelector(state => state.projectsReducer);
 
-    const { setCurrentProject, setIsFormOpened } = projectsSlice.actions;
+    const { isOpened } = useAppSelector(state => state.formProjectsReducer);
 
     const navigate = useNavigate();
 
@@ -29,13 +29,22 @@ export const SideBar: FC<SideBarProps> = () => {
                 projects.find(project => project.id === projectId)
             )
         );
-        dispatch(openForm(false, IFormState.initial));
+
+        dispatch(
+            toggleProjectsForm({
+                isOpened: false,
+                variant: IFormVariant.initial,
+            })
+        );
     };
 
     const btnClick = () => {
-        // dispatch(setIsFormOpened(true));
-
-        dispatch(openForm(true, IFormState.addProject));
+        dispatch(
+            toggleProjectsForm({
+                isOpened: true,
+                variant: IFormVariant.addProject,
+            })
+        );
 
         navigate(`/${RouteNames.projects}/${RouteNames.addProject}`);
     };
@@ -45,11 +54,9 @@ export const SideBar: FC<SideBarProps> = () => {
             <AppBtn
                 onClick={btnClick}
                 variant={
-                    form.isOpened
-                        ? AppBtnVariant.formDisabled
-                        : AppBtnVariant.form
+                    isOpened ? AppBtnVariant.formDisabled : AppBtnVariant.form
                 }
-                disabled={form.isOpened ? true : false}
+                disabled={isOpened ? true : false}
             >
                 New project
             </AppBtn>

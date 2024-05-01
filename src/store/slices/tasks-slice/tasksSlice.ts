@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IForm, IFormState } from "../../../models/IForm";
+import { IForm, IFormVariant } from "../../../models/IForm";
 import { ITask } from "../../../models/ITask";
 
 interface TasksState {
@@ -15,7 +15,7 @@ const initialState: TasksState = {
     error: "",
     form: {
         isOpened: false,
-        state: IFormState.initial,
+        state: IFormVariant.initial,
     },
 };
 
@@ -31,7 +31,7 @@ export const tasksSlice = createSlice({
             state.error = "";
             state.tasks.push(action.payload);
             state.form.isOpened = false;
-            state.form.state = IFormState.initial;
+            state.form.state = IFormVariant.initial;
         },
         editCurrentTask(state, action: PayloadAction<ITask>) {
             state.isLoading = false;
@@ -43,7 +43,7 @@ export const tasksSlice = createSlice({
                 return { ...task };
             });
             state.form.isOpened = false;
-            state.form.state = IFormState.initial;
+            state.form.state = IFormVariant.initial;
         },
         deleteCurrentTask(state) {
             state.isLoading = false;
@@ -54,7 +54,7 @@ export const tasksSlice = createSlice({
                 state.tasks = [];
             }
             state.form.isOpened = false;
-            state.form.state = IFormState.initial;
+            state.form.state = IFormVariant.initial;
         },
         setCurrentTask(state, action: PayloadAction<ITask>) {
             state.isLoading = false;
@@ -69,7 +69,7 @@ export const tasksSlice = createSlice({
         setIsFormOpened(state, action: PayloadAction<boolean>) {
             state.form.isOpened = action.payload;
         },
-        setFormState(state, action: PayloadAction<IFormState>) {
+        setFormState(state, action: PayloadAction<IFormVariant>) {
             state.form.state = action.payload;
         },
         setError(state, action: PayloadAction<string>) {

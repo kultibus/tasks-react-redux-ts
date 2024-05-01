@@ -1,15 +1,18 @@
-import { FC, FormEvent, useState } from "react";
+import { FC, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
+import { IFormVariant } from "../../../models/IForm";
 import { RouteNames } from "../../../router";
 import {
+    setIsValidProjectsForm,
+    toggleProjectsForm,
+} from "../../../store/slices/form-projects-slice/formProjectsActionCreators";
+import {
     createNewProject,
-    deleteProject,
-    editProject,
-    openForm,
+    deleteCurrentProject,
+    editCurrentProject,
 } from "../../../store/slices/projects-slice/projectsActionCreators";
-import { IFormState } from "../../../models/IForm";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormProject.module.scss";
@@ -21,9 +24,10 @@ export const FormProject: FC<FormProjectProps> = () => {
 
     const dispatch = useAppDispatch();
 
-    const [formValid, setFormValid] = useState<boolean>(false);
-
-    const { projects, form } = useAppSelector(state => state.projectsReducer);
+    const { projects } = useAppSelector(state => state.projectsReducer);
+    const { variant, isValid } = useAppSelector(
+        state => state.formProjectsReducer
+    );
 
     const projectName = useInput(
         "",
@@ -33,10 +37,11 @@ export const FormProject: FC<FormProjectProps> = () => {
 
     const handleClick = () => {
         if (!projectName.value.length) {
-            setFormValid(false);
+            dispatch(setIsValidProjectsForm({ isValid: false }));
+
             projectName.setError();
         } else {
-            setFormValid(true);
+            dispatch(setIsValidProjectsForm({ isValid: true }));
         }
     };
 
@@ -49,10 +54,10 @@ export const FormProject: FC<FormProjectProps> = () => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        switch (form.state) {
-            case IFormState.initial:
-            case IFormState.addProject:
-                if (!formValid) return;
+        switch (variant) {
+            case IFormVariant.initial:
+            case IFormVariant.addProject:
+                if (!isValid) return;
 
                 const newProject = {
                     id: Math.random().toString(36).substring(2, 9),
@@ -68,7 +73,23 @@ export const FormProject: FC<FormProjectProps> = () => {
 
                 break;
 
-            case IFormState.deleteProject:
+            case IFormVariant.editProject:
+                if (!isValid) return;
+
+                const currentProject = {
+                    ...projects.find(project => project.current),
+                    name: projectName.value,
+                };
+
+                dispatch(editCurrentProject(currentProject));
+
+                navigate(`/${RouteNames.projects}/${currentProject.id}`);
+
+                projectName.cleanValue();
+
+                break;
+
+            case IFormVariant.deleteProject:
                 const currentProjectIndex = projects.findIndex(
                     project => project.current
                 );
@@ -78,48 +99,44 @@ export const FormProject: FC<FormProjectProps> = () => {
                 const nextProject = projects[currentProjectIndex + 1];
 
                 if (length > 1 && currentProjectIndex === 0) {
-                    dispatch(deleteProject(nextProject));
+                    dispatch(deleteCurrentProject(nextProject));
 
                     navigate(`/${RouteNames.projects}/${nextProject.id}`);
                 } else if (length > 1) {
-                    dispatch(deleteProject(pervProject));
+                    dispatch(deleteCurrentProject(pervProject));
 
                     navigate(`/${RouteNames.projects}/${pervProject.id}`);
                 } else {
-                    dispatch(deleteProject(null));
+                    dispatch(deleteCurrentProject(null));
 
                     navigate(RouteNames.home);
                 }
 
                 break;
-            case IFormState.editProject:
-                if (!formValid) return;
-
-                const currentProject = {
-                    ...projects.find(project => project.current),
-                    name: projectName.value,
-                };
-
-                dispatch(editProject(currentProject));
-
-                navigate(`/${RouteNames.projects}/${currentProject.id}`);
-
-                projectName.cleanValue();
-
-                break;
         }
+        dispatch(
+            toggleProjectsForm({
+                isOpened: false,
+                variant: IFormVariant.initial,
+            })
+        );
 
         // writeProjectData(createNewProject());
     };
 
     const handleReset = () => {
-        dispatch(openForm(false, IFormState.initial));
+        dispatch(
+            toggleProjectsForm({
+                isOpened: false,
+                variant: IFormVariant.initial,
+            })
+        );
 
         navigate(-1);
 
-        switch (form.state) {
-            case IFormState.initial:
-            case IFormState.addProject:
+        switch (variant) {
+            case IFormVariant.initial:
+            case IFormVariant.addProject:
                 projectName.cleanValue();
                 break;
         }
@@ -127,7 +144,7 @@ export const FormProject: FC<FormProjectProps> = () => {
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            {form.state !== IFormState.deleteProject && (
+            {variant !== IFormVariant.deleteProject && (
                 <AppInput
                     name="projectName"
                     placeholderError={projectName.isError}
@@ -145,10 +162,10 @@ export const FormProject: FC<FormProjectProps> = () => {
                     variant={AppBtnVariant.form}
                     onClick={handleClick}
                 >
-                    {form.state}
+                    {variant}
                 </AppBtn>
 
-                {form.state !== IFormState.initial && (
+                {variant !== IFormVariant.initial && (
                     <AppBtn
                         type="reset"
                         variant={AppBtnVariant.form}

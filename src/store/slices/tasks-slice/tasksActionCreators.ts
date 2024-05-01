@@ -1,7 +1,7 @@
 import { ITask } from "../../../models/ITask";
 import { AppDispatch } from "../../store";
 import { tasksSlice } from "./tasksSlice";
-import { IFormState } from "../../../models/IForm";
+import { IFormVariant } from "../../../models/IForm";
 
 export type ITaskActionCreator = (
     task: ITask
@@ -20,16 +20,15 @@ export const createNewTask: ITaskActionCreator =
         }
     };
 
-export const editTask: ITaskActionCreator =
-    task => (dispatch: AppDispatch) => {
-        try {
-            // dispatch(tasksSlice.actions.setIsLoading());
+export const editTask: ITaskActionCreator = task => (dispatch: AppDispatch) => {
+    try {
+        // dispatch(tasksSlice.actions.setIsLoading());
 
-            dispatch(tasksSlice.actions.editCurrentTask(task));
-        } catch (error) {
-            dispatch(tasksSlice.actions.setError(error.message));
-        }
-    };
+        dispatch(tasksSlice.actions.editCurrentTask(task));
+    } catch (error) {
+        dispatch(tasksSlice.actions.setError(error.message));
+    }
+};
 
 export const deleteTask: ITaskActionCreator =
     task => (dispatch: AppDispatch) => {
@@ -46,7 +45,7 @@ export const deleteTask: ITaskActionCreator =
 
 export type ITaskFormActionCreator = (
     isFormOpened: boolean,
-    formState: IFormState
+    formState: IFormVariant
 ) => (dispatch: AppDispatch) => void;
 
 export const openForm: ITaskFormActionCreator =
@@ -58,6 +57,6 @@ export const openForm: ITaskFormActionCreator =
         } else {
             dispatch(tasksSlice.actions.setIsFormOpened(isFormOpened));
 
-            dispatch(tasksSlice.actions.setFormState(IFormState.initial));
+            dispatch(tasksSlice.actions.setFormState(IFormVariant.initial));
         }
     };
