@@ -1,31 +1,26 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { IForm, IFormState } from "../../../models/IForm";
 import { IProject } from "../../../models/IProject";
-
-export enum IFormState {
-    initial = "Create new project",
-    add = "Add new project",
-    edit = "Edit project",
-    delete = "Delete project",
-}
 
 interface ProjectsState {
     projects: IProject[];
     isLoading: boolean;
     error: string;
-    isFormOpened: boolean;
-    formState: IFormState;
+    form: IForm;
 }
 
 const initialState: ProjectsState = {
     projects: [],
     isLoading: false,
     error: "",
-    isFormOpened: false,
-    formState: IFormState.initial,
+    form: {
+        isOpened: false,
+        state: IFormState.initial,
+    },
 };
 
 export const projectsSlice = createSlice({
-    name: "auth",
+    name: "projects",
     initialState,
     reducers: {
         setIsLoading(state) {
@@ -35,8 +30,8 @@ export const projectsSlice = createSlice({
             state.isLoading = false;
             state.error = "";
             state.projects.push(action.payload);
-            state.isFormOpened = false;
-            state.formState = IFormState.initial;
+            state.form.isOpened = false;
+            state.form.state = IFormState.initial;
         },
         editCurrentProject(state, action: PayloadAction<IProject>) {
             state.isLoading = false;
@@ -47,8 +42,8 @@ export const projectsSlice = createSlice({
                 }
                 return { ...project };
             });
-            state.isFormOpened = false;
-            state.formState = IFormState.initial;
+            state.form.isOpened = false;
+            state.form.state = IFormState.initial;
         },
         deleteCurrentProject(state) {
             state.isLoading = false;
@@ -60,8 +55,8 @@ export const projectsSlice = createSlice({
             } else {
                 state.projects = [];
             }
-            state.isFormOpened = false;
-            state.formState = IFormState.initial;
+            state.form.isOpened = false;
+            state.form.state = IFormState.initial;
         },
         setCurrentProject(state, action: PayloadAction<IProject>) {
             state.isLoading = false;
@@ -74,10 +69,10 @@ export const projectsSlice = createSlice({
             });
         },
         setIsFormOpened(state, action: PayloadAction<boolean>) {
-            state.isFormOpened = action.payload;
+            state.form.isOpened = action.payload;
         },
         setFormState(state, action: PayloadAction<IFormState>) {
-            state.formState = action.payload;
+            state.form.state = action.payload;
         },
         setError(state, action: PayloadAction<string>) {
             state.isLoading = false;

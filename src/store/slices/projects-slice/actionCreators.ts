@@ -1,6 +1,7 @@
 import { IProject } from "../../../models/IProject";
 import { AppDispatch } from "../../store";
-import { IFormState, projectsSlice } from "./projectsSlice";
+import { projectsSlice } from "./projectsSlice";
+import { IFormState } from "../../../models/IForm";
 
 export type IProjectActionCreator = (
     project: IProject

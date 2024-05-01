@@ -2,15 +2,13 @@ import { createBrowserRouter } from "react-router-dom";
 import { App } from "./App";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { PublicRoute } from "./components/PublicRoute";
-import { Projects } from "./components/projects/Projects";
-import { LoginPage } from "./pages/LoginPage";
-import { RegisterPage } from "./pages/RegisterPage";
-import { HomePage } from "./pages/HomePage";
-import { ProjectsPage } from "./pages/ProjectsPage";
-import { FormContainer } from "./components/form-container/FormContainer";
 import { FormProject } from "./components/UI/form-project/FormProject";
 import { Boards } from "./components/boards/Boards";
-import { IFormState } from "./store/slices/projects-slice/projectsSlice";
+import { FormContainer } from "./components/form-container/FormContainer";
+import { HomePage } from "./pages/HomePage";
+import { LoginPage } from "./pages/LoginPage";
+import { ProjectsPage } from "./pages/ProjectsPage";
+import { RegisterPage } from "./pages/RegisterPage";
 
 export enum RouteNames {
     login = "login",
@@ -57,7 +55,6 @@ export const router = createBrowserRouter([
                         ),
                     },
                     {
-                        // path: `:projectId/${RouteNames.deleteProject}`,
                         path: `:projectId/:formState`,
                         element: (
                             <FormContainer>

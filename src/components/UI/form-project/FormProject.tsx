@@ -9,7 +9,7 @@ import {
     editProject,
     openForm,
 } from "../../../store/slices/projects-slice/actionCreators";
-import { IFormState } from "../../../store/slices/projects-slice/projectsSlice";
+import { IFormState } from "../../../models/IForm";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormProject.module.scss";
@@ -23,9 +23,7 @@ export const FormProject: FC<FormProjectProps> = () => {
 
     const [formValid, setFormValid] = useState<boolean>(false);
 
-    const { projects, formState } = useAppSelector(
-        state => state.projectsReducer
-    );
+    const { projects, form } = useAppSelector(state => state.projectsReducer);
 
     const projectName = useInput(
         "",
@@ -51,9 +49,9 @@ export const FormProject: FC<FormProjectProps> = () => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        switch (formState) {
+        switch (form.state) {
             case IFormState.initial:
-            case IFormState.add:
+            case IFormState.addProject:
                 if (!formValid) return;
 
                 const newProject = {
@@ -70,7 +68,7 @@ export const FormProject: FC<FormProjectProps> = () => {
 
                 break;
 
-            case IFormState.delete:
+            case IFormState.deleteProject:
                 const currentProjectIndex = projects.findIndex(
                     project => project.current
                 );
@@ -94,7 +92,7 @@ export const FormProject: FC<FormProjectProps> = () => {
                 }
 
                 break;
-            case IFormState.edit:
+            case IFormState.editProject:
                 if (!formValid) return;
 
                 const currentProject = {
@@ -119,9 +117,9 @@ export const FormProject: FC<FormProjectProps> = () => {
 
         navigate(-1);
 
-        switch (formState) {
+        switch (form.state) {
             case IFormState.initial:
-            case IFormState.add:
+            case IFormState.addProject:
                 projectName.cleanValue();
                 break;
         }
@@ -129,7 +127,7 @@ export const FormProject: FC<FormProjectProps> = () => {
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            {formState !== IFormState.delete && (
+            {form.state !== IFormState.deleteProject && (
                 <AppInput
                     name="projectName"
                     placeholderError={projectName.isError}
@@ -147,10 +145,10 @@ export const FormProject: FC<FormProjectProps> = () => {
                     variant={AppBtnVariant.form}
                     onClick={handleClick}
                 >
-                    {formState}
+                    {form.state}
                 </AppBtn>
 
-                {formState !== IFormState.initial && (
+                {form.state !== IFormState.initial && (
                     <AppBtn
                         type="reset"
                         variant={AppBtnVariant.form}

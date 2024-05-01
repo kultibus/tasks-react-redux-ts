@@ -4,7 +4,10 @@ import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { List, ListVariant } from "../list/List";
 import { SideLinks } from "../side-links/SideLinks";
 import styles from "../side-bar copy/SideBar.module.scss";
-import { IFormState, projectsSlice } from "../../store/slices/projects-slice/projectsSlice";
+import {
+    IFormState,
+    projectsSlice,
+} from "../../store/slices/projects-slice/projectsSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../router";
 import { openForm } from "../../store/slices/projects-slice/actionCreators";
@@ -36,10 +39,8 @@ export const SideBar: FC<SideBarProps> = () => {
     const btnClick = () => {
         // dispatch(setIsFormOpened(true));
 
+        dispatch(openForm(true, IFormState.addProject));
 
-		dispatch(openForm(true, IFormState.add));
-
-		
         navigate(`/${RouteNames.projects}/${RouteNames.addProject}`);
     };
 

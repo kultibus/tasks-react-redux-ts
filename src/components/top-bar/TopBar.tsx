@@ -5,16 +5,14 @@ import EditIcon from "../../assets/icons/edit.svg";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { RouteNames } from "../../router";
 import { openForm } from "../../store/slices/projects-slice/actionCreators";
-import { IFormState } from "../../store/slices/projects-slice/projectsSlice";
+import { IFormState } from "../../models/IForm";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import styles from "./TopBar.module.scss";
 
 interface TopBarProps {}
 
 export const TopBar: FC<TopBarProps> = () => {
-    const { projects, isFormOpened, formState } = useAppSelector(
-        state => state.projectsReducer
-    );
+    const { projects, form } = useAppSelector(state => state.projectsReducer);
 
     const navigate = useNavigate();
 
@@ -23,7 +21,7 @@ export const TopBar: FC<TopBarProps> = () => {
     const dispatch = useAppDispatch();
 
     const handleDelBtn = () => {
-        dispatch(openForm(true, IFormState.delete));
+        dispatch(openForm(true, IFormState.deleteProject));
 
         navigate(
             `/${RouteNames.projects}/${currentProject.id}/${RouteNames.deleteProject}`
@@ -31,7 +29,7 @@ export const TopBar: FC<TopBarProps> = () => {
     };
 
     const handleEditBtn = () => {
-        dispatch(openForm(true, IFormState.edit));
+        dispatch(openForm(true, IFormState.editProject));
 
         navigate(
             `/${RouteNames.projects}/${currentProject.id}/${RouteNames.editProject}`
@@ -45,13 +43,13 @@ export const TopBar: FC<TopBarProps> = () => {
                     onClick={handleDelBtn}
                     type="button"
                     variant={AppBtnVariant.iconTopBar}
-                    disabled={isFormOpened ? true : false}
-					>
+                    disabled={form.isOpened ? true : false}
+                >
                     <DeleteIcon />
                 </AppBtn>
                 <AppBtn
                     onClick={handleEditBtn}
-                    disabled={isFormOpened ? true : false}
+                    disabled={form.isOpened ? true : false}
                     type="button"
                     variant={AppBtnVariant.iconTopBar}
                 >
@@ -60,21 +58,21 @@ export const TopBar: FC<TopBarProps> = () => {
             </div>
             <h2 className={styles.title}>
                 <span>
-                    {isFormOpened
-                        ? `${formState}\u00A0`
+                    {form.isOpened
+                        ? `${form.state}\u00A0`
                         : "Project name:\u00A0"}
                 </span>
                 <span>
-                    {!isFormOpened
+                    {!form.isOpened
                         ? currentProject.name
-                        : formState !== IFormState.add
+                        : form.state !== IFormState.addProject
                         ? `"${currentProject.name}"\u00A0`
                         : ""}
                 </span>
                 <span>
-                    {!isFormOpened
+                    {!form.isOpened
                         ? ""
-                        : formState !== IFormState.add
+                        : form.state !== IFormState.addProject
                         ? "?"
                         : ""}
                 </span>
@@ -82,7 +80,7 @@ export const TopBar: FC<TopBarProps> = () => {
             <AppBtn
                 onClick={() => console.log(projects)}
                 variant={AppBtnVariant.form}
-                disabled={isFormOpened ? true : false}
+                disabled={form.isOpened ? true : false}
             >
                 Add task
             </AppBtn>
