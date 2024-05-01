@@ -30,6 +30,8 @@ export const signUpUser =
                     );
                 }
             });
+
+            localStorage.setItem("auth", "true");
         } catch (error) {
             dispatch(setUserError(error.message));
         }
@@ -53,6 +55,8 @@ export const signInUser =
                     );
                 }
             });
+
+            localStorage.setItem("auth", "true");
         } catch (error) {
             dispatch(setUserError(error.message));
         }
@@ -62,22 +66,25 @@ export const signOutUser = () => async (dispatch: AppDispatch) => {
     await signOut(auth);
 
     dispatch(setUser({} as IUser));
+
+    localStorage.removeItem("auth");
 };
 
-// export const checkAuth = () => (dispatch: AppDispatch) => {
+// export const setUserOnLoad = () => (dispatch: AppDispatch) => {
 //     onAuthStateChanged(auth, user => {
 //         if (user) {
 //             dispatch(
-//                 authSlice.actions.setUser({
+//                 setUser({
 //                     uid: user.uid,
 //                     displayName: user.displayName,
 //                 })
 //             );
-//             dispatch(authSlice.actions.setAuth(true));
-//         } else {
-//             dispatch(authSlice.actions.setUser({} as IUser));
 
-//             dispatch(authSlice.actions.setAuth(false));
+//             localStorage.setItem("auth", "true");
+//         } else {
+//             dispatch(setUser({} as IUser));
+
+//             localStorage.removeItem("auth");
 //         }
 //     });
 // };
