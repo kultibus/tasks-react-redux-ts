@@ -49,13 +49,21 @@ export const TopBar: FC<TopBarProps> = () => {
                     onClick={handleDelBtn}
                     type="button"
                     variant={AppBtnVariant.iconTopBar}
-                    disabled={isOpened ? true : false}
+                    disabled={
+                        isOpened || variant === IFormVariant.initial
+                            ? true
+                            : false
+                    }
                 >
                     <DeleteIcon />
                 </AppBtn>
                 <AppBtn
                     onClick={handleEditBtn}
-                    disabled={isOpened ? true : false}
+                    disabled={
+                        isOpened || variant === IFormVariant.initial
+                            ? true
+                            : false
+                    }
                     type="button"
                     variant={AppBtnVariant.iconTopBar}
                 >
@@ -82,9 +90,11 @@ export const TopBar: FC<TopBarProps> = () => {
                 </span>
             </h2>
             <AppBtn
-                onClick={() => console.log(projects)}
+                onClick={() => console.log('add task')}
                 variant={AppBtnVariant.form}
-                disabled={isOpened ? true : false}
+                disabled={
+                    isOpened || variant === IFormVariant.initial ? true : false
+                }
             >
                 Add task
             </AppBtn>

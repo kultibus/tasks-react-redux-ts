@@ -10,6 +10,7 @@ interface ProtectedRouteProps {
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
     const { isAuth } = useAppSelector(state => state.userReducer);
 
+
     return isAuth ? (
         <>{children}</>
     ) : (

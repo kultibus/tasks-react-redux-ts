@@ -18,7 +18,7 @@ interface SideBarProps {}
 export const SideBar: FC<SideBarProps> = () => {
     const { projects } = useAppSelector(state => state.projectsReducer);
 
-    const { isOpened } = useAppSelector(state => state.formReducer);
+    const { isOpened, variant } = useAppSelector(state => state.formReducer);
 
     const navigate = useNavigate();
 
@@ -43,15 +43,18 @@ export const SideBar: FC<SideBarProps> = () => {
         navigate(`/${RouteNames.projects}/${RouteNames.addProject}`);
     };
 
-
     return (
         <aside className={styles.sideBar}>
             <AppBtn
                 onClick={btnClick}
                 variant={
-                    isOpened ? AppBtnVariant.formDisabled : AppBtnVariant.form
+                    isOpened || variant === IFormVariant.initial
+                        ? AppBtnVariant.formDisabled
+                        : AppBtnVariant.form
                 }
-                disabled={isOpened ? true : false}
+                disabled={
+                    isOpened || variant === IFormVariant.initial ? true : false
+                }
             >
                 New project
             </AppBtn>

@@ -108,7 +108,7 @@ export const FormProject: FC<FormProjectProps> = () => {
                 } else {
                     dispatch(deleteCurrentProject(null));
 
-                    navigate(RouteNames.home);
+                    navigate('/');
                 }
 
                 break;

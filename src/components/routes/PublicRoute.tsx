@@ -10,5 +10,5 @@ interface PublicRouteProps {
 export const PublicRoute: FC<PublicRouteProps> = ({ children }) => {
     const { isAuth } = useAppSelector(state => state.userReducer);
 
-    return isAuth ? <Navigate to={RouteNames.home} replace /> : <>{children}</>;
+    return isAuth ? <Navigate to={"/"} replace /> : <>{children}</>;
 };

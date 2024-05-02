@@ -1,28 +1,23 @@
-import { FC } from "react";
-import { Projects } from "../components/projects/Projects";
-import { useAppSelector } from "../hooks/redux";
+import { FC, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { Navigate, useRouteError } from "react-router-dom";
 import { RouteNames } from "../router";
-
-export const ProjectsPage: FC = () => {
-    const { projects } = useAppSelector(state => state.projectsReducer);
-
-    return projects.length ? <Projects /> : <Navigate to={RouteNames.home} />;
-};
+import { ProjectsLayout } from "../components/projects-layout/ProjectsLayout";
+import { setFormVariant } from "../store/slices/form-slice/formSlice";
+import { IFormVariant } from "../models/IForm";
 
 // export const ProjectsPage: FC = () => {
-//     const error = useRouteError();
-
-//     const message = (error as { data?: string })?.data;
-//     const status = (error as { status?: string })?.status;
-
 //     const { projects } = useAppSelector(state => state.projectsReducer);
 
-//     return error ? (
-//         <NotFound message={message} status={status} />
-//     ) : projects.length ? (
-//         <Projects />
-//     ) : (
-//         <Navigate to={RouteNames.home} />
-//     );
+//     return projects.length ? <Projects /> : <Navigate to={RouteNames.home} />;
 // };
+
+export const ProjectsPage: FC = () => {
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(setFormVariant(IFormVariant.initial));
+    }, []);
+
+    return <ProjectsLayout />;
+};
