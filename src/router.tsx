@@ -34,6 +34,7 @@ export const router = createBrowserRouter([
                     </ProtectedRoute>
                 ),
             },
+
             {
                 path: `${RouteNames.projects}/:projectId`,
                 element: (

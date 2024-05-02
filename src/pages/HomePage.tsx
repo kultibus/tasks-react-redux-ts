@@ -19,8 +19,8 @@ export const HomePage: FC = () => {
     }, []);
 
     return projects.length ? (
-        // <Navigate to={`/${RouteNames.projects}/${currentProject.id}`} />
-        <Navigate to={`/${RouteNames.projects}`} />
+        <Navigate to={`/${RouteNames.projects}/${currentProject.id}`} />
+        // <Navigate to={`/${RouteNames.projects}`} />
     ) : (
         <FormContainer>
             <FormProject />
