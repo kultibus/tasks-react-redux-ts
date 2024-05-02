@@ -1,6 +1,6 @@
-import { FC, ReactNode, useContext } from "react";
+import { FC, ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "../../App";
+import { useAppSelector } from "../../hooks/redux";
 import { RouteNames } from "../../router";
 
 interface ProtectedRouteProps {
@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
-    const isAuth = useContext(AuthContext);
+    const { isAuth } = useAppSelector(state => state.userReducer);
 
     return isAuth ? (
         <>{children}</>

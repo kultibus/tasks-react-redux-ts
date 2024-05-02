@@ -8,7 +8,12 @@ import {
 import { auth } from "../../../firebase";
 import { IUser } from "../../../models/IUser";
 import { AppDispatch } from "../../store";
-import { setUserError, setUserIsLoading, setUser } from "./userSlice";
+import {
+    setUserError,
+    setUserIsLoading,
+    setUser,
+    setUserAuth,
+} from "./userSlice";
 
 export const signUpUser =
     ({ displayName, email, password }: IUser) =>
@@ -28,10 +33,12 @@ export const signUpUser =
                             displayName: user.displayName,
                         })
                     );
+
+                    dispatch(setUserAuth(true));
+
+                    localStorage.setItem("auth", "true");
                 }
             });
-
-            localStorage.setItem("auth", "true");
         } catch (error) {
             dispatch(setUserError(error.message));
         }
@@ -53,10 +60,12 @@ export const signInUser =
                             displayName: user.displayName,
                         })
                     );
+
+                    dispatch(setUserAuth(true));
+
+                    localStorage.setItem("auth", "true");
                 }
             });
-
-            localStorage.setItem("auth", "true");
         } catch (error) {
             dispatch(setUserError(error.message));
         }
@@ -68,23 +77,33 @@ export const signOutUser = () => async (dispatch: AppDispatch) => {
     dispatch(setUser({} as IUser));
 
     localStorage.removeItem("auth");
+
+    dispatch(setUserAuth(false));
 };
 
-// export const setUserOnLoad = () => (dispatch: AppDispatch) => {
-//     onAuthStateChanged(auth, user => {
-//         if (user) {
-//             dispatch(
-//                 setUser({
-//                     uid: user.uid,
-//                     displayName: user.displayName,
-//                 })
-//             );
+export const checkUserAuth = () => (dispatch: AppDispatch) => {
+    if (localStorage.getItem("auth")) {
+        dispatch(setUserAuth(true));
 
-//             localStorage.setItem("auth", "true");
-//         } else {
-//             dispatch(setUser({} as IUser));
+        dispatch(setUserIsLoading(true));
 
-//             localStorage.removeItem("auth");
-//         }
-//     });
-// };
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                dispatch(
+                    setUser({
+                        uid: user.uid,
+                        displayName: user.displayName,
+                    })
+                );
+            } else {
+                dispatch(setUserIsLoading(false));
+
+                dispatch(setUserAuth(false));
+
+                localStorage.removeItem("auth");
+            }
+        });
+    } else {
+        dispatch(setUserAuth(false));
+    }
+};

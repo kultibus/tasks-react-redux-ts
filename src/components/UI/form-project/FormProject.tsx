@@ -12,7 +12,7 @@ import {
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormProject.module.scss";
-import { setIsFormOpened } from "../../../store/slices/form-slice/formSlice";
+import { setIsFormOpened, setIsFormValid } from "../../../store/slices/form-slice/formSlice";
 
 interface FormProjectProps {}
 
@@ -32,11 +32,11 @@ export const FormProject: FC<FormProjectProps> = () => {
 
     const handleClick = () => {
         if (!projectName.value.length) {
-            dispatch(setIsFormOpened(false));
+            dispatch(setIsFormValid(false));
 
             projectName.setError();
         } else {
-            dispatch(setIsFormOpened(true));
+            dispatch(setIsFormValid(true));
         }
     };
 
@@ -45,6 +45,7 @@ export const FormProject: FC<FormProjectProps> = () => {
     //         projectName: name,
     //     });
     // }
+
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();

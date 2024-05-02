@@ -1,23 +1,23 @@
-import { FC, useContext } from "react";
+import { FC } from "react";
 import { NavLink } from "react-router-dom";
-import { AuthContext } from "../../App";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { RouteNames } from "../../router";
 import { signOutUser } from "../../store/slices/user-slice/userActionCreators";
-import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
-import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
-import styles from "./HeaderLinks.module.scss";
 import {
     setUserError,
     setUserIsLoading,
 } from "../../store/slices/user-slice/userSlice";
+import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
+import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
+import styles from "./HeaderLinks.module.scss";
+import { IFormVariant } from "../../models/IForm";
 
 interface HeaderLinksProps {}
 
 export const HeaderLinks: FC<HeaderLinksProps> = () => {
-    const { user } = useAppSelector(state => state.userReducer);
-
-    const isAuth = useContext(AuthContext);
+    const { user, isAuth, isLoading } = useAppSelector(
+        state => state.userReducer
+    );
 
     const dispatch = useAppDispatch();
 
@@ -32,7 +32,11 @@ export const HeaderLinks: FC<HeaderLinksProps> = () => {
 
     return isAuth ? (
         <div className={styles.links}>
-            <div className={styles.hi}>Hi, {user.displayName}!</div>
+            {isLoading ? (
+                <div className={styles.hi}>{IFormVariant.loading}</div>
+            ) : (
+                <div className={styles.hi}>Hi, {user.displayName}!</div>
+            )}
             <AppBtn
                 variant={AppBtnVariant.header}
                 type="button"
