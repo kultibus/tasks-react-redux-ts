@@ -1,20 +1,34 @@
 import { FC } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useRouteError } from "react-router-dom";
 import { Header } from "../header/Header";
 import { MainCnt } from "../main-cnt/MainCnt";
 import { NotFound } from "../not-found/NotFound";
 import styles from "./AppLayout.module.scss";
 
-interface AppLayoutProps {
-    error: unknown;
-}
+// interface AppLayoutProps {
+//     error: unknown;
+// }
 
-export const AppLayout: FC<AppLayoutProps> = ({ error }) => {
-    // const dispatch = useAppDispatch();
+// export const AppLayout: FC<AppLayoutProps> = ({ error }) => {
+//     const message = (error as { data?: string })?.data;
+//     const status = (error as { status?: string })?.status;
 
-    // useEffect(() => {
-    //     dispatch(checkAuth());
-    // }, []);
+//     return (
+//         <div className={styles.appCnt}>
+//             <Header />
+//             <MainCnt>
+//                 {error ? (
+//                     <NotFound message={message} status={status} />
+//                 ) : (
+//                     <Outlet />
+//                 )}
+//             </MainCnt>
+//         </div>
+//     );
+// };
+
+export const AppLayout: FC = () => {
+    const error = useRouteError();
 
     const message = (error as { data?: string })?.data;
     const status = (error as { status?: string })?.status;

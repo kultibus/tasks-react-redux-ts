@@ -43,6 +43,7 @@ export const SideBar: FC<SideBarProps> = () => {
         navigate(`/${RouteNames.projects}/${RouteNames.addProject}`);
     };
 
+
     return (
         <aside className={styles.sideBar}>
             <AppBtn

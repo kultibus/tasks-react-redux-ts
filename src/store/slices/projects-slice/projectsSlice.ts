@@ -5,10 +5,13 @@ interface ProjectsState {
     projects: IProject[];
     isLoading: boolean;
     error: string;
+    currentProject: IProject;
 }
 
 const initialState: ProjectsState = {
-    projects: [],
+    projects: [{ id: "0", name: "0", uid: "0", current: true }],
+    // projects: [],
+    currentProject: {} as IProject,
     isLoading: false,
     error: "",
 };
@@ -55,6 +58,7 @@ export const projectsSlice = createSlice({
                 }
                 return { ...project, current: false };
             });
+            state.currentProject = action.payload;
         },
         setError(state, action: PayloadAction<string>) {
             state.isLoading = false;
@@ -64,3 +68,6 @@ export const projectsSlice = createSlice({
 });
 
 export const projectsReducer = projectsSlice.reducer;
+
+export const { createNew, setCurrent, editCurrent, deleteCurrent } =
+    projectsSlice.actions;

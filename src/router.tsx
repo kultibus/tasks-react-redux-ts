@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
                 ),
             },
             {
-                path: `${RouteNames.projects}`,
+                path: `${RouteNames.projects}/:projectId`,
                 element: (
                     <ProtectedRoute>
                         <ProjectsPage />
@@ -43,11 +43,11 @@ export const router = createBrowserRouter([
                 ),
                 children: [
                     {
-                        path: ":projectId",
+                        index: true,
                         element: <Boards />,
                     },
                     {
-                        path: RouteNames.addProject,
+                        path: `${RouteNames.projects}/${RouteNames.addProject}`,
                         element: (
                             <FormContainer>
                                 <FormProject />
@@ -55,7 +55,7 @@ export const router = createBrowserRouter([
                         ),
                     },
                     {
-                        path: `:projectId/:formState`,
+                        path: `:projectId/:formVariant`,
                         element: (
                             <FormContainer>
                                 <FormProject />

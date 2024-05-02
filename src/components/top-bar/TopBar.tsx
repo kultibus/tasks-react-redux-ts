@@ -16,8 +16,9 @@ interface TopBarProps {}
 
 export const TopBar: FC<TopBarProps> = () => {
     const { isOpened, variant } = useAppSelector(state => state.formReducer);
-    const { projects } = useAppSelector(state => state.projectsReducer);
-    const currentProject = projects.find(project => project.current);
+    const { projects, currentProject } = useAppSelector(
+        state => state.projectsReducer
+    );
 
     const navigate = useNavigate();
 

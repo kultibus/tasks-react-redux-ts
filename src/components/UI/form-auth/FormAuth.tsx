@@ -2,6 +2,7 @@ import { FC, FormEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
 import { IFormVariant } from "../../../models/IForm";
+import { setIsFormValid } from "../../../store/slices/form-slice/formSlice";
 import {
     signInUser,
     signUpUser,
@@ -9,10 +10,6 @@ import {
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormAuth.module.scss";
-import {
-    setIsFormOpened,
-    setIsFormValid,
-} from "../../../store/slices/form-slice/formSlice";
 
 interface FormAuthProps {
     btnName: IFormVariant;
