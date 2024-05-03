@@ -8,7 +8,12 @@ import {
 import { auth } from "../../../firebase";
 import { IUser } from "../../../models/IUser";
 import { AppDispatch } from "../../store";
-import { setUserError, setUserIsLoading, setUser } from "./userSlice";
+import {
+    setUserError,
+    setUserIsLoading,
+    setUser,
+    setUserAuth,
+} from "./userSlice";
 
 export const signUpUser =
     ({ displayName, email, password }: IUser) =>
@@ -30,6 +35,8 @@ export const signUpUser =
                     );
 
                     localStorage.setItem("auth", "true");
+
+                    dispatch(setUserAuth(true));
                 }
             });
         } catch (error) {
@@ -55,6 +62,8 @@ export const signInUser =
                     );
 
                     localStorage.setItem("auth", "true");
+
+                    dispatch(setUserAuth(true));
                 }
             });
         } catch (error) {
@@ -68,25 +77,33 @@ export const signOutUser = () => async (dispatch: AppDispatch) => {
     dispatch(setUser({} as IUser));
 
     localStorage.removeItem("auth");
+
+    dispatch(setUserAuth(false));
 };
 
 export const checkUserAuth = () => (dispatch: AppDispatch) => {
-    if (localStorage.getItem("auth")) {
-        dispatch(setUserIsLoading(true));
+    dispatch(setUserIsLoading(true));
 
-        onAuthStateChanged(auth, user => {
-            if (user) {
-                dispatch(
-                    setUser({
-                        uid: user.uid,
-                        displayName: user.displayName,
-                    })
-                );
-            } else {
-                dispatch(setUserIsLoading(false));
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            dispatch(
+                setUser({
+                    uid: user.uid,
+                    displayName: user.displayName,
+                })
+            );
 
-                localStorage.removeItem("auth");
-            }
-        });
-    }
+            localStorage.setItem("auth", "true");
+
+            dispatch(setUserAuth(true));
+        } else {
+            dispatch(setUserIsLoading(false));
+
+            dispatch(setUser({} as IUser));
+
+            localStorage.removeItem("auth");
+
+            dispatch(setUserAuth(false));
+        }
+    });
 };

@@ -16,6 +16,18 @@ export const LoginPage: FC = () => {
         dispatch(setFormVariant(IFormVariant.signIn));
     }, []);
 
+    // return (
+    //     <FormContainer>
+    //         {error ? (
+    //             <FormError>
+    //                 <p>The entered email or password is incorrect.</p>
+    //             </FormError>
+    //         ) : (
+    //             <FormAuth btnName={IFormVariant.signIn} />
+    //         )}
+    //         <LoginBottom />
+    //     </FormContainer>
+    // );
     return (
         <FormContainer>
             {error ? (

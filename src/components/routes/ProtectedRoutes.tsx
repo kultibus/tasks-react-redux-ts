@@ -1,9 +1,10 @@
-import { FC, ReactNode, useContext, useEffect } from "react";
+import { FC, ReactNode, useContext, useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { RouteNames } from "../../router";
 import { checkUserAuth } from "../../store/slices/user-slice/userActionCreators";
 import { AuthContext } from "../../App";
+import { auth } from "../../firebase";
 
 interface ProtectedRoutesProps {
     children?: ReactNode;

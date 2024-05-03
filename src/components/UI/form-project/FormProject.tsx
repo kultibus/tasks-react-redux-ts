@@ -134,7 +134,6 @@ export const FormProject: FC<FormProjectProps> = () => {
     };
 
     return (
-        <FormContainer>
             <form onSubmit={handleSubmit} className={styles.form}>
                 {variant !== IFormVariant.deleteProject && (
                     <AppInput
@@ -168,6 +167,7 @@ export const FormProject: FC<FormProjectProps> = () => {
                     )}
                 </div>
             </form>
-        </FormContainer>
+        // <FormContainer>
+        // </FormContainer>
     );
 };

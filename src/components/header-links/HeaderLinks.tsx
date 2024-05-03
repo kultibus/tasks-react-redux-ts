@@ -1,6 +1,8 @@
 import { FC, useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../App";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { IFormVariant } from "../../models/IForm";
 import { RouteNames } from "../../router";
 import { signOutUser } from "../../store/slices/user-slice/userActionCreators";
 import {
@@ -10,8 +12,6 @@ import {
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
 import styles from "./HeaderLinks.module.scss";
-import { IFormVariant } from "../../models/IForm";
-import { AuthContext } from "../../App";
 
 interface HeaderLinksProps {}
 
