@@ -1,5 +1,10 @@
 import { FC } from "react";
-import { Link, useNavigate, useRouteError } from "react-router-dom";
+import {
+    Link,
+    useLoaderData,
+    useNavigate,
+    useRouteError,
+} from "react-router-dom";
 import { RouteNames } from "../../router";
 import styles from "./NotFound.module.scss";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
@@ -22,6 +27,11 @@ import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 // };
 
 export const NotFound: FC = () => {
+    // const loaderData = useLoaderData();
+
+    // const message = (loaderData as { message?: string })?.message;
+    // const status = (loaderData as { status?: string })?.status;
+
     const error = useRouteError();
 
     const message = (error as { data?: string })?.data;

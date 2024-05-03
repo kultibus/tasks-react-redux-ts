@@ -6,11 +6,6 @@ import { ProjectsLayout } from "../components/projects-layout/ProjectsLayout";
 import { setFormVariant } from "../store/slices/form-slice/formSlice";
 import { IFormVariant } from "../models/IForm";
 
-// export const ProjectsPage: FC = () => {
-//     const { projects } = useAppSelector(state => state.projectsReducer);
-
-//     return projects.length ? <Projects /> : <Navigate to={RouteNames.home} />;
-// };
 
 export const ProjectsPage: FC = () => {
     const dispatch = useAppDispatch();

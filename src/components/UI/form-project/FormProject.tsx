@@ -17,6 +17,7 @@ import {
     setIsFormValid,
 } from "../../../store/slices/form-slice/formSlice";
 import { auth } from "../../../firebase";
+import { FormContainer } from "../../form-container/FormContainer";
 
 interface FormProjectProps {}
 
@@ -108,7 +109,7 @@ export const FormProject: FC<FormProjectProps> = () => {
                 } else {
                     dispatch(deleteCurrentProject(null));
 
-                    navigate('/');
+                    navigate("/");
                 }
 
                 break;
@@ -133,38 +134,40 @@ export const FormProject: FC<FormProjectProps> = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className={styles.form}>
-            {variant !== IFormVariant.deleteProject && (
-                <AppInput
-                    name="projectName"
-                    placeholderError={projectName.isError}
-                    onChange={projectName.onChange}
-                    onClick={projectName.deleteError}
-                    placeholder={projectName.placeholder}
-                    type="text"
-                    value={projectName.value}
-                />
-            )}
-
-            <div className={styles.btns}>
-                <AppBtn
-                    type="submit"
-                    variant={AppBtnVariant.form}
-                    onClick={handleClick}
-                >
-                    {variant}
-                </AppBtn>
-
-                {variant !== IFormVariant.initial && (
-                    <AppBtn
-                        type="reset"
-                        variant={AppBtnVariant.form}
-                        onClick={handleReset}
-                    >
-                        Cancel
-                    </AppBtn>
+        <FormContainer>
+            <form onSubmit={handleSubmit} className={styles.form}>
+                {variant !== IFormVariant.deleteProject && (
+                    <AppInput
+                        name="projectName"
+                        placeholderError={projectName.isError}
+                        onChange={projectName.onChange}
+                        onClick={projectName.deleteError}
+                        placeholder={projectName.placeholder}
+                        type="text"
+                        value={projectName.value}
+                    />
                 )}
-            </div>
-        </form>
+
+                <div className={styles.btns}>
+                    <AppBtn
+                        type="submit"
+                        variant={AppBtnVariant.form}
+                        onClick={handleClick}
+                    >
+                        {variant}
+                    </AppBtn>
+
+                    {variant !== IFormVariant.initial && (
+                        <AppBtn
+                            type="reset"
+                            variant={AppBtnVariant.form}
+                            onClick={handleReset}
+                        >
+                            Cancel
+                        </AppBtn>
+                    )}
+                </div>
+            </form>
+        </FormContainer>
     );
 };

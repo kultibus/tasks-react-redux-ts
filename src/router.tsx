@@ -1,11 +1,12 @@
 import {
     LoaderFunctionArgs,
     createBrowserRouter,
+    json,
     redirect,
 } from "react-router-dom";
 import { App } from "./App";
-import { ProtectedRoute } from "./components/routes/ProtectedRoute";
-import { PublicRoute } from "./components/routes/PublicRoute";
+import { ProtectedRoutes } from "./components/routes/ProtectedRoutes";
+import { PublicRoutes } from "./components/routes/PublicRoutes";
 import { FormProject } from "./components/UI/form-project/FormProject";
 import { Boards } from "./components/boards/Boards";
 import { FormContainer } from "./components/form-container/FormContainer";
@@ -34,18 +35,18 @@ export enum RouteNames {
 //             {
 //                 index: true,
 //                 element: (
-//                     <ProtectedRoute>
+//                     <ProtectedRoutes>
 //                         <HomePage />
-//                     </ProtectedRoute>
+//                     </ProtectedRoutes>
 //                 ),
 //             },
 
 //             {
 //                 path: `${RouteNames.projects}/:projectId`,
 //                 element: (
-//                     <ProtectedRoute>
+//                     <ProtectedRoutes>
 //                         <ProjectsPage />
-//                     </ProtectedRoute>
+//                     </ProtectedRoutes>
 //                 ),
 //                 children: [
 //                     {
@@ -73,17 +74,17 @@ export enum RouteNames {
 //             {
 //                 path: RouteNames.login,
 //                 element: (
-//                     <PublicRoute>
+//                     <PublicRoutes>
 //                         <LoginPage />
-//                     </PublicRoute>
+//                     </PublicRoutes>
 //                 ),
 //             },
 //             {
 //                 path: RouteNames.register,
 //                 element: (
-//                     <PublicRoute>
+//                     <PublicRoutes>
 //                         <RegisterPage />
-//                     </PublicRoute>
+//                     </PublicRoutes>
 //                 ),
 //             },
 //         ],
@@ -105,65 +106,93 @@ export const router = createBrowserRouter([
                 errorElement: <NotFound />,
                 children: [
                     {
-                        index: true,
-                        loader: () => {
-                            return redirect(RouteNames.projects);
+                        path: "*",
+                        loader: ({ params }) => {
+                            throw json(`Route "${params["*"]}" doesn't exist`, {
+                                status: 404,
+                            });
                         },
                     },
                     {
-                        path: "*",
-                        element: <div></div>,
-                        loader: errorLoader,
-                    },
-                    {
-                        path: RouteNames.login,
-                        element: (
-                            <PublicRoute>
-                                <LoginPage />
-                            </PublicRoute>
-                        ),
-                    },
-                    {
-                        path: RouteNames.register,
-                        element: (
-                            <PublicRoute>
-                                <RegisterPage />
-                            </PublicRoute>
-                        ),
-                    },
-                    {
-                        path: RouteNames.projects,
-                        element: (
-                            <ProtectedRoute>
-                                <ProjectsPage />
-                            </ProtectedRoute>
-                        ),
+                        element: <PublicRoutes />,
                         children: [
                             {
-                                errorElement: <NotFound />,
+                                path: RouteNames.login,
+                                element: <LoginPage />,
+                            },
+                            {
+                                path: RouteNames.register,
+                                element: <RegisterPage />,
+                            },
+                        ],
+                    },
+                    {
+                        element: <ProtectedRoutes />,
+                        children: [
+                            {
+                                index: true,
+                                loader: () => {
+                                    return redirect(RouteNames.projects);
+                                },
+                            },
+                            {
+                                path: RouteNames.projects,
+                                element: <ProjectsPage />,
                                 children: [
-                                    {
-                                        index: true,
-                                        element: (
-                                            <FormContainer>
-                                                <FormProject />
-                                            </FormContainer>
-                                        ),
-                                    },
-                                    {
-                                        path: ":id",
-                                        element: <Boards />,
-                                    },
+									{
+										index: true,
+										element: <FormProject />,
+									},
+									{
+										path: "boards",
+										element: <Boards />,
+									},
+                                    // {
+                                    //     errorElement: <NotFound />,
+                                    //     children: [
+                                    //     ],
+                                    // },
                                 ],
                             },
                         ],
                     },
                     // {
+                    //     path: RouteNames.projects,
+
+                    //     element: (
+                    //         <ProtectedRoutes>
+                    //             <ProjectsPage />
+                    //         </ProtectedRoutes>
+                    //     ),
+                    //     children: [
+                    //         {
+                    //             errorElement: <NotFound />,
+                    //             children: [
+                    //                 // {
+                    //                 //     index: true,
+                    //                 //     element: <FormProject />,
+                    //                 // },
+                    //                 {
+                    //                     path: "*",
+                    //                     loader: ({ params }) => {
+                    //                         throw json(
+                    //                             `Route "${params["*"]}" doesn't exist`,
+                    //                             {
+                    //                                 status: 404,
+                    //                             }
+                    //                         );
+                    //                     },
+                    //                 },
+                    //             ],
+                    //         },
+                    //     ],
+                    // },
+                    // {
                     // 	path: `${RouteNames.projects}/:projectId`,
                     // 	element: (
-                    // 		<ProtectedRoute>
+                    // 		<ProtectedRoutes>
                     // 			<ProjectsPage />
-                    // 		</ProtectedRoute>
+                    // 		</ProtectedRoutes>
                     // 	),
                     // 	children: [
                     // 		{
@@ -191,17 +220,17 @@ export const router = createBrowserRouter([
                     // {
                     // 	path: RouteNames.login,
                     // 	element: (
-                    // 		<PublicRoute>
+                    // 		<PublicRoutes>
                     // 			<LoginPage />
-                    // 		</PublicRoute>
+                    // 		</PublicRoutes>
                     // 	),
                     // },
                     // {
                     // 	path: RouteNames.register,
                     // 	element: (
-                    // 		<PublicRoute>
+                    // 		<PublicRoutes>
                     // 			<RegisterPage />
-                    // 		</PublicRoute>
+                    // 		</PublicRoutes>
                     // 	),
                     // },
                 ],
