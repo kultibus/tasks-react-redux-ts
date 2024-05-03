@@ -10,6 +10,7 @@ interface ProjectsState {
 
 const initialState: ProjectsState = {
     // projects: [{ id: "0", name: "0", uid: "0", current: true }],
+    // currentProject: { id: "0", name: "0", uid: "0", current: true } as IProject,
     projects: [],
     currentProject: {} as IProject,
     isLoading: false,

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { RouteNames } from "../../router";
@@ -11,13 +11,14 @@ import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
 import styles from "./HeaderLinks.module.scss";
 import { IFormVariant } from "../../models/IForm";
+import { AuthContext } from "../../App";
 
 interface HeaderLinksProps {}
 
 export const HeaderLinks: FC<HeaderLinksProps> = () => {
-    const { user, isAuth, isLoading } = useAppSelector(
-        state => state.userReducer
-    );
+    const { user, isLoading } = useAppSelector(state => state.userReducer);
+
+    const isAuth = useContext(AuthContext);
 
     const dispatch = useAppDispatch();
 

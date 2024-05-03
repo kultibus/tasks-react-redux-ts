@@ -1,28 +1,21 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useContext, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { RouteNames } from "../../router";
+import { checkUserAuth } from "../../store/slices/user-slice/userActionCreators";
+import { AuthContext } from "../../App";
 
 interface ProtectedRoutesProps {
     children?: ReactNode;
     redirectPath?: string;
 }
 
-export const ProtectedRoutes: FC<ProtectedRoutesProps> = props => {
-    const { children, redirectPath } = props;
+export const ProtectedRoutes: FC<ProtectedRoutesProps> = () => {
+    const isAuth = useContext(AuthContext);
 
-    const { isAuth } = useAppSelector(state => state.userReducer);
-
-    // return isAuth ? (
-    //     <Outlet />
-    // ) : (
-    //     <Navigate to={`/${RouteNames.login}`} replace />
-    // );
-    return !isAuth ? (
-        <Navigate to={`/${RouteNames.login}`} replace />
-    ) : children ? (
-        children
-    ) : (
+    return isAuth ? (
         <Outlet />
+    ) : (
+        <Navigate to={`/${RouteNames.login}`} replace />
     );
 };

@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, createContext, useEffect } from "react";
 import { Outlet, useRouteError } from "react-router-dom";
 import { AppLayout } from "./components/app-layout/AppLayout";
 import { useAppDispatch } from "./hooks/redux";
@@ -18,6 +18,8 @@ import { MainCnt } from "./components/main-cnt/MainCnt";
 //     return <AppLayout error={error} />;
 // };
 
+export const AuthContext = createContext(null);
+
 export const App: FC = () => {
     const dispatch = useAppDispatch();
 
@@ -26,11 +28,13 @@ export const App: FC = () => {
     }, []);
 
     return (
-        <AppLayout>
-            <Header />
-            <MainCnt>
-                <Outlet />
-            </MainCnt>
-        </AppLayout>
+        <AuthContext.Provider value={!!localStorage.getItem("auth")}>
+            <AppLayout>
+                <Header />
+                <MainCnt>
+                    <Outlet />
+                </MainCnt>
+            </AppLayout>
+        </AuthContext.Provider>
     );
 };

@@ -8,12 +8,7 @@ import {
 import { auth } from "../../../firebase";
 import { IUser } from "../../../models/IUser";
 import { AppDispatch } from "../../store";
-import {
-    setUserError,
-    setUserIsLoading,
-    setUser,
-    setUserAuth,
-} from "./userSlice";
+import { setUserError, setUserIsLoading, setUser } from "./userSlice";
 
 export const signUpUser =
     ({ displayName, email, password }: IUser) =>
@@ -33,8 +28,6 @@ export const signUpUser =
                             displayName: user.displayName,
                         })
                     );
-
-                    dispatch(setUserAuth(true));
 
                     localStorage.setItem("auth", "true");
                 }
@@ -61,8 +54,6 @@ export const signInUser =
                         })
                     );
 
-                    dispatch(setUserAuth(true));
-
                     localStorage.setItem("auth", "true");
                 }
             });
@@ -77,14 +68,10 @@ export const signOutUser = () => async (dispatch: AppDispatch) => {
     dispatch(setUser({} as IUser));
 
     localStorage.removeItem("auth");
-
-    dispatch(setUserAuth(false));
 };
 
 export const checkUserAuth = () => (dispatch: AppDispatch) => {
     if (localStorage.getItem("auth")) {
-        dispatch(setUserAuth(true));
-
         dispatch(setUserIsLoading(true));
 
         onAuthStateChanged(auth, user => {
@@ -98,12 +85,8 @@ export const checkUserAuth = () => (dispatch: AppDispatch) => {
             } else {
                 dispatch(setUserIsLoading(false));
 
-                dispatch(setUserAuth(false));
-
                 localStorage.removeItem("auth");
             }
         });
-    } else {
-        dispatch(setUserAuth(false));
     }
 };
