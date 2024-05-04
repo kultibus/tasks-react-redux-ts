@@ -14,6 +14,7 @@ interface ProtectedRoutesProps {
 export const ProtectedRoutes: FC<ProtectedRoutesProps> = () => {
     const isAuth = useContext(AuthContext);
 
+
     return isAuth ? (
         <Outlet />
     ) : (

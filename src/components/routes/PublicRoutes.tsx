@@ -1,6 +1,8 @@
-import { FC, ReactNode, useContext } from "react";
+import { FC, ReactNode, useContext, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { AuthContext } from "../../App";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { checkUserAuth } from "../../store/slices/user-slice/userActionCreators";
 
 interface PublicRoutesProps {
     children?: ReactNode;

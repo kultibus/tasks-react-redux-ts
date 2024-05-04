@@ -4,8 +4,8 @@ import { useInput } from "../../../hooks/useInput";
 import { IFormVariant } from "../../../models/IForm";
 import { setIsFormValid } from "../../../store/slices/form-slice/formSlice";
 import {
-    signInUser,
-    signUpUser,
+	signInUser,
+	signUpUser,
 } from "../../../store/slices/user-slice/userActionCreators";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
