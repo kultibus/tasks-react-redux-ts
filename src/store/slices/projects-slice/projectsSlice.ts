@@ -6,6 +6,7 @@ interface ProjectsState {
     isLoading: boolean;
     error: string;
     currentProject: IProject;
+    // projectsLength: boolean;
 }
 
 const initialState: ProjectsState = {
@@ -15,6 +16,7 @@ const initialState: ProjectsState = {
     currentProject: {} as IProject,
     isLoading: false,
     error: "",
+    // projectsLength: false,
 };
 
 export const projectsSlice = createSlice({
@@ -28,6 +30,7 @@ export const projectsSlice = createSlice({
             state.isLoading = false;
             state.error = "";
             state.projects.push(action.payload);
+            // state.projectsLength = true;
         },
         editCurrent(state, action: PayloadAction<IProject>) {
             state.isLoading = false;
@@ -65,6 +68,10 @@ export const projectsSlice = createSlice({
             state.isLoading = false;
             state.error = action.payload;
         },
+        // setProjectsLenght(state) {
+        //     state.isLoading = false;
+        //     state.error = "";
+        // },
     },
 });
 

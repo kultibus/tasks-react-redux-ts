@@ -13,6 +13,7 @@ import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormProject.module.scss";
 import {
+    setFormVariant,
     setIsFormOpened,
     setIsFormValid,
 } from "../../../store/slices/form-slice/formSlice";
@@ -69,7 +70,7 @@ export const FormProject: FC<FormProjectProps> = () => {
 
                 navigate(`/${RouteNames.projects}/${newProject.id}`);
 
-                projectName.cleanValue();
+                // projectName.cleanValue();
 
                 break;
 
@@ -85,7 +86,7 @@ export const FormProject: FC<FormProjectProps> = () => {
 
                 navigate(`/${RouteNames.projects}/${currentProject.id}`);
 
-                projectName.cleanValue();
+                // projectName.cleanValue();
 
                 break;
 
@@ -109,13 +110,18 @@ export const FormProject: FC<FormProjectProps> = () => {
                 } else {
                     dispatch(deleteCurrentProject(null));
 
-                    navigate("/");
+                    dispatch(setFormVariant(IFormVariant.initial));
+                    dispatch(setIsFormValid(true));
+
+                    navigate(`/${RouteNames.projects}`);
                 }
 
                 break;
         }
 
         dispatch(setIsFormOpened(false));
+
+		projectName.cleanValue();
 
         // writeProjectData(createNewProject());
     };
@@ -134,6 +140,7 @@ export const FormProject: FC<FormProjectProps> = () => {
     };
 
     return (
+        <FormContainer>
             <form onSubmit={handleSubmit} className={styles.form}>
                 {variant !== IFormVariant.deleteProject && (
                     <AppInput
@@ -167,7 +174,6 @@ export const FormProject: FC<FormProjectProps> = () => {
                     )}
                 </div>
             </form>
-        // <FormContainer>
-        // </FormContainer>
+        </FormContainer>
     );
 };

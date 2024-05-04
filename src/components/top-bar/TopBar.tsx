@@ -16,7 +16,7 @@ interface TopBarProps {}
 
 export const TopBar: FC<TopBarProps> = () => {
     const { isOpened, variant } = useAppSelector(state => state.formReducer);
-    const { projects, currentProject } = useAppSelector(
+    const { currentProject } = useAppSelector(
         state => state.projectsReducer
     );
 
@@ -41,6 +41,7 @@ export const TopBar: FC<TopBarProps> = () => {
             `/${RouteNames.projects}/${currentProject.id}/${RouteNames.editProject}`
         );
     };
+
 
     return (
         <header className={styles.topBar}>

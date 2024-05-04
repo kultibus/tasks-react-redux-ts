@@ -1,9 +1,11 @@
 import { IProject } from "../../../models/IProject";
 import { AppDispatch } from "../../store";
-import { projectsSlice } from "./projectsSlice";
-
-const { createNew, setCurrent, editCurrent, deleteCurrent } =
-    projectsSlice.actions;
+import {
+    createNew,
+    deleteCurrent,
+    editCurrent,
+    setCurrent,
+} from "./projectsSlice";
 
 export const createNewProject =
     (project: IProject) => (dispatch: AppDispatch) => {
@@ -15,11 +17,13 @@ export const createNewProject =
 export const editCurrentProject =
     (project: IProject) => (dispatch: AppDispatch) => {
         dispatch(editCurrent(project));
+        dispatch(setCurrent(project));
     };
 
 export const deleteCurrentProject =
     (project: IProject) => (dispatch: AppDispatch) => {
         dispatch(deleteCurrent());
+        dispatch(setCurrent({} as IProject));
 
         if (project) {
             dispatch(setCurrent(project));
@@ -27,6 +31,11 @@ export const deleteCurrentProject =
     };
 
 export const setCurrentProject =
+    (project: IProject) => (dispatch: AppDispatch) => {
+        dispatch(setCurrent(project));
+    };
+
+export const checkProjectsLenght =
     (project: IProject) => (dispatch: AppDispatch) => {
         dispatch(setCurrent(project));
     };

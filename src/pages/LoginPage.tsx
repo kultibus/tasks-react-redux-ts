@@ -10,24 +10,6 @@ import { setFormVariant } from "../store/slices/form-slice/formSlice";
 export const LoginPage: FC = () => {
     const { error } = useAppSelector(state => state.userReducer);
 
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        dispatch(setFormVariant(IFormVariant.signIn));
-    }, []);
-
-    // return (
-    //     <FormContainer>
-    //         {error ? (
-    //             <FormError>
-    //                 <p>The entered email or password is incorrect.</p>
-    //             </FormError>
-    //         ) : (
-    //             <FormAuth btnName={IFormVariant.signIn} />
-    //         )}
-    //         <LoginBottom />
-    //     </FormContainer>
-    // );
     return (
         <FormContainer>
             {error ? (

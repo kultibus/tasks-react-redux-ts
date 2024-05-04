@@ -41,6 +41,7 @@ export const SideBar: FC<SideBarProps> = () => {
         dispatch(setFormVariant(IFormVariant.addProject));
 
         navigate(`/${RouteNames.projects}/${RouteNames.addProject}`);
+        // navigate(`/${RouteNames.projects}`);
     };
 
     return (

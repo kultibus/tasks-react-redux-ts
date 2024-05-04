@@ -89,13 +89,14 @@ export const router = createBrowserRouter([
                                                 element: <Boards />,
                                             },
                                             {
-                                                path: ":id/delete",
+                                                path: `:id/${RouteNames.editProject}`,
                                                 element: <FormProject />,
                                             },
                                             {
-                                                path: ":id/add",
+                                                path: `:id/${RouteNames.deleteProject}`,
                                                 element: <FormProject />,
                                             },
+
                                             {
                                                 path: ":id/*",
                                                 loader: ({ params }) => {
