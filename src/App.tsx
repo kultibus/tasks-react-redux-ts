@@ -24,7 +24,7 @@ export const App: FC = () => {
     }, []);
 
     return (
-        <AuthContext.Provider value={isAuth || isLocalAuth}>
+        <AuthContext.Provider value={isLocalAuth || isAuth}>
             <AppLayout>
                 <Header />
                 <MainCnt>

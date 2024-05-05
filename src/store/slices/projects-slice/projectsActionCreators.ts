@@ -1,3 +1,4 @@
+import { ref, set } from "firebase/database";
 import { IProject } from "../../../models/IProject";
 import { AppDispatch } from "../../store";
 import {
@@ -6,12 +7,20 @@ import {
     editCurrent,
     setCurrent,
 } from "./projectsSlice";
+import { auth, database } from "../../../firebase";
 
 export const createNewProject =
     (project: IProject) => (dispatch: AppDispatch) => {
         dispatch(createNew(project));
 
         dispatch(setCurrent(project));
+
+		console.log(auth.currentUser)
+
+        // set(ref(database, `projects/${auth.currentUser.uid}/project`), {
+        //     name: project.name,
+        //     id: project.id,
+        // });
     };
 
 export const editCurrentProject =
