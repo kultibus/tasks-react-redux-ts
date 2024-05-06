@@ -26,6 +26,11 @@ export const projectsSlice = createSlice({
         setIsLoading(state) {
             state.isLoading = true;
         },
+        fetchProjects(state, action: PayloadAction<IProject[]>) {
+            state.projects = action.payload;
+            state.isLoading = false;
+            state.error = "";
+        },
         createNew(state, action: PayloadAction<IProject>) {
             state.isLoading = false;
             state.error = "";
@@ -77,5 +82,12 @@ export const projectsSlice = createSlice({
 
 export const projectsReducer = projectsSlice.reducer;
 
-export const { createNew, setCurrent, editCurrent, deleteCurrent } =
-    projectsSlice.actions;
+export const {
+    createNew,
+    setCurrent,
+    editCurrent,
+    deleteCurrent,
+    fetchProjects,
+    setIsLoading,
+    setError,
+} = projectsSlice.actions;

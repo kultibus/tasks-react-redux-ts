@@ -1,11 +1,13 @@
-import { ref, set } from "firebase/database";
+import { child, get, ref, set } from "firebase/database";
 import { IProject } from "../../../models/IProject";
 import { AppDispatch } from "../../store";
 import {
     createNew,
     deleteCurrent,
     editCurrent,
+    fetchProjects,
     setCurrent,
+    setIsLoading,
 } from "./projectsSlice";
 import { auth, database } from "../../../firebase";
 
@@ -15,12 +17,9 @@ export const createNewProject =
 
         dispatch(setCurrent(project));
 
-		// console.log(auth.currentUser)
-
-        // set(ref(database, `projects/${auth.currentUser.uid}/project`), {
-        //     name: project.name,
-        //     id: project.id,
-        // });
+        set(ref(database, `projects/${auth.currentUser.uid}/${project.id}`), {
+            name: project.name,
+        });
     };
 
 export const editCurrentProject =
@@ -44,7 +43,20 @@ export const setCurrentProject =
         dispatch(setCurrent(project));
     };
 
-export const checkProjectsLenght =
-    (project: IProject) => (dispatch: AppDispatch) => {
-        dispatch(setCurrent(project));
-    };
+export const checkProjects = (uid) => (dispatch: AppDispatch) => {
+    // dispatch(setIsLoading());
+
+    const db = ref(database);
+
+    get(child(db, `projects/${uid}`))
+        .then(snapshot => {
+            if (snapshot.exists()) {
+                console.log(snapshot.val());
+            } else {
+                console.log("No data available");
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+};

@@ -1,23 +1,13 @@
-import {
-    LoaderFunctionArgs,
-    Params,
-    createBrowserRouter,
-    json,
-    redirect,
-} from "react-router-dom";
+import { createBrowserRouter, json, redirect } from "react-router-dom";
 import { App } from "./App";
-import { ProtectedRoutes } from "./components/routes/ProtectedRoutes";
-import { PublicRoutes } from "./components/routes/PublicRoutes";
 import { FormProject } from "./components/UI/form-project/FormProject";
 import { Boards } from "./components/boards/Boards";
-import { FormContainer } from "./components/form-container/FormContainer";
-import { HomePage } from "./pages/HomePage";
+import { NotFound } from "./components/not-found/NotFound";
+import { ProtectedRoutes } from "./components/routes/ProtectedRoutes";
+import { PublicRoutes } from "./components/routes/PublicRoutes";
 import { LoginPage } from "./pages/LoginPage";
 import { ProjectsPage } from "./pages/ProjectsPage";
 import { RegisterPage } from "./pages/RegisterPage";
-import { NotFound } from "./components/not-found/NotFound";
-import { auth } from "./firebase";
-import { onAuthStateChanged } from "firebase/auth";
 
 export enum RouteNames {
     login = "login",
@@ -50,14 +40,6 @@ export const router = createBrowserRouter([
                     },
                     {
                         element: <PublicRoutes />,
-
-                        // loader: () => {
-                        //     const user = auth.currentUser;
-                        //     if (user) {
-                        //         return user;
-                        //     } else return null;
-                        // },
-
                         children: [
                             {
                                 path: RouteNames.login,
@@ -71,12 +53,6 @@ export const router = createBrowserRouter([
                     },
                     {
                         element: <ProtectedRoutes />,
-                        // loader: () => {
-                        //     const user = auth.currentUser;
-                        //     if (user) {
-                        //         return user;
-                        //     } else return null;
-                        // },
                         children: [
                             {
                                 index: true,

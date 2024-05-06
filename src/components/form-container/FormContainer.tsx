@@ -1,27 +1,22 @@
-import { FC, ReactNode, useContext, useEffect } from "react";
-import styles from "./FormContainer.module.scss";
-import { AuthContext } from "../../App";
+import { FC, ReactNode, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { Navigate } from "react-router-dom";
-import { RouteNames } from "../../router";
-import { setFormVariant } from "../../store/slices/form-slice/formSlice";
 import { IFormVariant } from "../../models/IForm";
+import { setFormVariant } from "../../store/slices/form-slice/formSlice";
+import styles from "./FormContainer.module.scss";
 
 interface FormContainerProps {
     children: ReactNode;
 }
 
 export const FormContainer: FC<FormContainerProps> = ({ children }) => {
-    const { projects } = useAppSelector(
-        state => state.projectsReducer
-    );
+    const { projects } = useAppSelector(state => state.projectsReducer);
 
-    const isAuth = useContext(AuthContext);
+    const { isUserAuth } = useAppSelector(state => state.userReducer);
 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (!isAuth) {
+        if (!isUserAuth) {
             dispatch(setFormVariant(IFormVariant.signIn));
         } else if (!projects.length) {
             dispatch(setFormVariant(IFormVariant.initial));

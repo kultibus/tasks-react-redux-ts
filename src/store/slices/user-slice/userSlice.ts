@@ -5,14 +5,14 @@ interface UserState {
     user: IUser;
     isLoading: boolean;
     error: string;
-    userAuth: boolean;
+    isUserAuth: boolean;
 }
 
 const initialState: UserState = {
     user: {} as IUser,
     isLoading: false,
     error: "",
-    userAuth: false,
+    isUserAuth: !!localStorage.getItem("auth"),
 };
 
 export const userSlice = createSlice({
@@ -32,7 +32,7 @@ export const userSlice = createSlice({
             state.error = action.payload;
         },
         setUserAuth(state, action: PayloadAction<boolean>) {
-            state.userAuth = action.payload;
+            state.isUserAuth = action.payload;
         },
     },
 });
