@@ -9,28 +9,14 @@ import { checkUserAuth } from "./store/slices/user-slice/userActionCreators";
 export const AuthContext = createContext(null);
 
 export const App: FC = () => {
-    const { isAuth } = useAppSelector(state => state.userReducer);
-
-    const [isLocalAuth, setIsLocalAuth] = useState<boolean>(
-        !!localStorage.getItem("auth")
-    );
-
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        dispatch(checkUserAuth());
-
-        setIsLocalAuth(!!localStorage.getItem("auth"));
-    }, []);
-
     return (
-        <AuthContext.Provider value={isLocalAuth || isAuth}>
-            <AppLayout>
-                <Header />
-                <MainCnt>
-                    <Outlet />
-                </MainCnt>
-            </AppLayout>
-        </AuthContext.Provider>
+        <AppLayout>
+            <Header />
+            <MainCnt>
+                <Outlet />
+            </MainCnt>
+        </AppLayout>
+        // <AuthContext.Provider value={isLocalAuth || isAuth}>
+        // </AuthContext.Provider>
     );
 };

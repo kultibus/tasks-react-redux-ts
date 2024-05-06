@@ -16,16 +16,16 @@ import styles from "./HeaderLinks.module.scss";
 interface HeaderLinksProps {}
 
 export const HeaderLinks: FC<HeaderLinksProps> = () => {
-    const { user, isLoading } = useAppSelector(state => state.userReducer);
+    const { user, isLoading, userAuth } = useAppSelector(
+        state => state.userReducer
+    );
 
-
-    const isAuth = useContext(AuthContext);
+    // const isAuth = useContext(AuthContext);
 
     const dispatch = useAppDispatch();
 
     const handleSignOut = () => {
         dispatch(signOutUser());
-
     };
 
     const handeleClick = () => {
@@ -33,7 +33,7 @@ export const HeaderLinks: FC<HeaderLinksProps> = () => {
         dispatch(setUserIsLoading(false));
     };
 
-    return isAuth ? (
+    return userAuth ? (
         <div className={styles.links}>
             {isLoading ? (
                 <div className={styles.hi}>{IFormVariant.loading}</div>

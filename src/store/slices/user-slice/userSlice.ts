@@ -5,14 +5,14 @@ interface UserState {
     user: IUser;
     isLoading: boolean;
     error: string;
-    isAuth: boolean;
+    userAuth: boolean;
 }
 
 const initialState: UserState = {
     user: {} as IUser,
     isLoading: false,
     error: "",
-    isAuth: false,
+    userAuth: false,
 };
 
 export const userSlice = createSlice({
@@ -32,7 +32,7 @@ export const userSlice = createSlice({
             state.error = action.payload;
         },
         setUserAuth(state, action: PayloadAction<boolean>) {
-            state.isAuth = action.payload;
+            state.userAuth = action.payload;
         },
     },
 });

@@ -15,7 +15,7 @@ export const createNewProject =
 
         dispatch(setCurrent(project));
 
-		console.log(auth.currentUser)
+		// console.log(auth.currentUser)
 
         // set(ref(database, `projects/${auth.currentUser.uid}/project`), {
         //     name: project.name,

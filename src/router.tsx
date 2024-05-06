@@ -17,6 +17,7 @@ import { ProjectsPage } from "./pages/ProjectsPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { NotFound } from "./components/not-found/NotFound";
 import { auth } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 export enum RouteNames {
     login = "login",
@@ -49,6 +50,14 @@ export const router = createBrowserRouter([
                     },
                     {
                         element: <PublicRoutes />,
+
+                        // loader: () => {
+                        //     const user = auth.currentUser;
+                        //     if (user) {
+                        //         return user;
+                        //     } else return null;
+                        // },
+
                         children: [
                             {
                                 path: RouteNames.login,
@@ -62,6 +71,12 @@ export const router = createBrowserRouter([
                     },
                     {
                         element: <ProtectedRoutes />,
+                        // loader: () => {
+                        //     const user = auth.currentUser;
+                        //     if (user) {
+                        //         return user;
+                        //     } else return null;
+                        // },
                         children: [
                             {
                                 index: true,
