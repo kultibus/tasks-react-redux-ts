@@ -6,17 +6,13 @@ interface ProjectsState {
     isLoading: boolean;
     error: string;
     currentProject: IProject;
-    // projectsLength: boolean;
 }
 
 const initialState: ProjectsState = {
-    // projects: [{ id: "0", name: "0", uid: "0", current: true }],
-    // currentProject: { id: "0", name: "0", uid: "0", current: true } as IProject,
     projects: [],
     currentProject: {} as IProject,
     isLoading: false,
     error: "",
-    // projectsLength: false,
 };
 
 export const projectsSlice = createSlice({
@@ -35,25 +31,28 @@ export const projectsSlice = createSlice({
             state.isLoading = false;
             state.error = "";
             state.projects.push(action.payload);
-            // state.projectsLength = true;
+            state.currentProject = action.payload;
         },
         editCurrent(state, action: PayloadAction<IProject>) {
             state.isLoading = false;
             state.error = "";
             state.projects = state.projects.map(project => {
-                if (project.current) {
+                if (project.id === action.payload.id) {
                     return { ...action.payload };
                 }
                 return { ...project };
             });
+            state.currentProject = action.payload;
         },
-        deleteCurrent(state) {
+        deleteCurrent(state, action: PayloadAction<IProject>) {
             state.isLoading = false;
             state.error = "";
             if (state.projects.length) {
-                state.projects = state.projects.filter(
-                    project => !project.current
-                );
+                state.projects = state.projects.filter(project => {
+                    if (project.id !== action.payload.id) {
+                        return project;
+                    }
+                });
             } else {
                 state.projects = [];
             }
@@ -61,22 +60,12 @@ export const projectsSlice = createSlice({
         setCurrent(state, action: PayloadAction<IProject>) {
             state.isLoading = false;
             state.error = "";
-            state.projects = state.projects.map(project => {
-                if (project.id === action.payload.id) {
-                    return { ...project, current: true };
-                }
-                return { ...project, current: false };
-            });
             state.currentProject = action.payload;
         },
         setError(state, action: PayloadAction<string>) {
             state.isLoading = false;
             state.error = action.payload;
         },
-        // setProjectsLenght(state) {
-        //     state.isLoading = false;
-        //     state.error = "";
-        // },
     },
 });
 

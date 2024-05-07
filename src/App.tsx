@@ -11,14 +11,16 @@ import { auth } from "./firebase";
 export const AuthContext = createContext(null);
 
 export const App: FC = () => {
-    const { user } = useAppSelector(state => state.userReducer);
+    const { projects } = useAppSelector(state => state.projectsReducer);
 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(checkUserAuth());
-        dispatch(checkProjects(user.uid));
+        // dispatch(checkProjects());
     }, []);
+
+	// console.log(projects)
 
     return (
         <AppLayout>

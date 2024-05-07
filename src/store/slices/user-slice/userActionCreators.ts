@@ -5,7 +5,7 @@ import {
     signOut,
     updateProfile,
 } from "firebase/auth";
-import { auth } from "../../../firebase";
+import { auth, database } from "../../../firebase";
 import { IUser } from "../../../models/IUser";
 import { AppDispatch } from "../../store";
 import {
@@ -14,6 +14,7 @@ import {
     setUser,
     setUserAuth,
 } from "./userSlice";
+import { ref, set } from "firebase/database";
 
 export const signUpUser =
     ({ displayName, email, password }: IUser) =>
@@ -107,4 +108,3 @@ export const checkUserAuth = () => (dispatch: AppDispatch) => {
         }
     });
 };
-

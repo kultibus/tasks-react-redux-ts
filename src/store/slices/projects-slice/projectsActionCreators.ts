@@ -1,41 +1,33 @@
-import { child, get, ref, set } from "firebase/database";
+import { onAuthStateChanged } from "firebase/auth";
+import {
+	onValue,
+	ref
+} from "firebase/database";
+import { auth, database } from "../../../firebase";
 import { IProject } from "../../../models/IProject";
 import { AppDispatch } from "../../store";
 import {
-    createNew,
-    deleteCurrent,
-    editCurrent,
-    fetchProjects,
-    setCurrent,
-    setIsLoading,
+	createNew,
+	deleteCurrent,
+	editCurrent,
+	fetchProjects,
+	setCurrent,
+	setIsLoading,
 } from "./projectsSlice";
-import { auth, database } from "../../../firebase";
 
 export const createNewProject =
     (project: IProject) => (dispatch: AppDispatch) => {
         dispatch(createNew(project));
-
-        dispatch(setCurrent(project));
-
-        set(ref(database, `projects/${auth.currentUser.uid}/${project.id}`), {
-            name: project.name,
-        });
     };
 
 export const editCurrentProject =
     (project: IProject) => (dispatch: AppDispatch) => {
         dispatch(editCurrent(project));
-        dispatch(setCurrent(project));
     };
 
 export const deleteCurrentProject =
     (project: IProject) => (dispatch: AppDispatch) => {
-        dispatch(deleteCurrent());
-        dispatch(setCurrent({} as IProject));
-
-        if (project) {
-            dispatch(setCurrent(project));
-        }
+        dispatch(deleteCurrent(project));
     };
 
 export const setCurrentProject =
@@ -43,20 +35,26 @@ export const setCurrentProject =
         dispatch(setCurrent(project));
     };
 
-export const checkProjects = (uid) => (dispatch: AppDispatch) => {
-    // dispatch(setIsLoading());
+export const checkProjects = () => (dispatch: AppDispatch) => {
+    dispatch(setIsLoading());
 
-    const db = ref(database);
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            onValue(ref(database, `${user.uid}/projects`), snapshot => {
+                if (snapshot.exists()) {
+                    const projectsArr: IProject[] = [];
 
-    get(child(db, `projects/${uid}`))
-        .then(snapshot => {
-            if (snapshot.exists()) {
-                console.log(snapshot.val());
-            } else {
-                console.log("No data available");
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
+                    snapshot.forEach(childSnapshot => {
+                        projectsArr.push(childSnapshot.val());
+
+                        // console.log(childSnapshot.val());
+                        // if (childSnapshot.val().current) {
+                        // }
+                    });
+
+                    dispatch(fetchProjects(projectsArr));
+                }
+            });
+        }
+    });
 };

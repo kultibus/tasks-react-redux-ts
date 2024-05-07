@@ -3,16 +3,14 @@ import { NavLink } from "react-router-dom";
 import { IProject } from "../../models/IProject";
 import { RouteNames } from "../../router";
 import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
-import styles from "./SideLinks.module.scss";
 
-interface SideLinksProps {
+interface SideLinkProps {
     project: IProject;
     handleClick: (e: MouseEvent<HTMLAnchorElement>) => void;
 }
 
-export const SideLinks: FC<SideLinksProps> = props => {
+export const SideLink: FC<SideLinkProps> = props => {
     const { project, handleClick } = props;
-
 
     return (
         <li>

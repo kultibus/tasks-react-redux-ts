@@ -6,7 +6,7 @@ import { RouteNames } from "../../router";
 import { setCurrentProject } from "../../store/slices/projects-slice/projectsActionCreators";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { List, ListVariant } from "../list/List";
-import { SideLinks } from "../side-links/SideLinks";
+import { SideLink } from "../side-link/SideLink";
 import styles from "./SideBar.module.scss";
 import {
     setFormVariant,
@@ -64,9 +64,9 @@ export const SideBar: FC<SideBarProps> = () => {
                 <nav className={styles.links}>
                     <List
                         items={projects}
-                        variant={ListVariant.sideLinks}
+                        variant={ListVariant.SideLink}
                         renderItem={project => (
-                            <SideLinks
+                            <SideLink
                                 handleClick={linkClick}
                                 project={project}
                                 key={project.id}

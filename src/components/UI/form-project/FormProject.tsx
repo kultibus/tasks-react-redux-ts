@@ -8,6 +8,7 @@ import {
     createNewProject,
     deleteCurrentProject,
     editCurrentProject,
+    setCurrentProject,
 } from "../../../store/slices/projects-slice/projectsActionCreators";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
@@ -19,16 +20,18 @@ import {
 } from "../../../store/slices/form-slice/formSlice";
 import { auth } from "../../../firebase";
 import { FormContainer } from "../../form-container/FormContainer";
+import { IProject } from "../../../models/IProject";
 
 interface FormProjectProps {}
-
 
 export const FormProject: FC<FormProjectProps> = () => {
     const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
 
-    const { projects } = useAppSelector(state => state.projectsReducer);
+    const { projects, currentProject } = useAppSelector(
+        state => state.projectsReducer
+    );
     const { variant, isValid } = useAppSelector(state => state.formReducer);
 
     const projectName = useInput(
@@ -71,21 +74,19 @@ export const FormProject: FC<FormProjectProps> = () => {
 
                 navigate(`/${RouteNames.projects}/${newProject.id}`);
 
-                // projectName.cleanValue();
-
                 break;
 
             case IFormVariant.editProject:
                 if (!isValid) return;
 
-                const currentProject = {
-                    ...projects.find(project => project.current),
+                const editedProject = {
+                    ...currentProject,
                     name: projectName.value,
                 };
 
-                dispatch(editCurrentProject(currentProject));
+                dispatch(editCurrentProject(editedProject));
 
-                navigate(`/${RouteNames.projects}/${currentProject.id}`);
+                navigate(`/${RouteNames.projects}/${editedProject.id}`);
 
                 // projectName.cleanValue();
 
@@ -93,23 +94,27 @@ export const FormProject: FC<FormProjectProps> = () => {
 
             case IFormVariant.deleteProject:
                 const currentProjectIndex = projects.findIndex(
-                    project => project.current
+                    project => project.id === currentProject.id
                 );
+
+                // console.log(currentProjectIndex)
 
                 const length = projects.length;
                 const pervProject = projects[currentProjectIndex - 1];
                 const nextProject = projects[currentProjectIndex + 1];
 
+                dispatch(deleteCurrentProject(projects[currentProjectIndex]));
+
                 if (length > 1 && currentProjectIndex === 0) {
-                    dispatch(deleteCurrentProject(nextProject));
+                    dispatch(setCurrentProject(nextProject));
 
                     navigate(`/${RouteNames.projects}/${nextProject.id}`);
                 } else if (length > 1) {
-                    dispatch(deleteCurrentProject(pervProject));
+                    dispatch(setCurrentProject(pervProject));
 
                     navigate(`/${RouteNames.projects}/${pervProject.id}`);
                 } else {
-                    dispatch(deleteCurrentProject(null));
+                    dispatch(setCurrentProject({} as IProject));
 
                     dispatch(setFormVariant(IFormVariant.initial));
                     dispatch(setIsFormValid(true));
@@ -122,7 +127,7 @@ export const FormProject: FC<FormProjectProps> = () => {
 
         dispatch(setIsFormOpened(false));
 
-		projectName.cleanValue();
+        projectName.cleanValue();
 
         // writeProjectData(createNewProject());
     };
