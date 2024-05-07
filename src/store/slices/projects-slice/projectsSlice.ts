@@ -31,7 +31,7 @@ export const projectsSlice = createSlice({
             state.isLoading = false;
             state.error = "";
             state.projects.push(action.payload);
-            state.currentProject = action.payload;
+            // state.currentProject = action.payload;
         },
         editCurrent(state, action: PayloadAction<IProject>) {
             state.isLoading = false;
@@ -42,7 +42,7 @@ export const projectsSlice = createSlice({
                 }
                 return { ...project };
             });
-            state.currentProject = action.payload;
+            // state.currentProject = action.payload;
         },
         deleteCurrent(state, action: PayloadAction<IProject>) {
             state.isLoading = false;

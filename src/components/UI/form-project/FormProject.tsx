@@ -67,7 +67,6 @@ export const FormProject: FC<FormProjectProps> = () => {
                 const newProject = {
                     id: Math.random().toString(36).substring(2, 9),
                     name: projectName.value,
-                    uid: auth.currentUser.uid,
                 };
 
                 dispatch(createNewProject(newProject));
