@@ -5,17 +5,22 @@ import { List, ListVariant } from "../list/List";
 import styles from "./Boards.module.scss";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { AuthContext } from "../../App";
-import { Navigate } from "react-router-dom";
+import { LoaderFunctionArgs, Navigate, json, redirect } from "react-router-dom";
 import { RouteNames } from "../../router";
 import { setFormVariant } from "../../store/slices/form-slice/formSlice";
 import { IFormVariant } from "../../models/IForm";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, database } from "../../firebase";
+import { get, onValue, ref } from "firebase/database";
 
 export const Boards: FC = () => {
     const { boards } = useAppSelector(state => state.boardsReducer);
 
-    const { projects } = useAppSelector(
+    const { projects, currentProject } = useAppSelector(
         state => state.projectsReducer
     );
+
+    const { isUserAuth } = useAppSelector(state => state.userReducer);
 
     const dispatch = useAppDispatch();
 
@@ -34,4 +39,16 @@ export const Boards: FC = () => {
             />
         </main>
     );
+
+    // return isUserAuth && projects.length ? (
+    //     <main className={styles.boards}>
+    //         <List
+    //             variant={ListVariant.boards}
+    //             items={boards}
+    //             renderItem={board => <Board board={board} key={board.name} />}
+    //         />
+    //     </main>
+    // ) : (
+    //     <Navigate to={`/${RouteNames.projects}`} replace />
+    // );
 };

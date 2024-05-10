@@ -3,24 +3,23 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
 import { IFormVariant } from "../../../models/IForm";
+import { IProject } from "../../../models/IProject";
 import { RouteNames } from "../../../router";
+import {
+    setFormVariant,
+    setIsFormOpened,
+    setIsFormValid,
+} from "../../../store/slices/form-slice/formSlice";
 import {
     createNewProject,
     deleteCurrentProject,
     editCurrentProject,
     setCurrentProject,
 } from "../../../store/slices/projects-slice/projectsActionCreators";
+import { FormContainer } from "../../form-container/FormContainer";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormProject.module.scss";
-import {
-    setFormVariant,
-    setIsFormOpened,
-    setIsFormValid,
-} from "../../../store/slices/form-slice/formSlice";
-import { auth } from "../../../firebase";
-import { FormContainer } from "../../form-container/FormContainer";
-import { IProject } from "../../../models/IProject";
 
 interface FormProjectProps {}
 
@@ -49,12 +48,6 @@ export const FormProject: FC<FormProjectProps> = () => {
             dispatch(setIsFormValid(true));
         }
     };
-
-    // function writeProjectData({ id, name }: IProject) {
-    //     set(ref(database, `projects/${auth.currentUser.uid}/${id}`), {
-    //         projectName: name,
-    //     });
-    // }
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -87,16 +80,12 @@ export const FormProject: FC<FormProjectProps> = () => {
 
                 navigate(`/${RouteNames.projects}/${editedProject.id}`);
 
-                // projectName.cleanValue();
-
                 break;
 
             case IFormVariant.deleteProject:
                 const currentProjectIndex = projects.findIndex(
                     project => project.id === currentProject.id
                 );
-
-                // console.log(currentProjectIndex)
 
                 const length = projects.length;
                 const pervProject = projects[currentProjectIndex - 1];
@@ -127,8 +116,6 @@ export const FormProject: FC<FormProjectProps> = () => {
         dispatch(setIsFormOpened(false));
 
         projectName.cleanValue();
-
-        // writeProjectData(createNewProject());
     };
 
     const handleReset = () => {

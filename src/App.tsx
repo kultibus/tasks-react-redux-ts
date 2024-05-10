@@ -6,6 +6,7 @@ import { MainCnt } from "./components/main-cnt/MainCnt";
 import { useAppDispatch } from "./hooks/redux";
 import { checkProjects } from "./store/slices/projects-slice/projectsActionCreators";
 import { checkUserAuth } from "./store/slices/user-slice/userActionCreators";
+import { auth } from "./firebase";
 
 export const AuthContext = createContext(null);
 
@@ -17,6 +18,7 @@ export const App: FC = () => {
 
         dispatch(checkProjects());
     }, []);
+
 
     return (
         <AppLayout>
