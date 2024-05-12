@@ -1,5 +1,5 @@
 export enum IFormVariant {
-    initial = "Create new project",
+    initialProject = "Create new project",
     addProject = "Add new project",
     editProject = "Edit project",
     deleteProject = "Delete project",

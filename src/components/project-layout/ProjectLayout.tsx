@@ -2,9 +2,17 @@ import { FC, ReactNode } from "react";
 import { Outlet } from "react-router-dom";
 import { SideBar } from "../side-bar/SideBar";
 import { TopBar } from "../top-bar/TopBar";
-import styles from "./ProjectsLayout.module.scss";
+import styles from "./ProjectLayout.module.scss";
+import { useAppSelector } from "../../hooks/redux";
+import { IFormVariant } from "../../models/IForm";
+import { FormProject } from "../UI/form-project/FormProject";
 
-export const ProjectsLayout: FC = () => {
+export const ProjectLayout: FC = () => {
+    const { variant } = useAppSelector(state => state.formReducer);
+    const { projects } = useAppSelector(state => state.projectsReducer);
+
+    // console.log(variant);
+
     return (
         <div className={styles.projects}>
             <div className={styles.topBar}>
@@ -16,7 +24,7 @@ export const ProjectsLayout: FC = () => {
             </div>
 
             <div className={styles.content}>
-                <Outlet />
+                {!projects.length ? <FormProject /> : <Outlet />}
             </div>
         </div>
     );

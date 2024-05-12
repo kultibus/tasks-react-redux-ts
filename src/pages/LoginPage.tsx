@@ -47,7 +47,7 @@ export const LoginPage: FC = () => {
     );
 };
 
-export const loginLoader = ({ request }: LoaderFunctionArgs<any>) => {
+export const loginPageLoader = ({ request }: LoaderFunctionArgs<any>) => {
     const url = request.url;
 
     return url.slice(url.lastIndexOf("/") + 1);

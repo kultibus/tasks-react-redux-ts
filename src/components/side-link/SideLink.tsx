@@ -17,7 +17,7 @@ export const SideLink: FC<SideLinkProps> = props => {
             <NavLink
                 onClick={handleClick}
                 data-project-id={project.id}
-                to={`/${RouteNames.projects}/${project.id}`}
+                to={`/${RouteNames.project}/${project.id}`}
             >
                 {({ isActive }) => (
                     <LinkInner

@@ -3,12 +3,12 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAppSelector } from "../../hooks/redux";
 import { RouteNames } from "../../router";
 
-interface ProtectedRoutesProps {
+interface ProtectedRouteProps {
     children?: ReactNode;
     redirectPath?: string;
 }
 
-export const ProtectedRoutes: FC<ProtectedRoutesProps> = ({ children }) => {
+export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
     const { isUserAuth } = useAppSelector(state => state.userReducer);
 
     return isUserAuth ? (

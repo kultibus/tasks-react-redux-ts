@@ -4,7 +4,7 @@ import { IForm, IFormVariant } from "../../../models/IForm";
 const initialState: IForm = {
     isOpened: false,
     isValid: false,
-    variant: IFormVariant.signIn,
+    variant: null,
 };
 
 export const formSlice = createSlice({

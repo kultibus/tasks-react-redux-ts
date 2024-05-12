@@ -53,7 +53,7 @@ export const FormProject: FC<FormProjectProps> = () => {
         e.preventDefault();
 
         switch (variant) {
-            case IFormVariant.initial:
+            case IFormVariant.initialProject:
             case IFormVariant.addProject:
                 if (!isValid) return;
 
@@ -64,7 +64,7 @@ export const FormProject: FC<FormProjectProps> = () => {
 
                 dispatch(createNewProject(newProject));
 
-                navigate(`/${RouteNames.projects}/${newProject.id}`);
+                navigate(`/${RouteNames.project}/${newProject.id}`);
 
                 break;
 
@@ -78,7 +78,7 @@ export const FormProject: FC<FormProjectProps> = () => {
 
                 dispatch(editCurrentProject(editedProject));
 
-                navigate(`/${RouteNames.projects}/${editedProject.id}`);
+                navigate(`/${RouteNames.project}/${editedProject.id}`);
 
                 break;
 
@@ -96,18 +96,18 @@ export const FormProject: FC<FormProjectProps> = () => {
                 if (length > 1 && currentProjectIndex === 0) {
                     dispatch(setCurrentProject(nextProject));
 
-                    navigate(`/${RouteNames.projects}/${nextProject.id}`);
+                    navigate(`/${RouteNames.project}/${nextProject.id}`);
                 } else if (length > 1) {
                     dispatch(setCurrentProject(pervProject));
 
-                    navigate(`/${RouteNames.projects}/${pervProject.id}`);
+                    navigate(`/${RouteNames.project}/${pervProject.id}`);
                 } else {
                     dispatch(setCurrentProject({} as IProject));
 
-                    dispatch(setFormVariant(IFormVariant.initial));
+                    dispatch(setFormVariant(IFormVariant.initialProject));
                     dispatch(setIsFormValid(true));
 
-                    navigate(`/${RouteNames.projects}`);
+                    navigate(`/`);
                 }
 
                 break;
@@ -124,7 +124,7 @@ export const FormProject: FC<FormProjectProps> = () => {
         navigate(-1);
 
         switch (variant) {
-            case IFormVariant.initial:
+            case IFormVariant.initialProject:
             case IFormVariant.addProject:
                 projectName.cleanValue();
                 break;
@@ -155,7 +155,7 @@ export const FormProject: FC<FormProjectProps> = () => {
                         {variant}
                     </AppBtn>
 
-                    {variant !== IFormVariant.initial && (
+                    {variant !== IFormVariant.initialProject && (
                         <AppBtn
                             type="reset"
                             variant={AppBtnVariant.form}

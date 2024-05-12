@@ -26,17 +26,17 @@ export const createNewProject =
 
         dispatch(setCurrent(project));
 
-        const projectRef = ref(
-            database,
-            `${auth.currentUser.uid}/projects/${project.id}`
-        );
-        const currentProjectRef = ref(
-            database,
-            `${auth.currentUser.uid}/currentProject`
-        );
+        // const projectRef = ref(
+        //     database,
+        //     `${auth.currentUser.uid}/projects/${project.id}`
+        // );
+        // const currentProjectRef = ref(
+        //     database,
+        //     `${auth.currentUser.uid}/currentProject`
+        // );
 
-        set(projectRef, project);
-        set(currentProjectRef, project);
+        // set(projectRef, project);
+        // set(currentProjectRef, project);
     };
 
 export const editCurrentProject =
@@ -45,43 +45,43 @@ export const editCurrentProject =
 
         dispatch(setCurrent(project));
 
-        const projectRef = ref(
-            database,
-            `${auth.currentUser.uid}/projects/${project.id}`
-        );
+        // const projectRef = ref(
+        //     database,
+        //     `${auth.currentUser.uid}/projects/${project.id}`
+        // );
 
-        update(projectRef, project);
+        // update(projectRef, project);
 
-        const currentProjectRef = ref(
-            database,
-            `${auth.currentUser.uid}/currentProject`
-        );
+        // const currentProjectRef = ref(
+        //     database,
+        //     `${auth.currentUser.uid}/currentProject`
+        // );
 
-        update(currentProjectRef, project);
+        // update(currentProjectRef, project);
     };
 
 export const deleteCurrentProject =
     (project: IProject) => (dispatch: AppDispatch) => {
         dispatch(deleteCurrent(project));
 
-        const projectRef = ref(
-            database,
-            `${auth.currentUser.uid}/projects/${project.id}`
-        );
+        // const projectRef = ref(
+        //     database,
+        //     `${auth.currentUser.uid}/projects/${project.id}`
+        // );
 
-        remove(projectRef);
+        // remove(projectRef);
     };
 
 export const setCurrentProject =
     (project: IProject) => (dispatch: AppDispatch) => {
         dispatch(setCurrent(project));
 
-        const currentProjectRef = ref(
-            database,
-            `${auth.currentUser.uid}/currentProject`
-        );
+        // const currentProjectRef = ref(
+        //     database,
+        //     `${auth.currentUser.uid}/currentProject`
+        // );
 
-        update(currentProjectRef, project);
+        // update(currentProjectRef, project);
     };
 
 export const checkProjects = () => (dispatch: AppDispatch) => {

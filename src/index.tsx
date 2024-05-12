@@ -14,7 +14,3 @@ root.render(
         <RouterProvider router={router} />
     </Provider>
 );
-
-// const str = 'http://localhost:5000/register'
-
-// console.log(str.slice(str.lastIndexOf('/') + 1))

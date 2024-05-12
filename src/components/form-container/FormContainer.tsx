@@ -23,10 +23,9 @@ export const FormContainer: FC<FormContainerProps> = ({ children }) => {
         if (!isUserAuth) {
             dispatch(setFormVariant(IFormVariant.signIn));
         } else if (!projects.length) {
-            dispatch(setFormVariant(IFormVariant.initial));
+            dispatch(setFormVariant(IFormVariant.initialProject));
         }
     }, []);
 
     return <div className={styles.cnt}>{children}</div>;
 };
-

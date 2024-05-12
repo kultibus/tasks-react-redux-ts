@@ -16,9 +16,7 @@ interface TopBarProps {}
 
 export const TopBar: FC<TopBarProps> = () => {
     const { isOpened, variant } = useAppSelector(state => state.formReducer);
-    const { currentProject } = useAppSelector(
-        state => state.projectsReducer
-    );
+    const { currentProject } = useAppSelector(state => state.projectsReducer);
 
     const navigate = useNavigate();
 
@@ -29,7 +27,7 @@ export const TopBar: FC<TopBarProps> = () => {
         dispatch(setFormVariant(IFormVariant.deleteProject));
 
         navigate(
-            `/${RouteNames.projects}/${currentProject.id}/${RouteNames.deleteProject}`
+            `/${RouteNames.project}/${currentProject.id}/${RouteNames.deleteProject}`
         );
     };
 
@@ -38,10 +36,9 @@ export const TopBar: FC<TopBarProps> = () => {
         dispatch(setFormVariant(IFormVariant.editProject));
 
         navigate(
-            `/${RouteNames.projects}/${currentProject.id}/${RouteNames.editProject}`
+            `/${RouteNames.project}/${currentProject.id}/${RouteNames.editProject}`
         );
     };
-
 
     return (
         <header className={styles.topBar}>
@@ -50,21 +47,13 @@ export const TopBar: FC<TopBarProps> = () => {
                     onClick={handleDelBtn}
                     type="button"
                     variant={AppBtnVariant.iconTopBar}
-                    disabled={
-                        isOpened || variant === IFormVariant.initial
-                            ? true
-                            : false
-                    }
+                    disabled={isOpened ? true : false}
                 >
                     <DeleteIcon />
                 </AppBtn>
                 <AppBtn
                     onClick={handleEditBtn}
-                    disabled={
-                        isOpened || variant === IFormVariant.initial
-                            ? true
-                            : false
-                    }
+                    disabled={isOpened ? true : false}
                     type="button"
                     variant={AppBtnVariant.iconTopBar}
                 >
@@ -78,24 +67,24 @@ export const TopBar: FC<TopBarProps> = () => {
                 <span>
                     {!isOpened
                         ? currentProject.name
-                        : variant !== IFormVariant.addProject
+                        : variant === IFormVariant.editProject ||
+                          variant === IFormVariant.deleteProject
                         ? `"${currentProject.name}"\u00A0`
                         : ""}
                 </span>
                 <span>
                     {!isOpened
                         ? ""
-                        : variant !== IFormVariant.addProject
+                        : variant === IFormVariant.editProject ||
+                          variant === IFormVariant.deleteProject
                         ? "?"
                         : ""}
                 </span>
             </h2>
             <AppBtn
-                onClick={() => console.log('add task')}
+                onClick={() => console.log("add task")}
                 variant={AppBtnVariant.form}
-                disabled={
-                    isOpened || variant === IFormVariant.initial ? true : false
-                }
+                disabled={isOpened ? true : false}
             >
                 Add task
             </AppBtn>

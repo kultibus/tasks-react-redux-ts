@@ -3,22 +3,22 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { IFormVariant } from "../../models/IForm";
 import { RouteNames } from "../../router";
+import {
+    setFormVariant,
+    setIsFormOpened,
+} from "../../store/slices/form-slice/formSlice";
 import { setCurrentProject } from "../../store/slices/projects-slice/projectsActionCreators";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { List, ListVariant } from "../list/List";
 import { SideLink } from "../side-link/SideLink";
 import styles from "./SideBar.module.scss";
-import {
-    setFormVariant,
-    setIsFormOpened,
-} from "../../store/slices/form-slice/formSlice";
 
 interface SideBarProps {}
 
 export const SideBar: FC<SideBarProps> = () => {
     const { projects } = useAppSelector(state => state.projectsReducer);
 
-    const { isOpened, variant } = useAppSelector(state => state.formReducer);
+    const { isOpened } = useAppSelector(state => state.formReducer);
 
     const navigate = useNavigate();
 
@@ -40,8 +40,7 @@ export const SideBar: FC<SideBarProps> = () => {
         dispatch(setIsFormOpened(true));
         dispatch(setFormVariant(IFormVariant.addProject));
 
-        navigate(`/${RouteNames.projects}/${RouteNames.addProject}`);
-        // navigate(`/${RouteNames.projects}`);
+        navigate(`/${RouteNames.project}/${RouteNames.addProject}`);
     };
 
     return (
@@ -49,13 +48,9 @@ export const SideBar: FC<SideBarProps> = () => {
             <AppBtn
                 onClick={btnClick}
                 variant={
-                    isOpened || variant === IFormVariant.initial
-                        ? AppBtnVariant.formDisabled
-                        : AppBtnVariant.form
+                    isOpened ? AppBtnVariant.formDisabled : AppBtnVariant.form
                 }
-                disabled={
-                    isOpened || variant === IFormVariant.initial ? true : false
-                }
+                disabled={isOpened ? true : false}
             >
                 New project
             </AppBtn>
