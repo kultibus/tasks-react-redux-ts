@@ -5,8 +5,8 @@ import { IFormVariant } from "../../models/IForm";
 import { RouteNames } from "../../router";
 import { signOutUser } from "../../store/slices/user-slice/userActionCreators";
 import {
-	setUserError,
-	setUserIsLoading,
+    setUserError,
+    setUserIsLoading,
 } from "../../store/slices/user-slice/userSlice";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
@@ -47,7 +47,10 @@ export const HeaderLinks: FC<HeaderLinksProps> = () => {
         </div>
     ) : (
         <div className={styles.links}>
-            <NavLink onClick={handeleClick} to={`/${RouteNames.login}`}>
+            <NavLink
+                onClick={handeleClick}
+                to={`${RouteNames.root}${RouteNames.login}`}
+            >
                 {({ isActive }) => (
                     <LinkInner
                         variant={

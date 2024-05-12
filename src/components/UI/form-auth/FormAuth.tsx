@@ -4,12 +4,13 @@ import { useInput } from "../../../hooks/useInput";
 import { IFormVariant } from "../../../models/IForm";
 import { setIsFormValid } from "../../../store/slices/form-slice/formSlice";
 import {
-	signInUser,
-	signUpUser,
+    signInUser,
+    signUpUser,
 } from "../../../store/slices/user-slice/userActionCreators";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormAuth.module.scss";
+import { LoginBottom } from "../../login-bottom/LoginBottom";
 
 interface FormAuthProps {
     btnName: IFormVariant;
@@ -126,6 +127,8 @@ export const FormAuth: FC<FormAuthProps> = props => {
             >
                 {isLoading ? "Loading..." : btnName}
             </AppBtn>
+
+            {variant === IFormVariant.signIn && <LoginBottom />}
         </form>
     );
 };

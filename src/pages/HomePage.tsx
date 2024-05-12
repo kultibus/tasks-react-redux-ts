@@ -6,28 +6,8 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { RouteNames } from "../router";
 import { IFormVariant } from "../models/IForm";
 import { setFormVariant } from "../store/slices/form-slice/formSlice";
-
-// export const HomePage: FC = () => {
-//     const { projects, currentProject } = useAppSelector(
-//         state => state.projectsReducer
-//     );
-
-//     const dispatch = useAppDispatch();
-
-//     useEffect(() => {
-//         dispatch(setFormVariant(IFormVariant.initial));
-//     }, []);
-
-//     return projects.length ? (
-//         <Navigate to={`/${RouteNames.projects}/${currentProject.id}`} />
-//         // <Navigate to={`/${RouteNames.projects}`} />
-//     ) : (
-//         <FormContainer>
-//             <FormProject />
-//         </FormContainer>
-//     );
-// };
+import { ProjectsLayout } from "../components/projects-layout/ProjectsLayout";
 
 export const HomePage: FC = () => {
-    return <div style={{ color: "black", fontSize: "5rem" }}>Home page</div>;
+    return <ProjectsLayout />;
 };

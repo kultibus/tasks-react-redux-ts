@@ -1,25 +1,54 @@
 import { FC, useEffect } from "react";
+import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import { FormAuth } from "../components/UI/form-auth/FormAuth";
 import { FormError } from "../components/UI/form-error/FormError";
-import { FormContainer } from "../components/form-container/FormContainer";
-import { LoginBottom } from "../components/login-bottom/LoginBottom";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { IFormVariant } from "../models/IForm";
+import { RouteNames } from "../router";
 import { setFormVariant } from "../store/slices/form-slice/formSlice";
 
 export const LoginPage: FC = () => {
     const { error } = useAppSelector(state => state.userReducer);
+    const { variant } = useAppSelector(state => state.formReducer);
 
-    return (
-        <FormContainer>
-            {error ? (
-                <FormError>
-                    <p>The entered email or password is incorrect.</p>
-                </FormError>
+    const dispatch = useAppDispatch();
+
+    const path = useLoaderData();
+
+    useEffect(() => {
+        if (path === RouteNames.login) {
+            dispatch(setFormVariant(IFormVariant.signIn));
+        }
+        if (path === RouteNames.register) {
+            dispatch(setFormVariant(IFormVariant.signUp));
+        }
+    }, [path]);
+
+    return error ? (
+        <FormError>
+            {variant === IFormVariant.signIn ? (
+                <p>Email or password is incorrect.</p>
             ) : (
-                <FormAuth btnName={IFormVariant.signIn} />
+                <p>
+                    Email is already registered or is incorrect
+                    <br />
+                    Or the password is too weak
+                </p>
             )}
-            <LoginBottom />
-        </FormContainer>
+        </FormError>
+    ) : (
+        <FormAuth
+            btnName={
+                variant === IFormVariant.signIn
+                    ? IFormVariant.signIn
+                    : IFormVariant.signUp
+            }
+        />
     );
+};
+
+export const loginLoader = ({ request }: LoaderFunctionArgs<any>) => {
+    const url = request.url;
+
+    return url.slice(url.lastIndexOf("/") + 1);
 };

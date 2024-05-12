@@ -1,5 +1,13 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { onValue, push, ref, remove, set, update } from "firebase/database";
+import {
+    onValue,
+    push,
+    ref,
+    remove,
+    set,
+    update,
+    get,
+} from "firebase/database";
 import { auth, database } from "../../../firebase";
 import { IProject } from "../../../models/IProject";
 import { AppDispatch } from "../../store";
@@ -18,16 +26,17 @@ export const createNewProject =
 
         dispatch(setCurrent(project));
 
-        // const projectsListRef = ref(database, `${auth.currentUser.uid}`);
-        // const currentProjectRef = ref(
-        //     database,
-        //     `${auth.currentUser.uid}/currentProject`
-        // );
+        const projectRef = ref(
+            database,
+            `${auth.currentUser.uid}/projects/${project.id}`
+        );
+        const currentProjectRef = ref(
+            database,
+            `${auth.currentUser.uid}/currentProject`
+        );
 
-        // const newProjectRef = push(projectsListRef);
-
-        // set(newProjectRef, project);
-        // set(currentProjectRef, project);
+        set(projectRef, project);
+        set(currentProjectRef, project);
     };
 
 export const editCurrentProject =
@@ -36,85 +45,68 @@ export const editCurrentProject =
 
         dispatch(setCurrent(project));
 
-        // const projectsListRef = ref(database, `${auth.currentUser.uid}`);
+        const projectRef = ref(
+            database,
+            `${auth.currentUser.uid}/projects/${project.id}`
+        );
 
-        // onValue(projectsListRef, snapshot => {
-        //     snapshot.forEach(childSnapshot => {
-        //         if (childSnapshot.val().id === project.id) {
-        //             update(
-        //                 ref(
-        //                     database,
-        //                     `${auth.currentUser.uid}/${childSnapshot.key}`
-        //                 ),
-        //                 project
-        //             );
-        //         }
-        //     });
-        // });
+        update(projectRef, project);
 
-        // const currentProjectRef = ref(
-        //     database,
-        //     `${auth.currentUser.uid}/currentProject`
-        // );
+        const currentProjectRef = ref(
+            database,
+            `${auth.currentUser.uid}/currentProject`
+        );
 
-        // update(currentProjectRef, project);
+        update(currentProjectRef, project);
     };
 
 export const deleteCurrentProject =
     (project: IProject) => (dispatch: AppDispatch) => {
         dispatch(deleteCurrent(project));
 
-        // const projectsListRef = ref(database, `${auth.currentUser.uid}`);
+        const projectRef = ref(
+            database,
+            `${auth.currentUser.uid}/projects/${project.id}`
+        );
 
-        // onValue(projectsListRef, snapshot => {
-        //     snapshot.forEach(childSnapshot => {
-        //         if (childSnapshot.val().id === project.id) {
-        //             remove(
-        //                 ref(
-        //                     database,
-        //                     `${auth.currentUser.uid}/${childSnapshot.key}`
-        //                 )
-        //             );
-        //         }
-        //     });
-        // });
+        remove(projectRef);
     };
 
 export const setCurrentProject =
     (project: IProject) => (dispatch: AppDispatch) => {
         dispatch(setCurrent(project));
 
-        // const currentProjectRef = ref(
-        //     database,
-        //     `${auth.currentUser.uid}/currentProject`
-        // );
+        const currentProjectRef = ref(
+            database,
+            `${auth.currentUser.uid}/currentProject`
+        );
 
-        // update(currentProjectRef, project);
+        update(currentProjectRef, project);
     };
 
-// export const checkProjects = () => (dispatch: AppDispatch) => {
-//     dispatch(setIsLoading());
-
-//     onAuthStateChanged(auth, user => {
-//         if (user) {
-//             onValue(ref(database, `${user.uid}`), snapshot => {
-//                 if (snapshot.exists()) {
-//                     const projectsArr: IProject[] = [];
-
-//                     snapshot.forEach(childSnapshot => {
-//                         if (childSnapshot.key !== "currentProject") {
-//                             projectsArr.push(childSnapshot.val());
-//                         } else {
-//                             dispatch(setCurrentProject(childSnapshot.val()));
-//                         }
-//                     });
-
-//                     dispatch(fetchProjects(projectsArr));
-//                 }
-//             });
-//         }
-//     });
-// };
-
 export const checkProjects = () => (dispatch: AppDispatch) => {
+    dispatch(setIsLoading());
+
+    onAuthStateChanged(auth, async user => {
+        if (user) {
+            const currentProject = await get(
+                ref(database, `${user.uid}/currentProject`)
+            );
+            if (currentProject.exists()) {
+                dispatch(setCurrentProject(currentProject.val()));
+            }
+
+            const projects = await get(ref(database, `${user.uid}/projects`));
+
+            if (projects.exists()) {
+                const projectsArr: IProject[] = [];
+
+                projects.forEach(project => {
+                    projectsArr.push(project.val());
+                });
+
+                dispatch(fetchProjects(projectsArr));
+            }
+        }
+    });
 };

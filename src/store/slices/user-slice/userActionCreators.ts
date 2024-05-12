@@ -88,7 +88,6 @@ export const checkUserAuth = () => (dispatch: AppDispatch) => {
 
     onAuthStateChanged(auth, user => {
         if (user) {
-			console.log('ok')
             dispatch(
                 setUser({
                     uid: user.uid,
@@ -100,7 +99,6 @@ export const checkUserAuth = () => (dispatch: AppDispatch) => {
 
             dispatch(setUserAuth(true));
         } else {
-			console.log('not')
             dispatch(setUserIsLoading(false));
 
             dispatch(setUser({} as IUser));

@@ -8,11 +8,11 @@ interface ProtectedRoutesProps {
     redirectPath?: string;
 }
 
-export const ProtectedRoutes: FC<ProtectedRoutesProps> = () => {
+export const ProtectedRoutes: FC<ProtectedRoutesProps> = ({ children }) => {
     const { isUserAuth } = useAppSelector(state => state.userReducer);
 
     return isUserAuth ? (
-        <Outlet />
+        children
     ) : (
         <Navigate to={`/${RouteNames.login}`} replace />
     );
