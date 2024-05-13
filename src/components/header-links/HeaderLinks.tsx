@@ -18,7 +18,7 @@ interface HeaderLinksProps {}
 export const HeaderLinks: FC<HeaderLinksProps> = () => {
     const { user, isLoading } = useAppSelector(state => state.userReducer);
 
-    const isAuth = useContext(AuthContext);
+    const { isAuth } = useContext(AuthContext);
 
     const dispatch = useAppDispatch();
 

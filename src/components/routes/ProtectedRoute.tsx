@@ -9,7 +9,7 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
-    const isAuth = useContext(AuthContext);
+    const { isAuth } = useContext(AuthContext);
 
     return isAuth ? children : <Navigate to={`/${RouteNames.login}`} replace />;
 };

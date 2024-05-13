@@ -63,3 +63,32 @@ export const signOutUser = () => async (dispatch: AppDispatch) => {
 
     dispatch(setUser({} as IUser));
 };
+
+export const checkUserAuth =
+    (setIsAuth: React.Dispatch<React.SetStateAction<boolean>>) =>
+    (dispatch: AppDispatch) => {
+        dispatch(setUserIsLoading(true));
+
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                localStorage.setItem("auth", "true");
+
+                setIsAuth(true);
+
+                dispatch(
+                    setUser({
+                        uid: user.uid,
+                        displayName: user.displayName,
+                    })
+                );
+            } else {
+                localStorage.removeItem("auth");
+
+                setIsAuth(false);
+
+                dispatch(setUser({} as IUser));
+
+                dispatch(setUserIsLoading(false));
+            }
+        });
+    };

@@ -1,13 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import {
-    onValue,
-    push,
-    ref,
-    remove,
-    set,
-    update,
-    get,
-} from "firebase/database";
+import { get, onValue, ref, remove, set, update } from "firebase/database";
 import { auth, database } from "../../../firebase";
 import { IProject } from "../../../models/IProject";
 import { AppDispatch } from "../../store";
@@ -26,17 +18,17 @@ export const createNewProject =
 
         dispatch(setCurrent(project));
 
-        // const projectRef = ref(
-        //     database,
-        //     `${auth.currentUser.uid}/projects/${project.id}`
-        // );
-        // const currentProjectRef = ref(
-        //     database,
-        //     `${auth.currentUser.uid}/currentProject`
-        // );
+        const projectRef = ref(
+            database,
+            `${auth.currentUser.uid}/projects/${project.id}`
+        );
+        const currentProjectRef = ref(
+            database,
+            `${auth.currentUser.uid}/currentProject`
+        );
 
-        // set(projectRef, project);
-        // set(currentProjectRef, project);
+        set(projectRef, project);
+        set(currentProjectRef, project);
     };
 
 export const editCurrentProject =
@@ -45,68 +37,71 @@ export const editCurrentProject =
 
         dispatch(setCurrent(project));
 
-        // const projectRef = ref(
-        //     database,
-        //     `${auth.currentUser.uid}/projects/${project.id}`
-        // );
+        const projectRef = ref(
+            database,
+            `${auth.currentUser.uid}/projects/${project.id}`
+        );
 
-        // update(projectRef, project);
+        update(projectRef, project);
 
-        // const currentProjectRef = ref(
-        //     database,
-        //     `${auth.currentUser.uid}/currentProject`
-        // );
+        const currentProjectRef = ref(
+            database,
+            `${auth.currentUser.uid}/currentProject`
+        );
 
-        // update(currentProjectRef, project);
+        update(currentProjectRef, project);
     };
 
 export const deleteCurrentProject =
     (project: IProject) => (dispatch: AppDispatch) => {
         dispatch(deleteCurrent(project));
 
-        // const projectRef = ref(
-        //     database,
-        //     `${auth.currentUser.uid}/projects/${project.id}`
-        // );
+        const projectRef = ref(
+            database,
+            `${auth.currentUser.uid}/projects/${project.id}`
+        );
 
-        // remove(projectRef);
+        remove(projectRef);
     };
 
 export const setCurrentProject =
     (project: IProject) => (dispatch: AppDispatch) => {
         dispatch(setCurrent(project));
 
-        // const currentProjectRef = ref(
-        //     database,
-        //     `${auth.currentUser.uid}/currentProject`
-        // );
+        const currentProjectRef = ref(
+            database,
+            `${auth.currentUser.uid}/currentProject`
+        );
 
-        // update(currentProjectRef, project);
+        update(currentProjectRef, project);
     };
 
 export const checkProjects = () => (dispatch: AppDispatch) => {
-    dispatch(setIsLoading());
+    dispatch(setIsLoading(true));
 
-    onAuthStateChanged(auth, async user => {
+    onAuthStateChanged(auth, user => {
         if (user) {
-            const currentProject = await get(
-                ref(database, `${user.uid}/currentProject`)
+            onValue(
+                ref(database, `${user.uid}`),
+                snap => {
+                    if (snap.exists()) {
+                        const currentProjectSnap = snap.child("currentProject");
+
+                        dispatch(setCurrentProject(currentProjectSnap.val()));
+
+                        const projectsSnap = snap.child("projects");
+
+                        const projectsArr: IProject[] = [];
+
+                        projectsSnap.forEach(child => {
+                            projectsArr.push(child.val());
+                        });
+
+                        dispatch(fetchProjects(projectsArr));
+                    }
+                },
+                { onlyOnce: true }
             );
-            if (currentProject.exists()) {
-                dispatch(setCurrentProject(currentProject.val()));
-            }
-
-            const projects = await get(ref(database, `${user.uid}/projects`));
-
-            if (projects.exists()) {
-                const projectsArr: IProject[] = [];
-
-                projects.forEach(project => {
-                    projectsArr.push(project.val());
-                });
-
-                dispatch(fetchProjects(projectsArr));
-            }
         }
     });
 };

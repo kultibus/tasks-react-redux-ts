@@ -67,16 +67,14 @@ export const TopBar: FC<TopBarProps> = () => {
                 <span>
                     {!isOpened
                         ? currentProject.name
-                        : variant === IFormVariant.editProject ||
-                          variant === IFormVariant.deleteProject
+                        : variant !== IFormVariant.addProject
                         ? `"${currentProject.name}"\u00A0`
                         : ""}
                 </span>
                 <span>
                     {!isOpened
                         ? ""
-                        : variant === IFormVariant.editProject ||
-                          variant === IFormVariant.deleteProject
+                        : variant !== IFormVariant.addProject
                         ? "?"
                         : ""}
                 </span>

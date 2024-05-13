@@ -1,48 +1,36 @@
 import { FC, useEffect } from "react";
-import {
-    LoaderFunctionArgs,
-    Navigate,
-    useLoaderData,
-    useNavigation,
-    useParams,
-} from "react-router-dom";
-import { ProjectLayout } from "../components/project-layout/ProjectLayout";
+import { Navigate, useNavigation } from "react-router-dom";
+import { FormProject } from "../components/UI/form-project/FormProject";
+import { MainLoader } from "../components/main-loader/MainLoader";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { IFormVariant } from "../models/IForm";
+import { RouteNames } from "../router";
 import {
     setFormVariant,
     setIsFormOpened,
 } from "../store/slices/form-slice/formSlice";
-import { RouteNames } from "../router";
+import { checkProjects } from "../store/slices/projects-slice/projectsActionCreators";
 
 export const HomePage: FC = () => {
-    // const { projects, currentProject } = useAppSelector(
-    //     state => state.projectsReducer
-    // );
+    const { currentProject, isLoading, projects } = useAppSelector(
+        state => state.projectsReducer
+    );
 
-    const route = useLoaderData();
-    // const params = useParams();
-
+ 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (route === "") {
-            dispatch(setFormVariant(IFormVariant.initialProject));
-            dispatch(setIsFormOpened(true));
-        }
-    }, [route]);
+        dispatch(checkProjects());
 
-    return <ProjectLayout />;
-    // return !projects.length ? (
-    //     <ProjectLayout />
-    // ) : (
-    //     <Navigate to={`/${RouteNames.project}/${currentProject.id}`} />
-    // );
-};
+        dispatch(setFormVariant(IFormVariant.initialProject));
+        dispatch(setIsFormOpened(true));
+    }, []);
 
-export const homePageLoader = ({ request }: LoaderFunctionArgs<any>) => {
-    const url = request.url;
-    const route = url.slice(url.lastIndexOf("/") + 1);
-
-    return route;
+    return isLoading ? (
+        <MainLoader />
+    ) : projects.length ? (
+        <Navigate to={`/${RouteNames.project}/${currentProject.id}`} />
+    ) : (
+        <FormProject />
+    );
 };

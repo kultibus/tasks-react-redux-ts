@@ -19,34 +19,25 @@ export const projectsSlice = createSlice({
     name: "projects",
     initialState,
     reducers: {
-        setIsLoading(state) {
-            state.isLoading = true;
+        setIsLoading(state, action: PayloadAction<boolean>) {
+            state.isLoading = action.payload;
         },
         fetchProjects(state, action: PayloadAction<IProject[]>) {
             state.projects = action.payload;
             state.isLoading = false;
-            state.error = "";
         },
         createNew(state, action: PayloadAction<IProject>) {
-            state.isLoading = false;
-            state.error = "";
             state.projects.push(action.payload);
-            // state.currentProject = action.payload;
         },
         editCurrent(state, action: PayloadAction<IProject>) {
-            state.isLoading = false;
-            state.error = "";
             state.projects = state.projects.map(project => {
                 if (project.id === action.payload.id) {
                     return { ...action.payload };
                 }
                 return { ...project };
             });
-            // state.currentProject = action.payload;
         },
         deleteCurrent(state, action: PayloadAction<IProject>) {
-            state.isLoading = false;
-            state.error = "";
             if (state.projects.length) {
                 state.projects = state.projects.filter(project => {
                     if (project.id !== action.payload.id) {
@@ -58,12 +49,9 @@ export const projectsSlice = createSlice({
             }
         },
         setCurrent(state, action: PayloadAction<IProject>) {
-            state.isLoading = false;
-            state.error = "";
             state.currentProject = action.payload;
         },
         setError(state, action: PayloadAction<string>) {
-            state.isLoading = false;
             state.error = action.payload;
         },
     },

@@ -4,10 +4,11 @@ import { NotFound } from "./components/not-found/NotFound";
 import { ProtectedRoute } from "./components/routes/ProtectedRoute";
 import { PublicRoute } from "./components/routes/PublicRoute";
 import { LoginPage, loginPageLoader } from "./pages/LoginPage";
-import { HomePage, homePageLoader } from "./pages/HomePage";
+import { HomePage } from "./pages/HomePage";
 import { Boards } from "./components/boards/Boards";
 import { FormProject } from "./components/UI/form-project/FormProject";
-import { ProjectPage, projectPageLoader } from "./pages/ProjectPage";
+import { ProjectLayout } from "./components/project-layout/ProjectLayout";
+import { ProjectPage } from "./pages/ProjectPage";
 
 export enum RouteNames {
     login = "login",
@@ -43,37 +44,49 @@ export const router = createBrowserRouter([
                                 <HomePage />
                             </ProtectedRoute>
                         ),
-                        loader: homePageLoader,
+                        loader: ({ request }) => {
+                            const url = new URL(request.url);
+
+                            return url.pathname;
+                        },
                     },
                     {
-						path: `${RouteNames.project}/:projectId`,
-                        element: (
-							<ProtectedRoute>
-                                {/* <ProjectPage /> */}
-								<HomePage />
-                            </ProtectedRoute>
-                        ),
-                        // loader: projectPageLoader,
-                        children: [
-                            { index: true, element: <Boards /> },
-                            {
-                                path: `${RouteNames.editProject}`,
-                                element: <FormProject />,
-                            },
-                            {
-                                path: `${RouteNames.deleteProject}`,
-                                element: <FormProject />,
-                            },
-                        ],
-                    },
-                    {
-                        path: `${RouteNames.project}/${RouteNames.addProject}`,
+                        path: RouteNames.project,
                         element: (
                             <ProtectedRoute>
                                 <ProjectPage />
                             </ProtectedRoute>
                         ),
-                        children: [{ index: true, element: <FormProject /> }],
+                        children: [
+                            {
+                                path: ":id",
+                                element: <ProjectLayout />,
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <Boards />,
+                                    },
+                                    {
+                                        path: RouteNames.editProject,
+                                        element: <FormProject />,
+                                    },
+                                    {
+                                        path: RouteNames.deleteProject,
+                                        element: <FormProject />,
+                                    },
+                                ],
+                            },
+                            {
+                                path: RouteNames.addProject,
+                                element: <ProjectLayout />,
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <FormProject />,
+                                    },
+                                ],
+                            },
+                        ],
                     },
 
                     {
