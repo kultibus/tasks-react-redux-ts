@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { IFormVariant } from "../../models/IForm";
@@ -11,13 +11,14 @@ import {
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
 import styles from "./HeaderLinks.module.scss";
+import { AuthContext } from "../../context";
 
 interface HeaderLinksProps {}
 
 export const HeaderLinks: FC<HeaderLinksProps> = () => {
-    const { user, isLoading, isUserAuth } = useAppSelector(
-        state => state.userReducer
-    );
+    const { user, isLoading } = useAppSelector(state => state.userReducer);
+
+    const isAuth = useContext(AuthContext);
 
     const dispatch = useAppDispatch();
 
@@ -30,7 +31,7 @@ export const HeaderLinks: FC<HeaderLinksProps> = () => {
         dispatch(setUserIsLoading(false));
     };
 
-    return isUserAuth ? (
+    return isAuth ? (
         <div className={styles.links}>
             {isLoading ? (
                 <div className={styles.hi}>{IFormVariant.loading}</div>

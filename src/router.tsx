@@ -46,13 +46,14 @@ export const router = createBrowserRouter([
                         loader: homePageLoader,
                     },
                     {
-                        path: `${RouteNames.project}/:projectId`,
+						path: `${RouteNames.project}/:projectId`,
                         element: (
-                            <ProtectedRoute>
-                                <ProjectPage />
+							<ProtectedRoute>
+                                {/* <ProjectPage /> */}
+								<HomePage />
                             </ProtectedRoute>
                         ),
-                        loader: projectPageLoader,
+                        // loader: projectPageLoader,
                         children: [
                             { index: true, element: <Boards /> },
                             {

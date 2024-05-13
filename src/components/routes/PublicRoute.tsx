@@ -1,13 +1,13 @@
-import { FC, ReactNode } from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import { useAppSelector } from "../../hooks/redux";
+import { FC, ReactNode, useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { AuthContext } from "../../context";
 
 interface PublicRouteProps {
     children?: ReactNode;
 }
 
 export const PublicRoute: FC<PublicRouteProps> = ({ children }) => {
-    const { isUserAuth } = useAppSelector(state => state.userReducer);
+    const isAuth = useContext(AuthContext);
 
-    return isUserAuth ? <Navigate to={`/`} replace /> : children;
+    return !isAuth ? children : <Navigate to={`/`} replace />;
 };

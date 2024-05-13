@@ -10,45 +10,35 @@ import { getDatabase, onValue, ref } from "firebase/database";
 export const ProjectPage: FC = () => {
     const { projects } = useAppSelector(state => state.projectsReducer);
 
-	const navigation = useNavigation()
-
-	console.log(navigation.state)
-
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        if (projects.length) {
-            dispatch(setIsFormOpened(false));
-        }
-    }, []);
-
     return projects.length ? <ProjectLayout /> : <Navigate to={`/`} />;
 };
 
-// export const projectPageLoader = async () => {
-//     const test = await new Promise(resolve => {
-//         onAuthStateChanged(auth, user => {
-//             if (user) {
-//                 onValue(ref(database, `${user.uid}/projects`), snap => {
-// 					if (snap.exists()) {
-// 						resolve(snap.val())
-// 					}
-// 				});
-//             }
-//         });
-//     });
-
-// 	console.log(test)
-
-//     return test;
-// };
-
 export const projectPageLoader = async () => {
+    const test = await new Promise(resolve => {
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                onValue(ref(database, `${user.uid}/projects`), snap => {
+                    if (snap.exists()) {
+                        resolve(snap.val());
+                    }
+                });
+            }
+        });
+    });
 
+    console.log(test);
 
-	// const auth = getAuth(app)
-	// const db = getDatabase(app)
-
-	// console.log(auth.currentUser)
-	
+    return test;
 };
+
+// export const projectPageLoader = async () => {
+//     const auth = getAuth(app);
+//     const db = getDatabase(app);
+
+//     const user = auth.currentUser;
+
+//     if (user) {
+//         const snap = await get(ref(database, `${user.uid}/currentProject`));
+// 		console.log(snap)
+//     }
+// };

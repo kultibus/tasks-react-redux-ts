@@ -16,13 +16,12 @@ import {
 import { RouteNames } from "../router";
 
 export const HomePage: FC = () => {
-    const { projects, currentProject } = useAppSelector(
-        state => state.projectsReducer
-    );
+    // const { projects, currentProject } = useAppSelector(
+    //     state => state.projectsReducer
+    // );
 
     const route = useLoaderData();
-	const params = useParams()
-
+    // const params = useParams();
 
     const dispatch = useAppDispatch();
 
@@ -33,16 +32,12 @@ export const HomePage: FC = () => {
         }
     }, [route]);
 
+    return <ProjectLayout />;
     // return !projects.length ? (
     //     <ProjectLayout />
     // ) : (
     //     <Navigate to={`/${RouteNames.project}/${currentProject.id}`} />
     // );
-    return !projects.length ? (
-        <ProjectLayout />
-    ) : (
-        <Navigate to={`/${RouteNames.project}/${currentProject.id}`} />
-    );
 };
 
 export const homePageLoader = ({ request }: LoaderFunctionArgs<any>) => {

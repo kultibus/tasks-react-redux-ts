@@ -1,8 +1,5 @@
 import { FC } from "react";
-import {
-	Link,
-	useRouteError
-} from "react-router-dom";
+import { Link, useRouteError } from "react-router-dom";
 import { RouteNames } from "../../router";
 import styles from "./NotFound.module.scss";
 
