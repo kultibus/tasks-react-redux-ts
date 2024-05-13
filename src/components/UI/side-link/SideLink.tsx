@@ -1,8 +1,8 @@
 import { FC, MouseEvent } from "react";
 import { NavLink } from "react-router-dom";
-import { IProject } from "../../models/IProject";
-import { RouteNames } from "../../router";
-import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
+import { IProject } from "../../../models/IProject";
+import { RouteNames } from "../../../router";
+import { LinkInner, LinkInnerVariant } from "../link-inner/LinkInner";
 
 interface SideLinkProps {
     project: IProject;

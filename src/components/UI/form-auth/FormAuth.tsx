@@ -10,7 +10,7 @@ import {
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormAuth.module.scss";
-import { LoginBottom } from "../../login-bottom/LoginBottom";
+import { LoginBottom } from "../login-bottom/LoginBottom";
 
 interface FormAuthProps {
     btnName: IFormVariant;

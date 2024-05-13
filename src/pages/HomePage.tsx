@@ -3,6 +3,7 @@ import {
     LoaderFunctionArgs,
     Navigate,
     useLoaderData,
+    useNavigation,
     useParams,
 } from "react-router-dom";
 import { ProjectLayout } from "../components/project-layout/ProjectLayout";
@@ -20,6 +21,8 @@ export const HomePage: FC = () => {
     );
 
     const route = useLoaderData();
+	const params = useParams()
+
 
     const dispatch = useAppDispatch();
 
@@ -30,6 +33,11 @@ export const HomePage: FC = () => {
         }
     }, [route]);
 
+    // return !projects.length ? (
+    //     <ProjectLayout />
+    // ) : (
+    //     <Navigate to={`/${RouteNames.project}/${currentProject.id}`} />
+    // );
     return !projects.length ? (
         <ProjectLayout />
     ) : (

@@ -1,14 +1,14 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../hooks/redux";
-import { RouteNames } from "../../router";
+import { useAppDispatch } from "../../../hooks/redux";
+import { RouteNames } from "../../../router";
 import styles from "./LoginBottom.module.scss";
-import { IFormVariant } from "../../models/IForm";
-import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
+import { IFormVariant } from "../../../models/IForm";
+import { LinkInner, LinkInnerVariant } from "../link-inner/LinkInner";
 import {
     setUserError,
     setUserIsLoading,
-} from "../../store/slices/user-slice/userSlice";
+} from "../../../store/slices/user-slice/userSlice";
 
 export const LoginBottom: FC = () => {
     const dispatch = useAppDispatch();

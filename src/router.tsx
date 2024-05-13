@@ -7,7 +7,7 @@ import { LoginPage, loginPageLoader } from "./pages/LoginPage";
 import { HomePage, homePageLoader } from "./pages/HomePage";
 import { Boards } from "./components/boards/Boards";
 import { FormProject } from "./components/UI/form-project/FormProject";
-import { ProjectPage } from "./pages/ProjectPage";
+import { ProjectPage, projectPageLoader } from "./pages/ProjectPage";
 
 export enum RouteNames {
     login = "login",
@@ -18,100 +18,6 @@ export enum RouteNames {
     editProject = "edit",
     root = "/",
 }
-
-// export const router = createBrowserRouter([
-//     {
-//         path: "/",
-//         element: <App />,
-//         children: [
-//             {
-//                 errorElement: <NotFound />,
-//                 children: [
-//                     {
-//                         path: "*",
-//                         loader: ({ params }) => {
-//                             throw json(
-//                                 `The "/${params["*"]}" route doesn't exist`,
-//                                 {
-//                                     status: 404,
-//                                 }
-//                             );
-//                         },
-//                     },
-//                     {
-//                         element: <PublicRoute />,
-//                         children: [
-//                             {
-//                                 path: RouteNames.login,
-//                                 element: <LoginPage />,
-//                             },
-//                             {
-//                                 path: RouteNames.register,
-//                                 element: <RegisterPage />,
-//                             },
-//                         ],
-//                     },
-//                     {
-//                         element: <ProtectedRoute />,
-//                         children: [
-//                             {
-//                                 index: true,
-//                                 loader: () => {
-//                                     return redirect(RouteNames.projects);
-//                                 },
-//                             },
-//                             {
-//                                 path: RouteNames.projects,
-//                                 element: <ProjectsPage />,
-//                                 children: [
-//                                     {
-//                                         errorElement: <NotFound />,
-//                                         children: [
-//                                             {
-//                                                 index: true,
-//                                                 element: <FormProject />,
-//                                             },
-//                                             {
-//                                                 path: RouteNames.addProject,
-//                                                 element: <FormProject />,
-//                                             },
-//                                             {
-//                                                 path: ":id",
-//                                                 element: <Boards />,
-
-//                                                 loader: boardsLoader,
-//                                             },
-//                                             {
-//                                                 path: `:id/${RouteNames.editProject}`,
-//                                                 element: <FormProject />,
-//                                             },
-//                                             {
-//                                                 path: `:id/${RouteNames.deleteProject}`,
-//                                                 element: <FormProject />,
-//                                             },
-
-//                                             {
-//                                                 path: ":id/*",
-//                                                 loader: ({ params }) => {
-//                                                     throw json(
-//                                                         `The "/${RouteNames.projects}/${params.id}/${params["*"]}" route doesn't exist`,
-//                                                         {
-//                                                             status: 404,
-//                                                         }
-//                                                     );
-//                                                 },
-//                                             },
-//                                         ],
-//                                     },
-//                                 ],
-//                             },
-//                         ],
-//                     },
-//                 ],
-//             },
-//         ],
-//     },
-// ]);
 
 export const router = createBrowserRouter([
     {
@@ -146,6 +52,7 @@ export const router = createBrowserRouter([
                                 <ProjectPage />
                             </ProtectedRoute>
                         ),
+                        loader: projectPageLoader,
                         children: [
                             { index: true, element: <Boards /> },
                             {

@@ -16,7 +16,6 @@ import {
     editCurrentProject,
     setCurrentProject,
 } from "../../../store/slices/projects-slice/projectsActionCreators";
-import { FormContainer } from "../../form-container/FormContainer";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormProject.module.scss";
@@ -104,7 +103,6 @@ export const FormProject: FC<FormProjectProps> = () => {
                 } else {
                     dispatch(setCurrentProject({} as IProject));
 
-                    dispatch(setFormVariant(IFormVariant.initialProject));
                     dispatch(setIsFormValid(true));
 
                     navigate(`/`);
@@ -132,40 +130,38 @@ export const FormProject: FC<FormProjectProps> = () => {
     };
 
     return (
-        <FormContainer>
-            <form onSubmit={handleSubmit} className={styles.form}>
-                {variant !== IFormVariant.deleteProject && (
-                    <AppInput
-                        name="projectName"
-                        placeholderError={projectName.isError}
-                        onChange={projectName.onChange}
-                        onClick={projectName.deleteError}
-                        placeholder={projectName.placeholder}
-                        type="text"
-                        value={projectName.value}
-                    />
-                )}
+        <form onSubmit={handleSubmit} className={styles.form}>
+            {variant !== IFormVariant.deleteProject && (
+                <AppInput
+                    name="projectName"
+                    placeholderError={projectName.isError}
+                    onChange={projectName.onChange}
+                    onClick={projectName.deleteError}
+                    placeholder={projectName.placeholder}
+                    type="text"
+                    value={projectName.value}
+                />
+            )}
 
-                <div className={styles.btns}>
+            <div className={styles.btns}>
+                <AppBtn
+                    type="submit"
+                    variant={AppBtnVariant.form}
+                    onClick={handleClick}
+                >
+                    {variant}
+                </AppBtn>
+
+                {variant !== IFormVariant.initialProject && (
                     <AppBtn
-                        type="submit"
+                        type="reset"
                         variant={AppBtnVariant.form}
-                        onClick={handleClick}
+                        onClick={handleReset}
                     >
-                        {variant}
+                        Cancel
                     </AppBtn>
-
-                    {variant !== IFormVariant.initialProject && (
-                        <AppBtn
-                            type="reset"
-                            variant={AppBtnVariant.form}
-                            onClick={handleReset}
-                        >
-                            Cancel
-                        </AppBtn>
-                    )}
-                </div>
-            </form>
-        </FormContainer>
+                )}
+            </div>
+        </form>
     );
 };

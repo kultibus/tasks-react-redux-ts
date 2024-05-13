@@ -10,7 +10,7 @@ import {
 import { setCurrentProject } from "../../store/slices/projects-slice/projectsActionCreators";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { List, ListVariant } from "../list/List";
-import { SideLink } from "../side-link/SideLink";
+import { SideLink } from "../UI/side-link/SideLink";
 import styles from "./SideBar.module.scss";
 
 interface SideBarProps {}
