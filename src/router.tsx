@@ -9,6 +9,7 @@ import { Boards } from "./components/boards/Boards";
 import { FormProject } from "./components/UI/form-project/FormProject";
 import { ProjectLayout } from "./components/project-layout/ProjectLayout";
 import { ProjectPage } from "./pages/ProjectPage";
+import { AppWrapper } from "./components/app-wrapper/AppWrapper";
 
 export enum RouteNames {
     login = "login",
@@ -24,19 +25,14 @@ export const router = createBrowserRouter([
     {
         path: RouteNames.root,
         element: <App />,
+        errorElement: (
+            <AppWrapper>
+                <NotFound />
+            </AppWrapper>
+        ),
         children: [
             {
-                errorElement: <NotFound />,
                 children: [
-                    {
-                        path: "*",
-                        loader: () => {
-                            throw json("", {
-                                status: 404,
-                                statusText: "Route not Found",
-                            });
-                        },
-                    },
                     {
                         index: true,
                         element: (
@@ -44,11 +40,6 @@ export const router = createBrowserRouter([
                                 <HomePage />
                             </ProtectedRoute>
                         ),
-                        loader: ({ request }) => {
-                            const url = new URL(request.url);
-
-                            return url.pathname;
-                        },
                     },
                     {
                         path: RouteNames.project,

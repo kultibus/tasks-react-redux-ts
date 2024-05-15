@@ -22,14 +22,22 @@ export const projectsSlice = createSlice({
         setIsLoading(state, action: PayloadAction<boolean>) {
             state.isLoading = action.payload;
         },
-        fetchProjects(state, action: PayloadAction<IProject[]>) {
+
+        setProjects(state, action: PayloadAction<IProject[]>) {
+            state.projects = action.payload;
+            state.isLoading = false;
+        },
+
+        ///////////////
+
+        getProjects(state, action: PayloadAction<IProject[]>) {
             state.projects = action.payload;
             state.isLoading = false;
         },
         createNew(state, action: PayloadAction<IProject>) {
             state.projects.push(action.payload);
         },
-        editCurrent(state, action: PayloadAction<IProject>) {
+        updateCurrent(state, action: PayloadAction<IProject>) {
             state.projects = state.projects.map(project => {
                 if (project.id === action.payload.id) {
                     return { ...action.payload };
@@ -60,11 +68,12 @@ export const projectsSlice = createSlice({
 export const projectsReducer = projectsSlice.reducer;
 
 export const {
+    setProjects,
     createNew,
     setCurrent,
-    editCurrent,
+    updateCurrent,
     deleteCurrent,
-    fetchProjects,
+    getProjects,
     setIsLoading,
     setError,
 } = projectsSlice.actions;

@@ -25,7 +25,7 @@ export const tasksSlice = createSlice({
             state.error = "";
             state.tasks.push(action.payload);
         },
-        editCurrent(state, action: PayloadAction<ITask>) {
+        updateCurrent(state, action: PayloadAction<ITask>) {
             state.isLoading = false;
             state.error = "";
             state.tasks = state.tasks.map(task => {

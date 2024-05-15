@@ -1,94 +1,93 @@
 import {
     createUserWithEmailAndPassword,
-    onAuthStateChanged,
     signInWithEmailAndPassword,
     signOut,
     updateProfile,
 } from "firebase/auth";
+import { localStorageApi } from "../../../api/api";
 import { auth } from "../../../firebase";
 import { IUser } from "../../../models/IUser";
 import { AppDispatch } from "../../store";
 import { setUser, setUserError, setUserIsLoading } from "./userSlice";
 
+export interface ISignInCreds {
+    email: string;
+    password: string;
+}
+
+export interface ISignUpCreds extends ISignInCreds {
+    displayName: string;
+}
+
 export const signUpUser =
-    ({ displayName, email, password }: IUser) =>
+    ({ displayName, email, password }: ISignUpCreds) =>
     async (dispatch: AppDispatch) => {
         try {
             dispatch(setUserIsLoading(true));
 
-            await createUserWithEmailAndPassword(auth, email, password);
+            const { user } = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
 
-            onAuthStateChanged(auth, async user => {
-                if (user) {
-                    await updateProfile(user, { displayName: displayName });
+            await updateProfile(user, { displayName });
 
-                    dispatch(
-                        setUser({
-                            uid: user.uid,
-                            displayName: user.displayName,
-                        })
-                    );
-                }
-            });
+            const localUser: IUser = {
+                uid: user.uid,
+                displayName: user.displayName,
+            };
+
+            dispatch(setUser(localUser));
+
+            localStorageApi.setUser(localUser);
         } catch (error) {
             dispatch(setUserError(error.message));
         }
     };
 
 export const signInUser =
-    ({ email, password }: IUser) =>
+    ({ email, password }: ISignInCreds) =>
     async (dispatch: AppDispatch) => {
         try {
             dispatch(setUserIsLoading(true));
 
-            await signInWithEmailAndPassword(auth, email, password);
+            const { user } = await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
 
-            onAuthStateChanged(auth, user => {
-                if (user) {
-                    dispatch(
-                        setUser({
-                            uid: user.uid,
-                            displayName: user.displayName,
-                        })
-                    );
-                }
-            });
+            const localUser: IUser = {
+                uid: user.uid,
+                displayName: user.displayName,
+            };
+
+            dispatch(setUser(localUser));
+
+            localStorageApi.setUser(localUser);
         } catch (error) {
             dispatch(setUserError(error.message));
         }
     };
 
 export const signOutUser = () => async (dispatch: AppDispatch) => {
-    await signOut(auth);
+    signOut(auth);
 
-    dispatch(setUser({} as IUser));
+    dispatch(setUser(null));
+
+    localStorageApi.clear();
 };
 
-export const checkUserAuth =
-    (setIsAuth: React.Dispatch<React.SetStateAction<boolean>>) =>
-    (dispatch: AppDispatch) => {
-        dispatch(setUserIsLoading(true));
+export const checkUserAuth = () => (dispatch: AppDispatch) => {
+    dispatch(setUserIsLoading(true));
+	
+    const localUser = localStorageApi.getUser();
+	
+    if (!!localUser) {
+		dispatch(setUser(localUser));
+        return;
+    }
 
-        onAuthStateChanged(auth, user => {
-            if (user) {
-                localStorage.setItem("auth", "true");
-
-                setIsAuth(true);
-
-                dispatch(
-                    setUser({
-                        uid: user.uid,
-                        displayName: user.displayName,
-                    })
-                );
-            } else {
-                localStorage.removeItem("auth");
-
-                setIsAuth(false);
-
-                dispatch(setUser({} as IUser));
-
-                dispatch(setUserIsLoading(false));
-            }
-        });
-    };
+    dispatch(setUserIsLoading(false));
+};

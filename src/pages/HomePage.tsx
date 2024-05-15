@@ -9,26 +9,20 @@ import {
     setFormVariant,
     setIsFormOpened,
 } from "../store/slices/form-slice/formSlice";
-import { checkProjects } from "../store/slices/projects-slice/projectsActionCreators";
 
 export const HomePage: FC = () => {
     const { currentProject, isLoading, projects } = useAppSelector(
         state => state.projectsReducer
     );
 
- 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(checkProjects());
-
         dispatch(setFormVariant(IFormVariant.initialProject));
         dispatch(setIsFormOpened(true));
     }, []);
 
-    return isLoading ? (
-        <MainLoader />
-    ) : projects.length ? (
+    return projects.length ? (
         <Navigate to={`/${RouteNames.project}/${currentProject.id}`} />
     ) : (
         <FormProject />

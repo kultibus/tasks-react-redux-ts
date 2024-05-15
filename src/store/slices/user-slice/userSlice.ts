@@ -1,15 +1,16 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { User, UserInfo } from "firebase/auth";
 import { IUser } from "../../../models/IUser";
 
 interface UserState {
-    user: IUser;
-    isLoading: boolean;
+    user: IUser | null;
+    userIsLoading: boolean;
     error: string;
 }
 
 const initialState: UserState = {
-    user: {} as IUser,
-    isLoading: false,
+    user: null,
+    userIsLoading: false,
     error: "",
 };
 
@@ -18,15 +19,15 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         setUserIsLoading(state, action: PayloadAction<boolean>) {
-            state.isLoading = action.payload;
+            state.userIsLoading = action.payload;
         },
-        setUser(state, action: PayloadAction<IUser>) {
-            state.isLoading = false;
+        setUser(state, action: PayloadAction<IUser | null>) {
+            state.userIsLoading = false;
             state.error = "";
             state.user = action.payload;
         },
         setUserError(state, action: PayloadAction<string>) {
-            state.isLoading = false;
+            state.userIsLoading = false;
             state.error = action.payload;
         },
     },
@@ -34,5 +35,4 @@ export const userSlice = createSlice({
 
 export const userReducer = userSlice.reducer;
 
-export const { setUserError, setUserIsLoading, setUser } =
-    userSlice.actions;
+export const { setUserError, setUserIsLoading, setUser } = userSlice.actions;

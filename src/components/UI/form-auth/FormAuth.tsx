@@ -21,7 +21,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
 
     const dispatch = useAppDispatch();
 
-    const { isLoading } = useAppSelector(state => state.userReducer);
+    const { userIsLoading } = useAppSelector(state => state.userReducer);
     const { isValid, variant } = useAppSelector(state => state.formReducer);
 
     const email = useInput("", "Enter email...", "Email is empty!");
@@ -93,7 +93,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
                     placeholder={displayName.placeholder}
                     type="text"
                     value={displayName.value}
-                    disabled={isLoading ? true : false}
+                    disabled={userIsLoading ? true : false}
                 />
             )}
 
@@ -105,7 +105,7 @@ export const FormAuth: FC<FormAuthProps> = props => {
                 placeholder={email.placeholder}
                 type="text"
                 value={email.value}
-                disabled={isLoading ? true : false}
+                disabled={userIsLoading ? true : false}
             />
             <AppInput
                 name="password"
@@ -115,17 +115,17 @@ export const FormAuth: FC<FormAuthProps> = props => {
                 placeholder={password.placeholder}
                 type="password"
                 value={password.value}
-                disabled={isLoading ? true : false}
+                disabled={userIsLoading ? true : false}
             />
             <AppBtn
                 type="submit"
                 variant={
-                    isLoading ? AppBtnVariant.formDisabled : AppBtnVariant.form
+                    userIsLoading ? AppBtnVariant.formDisabled : AppBtnVariant.form
                 }
-                disabled={isLoading ? true : false}
+                disabled={userIsLoading ? true : false}
                 onClick={handleClick}
             >
-                {isLoading ? "Loading..." : btnName}
+                {userIsLoading ? "Loading..." : btnName}
             </AppBtn>
 
             {variant === IFormVariant.signIn && <LoginBottom />}

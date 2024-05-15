@@ -2,7 +2,7 @@ import { ITask } from "../../../models/ITask";
 import { AppDispatch } from "../../store";
 import { tasksSlice } from "./tasksSlice";
 
-const { createNew, setCurrent, editCurrent, deleteCurrent } =
+const { createNew, setCurrent, updateCurrent, deleteCurrent } =
     tasksSlice.actions;
 
 export const createNewTask = (task: ITask) => (dispatch: AppDispatch) => {
@@ -11,8 +11,8 @@ export const createNewTask = (task: ITask) => (dispatch: AppDispatch) => {
     dispatch(setCurrent(task));
 };
 
-export const editCurrentTask = (task: ITask) => (dispatch: AppDispatch) => {
-    dispatch(editCurrent(task));
+export const updateCurrentTask = (task: ITask) => (dispatch: AppDispatch) => {
+    dispatch(updateCurrent(task));
 };
 
 export const deleteCurrentTask = (task: ITask) => (dispatch: AppDispatch) => {

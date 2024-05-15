@@ -13,7 +13,7 @@ import {
 import {
     createNewProject,
     deleteCurrentProject,
-    editCurrentProject,
+    updateCurrentProject,
     setCurrentProject,
 } from "../../../store/slices/projects-slice/projectsActionCreators";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
@@ -75,7 +75,7 @@ export const FormProject: FC<FormProjectProps> = () => {
                     name: projectName.value,
                 };
 
-                dispatch(editCurrentProject(editedProject));
+                dispatch(updateCurrentProject(editedProject));
 
                 navigate(`/${RouteNames.project}/${editedProject.id}`);
 

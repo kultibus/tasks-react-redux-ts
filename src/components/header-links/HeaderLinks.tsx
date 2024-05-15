@@ -16,9 +16,10 @@ import { AuthContext } from "../../context";
 interface HeaderLinksProps {}
 
 export const HeaderLinks: FC<HeaderLinksProps> = () => {
-    const { user, isLoading } = useAppSelector(state => state.userReducer);
+    const { user, userIsLoading } = useAppSelector(state => state.userReducer);
 
-    const { isAuth } = useContext(AuthContext);
+
+    // const { isAuth } = useContext(AuthContext);
 
     const dispatch = useAppDispatch();
 
@@ -31,12 +32,14 @@ export const HeaderLinks: FC<HeaderLinksProps> = () => {
         dispatch(setUserIsLoading(false));
     };
 
-    return isAuth ? (
+    // return isAuth ? (
+    return !!user ? (
         <div className={styles.links}>
-            {isLoading ? (
+            {userIsLoading ? (
                 <div className={styles.hi}>{IFormVariant.loading}</div>
             ) : (
                 <div className={styles.hi}>Hi, {user.displayName}!</div>
+                // <div className={styles.hi}>Hi!</div>
             )}
             <AppBtn
                 variant={AppBtnVariant.header}
