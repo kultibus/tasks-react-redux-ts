@@ -1,15 +1,30 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ITask } from "../../../models/ITask";
+import { ITask, ITaskState } from "../../../models/ITask";
+import { IBoard } from "../../../models/IBoard";
 
 interface TasksState {
-    tasks: ITask[];
-    isLoading: boolean;
+    boards: IBoard[];
+    currentBoard: IBoard;
+    openedTasks: ITask[];
+    inProcessTasks: ITask[];
+    doneTasks: ITask[];
+    currentTask: ITask;
+    tasksIsLoading: boolean;
     error: string;
 }
 
 const initialState: TasksState = {
-    tasks: [],
-    isLoading: false,
+    boards: [
+        { name: ITaskState.opened },
+        { name: ITaskState.inProcess },
+        { name: ITaskState.done },
+    ],
+    currentBoard: {} as IBoard,
+    openedTasks: [],
+    inProcessTasks: [],
+    doneTasks: [],
+    currentTask: {} as ITask,
+    tasksIsLoading: false,
     error: "",
 };
 
@@ -17,48 +32,13 @@ export const tasksSlice = createSlice({
     name: "tasks",
     initialState,
     reducers: {
-        setIsLoading(state) {
-            state.isLoading = true;
-        },
-        createNew(state, action: PayloadAction<ITask>) {
-            state.isLoading = false;
-            state.error = "";
-            state.tasks.push(action.payload);
-        },
-        updateCurrent(state, action: PayloadAction<ITask>) {
-            state.isLoading = false;
-            state.error = "";
-            state.tasks = state.tasks.map(task => {
-                if (task.current) {
-                    return { ...action.payload };
-                }
-                return { ...task };
-            });
-        },
-        deleteCurrent(state) {
-            state.isLoading = false;
-            state.error = "";
-            if (state.tasks.length) {
-                state.tasks = state.tasks.filter(task => !task.current);
-            } else {
-                state.tasks = [];
-            }
-        },
-        setCurrent(state, action: PayloadAction<ITask>) {
-            state.isLoading = false;
-            state.error = "";
-            state.tasks = state.tasks.map(task => {
-                if (task.id === action.payload.id) {
-                    return { ...task, current: true };
-                }
-                return { ...task, current: false };
-            });
-        },
-        setError(state, action: PayloadAction<string>) {
-            state.isLoading = false;
-            state.error = action.payload;
+        setOpenedTasks(state, action: PayloadAction<ITask[]>) {
+            state.openedTasks = action.payload;
+            state.tasksIsLoading = false;
         },
     },
 });
 
 export const tasksReducer = tasksSlice.reducer;
+
+export const { setOpenedTasks } = tasksSlice.actions;

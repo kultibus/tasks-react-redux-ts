@@ -1,0 +1,13 @@
+.form {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    gap: var(--ident-m);
+}
+
+.btns {
+	display: flex;
+	gap: var(--ident-m);
+	> button {
+		flex-grow: 1;
+	}
+}

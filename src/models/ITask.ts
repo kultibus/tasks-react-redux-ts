@@ -5,10 +5,8 @@ export enum ITaskState {
 }
 
 export interface ITask {
-    body: string;
     id: string;
-    // uid: string;
-    name: string;
-    current?: boolean;
+    title: string;
+    body: string;
     state: ITaskState;
 }

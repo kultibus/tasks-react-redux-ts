@@ -3,6 +3,8 @@ import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
 import styles from "./Board.module.scss";
 import { IBoard } from "../../models/IBoard";
+import { useAppSelector } from "../../hooks/redux";
+import { ITaskState } from "../../models/ITask";
 
 interface BoardProps {
     board: IBoard;
@@ -11,7 +13,9 @@ interface BoardProps {
 export const Board: FC<BoardProps> = props => {
     const { board } = props;
 
-    const [tasks, setTasks] = useState<string[]>(["task1", "task2", "task3"]);
+    const { openedTasks, inProcessTasks, doneTasks } = useAppSelector(
+        state => state.tasksReducer
+    );
 
     return (
         <li className={styles.board}>
@@ -19,8 +23,14 @@ export const Board: FC<BoardProps> = props => {
             <section className={styles.tasks}>
                 <List
                     variant={ListVariant.tasks}
-                    items={tasks}
-                    renderItem={task => <Task key={task}>{task}</Task>}
+                    items={
+                        board.name === ITaskState.opened
+                            ? openedTasks
+                            : board.name === ITaskState.inProcess
+                            ? inProcessTasks
+                            : doneTasks
+                    }
+                    renderItem={task => <Task task={task} key={task.id} />}
                 />
             </section>
         </li>
