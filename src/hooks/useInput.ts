@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from "react";
 export const useInput = (
     initialValue: string,
     initPlaceholder: string,
-    placeholderError: string
+    placeholderError?: string
 ) => {
     const [value, setValue] = useState<string>(initialValue);
 
@@ -11,7 +11,9 @@ export const useInput = (
 
     const [isError, setIsError] = useState<boolean>(false);
 
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChange = (
+        e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+    ) => {
         setValue(e.target.value);
     };
 

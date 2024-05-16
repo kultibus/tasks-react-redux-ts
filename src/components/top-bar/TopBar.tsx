@@ -40,6 +40,15 @@ export const TopBar: FC<TopBarProps> = () => {
         );
     };
 
+    const handleTaskBtn = () => {
+        dispatch(setIsFormOpened(true));
+        dispatch(setFormVariant(IFormVariant.addTask));
+
+        // navigate(
+        //     `/${RouteNames.project}/${currentProject.id}/${RouteNames.editProject}`
+        // );
+    };
+
     return (
         <header className={styles.topBar}>
             <div className={styles.topBarBtns}>
@@ -62,17 +71,28 @@ export const TopBar: FC<TopBarProps> = () => {
             </div>
             <h2 className={styles.title}>
                 <span>
-                    {isOpened ? `${variant}\u00A0` : "Project name:\u00A0"}
+                    {isOpened &&
+                    (variant === IFormVariant.addProject ||
+                        variant === IFormVariant.editProject ||
+                        variant === IFormVariant.deleteProject)
+                        ? `${variant}\u00A0`
+                        : "Project name:\u00A0"}
                 </span>
                 <span>
-                    {!isOpened
+                    {!isOpened ||
+                    variant === IFormVariant.addTask ||
+                    variant === IFormVariant.editTask ||
+                    variant === IFormVariant.deleteTask
                         ? currentProject.name
                         : variant !== IFormVariant.addProject
                         ? `"${currentProject.name}"\u00A0`
                         : ""}
                 </span>
                 <span>
-                    {!isOpened
+                    {!isOpened ||
+                    variant === IFormVariant.addTask ||
+                    variant === IFormVariant.editTask ||
+                    variant === IFormVariant.deleteTask
                         ? ""
                         : variant !== IFormVariant.addProject
                         ? "?"
@@ -80,7 +100,7 @@ export const TopBar: FC<TopBarProps> = () => {
                 </span>
             </h2>
             <AppBtn
-                onClick={() => console.log("add task")}
+                onClick={handleTaskBtn}
                 variant={AppBtnVariant.form}
                 disabled={isOpened ? true : false}
             >

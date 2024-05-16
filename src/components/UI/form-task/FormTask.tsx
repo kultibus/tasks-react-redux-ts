@@ -6,18 +6,21 @@ import { IFormVariant } from "../../../models/IForm";
 import { IProject } from "../../../models/IProject";
 import { RouteNames } from "../../../router";
 import {
-	setIsFormOpened,
-	setIsFormValid
+    setIsFormOpened,
+    setIsFormValid,
 } from "../../../store/slices/form-slice/formSlice";
 import {
-	createNewProject,
-	deleteCurrentProject,
-	editCurrentProject,
-	updateCurrentProject,
+    createNewProject,
+    deleteCurrentProject,
+    editCurrentProject,
+    updateCurrentProject,
 } from "../../../store/slices/projects-slice/projectsActionCreators";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormTask.module.scss";
+import { ITask, ITaskState } from "../../../models/ITask";
+import { AppTextarea } from "../app-textarea/AppTextarea";
+import { formatDate } from "../../../utils/formatDate";
 
 interface FormTaskProps {}
 
@@ -31,17 +34,21 @@ export const FormTask: FC<FormTaskProps> = () => {
     );
     const { variant, isValid } = useAppSelector(state => state.formReducer);
 
-    const projectName = useInput(
+    const taskTitle = useInput(
         "",
-        "Enter project name...",
-        "Project name is empty!"
+        "Enter task title...",
+        "Task title is empty!"
     );
 
+    const taskDescription = useInput("", "Enter task description...");
+
+    const taskExpDate = useInput("", "Enter expiration date...");
+
     const handleClick = () => {
-        if (!projectName.value.length) {
+        if (!taskTitle.value.length) {
             dispatch(setIsFormValid(false));
 
-            projectName.setError();
+            taskTitle.setError();
         } else {
             dispatch(setIsFormValid(true));
         }
@@ -51,27 +58,33 @@ export const FormTask: FC<FormTaskProps> = () => {
         e.preventDefault();
 
         switch (variant) {
-            case IFormVariant.initialProject:
-            case IFormVariant.addProject:
+            case IFormVariant.addTask:
                 if (!isValid) return;
 
-                const newProject = {
+                const expDate = taskExpDate.value
+                    ? new Date(taskExpDate.value).getTime()
+                    : formatDate.getTomorrow(new Date()).getTime();
+
+                const newTask: ITask = {
                     id: Math.random().toString(36).substring(2, 9),
-                    name: projectName.value,
+                    title: taskTitle.value,
+                    body: taskDescription.value,
+                    expDate: expDate,
+                    state: ITaskState.opened,
                 };
 
-                dispatch(createNewProject(newProject));
+                // dispatch(createNewProject(newProject));
 
-                navigate(`/${RouteNames.project}/${newProject.id}`);
+                // navigate(`/${RouteNames.project}/${newProject.id}`);
 
                 break;
 
-            case IFormVariant.editProject:
+            case IFormVariant.editTask:
                 if (!isValid) return;
 
                 const editedProject = {
                     ...currentProject,
-                    name: projectName.value,
+                    name: taskTitle.value,
                 };
 
                 dispatch(editCurrentProject(editedProject));
@@ -112,34 +125,51 @@ export const FormTask: FC<FormTaskProps> = () => {
 
         dispatch(setIsFormOpened(false));
 
-        projectName.cleanValue();
+        taskTitle.cleanValue();
     };
 
     const handleReset = () => {
         dispatch(setIsFormOpened(false));
 
-        navigate(-1);
+        // navigate(-1);
 
         switch (variant) {
-            case IFormVariant.initialProject:
-            case IFormVariant.addProject:
-                projectName.cleanValue();
+            case IFormVariant.addTask:
+                taskTitle.cleanValue();
                 break;
         }
     };
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            {variant !== IFormVariant.deleteProject && (
-                <AppInput
-                    name="projectName"
-                    placeholderError={projectName.isError}
-                    onChange={projectName.onChange}
-                    onClick={projectName.deleteError}
-                    placeholder={projectName.placeholder}
-                    type="text"
-                    value={projectName.value}
-                />
+            {variant !== IFormVariant.deleteTask && (
+                <div className={styles.inputs}>
+                    <AppInput
+                        name="taskTitle"
+                        placeholderError={taskTitle.isError}
+                        onChange={taskTitle.onChange}
+                        onClick={taskTitle.deleteError}
+                        placeholder={taskTitle.placeholder}
+                        type="text"
+                        value={taskTitle.value}
+                    />
+                    <AppTextarea
+                        name="taskDescription"
+                        onChange={taskDescription.onChange}
+                        placeholder={taskDescription.placeholder}
+                        value={taskDescription.value}
+                    />
+                    <label className={styles.expDateLabel}>
+                        Select an expiration date for the task:
+                        <AppInput
+                            name="taskExpDate"
+                            onChange={taskExpDate.onChange}
+                            type="date"
+                            value={taskExpDate.value}
+                            min={formatDate.getTomorrowYYYYMMDD(new Date())}
+                        />
+                    </label>
+                </div>
             )}
 
             <div className={styles.btns}>
@@ -151,15 +181,13 @@ export const FormTask: FC<FormTaskProps> = () => {
                     {variant}
                 </AppBtn>
 
-                {variant !== IFormVariant.initialProject && (
-                    <AppBtn
-                        type="reset"
-                        variant={AppBtnVariant.form}
-                        onClick={handleReset}
-                    >
-                        Cancel
-                    </AppBtn>
-                )}
+                <AppBtn
+                    type="reset"
+                    variant={AppBtnVariant.form}
+                    onClick={handleReset}
+                >
+                    Cancel
+                </AppBtn>
             </div>
         </form>
     );

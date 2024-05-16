@@ -5,6 +5,7 @@ import "./index.scss";
 import { router } from "./router";
 import { store } from "./store/store";
 import isEqual from "lodash.isequal";
+import { formatDate } from "./utils/formatDate";
 
 // const store = setupStore();
 

@@ -19,7 +19,7 @@ export const Board: FC<BoardProps> = props => {
 
     return (
         <li className={styles.board}>
-            <header>{board.name}</header>
+            <header className={styles.header}>Tasks {board.name}</header>
             <section className={styles.tasks}>
                 <List
                     variant={ListVariant.tasks}

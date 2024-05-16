@@ -1,6 +1,10 @@
 .board {
-	display: grid;
-	grid-template-rows: 0.5fr 6fr;
+    display: grid;
+    grid-template-rows: auto 6fr;
+}
+
+.header {
+    font-size: var(--fsz-l);
 }
 
 .tasks {
