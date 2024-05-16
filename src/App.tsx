@@ -7,11 +7,19 @@ import { Header } from "./components/header/Header";
 import { MainCnt } from "./components/main-cnt/MainCnt";
 import { MainLoader } from "./components/main-loader/MainLoader";
 import { useAppDispatch, useAppSelector } from "./hooks/redux";
-import { applyProjectsData } from "./store/slices/projects-slice/projectsActionCreators";
+import {
+    IProjectsData,
+    applyProjectsData,
+} from "./store/slices/projects-slice/projectsActionCreators";
 import { checkUserAuth } from "./store/slices/user-slice/userActionCreators";
+import { setProjectsIsLoading } from "./store/slices/projects-slice/projectsSlice";
+import isEqual from "lodash.isequal";
 
 export const App: FC = () => {
     const { userIsLoading, user } = useAppSelector(state => state.userReducer);
+    const { projectsIsLoading } = useAppSelector(
+        state => state.projectsReducer
+    );
 
     const dispatch = useAppDispatch();
 
@@ -22,6 +30,10 @@ export const App: FC = () => {
 
         const localProjectsData = localStorageApi.getProjects();
 
+        // if (user && !localProjectsData) {
+        //     dispatch(setProjectsIsLoading(true));
+        // }
+
         if (!!localProjectsData) {
             dispatch(applyProjectsData(localProjectsData));
         }
@@ -31,15 +43,24 @@ export const App: FC = () => {
         if (!uid) return;
 
         projectsApi.getData(user.uid).then(response => {
-            localStorageApi.setProjects(response);
+            if (!response || typeof response === "string") {
+                return;
+            }
 
-            dispatch(applyProjectsData(response));
+            const dbProjectsData = response as IProjectsData;
+
+            const localProjectsData = localStorageApi.getProjects();
+
+            if (!isEqual(dbProjectsData, localProjectsData)) {
+                localStorageApi.setProjects(dbProjectsData);
+                dispatch(applyProjectsData(dbProjectsData));
+            }
         });
     }, [uid, dispatch]);
 
     return (
         <AppWrapper>
-            {userIsLoading ? (
+            {userIsLoading || projectsIsLoading ? (
                 <MainLoader />
             ) : (
                 <AppLayout>

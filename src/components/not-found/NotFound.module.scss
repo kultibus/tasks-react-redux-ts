@@ -6,6 +6,7 @@
     gap: var(--ident-m);
     line-height: 1;
     padding: var(--ident-m);
+	max-width: 760px;
 }
 
 .link {
@@ -31,7 +32,6 @@
 
 .message {
     font-size: var(--fsz-l);
-    max-width: 420px;
     overflow: hidden;
 	line-height: 1.2;
 }

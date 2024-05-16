@@ -6,12 +6,13 @@ import { setIsFormOpened } from "../store/slices/form-slice/formSlice";
 export const ProjectPage: FC = () => {
     const { projects } = useAppSelector(state => state.projectsReducer);
 
+    const isProjects = projects?.length;
+
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-
         dispatch(setIsFormOpened(false));
-    }, []);
+    }, [dispatch]);
 
-    return projects.length ? <Outlet /> : <Navigate to={`/`} />;
+    return isProjects ? <Outlet /> : <Navigate to={`/`} />;
 };

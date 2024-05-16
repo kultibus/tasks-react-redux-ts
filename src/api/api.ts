@@ -1,6 +1,5 @@
 import { get, ref, update } from "firebase/database";
 import { database } from "../firebase";
-import { IProject } from "../models/IProject";
 import { IUser } from "../models/IUser";
 import {
 	IProjectsData,

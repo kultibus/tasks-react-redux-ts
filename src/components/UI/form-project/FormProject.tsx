@@ -13,8 +13,8 @@ import {
 import {
     createNewProject,
     deleteCurrentProject,
+    editCurrentProject,
     updateCurrentProject,
-    setCurrentProject,
 } from "../../../store/slices/projects-slice/projectsActionCreators";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
@@ -75,7 +75,7 @@ export const FormProject: FC<FormProjectProps> = () => {
                     name: projectName.value,
                 };
 
-                dispatch(updateCurrentProject(editedProject));
+                dispatch(editCurrentProject(editedProject));
 
                 navigate(`/${RouteNames.project}/${editedProject.id}`);
 
@@ -93,15 +93,15 @@ export const FormProject: FC<FormProjectProps> = () => {
                 dispatch(deleteCurrentProject(projects[currentProjectIndex]));
 
                 if (length > 1 && currentProjectIndex === 0) {
-                    dispatch(setCurrentProject(nextProject));
+                    dispatch(updateCurrentProject(nextProject));
 
                     navigate(`/${RouteNames.project}/${nextProject.id}`);
                 } else if (length > 1) {
-                    dispatch(setCurrentProject(pervProject));
+                    dispatch(updateCurrentProject(pervProject));
 
                     navigate(`/${RouteNames.project}/${pervProject.id}`);
                 } else {
-                    dispatch(setCurrentProject({} as IProject));
+                    dispatch(updateCurrentProject({} as IProject));
 
                     dispatch(setIsFormValid(true));
 

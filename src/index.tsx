@@ -4,6 +4,7 @@ import { RouterProvider } from "react-router-dom";
 import "./index.scss";
 import { router } from "./router";
 import { store } from "./store/store";
+import isEqual from "lodash.isequal";
 
 // const store = setupStore();
 
@@ -14,4 +15,3 @@ root.render(
         <RouterProvider router={router} />
     </Provider>
 );
-

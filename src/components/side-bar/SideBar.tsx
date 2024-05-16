@@ -7,7 +7,7 @@ import {
     setFormVariant,
     setIsFormOpened,
 } from "../../store/slices/form-slice/formSlice";
-import { setCurrentProject } from "../../store/slices/projects-slice/projectsActionCreators";
+import { updateCurrentProject } from "../../store/slices/projects-slice/projectsActionCreators";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { List, ListVariant } from "../list/List";
 import { SideLink } from "../UI/side-link/SideLink";
@@ -28,7 +28,7 @@ export const SideBar: FC<SideBarProps> = () => {
         const projectId = e.currentTarget.dataset.projectId;
 
         dispatch(
-            setCurrentProject(
+            updateCurrentProject(
                 projects.find(project => project.id === projectId)
             )
         );

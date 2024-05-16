@@ -11,18 +11,20 @@ import {
 } from "../store/slices/form-slice/formSlice";
 
 export const HomePage: FC = () => {
-    const { currentProject, isLoading, projects } = useAppSelector(
+    const { currentProject, projects } = useAppSelector(
         state => state.projectsReducer
     );
+
+    const isProjects = projects?.length;
 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(setFormVariant(IFormVariant.initialProject));
         dispatch(setIsFormOpened(true));
-    }, []);
+    }, [dispatch]);
 
-    return projects.length ? (
+    return isProjects ? (
         <Navigate to={`/${RouteNames.project}/${currentProject.id}`} />
     ) : (
         <FormProject />
