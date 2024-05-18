@@ -2,8 +2,8 @@ import { FC, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
-import { IFormVariant } from "../../../models/IForm";
-import { IProject } from "../../../models/IProject";
+import { IFormVariant } from "../../../types/models/IForm";
+import { IProject } from "../../../types/models/IProject";
 import { RouteNames } from "../../../router";
 import {
     setFormVariant,

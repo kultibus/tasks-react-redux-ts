@@ -1,7 +1,7 @@
 import { FC, FormEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
-import { IFormVariant } from "../../../models/IForm";
+import { IFormVariant } from "../../../types/models/IForm";
 import { setIsFormValid } from "../../../store/slices/form-slice/formSlice";
 import {
     signInUser,
@@ -120,7 +120,9 @@ export const FormAuth: FC<FormAuthProps> = props => {
             <AppBtn
                 type="submit"
                 variant={
-                    userIsLoading ? AppBtnVariant.formDisabled : AppBtnVariant.form
+                    userIsLoading
+                        ? AppBtnVariant.formDisabled
+                        : AppBtnVariant.form
                 }
                 disabled={userIsLoading ? true : false}
                 onClick={handleClick}

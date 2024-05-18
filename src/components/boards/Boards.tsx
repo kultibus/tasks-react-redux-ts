@@ -3,8 +3,8 @@ import { useAppSelector } from "../../hooks/redux";
 import { Board } from "../board/Board";
 import { List, ListVariant } from "../list/List";
 import styles from "./Boards.module.scss";
-import { ITaskState } from "../../models/ITask";
-import { IFormVariant } from "../../models/IForm";
+import { ITaskState } from "../../types/models/ITask";
+import { IFormVariant } from "../../types/models/IForm";
 import { FormTask } from "../UI/form-task/FormTask";
 
 export const Boards: FC = () => {

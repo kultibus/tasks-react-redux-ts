@@ -1,7 +1,7 @@
 import { FC, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { IFormVariant } from "../../models/IForm";
+import { IFormVariant } from "../../types/models/IForm";
 import { RouteNames } from "../../router";
 import { signOutUser } from "../../store/slices/user-slice/userActionCreators";
 import {
@@ -17,7 +17,6 @@ interface HeaderLinksProps {}
 
 export const HeaderLinks: FC<HeaderLinksProps> = () => {
     const { user, userIsLoading } = useAppSelector(state => state.userReducer);
-
 
     // const { isAuth } = useContext(AuthContext);
 

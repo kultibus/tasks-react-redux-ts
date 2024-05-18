@@ -1,10 +1,21 @@
 .board {
     display: grid;
     grid-template-rows: auto 6fr;
+	gap: var(--ident-m);
 }
 
 .header {
-    font-size: var(--fsz-l);
+	display: flex;
+	justify-content: center;
+	gap: var(--ident-m);
+	align-items: center;
+	font-size: var(--fsz-l);
+}
+
+
+.tasksQuantity {
+	font-weight: 600;
+
 }
 
 .tasks {

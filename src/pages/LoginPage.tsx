@@ -3,7 +3,7 @@ import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import { FormAuth } from "../components/UI/form-auth/FormAuth";
 import { FormError } from "../components/UI/form-error/FormError";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { IFormVariant } from "../models/IForm";
+import { IFormVariant } from "../types/models/IForm";
 import { RouteNames } from "../router";
 import { setFormVariant } from "../store/slices/form-slice/formSlice";
 

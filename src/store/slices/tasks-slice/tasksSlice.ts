@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ITask, ITaskState } from "../../../models/ITask";
-import { IBoard } from "../../../models/IBoard";
+import { ITask, ITaskState } from "../../../types/models/ITask";
+import { IBoard } from "../../../types/models/IBoard";
 
 interface TasksState {
     boards: IBoard[];

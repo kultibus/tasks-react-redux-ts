@@ -2,19 +2,15 @@ import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import DeleteIcon from "../../assets/icons/delete.svg";
 import EditIcon from "../../assets/icons/edit.svg";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { IFormVariant } from "../../types/models/IForm";
-import { RouteNames } from "../../router";
-import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
-import styles from "./TopBar.module.scss";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { IFormVariant } from "../../../models/IForm";
+import { RouteNames } from "../../../router";
+import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
+import styles from "../../edit-del-btns/TopBar.module.scss";
 import {
     setFormVariant,
     setIsFormOpened,
-} from "../../store/slices/form-slice/formSlice";
-import {
-    EditDelBtns,
-    EditDelBtnsVariant,
-} from "../UI/edit-del-btns/EditDelBtns";
+} from "../../../store/slices/form-slice/formSlice";
 
 interface TopBarProps {}
 
@@ -55,11 +51,24 @@ export const TopBar: FC<TopBarProps> = () => {
 
     return (
         <header className={styles.topBar}>
-            <EditDelBtns
-                variant={EditDelBtnsVariant.project}
-                handleDelBtn={handleDelBtn}
-                handleEditBtn={handleEditBtn}
-            />
+            <div className={styles.topBarBtns}>
+                <AppBtn
+                    onClick={handleDelBtn}
+                    type="button"
+                    variant={AppBtnVariant.iconTopBar}
+                    disabled={isOpened ? true : false}
+                >
+                    <DeleteIcon />
+                </AppBtn>
+                <AppBtn
+                    onClick={handleEditBtn}
+                    disabled={isOpened ? true : false}
+                    type="button"
+                    variant={AppBtnVariant.iconTopBar}
+                >
+                    <EditIcon />
+                </AppBtn>
+            </div>
             <h2 className={styles.title}>
                 <span>
                     {isOpened &&

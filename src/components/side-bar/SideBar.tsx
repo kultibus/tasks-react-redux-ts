@@ -1,7 +1,7 @@
 import { FC, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { IFormVariant } from "../../models/IForm";
+import { IFormVariant } from "../../types/models/IForm";
 import { RouteNames } from "../../router";
 import {
     setFormVariant,

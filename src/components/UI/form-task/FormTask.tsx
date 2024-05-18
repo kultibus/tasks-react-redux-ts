@@ -2,8 +2,8 @@ import { FC, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
-import { IFormVariant } from "../../../models/IForm";
-import { IProject } from "../../../models/IProject";
+import { IFormVariant } from "../../../types/models/IForm";
+import { IProject } from "../../../types/models/IProject";
 import { RouteNames } from "../../../router";
 import {
     setIsFormOpened,
@@ -18,9 +18,10 @@ import {
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormTask.module.scss";
-import { ITask, ITaskState } from "../../../models/ITask";
+import { ITask, ITaskState } from "../../../types/models/ITask";
 import { AppTextarea } from "../app-textarea/AppTextarea";
 import { formatDate } from "../../../utils/formatDate";
+import { createNewTask } from "../../../store/slices/tasks-slice/tasksActionCreators";
 
 interface FormTaskProps {}
 
@@ -71,9 +72,10 @@ export const FormTask: FC<FormTaskProps> = () => {
                     body: taskDescription.value,
                     expDate: expDate,
                     state: ITaskState.opened,
+                    projectId: currentProject.id,
                 };
 
-                // dispatch(createNewProject(newProject));
+                dispatch(createNewTask(newTask));
 
                 // navigate(`/${RouteNames.project}/${newProject.id}`);
 

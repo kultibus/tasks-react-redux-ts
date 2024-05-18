@@ -1,10 +1,10 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
 import styles from "./Board.module.scss";
-import { IBoard } from "../../models/IBoard";
+import { IBoard } from "../../types/models/IBoard";
 import { useAppSelector } from "../../hooks/redux";
-import { ITaskState } from "../../models/ITask";
+import { ITaskState } from "../../types/models/ITask";
 
 interface BoardProps {
     board: IBoard;
@@ -19,7 +19,16 @@ export const Board: FC<BoardProps> = props => {
 
     return (
         <li className={styles.board}>
-            <header className={styles.header}>Tasks {board.name}</header>
+            <header className={styles.header}>
+                <h2>Tasks {board.name}</h2>
+                <div className={styles.tasksQuantity}>
+                    {board.name === ITaskState.opened
+                        ? `${openedTasks.length}`
+                        : board.name === ITaskState.inProcess
+                        ? `${inProcessTasks.length}`
+                        : `${doneTasks.length}`}
+                </div>
+            </header>
             <section className={styles.tasks}>
                 <List
                     variant={ListVariant.tasks}

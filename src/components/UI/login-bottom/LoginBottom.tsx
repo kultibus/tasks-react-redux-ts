@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../../hooks/redux";
 import { RouteNames } from "../../../router";
 import styles from "./LoginBottom.module.scss";
-import { IFormVariant } from "../../../models/IForm";
+import { IFormVariant } from "../../../types/models/IForm";
 import { LinkInner, LinkInnerVariant } from "../link-inner/LinkInner";
 import {
     setUserError,

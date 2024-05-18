@@ -1,32 +1,30 @@
-import { localStorageApi, projectsApi } from "../../../api/api";
-import { IProject } from "../../../models/IProject";
-import { ITask } from "../../../models/ITask";
+import { databaseApi } from "../../../api/api";
+import { ITask } from "../../../types/models/ITask";
+import { ITasksData, ITasksUpdateData } from "../../../types/types";
 import { AppDispatch, AppGetState } from "../../store";
 import { setOpenedTasks } from "./tasksSlice";
 
 export const createNewTask =
     (task: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
-        // const user = getState().userReducer.user;
-        const { openedTasks } = getState().tasksReducer;
+        const user = getState().userReducer.user;
+        const { openedTasks, inProcessTasks, doneTasks } =
+            getState().tasksReducer;
+        const { projects, currentProject } = getState().projectsReducer;
 
         const updatedOpenedTasks = [...openedTasks, task];
 
         dispatch(setOpenedTasks(updatedOpenedTasks));
         // dispatch(setCurrentProject(project));
 
-        // if (user) {
-        //     const userData: IUpdatedData = {
-        //         uid: user.uid,
-        //         projectsData: {
-        //             currentProject: project,
-        //             projects: updatedProjects,
-        //         },
-        //     };
+        if (user) {
+            const tasksData: ITasksUpdateData<ITasksData> = {
+                uid: user.uid,
+            };
 
-        //     localStorageApi.setProjects(userData.projectsData);
+            // localStorageApi.setProjects(userData.projectsData);
 
-        //     projectsApi.updateData(userData);
-        // }
+            databaseApi.updateTasks(tasksData);
+        }
     };
 
 // export const editCurrentProject =
@@ -46,7 +44,7 @@ export const createNewTask =
 //         dispatch(setCurrentProject(project));
 
 //         if (user) {
-//             const userData: IUpdatedData = {
+//             const userData: IUpdatedProjectsData = {
 //                 uid: user.uid,
 //                 projectsData: {
 //                     currentProject: project,
@@ -56,7 +54,7 @@ export const createNewTask =
 
 //             localStorageApi.setProjects(userData.projectsData);
 
-//             projectsApi.updateData(userData);
+//             databaseApi.updateProjects(userData);
 //         }
 //     };
 
@@ -68,7 +66,7 @@ export const createNewTask =
 //         dispatch(setCurrentProject(project));
 
 //         if (user) {
-//             const userData: IUpdatedData = {
+//             const userData: IUpdatedProjectsData = {
 //                 uid: user.uid,
 //                 projectsData: {
 //                     currentProject: project,
@@ -78,7 +76,7 @@ export const createNewTask =
 
 //             localStorageApi.setProjects(userData.projectsData);
 
-//             projectsApi.updateData(userData);
+//             databaseApi.updateProjects(userData);
 //         }
 //     };
 
@@ -97,7 +95,7 @@ export const createNewTask =
 //         dispatch(setCurrentProject(project));
 
 //         if (user) {
-//             const userData: IUpdatedData = {
+//             const userData: IUpdatedProjectsData = {
 //                 uid: user.uid,
 //                 projectsData: {
 //                     currentProject: project,
@@ -107,7 +105,7 @@ export const createNewTask =
 
 //             localStorageApi.setProjects(userData.projectsData);
 
-//             projectsApi.updateData(userData);
+//             databaseApi.updateProjects(userData);
 //         }
 //     };
 

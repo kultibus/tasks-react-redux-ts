@@ -6,6 +6,7 @@ export enum ITaskState {
 
 export interface ITask {
     id: string;
+    projectId: string;
     title: string;
     body: string;
     // expDate: Date;

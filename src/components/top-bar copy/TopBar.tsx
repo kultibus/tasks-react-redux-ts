@@ -11,10 +11,6 @@ import {
     setFormVariant,
     setIsFormOpened,
 } from "../../store/slices/form-slice/formSlice";
-import {
-    EditDelBtns,
-    EditDelBtnsVariant,
-} from "../UI/edit-del-btns/EditDelBtns";
 
 interface TopBarProps {}
 
@@ -55,11 +51,24 @@ export const TopBar: FC<TopBarProps> = () => {
 
     return (
         <header className={styles.topBar}>
-            <EditDelBtns
-                variant={EditDelBtnsVariant.project}
-                handleDelBtn={handleDelBtn}
-                handleEditBtn={handleEditBtn}
-            />
+            <div className={styles.topBarBtns}>
+                <AppBtn
+                    onClick={handleDelBtn}
+                    type="button"
+                    variant={AppBtnVariant.iconTopBar}
+                    disabled={isOpened ? true : false}
+                >
+                    <DeleteIcon />
+                </AppBtn>
+                <AppBtn
+                    onClick={handleEditBtn}
+                    disabled={isOpened ? true : false}
+                    type="button"
+                    variant={AppBtnVariant.iconTopBar}
+                >
+                    <EditIcon />
+                </AppBtn>
+            </div>
             <h2 className={styles.title}>
                 <span>
                     {isOpened &&

@@ -1,6 +1,6 @@
 import { FC, MouseEvent } from "react";
 import { NavLink } from "react-router-dom";
-import { IProject } from "../../../models/IProject";
+import { IProject } from "../../../types/models/IProject";
 import { RouteNames } from "../../../router";
 import { LinkInner, LinkInnerVariant } from "../link-inner/LinkInner";
 

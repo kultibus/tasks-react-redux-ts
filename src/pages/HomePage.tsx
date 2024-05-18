@@ -3,7 +3,7 @@ import { Navigate, useNavigation } from "react-router-dom";
 import { FormProject } from "../components/UI/form-project/FormProject";
 import { MainLoader } from "../components/main-loader/MainLoader";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { IFormVariant } from "../models/IForm";
+import { IFormVariant } from "../types/models/IForm";
 import { RouteNames } from "../router";
 import {
     setFormVariant,

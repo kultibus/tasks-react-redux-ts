@@ -1,21 +1,12 @@
-import { localStorageApi, projectsApi } from "../../../api/api";
-import { IProject } from "../../../models/IProject";
+import { localStorageApi, databaseApi } from "../../../api/api";
+import { IProject } from "../../../types/models/IProject";
+import { IProjectsData, IUpdateData } from "../../../types/types";
 import { AppDispatch, AppGetState } from "../../store";
 import {
     setCurrentProject,
     setProjects,
     setProjectsIsLoading,
 } from "./projectsSlice";
-
-export interface IProjectsData {
-    currentProject: IProject;
-    projects: IProject[];
-}
-
-export interface IUpdatedData {
-    uid: string;
-    projectsData: IProjectsData;
-}
 
 export const createNewProject =
     (project: IProject) => (dispatch: AppDispatch, getState: AppGetState) => {
@@ -28,17 +19,17 @@ export const createNewProject =
         dispatch(setCurrentProject(project));
 
         if (user) {
-            const userData: IUpdatedData = {
+            const updatedProjectsData: IUpdateData<IProjectsData> = {
                 uid: user.uid,
-                projectsData: {
+                data: {
                     currentProject: project,
                     projects: updatedProjects,
                 },
             };
 
-            localStorageApi.setProjects(userData.projectsData);
+            localStorageApi.setProjects(updatedProjectsData.data);
 
-            projectsApi.updateData(userData);
+            databaseApi.updateProjects(updatedProjectsData);
         }
     };
 
@@ -59,17 +50,17 @@ export const editCurrentProject =
         dispatch(setCurrentProject(project));
 
         if (user) {
-            const userData: IUpdatedData = {
+            const updatedProjectsData: IUpdateData<IProjectsData> = {
                 uid: user.uid,
-                projectsData: {
+                data: {
                     currentProject: project,
                     projects: updatedProjects,
                 },
             };
 
-            localStorageApi.setProjects(userData.projectsData);
+            localStorageApi.setProjects(updatedProjectsData.data);
 
-            projectsApi.updateData(userData);
+            databaseApi.updateProjects(updatedProjectsData);
         }
     };
 
@@ -81,17 +72,17 @@ export const updateCurrentProject =
         dispatch(setCurrentProject(project));
 
         if (user) {
-            const userData: IUpdatedData = {
+            const updatedProjectsData: IUpdateData<IProjectsData> = {
                 uid: user.uid,
-                projectsData: {
+                data: {
                     currentProject: project,
                     projects: projects,
                 },
             };
 
-            localStorageApi.setProjects(userData.projectsData);
+            localStorageApi.setProjects(updatedProjectsData.data);
 
-            projectsApi.updateData(userData);
+            databaseApi.updateProjects(updatedProjectsData);
         }
     };
 
@@ -110,17 +101,17 @@ export const deleteCurrentProject =
         dispatch(setCurrentProject(project));
 
         if (user) {
-            const userData: IUpdatedData = {
+            const updatedProjectsData: IUpdateData<IProjectsData> = {
                 uid: user.uid,
-                projectsData: {
+                data: {
                     currentProject: project,
                     projects: updatedProjects,
                 },
             };
 
-            localStorageApi.setProjects(userData.projectsData);
+            localStorageApi.setProjects(updatedProjectsData.data);
 
-            projectsApi.updateData(userData);
+            databaseApi.updateProjects(updatedProjectsData);
         }
     };
 

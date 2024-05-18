@@ -1,10 +1,13 @@
 import { get, ref, update } from "firebase/database";
 import { database } from "../firebase";
-import { IUser } from "../models/IUser";
+import { IUser } from "../types/models/IUser";
 import {
-	IProjectsData,
-	IUpdatedData,
-} from "../store/slices/projects-slice/projectsActionCreators";
+    IProjectsData,
+    IUpdateData,
+    ITasksData,
+    ITasksUpdateData,
+} from "../types/types";
+import { ITask } from "../types/models/ITask";
 
 interface LocalStorageAPI {
     setUser: (object: IUser) => void;
@@ -35,7 +38,7 @@ export const localStorageApi: LocalStorageAPI = {
     clear: () => localStorage.clear(),
 };
 
-export const projectsApi = {
+export const databaseApi = {
     async getData(uid: string) {
         const snap = await get(ref(database, `${uid}`));
         return snap.exists()
@@ -43,7 +46,11 @@ export const projectsApi = {
             : "Something went wrong, try reload page";
     },
 
-    async updateData(data: IUpdatedData) {
-        return update(ref(database, `${data.uid}`), data.projectsData);
+    async updateProjects(userData: IUpdateData) {
+        return update(ref(database, `${userData.uid}`), userData.data);
+    },
+
+    async updateTasks(tasksData: ITasksUpdateData) {
+        return update(ref(database, `${tasksData.uid}`), tasksData.data);
     },
 };

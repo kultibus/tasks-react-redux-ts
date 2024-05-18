@@ -6,7 +6,7 @@ import {
 } from "firebase/auth";
 import { localStorageApi } from "../../../api/api";
 import { auth } from "../../../firebase";
-import { IUser } from "../../../models/IUser";
+import { IUser } from "../../../types/models/IUser";
 import { AppDispatch } from "../../store";
 import { setUser, setUserError, setUserIsLoading } from "./userSlice";
 
@@ -81,11 +81,11 @@ export const signOutUser = () => async (dispatch: AppDispatch) => {
 
 export const checkUserAuth = () => (dispatch: AppDispatch) => {
     dispatch(setUserIsLoading(true));
-	
+
     const localUser = localStorageApi.getUser();
-	
+
     if (!!localUser) {
-		dispatch(setUser(localUser));
+        dispatch(setUser(localUser));
         return;
     }
 
