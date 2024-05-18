@@ -1,27 +1,26 @@
-import { databaseApi } from "../../../api/api";
+import { databaseApi, localStorageApi } from "../../../api/api";
 import { ITask } from "../../../types/models/ITask";
-import { ITasksData, ITasksUpdateData } from "../../../types/types";
+import { ITasksData, IUpdateData } from "../../../types/types";
 import { AppDispatch, AppGetState } from "../../store";
-import { setOpenedTasks } from "./tasksSlice";
+import { setOpenedTasks, setTasksIsLoading } from "./tasksSlice";
 
 export const createNewTask =
     (task: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
         const { openedTasks, inProcessTasks, doneTasks } =
             getState().tasksReducer;
-        const { projects, currentProject } = getState().projectsReducer;
 
         const updatedOpenedTasks = [...openedTasks, task];
 
         dispatch(setOpenedTasks(updatedOpenedTasks));
-        // dispatch(setCurrentProject(project));
 
         if (user) {
-            const tasksData: ITasksUpdateData<ITasksData> = {
+            const tasksData: IUpdateData<ITasksData> = {
                 uid: user.uid,
+                data: { openedTasks: updatedOpenedTasks },
             };
 
-            // localStorageApi.setProjects(userData.projectsData);
+            localStorageApi.setTasks(tasksData.data);
 
             databaseApi.updateTasks(tasksData);
         }
@@ -109,12 +108,11 @@ export const createNewTask =
 //         }
 //     };
 
-// export const applyProjectsData =
-//     (projectsData: IProjectsData) => (dispatch: AppDispatch) => {
-//         dispatch(setProjectsIsLoading(true));
+export const applyTasksData =
+    (tasksData: ITasksData) => (dispatch: AppDispatch) => {
+        dispatch(setTasksIsLoading(true));
 
-//         const { currentProject, projects } = projectsData;
+        const { openedTasks, inProcessTasks, doneTasks } = tasksData;
 
-//         dispatch(setProjects(projects));
-//         dispatch(setCurrentProject(currentProject));
-//     };
+        dispatch(setOpenedTasks(openedTasks));
+    };

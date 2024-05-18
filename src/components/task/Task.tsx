@@ -14,7 +14,7 @@ export const Task: FC<TaskProps> = props => {
         <li className={styles.task}>
             <div>
                 <h3>{task.title}</h3>
-                <div></div>
+                <div>{task.projectId}</div>
             </div>
         </li>
     );

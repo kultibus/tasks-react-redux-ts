@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ITask, ITaskState } from "../../../types/models/ITask";
-import { IBoard } from "../../../types/models/IBoard";
+import { ITask } from "../../../types/models/ITask";
+import { IBoard, IBoardName } from "../../../types/models/IBoard";
 
 interface TasksState {
     boards: IBoard[];
@@ -15,9 +15,9 @@ interface TasksState {
 
 const initialState: TasksState = {
     boards: [
-        { name: ITaskState.opened },
-        { name: ITaskState.inProcess },
-        { name: ITaskState.done },
+        { name: IBoardName.opened },
+        { name: IBoardName.inProcess },
+        { name: IBoardName.done },
     ],
     currentBoard: {} as IBoard,
     openedTasks: [],
@@ -32,6 +32,10 @@ export const tasksSlice = createSlice({
     name: "tasks",
     initialState,
     reducers: {
+        setTasksIsLoading(state, action: PayloadAction<boolean>) {
+            state.tasksIsLoading = action.payload;
+        },
+
         setOpenedTasks(state, action: PayloadAction<ITask[]>) {
             state.openedTasks = action.payload;
             state.tasksIsLoading = false;
@@ -41,4 +45,4 @@ export const tasksSlice = createSlice({
 
 export const tasksReducer = tasksSlice.reducer;
 
-export const { setOpenedTasks } = tasksSlice.actions;
+export const { setOpenedTasks, setTasksIsLoading } = tasksSlice.actions;

@@ -11,7 +11,8 @@ import { applyProjectsData } from "./store/slices/projects-slice/projectsActionC
 import { checkUserAuth } from "./store/slices/user-slice/userActionCreators";
 import { setProjectsIsLoading } from "./store/slices/projects-slice/projectsSlice";
 import isEqual from "lodash.isequal";
-import { IProjectsData } from "./types/types";
+import { IProjectsData, ITasksData } from "./types/types";
+import { applyTasksData } from "./store/slices/tasks-slice/tasksActionCreators";
 
 export const App: FC = () => {
     const { userIsLoading, user } = useAppSelector(state => state.userReducer);
@@ -27,6 +28,7 @@ export const App: FC = () => {
         dispatch(checkUserAuth());
 
         const localProjectsData = localStorageApi.getProjects();
+        const localTasksData = localStorageApi.getTasks();
 
         // if (user && !localProjectsData) {
         //     dispatch(setProjectsIsLoading(true));
@@ -34,6 +36,9 @@ export const App: FC = () => {
 
         if (!!localProjectsData) {
             dispatch(applyProjectsData(localProjectsData));
+        }
+        if (!!localTasksData) {
+            dispatch(applyTasksData(localTasksData));
         }
     }, [dispatch]);
 
@@ -45,13 +50,13 @@ export const App: FC = () => {
                 return;
             }
 
-            const dbProjectsData = response as IProjectsData;
+            const databaseProjectsData = response as IProjectsData;
 
             const localProjectsData = localStorageApi.getProjects();
 
-            if (!isEqual(dbProjectsData, localProjectsData)) {
-                localStorageApi.setProjects(dbProjectsData);
-                dispatch(applyProjectsData(dbProjectsData));
+            if (!isEqual(databaseProjectsData, localProjectsData)) {
+                localStorageApi.setProjects(databaseProjectsData);
+                dispatch(applyProjectsData(databaseProjectsData));
             }
         });
     }, [uid, dispatch]);

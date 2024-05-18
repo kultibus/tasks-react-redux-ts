@@ -2,9 +2,8 @@ import { FC, useEffect, useState } from "react";
 import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
 import styles from "./Board.module.scss";
-import { IBoard } from "../../types/models/IBoard";
+import { IBoard, IBoardName } from "../../types/models/IBoard";
 import { useAppSelector } from "../../hooks/redux";
-import { ITaskState } from "../../types/models/ITask";
 
 interface BoardProps {
     board: IBoard;
@@ -17,14 +16,16 @@ export const Board: FC<BoardProps> = props => {
         state => state.tasksReducer
     );
 
+    const { currentProject } = useAppSelector(state => state.projectsReducer);
+
     return (
         <li className={styles.board}>
             <header className={styles.header}>
                 <h2>Tasks {board.name}</h2>
                 <div className={styles.tasksQuantity}>
-                    {board.name === ITaskState.opened
+                    {board.name === IBoardName.opened
                         ? `${openedTasks.length}`
-                        : board.name === ITaskState.inProcess
+                        : board.name === IBoardName.inProcess
                         ? `${inProcessTasks.length}`
                         : `${doneTasks.length}`}
                 </div>
@@ -33,11 +34,17 @@ export const Board: FC<BoardProps> = props => {
                 <List
                     variant={ListVariant.tasks}
                     items={
-                        board.name === ITaskState.opened
-                            ? openedTasks
-                            : board.name === ITaskState.inProcess
-                            ? inProcessTasks
-                            : doneTasks
+                        board.name === IBoardName.opened
+                            ? openedTasks.filter(
+                                  task => task.projectId === currentProject.id
+                              )
+                            : board.name === IBoardName.inProcess
+                            ? inProcessTasks.filter(
+                                  task => task.projectId === currentProject.id
+                              )
+                            : doneTasks.filter(
+                                  task => task.projectId === currentProject.id
+                              )
                     }
                     renderItem={task => <Task task={task} key={task.id} />}
                 />
