@@ -12,6 +12,8 @@ export interface ITasksData {
     doneTasks?: ITask[];
 }
 
+export type IResponseData = IProjectsData & ITasksData;
+
 export interface IUpdateData<T> {
     uid: string;
     data: T;

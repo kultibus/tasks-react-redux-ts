@@ -1,6 +1,7 @@
+import isEqual from "lodash.isequal";
 import { FC, useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { localStorageApi, databaseApi } from "./api/api";
+import { databaseApi, localStorageApi } from "./api/api";
 import { AppLayout } from "./components/app-layout/AppLayout";
 import { AppWrapper } from "./components/app-wrapper/AppWrapper";
 import { Header } from "./components/header/Header";
@@ -8,11 +9,9 @@ import { MainCnt } from "./components/main-cnt/MainCnt";
 import { MainLoader } from "./components/main-loader/MainLoader";
 import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import { applyProjectsData } from "./store/slices/projects-slice/projectsActionCreators";
-import { checkUserAuth } from "./store/slices/user-slice/userActionCreators";
-import { setProjectsIsLoading } from "./store/slices/projects-slice/projectsSlice";
-import isEqual from "lodash.isequal";
-import { IProjectsData, ITasksData } from "./types/types";
 import { applyTasksData } from "./store/slices/tasks-slice/tasksActionCreators";
+import { checkUserAuth } from "./store/slices/user-slice/userActionCreators";
+import { IResponseData } from "./types/types";
 
 export const App: FC = () => {
     const { userIsLoading, user } = useAppSelector(state => state.userReducer);
@@ -50,13 +49,30 @@ export const App: FC = () => {
                 return;
             }
 
-            const databaseProjectsData = response as IProjectsData;
+            const {
+                currentProject,
+                projects,
+                openedTasks,
+                doneTasks,
+                inProcessTasks,
+            } = response as IResponseData;
+
+            const projectsData = { currentProject, projects };
 
             const localProjectsData = localStorageApi.getProjects();
 
-            if (!isEqual(databaseProjectsData, localProjectsData)) {
-                localStorageApi.setProjects(databaseProjectsData);
-                dispatch(applyProjectsData(databaseProjectsData));
+            if (!isEqual(projectsData, localProjectsData)) {
+                localStorageApi.setProjects(projectsData);
+                dispatch(applyProjectsData(projectsData));
+            }
+
+            const tasksData = { openedTasks, inProcessTasks, doneTasks };
+
+            const localTasksData = localStorageApi.getTasks();
+
+            if (!isEqual(tasksData, localTasksData)) {
+                localStorageApi.setTasks(tasksData);
+                dispatch(applyTasksData(tasksData));
             }
         });
     }, [uid, dispatch]);
