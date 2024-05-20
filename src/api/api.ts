@@ -50,8 +50,8 @@ export const databaseApi = {
             : "Something went wrong, try reload page";
     },
 
-    async updateProjects(userData: IUpdateData<IProjectsData>) {
-        return update(ref(database, `${userData.uid}`), userData.data);
+    async updateProjects(projectsData: IUpdateData<IProjectsData>) {
+        return update(ref(database, `${projectsData.uid}`), projectsData.data);
     },
 
     async updateTasks(tasksData: IUpdateData<ITasksData>) {

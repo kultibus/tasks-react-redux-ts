@@ -36,6 +36,7 @@ export const App: FC = () => {
         if (!!localProjectsData) {
             dispatch(applyProjectsData(localProjectsData));
         }
+		
         if (!!localTasksData) {
             dispatch(applyTasksData(localTasksData));
         }

@@ -24,10 +24,22 @@ export const Board: FC<BoardProps> = props => {
                 <h2>Tasks {board.name}</h2>
                 <div className={styles.tasksQuantity}>
                     {board.name === IBoardName.opened
-                        ? `${openedTasks.length}`
+                        ? `${
+                              openedTasks.filter(
+                                  task => task.projectId === currentProject.id
+                              ).length
+                          }`
                         : board.name === IBoardName.inProcess
-                        ? `${inProcessTasks.length}`
-                        : `${doneTasks.length}`}
+                        ? `${
+                              inProcessTasks.filter(
+                                  task => task.projectId === currentProject.id
+                              ).length
+                          }`
+                        : `${
+                              doneTasks.filter(
+                                  task => task.projectId === currentProject.id
+                              ).length
+                          }`}
                 </div>
             </header>
             <section className={styles.tasks}>

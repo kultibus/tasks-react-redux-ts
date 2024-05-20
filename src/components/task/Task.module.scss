@@ -1,6 +1,51 @@
 .task {
-    background-color: var(--main-300-full);
+    background-color: var(--main-400-full);
     border-radius: var(--brs);
-	padding: var(--ident-m);
-    // flex-basis: 100px;
+    padding: var(--ident-m);
+    color: var(--grey-100-full);
+    display: flex;
+    flex-direction: column;
+    gap: var(--ident-s);
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--ident-s);
+}
+
+.title {
+    font-family: var(--ibm-cond);
+    font-size: var(--fsz-l);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+}
+
+.body {
+	font-size: var(--fsz-m);
+	line-height: 1.3;
+	font-family: var(--ibm);
+}
+
+.bottom {
+	font-family: var(--ibm-cond);
+    font-size: var(--fsz-l);
+    text-transform: uppercase;
+	display: flex;
+	gap: var(--ident-s);
+	justify-content: space-between;
+}
+
+.daysLeft {
+	font-weight: 600;
+
+}
+
+.warning {
+	color: var(--warning);
+}
+
+.expires {
+	color: var(--error);
 }

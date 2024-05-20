@@ -3,8 +3,9 @@ import DeleteIcon from "../../../assets/icons/delete.svg";
 import EditIcon from "../../../assets/icons/edit.svg";
 import { useAppSelector } from "../../../hooks/redux";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
-import styles from "./EditDelBtns.module.scss";
+import styles, { projectBtns } from "./EditDelBtns.module.scss";
 import classNames from "classnames";
+import { task } from "../../task/Task.module.scss";
 
 export enum EditDelBtnsVariant {
     project = "projectBtns",
@@ -26,7 +27,11 @@ export const EditDelBtns: FC<EditDelBtnsProps> = props => {
             <AppBtn
                 onClick={handleDelBtn}
                 type="button"
-                variant={AppBtnVariant.iconTopBar}
+                variant={
+                    variant === EditDelBtnsVariant.project
+                        ? AppBtnVariant.topBar
+                        : AppBtnVariant.task
+                }
                 disabled={isOpened ? true : false}
             >
                 <DeleteIcon />
@@ -35,7 +40,11 @@ export const EditDelBtns: FC<EditDelBtnsProps> = props => {
                 onClick={handleEditBtn}
                 disabled={isOpened ? true : false}
                 type="button"
-                variant={AppBtnVariant.iconTopBar}
+                variant={
+                    variant === EditDelBtnsVariant.project
+                        ? AppBtnVariant.topBar
+                        : AppBtnVariant.task
+                }
             >
                 <EditIcon />
             </AppBtn>

@@ -42,24 +42,42 @@
     svg {
         cursor: pointer;
         fill: var(--grey-100-full);
-        width: 27px;
-        height: 27px;
+        width: 20px;
+        height: 20px;
     }
 }
 
-.iconTopBar {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+.topBar,
+.task {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     svg {
         transition: var(--trs);
         cursor: pointer;
-        fill: var(--grey-800-full);
-        width: 35px;
-        height: 35px;
+    }
+}
+
+.topBar {
+    svg {
+        fill: var(--grey-800-60);
+        width: 30px;
+        height: 30px;
+		
+        &:hover {
+			fill: var(--grey-800-full);
+        }
+    }
+}
+
+.task {
+    svg {
+		fill: var(--grey-100-70);
+        width: 25px;
+        height: 25px;
 
         &:hover {
-            fill: var(--grey-500-full);
+			fill: var(--grey-100-full);
         }
     }
 }

@@ -17,4 +17,8 @@ export const formatDate = {
             currentDate.getDate() + 1
         );
     },
+
+    getDaysLeft(timestamp: number) {
+        return Math.floor((timestamp - new Date().getTime()) / 3600000 / 24);
+    },
 };

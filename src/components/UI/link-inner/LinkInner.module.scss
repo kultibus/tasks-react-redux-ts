@@ -7,9 +7,9 @@
     color: var(--grey-100-full);
     line-height: 1.2;
     transition: var(--trs);
-    width: 100%;
-	display: block;
-	text-align: center;
+    max-width: 320px;
+    display: block;
+    text-align: center;
 
     &:hover {
         background-color: var(--main-400-full);
@@ -18,8 +18,7 @@
 }
 
 .sideActive {
-	background-color: var(--main-400-full);
-	
+    background-color: var(--main-400-full);
 }
 
 .header,
