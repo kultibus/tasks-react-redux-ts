@@ -1,9 +1,5 @@
-export enum IBoardName {
-    opened = "opened",
-    done = "done",
-    inProcess = "in process",
-}
+// import { ITaskState } from "./ITask";
 
-export interface IBoard {
-    name: IBoardName;
-}
+// export interface IBoard {
+//     name: ITaskState;
+// }

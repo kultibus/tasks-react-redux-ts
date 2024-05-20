@@ -19,7 +19,7 @@ export const createNewProject =
         dispatch(setCurrentProject(project));
 
         if (user) {
-            const updatedProjectsData: IUpdateData<IProjectsData> = {
+            const updatedProjectsData: IUpdateData = {
                 uid: user.uid,
                 data: {
                     currentProject: project,
@@ -50,7 +50,7 @@ export const editCurrentProject =
         dispatch(setCurrentProject(project));
 
         if (user) {
-            const updatedProjectsData: IUpdateData<IProjectsData> = {
+            const updatedProjectsData: IUpdateData = {
                 uid: user.uid,
                 data: {
                     currentProject: project,
@@ -72,7 +72,7 @@ export const updateCurrentProject =
         dispatch(setCurrentProject(project));
 
         if (user) {
-            const updatedProjectsData: IUpdateData<IProjectsData> = {
+            const updatedProjectsData: IUpdateData = {
                 uid: user.uid,
                 data: {
                     currentProject: project,
@@ -101,7 +101,7 @@ export const deleteCurrentProject =
         dispatch(setCurrentProject(project));
 
         if (user) {
-            const updatedProjectsData: IUpdateData<IProjectsData> = {
+            const updatedProjectsData: IUpdateData = {
                 uid: user.uid,
                 data: {
                     currentProject: project,

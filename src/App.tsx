@@ -27,7 +27,6 @@ export const App: FC = () => {
         dispatch(checkUserAuth());
 
         const localProjectsData = localStorageApi.getProjects();
-        const localTasksData = localStorageApi.getTasks();
 
         // if (user && !localProjectsData) {
         //     dispatch(setProjectsIsLoading(true));
@@ -36,10 +35,12 @@ export const App: FC = () => {
         if (!!localProjectsData) {
             dispatch(applyProjectsData(localProjectsData));
         }
-		
-        if (!!localTasksData) {
-            dispatch(applyTasksData(localTasksData));
-        }
+
+        // const localTasksData = localStorageApi.getTasks();
+
+        // if (!!localTasksData) {
+        //     dispatch(applyTasksData(localTasksData));
+        // }
     }, [dispatch]);
 
     useEffect(() => {
@@ -50,13 +51,7 @@ export const App: FC = () => {
                 return;
             }
 
-            const {
-                currentProject,
-                projects,
-                openedTasks,
-                doneTasks,
-                inProcessTasks,
-            } = response as IResponseData;
+            const { currentProject, projects } = response as IResponseData;
 
             const projectsData = { currentProject, projects };
 
@@ -67,14 +62,14 @@ export const App: FC = () => {
                 dispatch(applyProjectsData(projectsData));
             }
 
-            const tasksData = { openedTasks, inProcessTasks, doneTasks };
+            // const tasksData = { openedTasks, inProcessTasks, doneTasks };
 
-            const localTasksData = localStorageApi.getTasks();
+            // const localTasksData = localStorageApi.getTasks();
 
-            if (!isEqual(tasksData, localTasksData)) {
-                localStorageApi.setTasks(tasksData);
-                dispatch(applyTasksData(tasksData));
-            }
+            // if (!isEqual(tasksData, localTasksData)) {
+            //     localStorageApi.setTasks(tasksData);
+            //     dispatch(applyTasksData(tasksData));
+            // }
         });
     }, [uid, dispatch]);
 

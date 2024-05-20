@@ -4,18 +4,18 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
 import { RouteNames } from "../../../router";
 import {
-	setIsFormOpened,
-	setIsFormValid,
+    setIsFormOpened,
+    setIsFormValid,
 } from "../../../store/slices/form-slice/formSlice";
 import {
-	deleteCurrentProject,
-	editCurrentProject,
-	updateCurrentProject
+    deleteCurrentProject,
+    editCurrentProject,
+    updateCurrentProject,
 } from "../../../store/slices/projects-slice/projectsActionCreators";
 import { createNewTask } from "../../../store/slices/tasks-slice/tasksActionCreators";
 import { IFormVariant } from "../../../types/models/IForm";
 import { IProject } from "../../../types/models/IProject";
-import { ITask } from "../../../types/models/ITask";
+import { ITask, ITaskState } from "../../../types/models/ITask";
 import { formatDate } from "../../../utils/formatDate";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
@@ -70,6 +70,7 @@ export const FormTask: FC<FormTaskProps> = () => {
                     title: taskTitle.value,
                     body: taskDescription.value,
                     expDate: expDate,
+                    state: ITaskState.opened,
                     projectId: currentProject.id,
                 };
 

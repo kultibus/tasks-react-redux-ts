@@ -2,25 +2,24 @@ import { databaseApi, localStorageApi } from "../../../api/api";
 import { ITask } from "../../../types/models/ITask";
 import { ITasksData, IUpdateData } from "../../../types/types";
 import { AppDispatch, AppGetState } from "../../store";
-import { setOpenedTasks, setTasksIsLoading } from "./tasksSlice";
+import { setTasks, setTasksIsLoading } from "./tasksSlice";
 
 export const createNewTask =
     (task: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
-        const { openedTasks, inProcessTasks, doneTasks } =
-            getState().tasksReducer;
+        const { tasks } = getState().tasksReducer;
 
-        const updatedOpenedTasks = [...openedTasks, task];
+        const updatedTasks = [...tasks, task];
 
-        dispatch(setOpenedTasks(updatedOpenedTasks));
+        dispatch(setTasks(updatedTasks));
 
         if (user) {
             const tasksData: IUpdateData<ITasksData> = {
                 uid: user.uid,
-                data: { openedTasks: updatedOpenedTasks },
+                data: { tasks: updatedTasks },
             };
 
-            localStorageApi.setTasks(tasksData.data);
+            // localStorageApi.setTasks(tasksData.data);
 
             databaseApi.updateTasks(tasksData);
         }
@@ -112,7 +111,7 @@ export const applyTasksData =
     (tasksData: ITasksData) => (dispatch: AppDispatch) => {
         dispatch(setTasksIsLoading(true));
 
-        const { openedTasks, inProcessTasks, doneTasks } = tasksData;
+        // const {  } = tasksData;
 
-        dispatch(setOpenedTasks(openedTasks));
+        // dispatch(setTasks(tasksData));
     };

@@ -7,14 +7,15 @@ export interface IProjectsData {
 }
 
 export interface ITasksData {
-    openedTasks?: ITask[];
-    inProcessTasks?: ITask[];
-    doneTasks?: ITask[];
+    tasks: ITask[];
 }
 
-export type IResponseData = IProjectsData & ITasksData;
-
-export interface IUpdateData<T> {
+export interface IUpdateData {
     uid: string;
-    data: T;
+    data: IProjectsData | ITasksData;
 }
+
+// export interface IUpdateData<T> {
+//     uid: string;
+//     data: T;
+// }

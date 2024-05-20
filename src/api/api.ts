@@ -3,15 +3,17 @@ import { database } from "../firebase";
 import { IUser } from "../types/models/IUser";
 import { IProjectsData, ITasksData, IUpdateData } from "../types/types";
 
+
 interface LocalStorageAPI {
     setUser: (object: IUser) => void;
     getUser: () => IUser | null;
     setProjects: (object: IProjectsData) => void;
     getProjects: () => IProjectsData | null;
-    setTasks: (object: ITasksData) => void;
-    getTasks: () => ITasksData | null;
+    // setTasks: (object: ITasksData) => void;
+    // getTasks: () => ITasksData | null;
     clear: () => void;
 }
+
 
 export const localStorageApi: LocalStorageAPI = {
     setUser: object => localStorage.setItem("user", JSON.stringify(object)),
@@ -31,13 +33,13 @@ export const localStorageApi: LocalStorageAPI = {
         return null;
     },
 
-    setTasks: object => localStorage.setItem("tasks", JSON.stringify(object)),
+    // setTasks: object => localStorage.setItem("tasks", JSON.stringify(object)),
 
-    getTasks: () => {
-        const localTasks = localStorage.getItem("tasks");
-        if (!!localTasks) return JSON.parse(localTasks);
-        return null;
-    },
+    // getTasks: () => {
+    //     const localTasks = localStorage.getItem("tasks");
+    //     if (!!localTasks) return JSON.parse(localTasks);
+    //     return null;
+    // },
 
     clear: () => localStorage.clear(),
 };
