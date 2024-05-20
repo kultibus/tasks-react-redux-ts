@@ -1,7 +1,12 @@
-import { localStorageApi, databaseApi } from "../../../api/api";
+import {
+    localStorageApi,
+    databaseApi,
+    LocalDataVariant,
+} from "../../../api/api";
 import { IProject } from "../../../types/models/IProject";
 import { IProjectsData, IUpdateData } from "../../../types/types";
 import { AppDispatch, AppGetState } from "../../store";
+import { setTasks } from "../tasks-slice/tasksSlice";
 import {
     setCurrentProject,
     setProjects,
@@ -19,7 +24,7 @@ export const createNewProject =
         dispatch(setCurrentProject(project));
 
         if (user) {
-            const updatedProjectsData: IUpdateData = {
+            const projectsData: IUpdateData<IProjectsData> = {
                 uid: user.uid,
                 data: {
                     currentProject: project,
@@ -27,9 +32,12 @@ export const createNewProject =
                 },
             };
 
-            localStorageApi.setProjects(updatedProjectsData.data);
+            localStorageApi.setLocalData<IProjectsData>(
+                projectsData.data,
+                LocalDataVariant.projects
+            );
 
-            databaseApi.updateProjects(updatedProjectsData);
+            databaseApi.updateData<IProjectsData>(projectsData);
         }
     };
 
@@ -50,7 +58,7 @@ export const editCurrentProject =
         dispatch(setCurrentProject(project));
 
         if (user) {
-            const updatedProjectsData: IUpdateData = {
+            const projectsData: IUpdateData<IProjectsData> = {
                 uid: user.uid,
                 data: {
                     currentProject: project,
@@ -58,9 +66,12 @@ export const editCurrentProject =
                 },
             };
 
-            localStorageApi.setProjects(updatedProjectsData.data);
+            localStorageApi.setLocalData<IProjectsData>(
+                projectsData.data,
+                LocalDataVariant.projects
+            );
 
-            databaseApi.updateProjects(updatedProjectsData);
+            databaseApi.updateData<IProjectsData>(projectsData);
         }
     };
 
@@ -72,7 +83,7 @@ export const updateCurrentProject =
         dispatch(setCurrentProject(project));
 
         if (user) {
-            const updatedProjectsData: IUpdateData = {
+            const projectsData: IUpdateData<IProjectsData> = {
                 uid: user.uid,
                 data: {
                     currentProject: project,
@@ -80,9 +91,12 @@ export const updateCurrentProject =
                 },
             };
 
-            localStorageApi.setProjects(updatedProjectsData.data);
+            localStorageApi.setLocalData<IProjectsData>(
+                projectsData.data,
+                LocalDataVariant.projects
+            );
 
-            databaseApi.updateProjects(updatedProjectsData);
+            databaseApi.updateData<IProjectsData>(projectsData);
         }
     };
 
@@ -90,18 +104,21 @@ export const deleteCurrentProject =
     (project: IProject) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
         const { projects } = getState().projectsReducer;
+        const { tasks } = getState().tasksReducer;
 
-        const updatedProjects = projects.filter(item => {
-            if (item.id !== project.id) {
-                return item;
-            }
-        });
+        const updatedProjects = projects.filter(item => item.id !== project.id);
+
+        const updatedTasks = tasks.filter(
+            item => item.projectId !== project.id
+        );
 
         dispatch(setProjects(updatedProjects));
         dispatch(setCurrentProject(project));
 
+        dispatch(setTasks(updatedTasks));
+
         if (user) {
-            const updatedProjectsData: IUpdateData = {
+            const projectsData: IUpdateData<IProjectsData> = {
                 uid: user.uid,
                 data: {
                     currentProject: project,
@@ -109,9 +126,12 @@ export const deleteCurrentProject =
                 },
             };
 
-            localStorageApi.setProjects(updatedProjectsData.data);
+            localStorageApi.setLocalData<IProjectsData>(
+                projectsData.data,
+                LocalDataVariant.projects
+            );
 
-            databaseApi.updateProjects(updatedProjectsData);
+            databaseApi.updateData<IProjectsData>(projectsData);
         }
     };
 

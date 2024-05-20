@@ -24,7 +24,7 @@ export const Boards: FC = () => {
             <List
                 variant={ListVariant.boards}
                 items={boards}
-                renderItem={board => <Board board={board} key={board} />}
+                renderItem={board => <Board boardName={board} key={board} />}
             />
         </main>
     );

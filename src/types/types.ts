@@ -10,12 +10,9 @@ export interface ITasksData {
     tasks: ITask[];
 }
 
-export interface IUpdateData {
+export interface IUpdateData<T> {
     uid: string;
-    data: IProjectsData | ITasksData;
+    data: T;
 }
 
-// export interface IUpdateData<T> {
-//     uid: string;
-//     data: T;
-// }
+export type IResponseData = IProjectsData & ITasksData;

@@ -31,9 +31,14 @@ export const tasksSlice = createSlice({
             state.tasks = action.payload;
             state.tasksIsLoading = false;
         },
+
+        setCurrentTask(state, action: PayloadAction<ITask>) {
+            state.currentTask = action.payload;
+        },
     },
 });
 
 export const tasksReducer = tasksSlice.reducer;
 
-export const { setTasks, setTasksIsLoading } = tasksSlice.actions;
+export const { setTasks, setTasksIsLoading, setCurrentTask } =
+    tasksSlice.actions;

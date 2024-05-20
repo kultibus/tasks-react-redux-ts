@@ -12,7 +12,11 @@ import {
     editCurrentProject,
     updateCurrentProject,
 } from "../../../store/slices/projects-slice/projectsActionCreators";
-import { createNewTask } from "../../../store/slices/tasks-slice/tasksActionCreators";
+import {
+    createNewTask,
+    deleteTask,
+    editTask,
+} from "../../../store/slices/tasks-slice/tasksActionCreators";
 import { IFormVariant } from "../../../types/models/IForm";
 import { IProject } from "../../../types/models/IProject";
 import { ITask, ITaskState } from "../../../types/models/ITask";
@@ -21,6 +25,7 @@ import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import { AppTextarea } from "../app-textarea/AppTextarea";
 import styles from "./FormTask.module.scss";
+import { setCurrentTask } from "../../../store/slices/tasks-slice/tasksSlice";
 
 interface FormTaskProps {}
 
@@ -33,16 +38,25 @@ export const FormTask: FC<FormTaskProps> = () => {
         state => state.projectsReducer
     );
     const { variant, isValid } = useAppSelector(state => state.formReducer);
+    const { currentTask } = useAppSelector(state => state.tasksReducer);
 
     const taskTitle = useInput(
-        "",
+        currentTask?.title || "",
         "Enter task title...",
         "Task title is empty!"
     );
 
-    const taskDescription = useInput("", "Enter task description...");
+    const taskDescription = useInput(
+        currentTask?.body || "",
+        "Enter task description..."
+    );
 
-    const taskExpDate = useInput("", "Enter expiration date...");
+    const taskExpDate = useInput(
+        currentTask?.expDate
+            ? formatDate.toYyyyMmDd(new Date(currentTask.expDate))
+            : "",
+        "Enter expiration date..."
+    );
 
     const handleClick = () => {
         if (!taskTitle.value.length) {
@@ -57,13 +71,13 @@ export const FormTask: FC<FormTaskProps> = () => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        const expDate = taskExpDate.value
+            ? new Date(taskExpDate.value).getTime()
+            : formatDate.getTomorrow(Date.now()).getTime();
+
         switch (variant) {
             case IFormVariant.addTask:
                 if (!isValid) return;
-
-                const expDate = taskExpDate.value
-                    ? new Date(taskExpDate.value).getTime()
-                    : formatDate.getTomorrow(new Date()).getTime();
 
                 const newTask: ITask = {
                     id: Math.random().toString(36).substring(2, 9),
@@ -76,73 +90,53 @@ export const FormTask: FC<FormTaskProps> = () => {
 
                 dispatch(createNewTask(newTask));
 
-                // navigate(`/${RouteNames.project}/${newProject.id}`);
-
                 break;
 
             case IFormVariant.editTask:
                 if (!isValid) return;
 
-                const editedProject = {
-                    ...currentProject,
-                    name: taskTitle.value,
+                const editedTask: ITask = {
+                    ...currentTask,
+                    title: taskTitle.value,
+                    body: taskDescription.value,
+                    expDate: expDate,
                 };
 
-                dispatch(editCurrentProject(editedProject));
-
-                navigate(`/${RouteNames.project}/${editedProject.id}`);
+                dispatch(editTask(editedTask));
 
                 break;
 
-            case IFormVariant.deleteProject:
-                const currentProjectIndex = projects.findIndex(
-                    project => project.id === currentProject.id
-                );
-
-                const length = projects.length;
-                const pervProject = projects[currentProjectIndex - 1];
-                const nextProject = projects[currentProjectIndex + 1];
-
-                dispatch(deleteCurrentProject(projects[currentProjectIndex]));
-
-                if (length > 1 && currentProjectIndex === 0) {
-                    dispatch(updateCurrentProject(nextProject));
-
-                    navigate(`/${RouteNames.project}/${nextProject.id}`);
-                } else if (length > 1) {
-                    dispatch(updateCurrentProject(pervProject));
-
-                    navigate(`/${RouteNames.project}/${pervProject.id}`);
-                } else {
-                    dispatch(updateCurrentProject({} as IProject));
-
-                    dispatch(setIsFormValid(true));
-
-                    navigate(`/`);
-                }
+            case IFormVariant.deleteTask:
+                dispatch(deleteTask(currentTask));
 
                 break;
         }
 
         dispatch(setIsFormOpened(false));
 
-        taskTitle.cleanValue();
+        // taskTitle.cleanValue();
     };
 
     const handleReset = () => {
         dispatch(setIsFormOpened(false));
+        dispatch(setCurrentTask({} as ITask));
 
-        // navigate(-1);
-
-        switch (variant) {
-            case IFormVariant.addTask:
-                taskTitle.cleanValue();
-                break;
-        }
+        // switch (variant) {
+        //     case IFormVariant.addTask:
+        //         taskTitle.cleanValue();
+        //         break;
+        // }
     };
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
+            {(variant === IFormVariant.editTask ||
+                variant === IFormVariant.deleteTask) && (
+                <h3 className={styles.title}>
+                    {variant} "{currentTask.title}" ?
+                </h3>
+            )}
+
             {variant !== IFormVariant.deleteTask && (
                 <div className={styles.inputs}>
                     <AppInput
@@ -154,12 +148,14 @@ export const FormTask: FC<FormTaskProps> = () => {
                         type="text"
                         value={taskTitle.value}
                     />
+
                     <AppTextarea
                         name="taskDescription"
                         onChange={taskDescription.onChange}
                         placeholder={taskDescription.placeholder}
                         value={taskDescription.value}
                     />
+
                     <label className={styles.expDateLabel}>
                         Select an expiration date for the task:
                         <AppInput
@@ -167,7 +163,9 @@ export const FormTask: FC<FormTaskProps> = () => {
                             onChange={taskExpDate.onChange}
                             type="date"
                             value={taskExpDate.value}
-                            min={formatDate.getTomorrowYYYYMMDD(new Date())}
+                            min={formatDate.toYyyyMmDd(
+                                formatDate.getTomorrow(Date.now())
+                            )}
                         />
                     </label>
                 </div>

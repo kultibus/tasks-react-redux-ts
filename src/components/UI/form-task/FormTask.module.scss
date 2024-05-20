@@ -1,7 +1,7 @@
 .form {
     flex-basis: 768px;
     display: grid;
-    grid-template-rows: repeat(2, auto);
+    grid-template-rows: repeat(3, auto);
     gap: var(--ident-m);
 }
 
@@ -31,4 +31,10 @@
     :nth-child(n) {
         flex-basis: 50%;
     }
+}
+
+.title {
+	font-size: var(--fsz-xxl);
+	color: var(--grey-800-full);
+
 }

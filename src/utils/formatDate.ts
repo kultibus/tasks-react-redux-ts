@@ -1,24 +1,13 @@
 export const formatDate = {
-    getTomorrowYYYYMMDD(currentDate: Date) {
-        return new Date(
-            currentDate.getFullYear(),
-            currentDate.getMonth(),
-            currentDate.getDate() + 1,
-            currentDate.getHours() + 8
-        )
-            .toISOString()
-            .split("T")[0];
+    toYyyyMmDd(date: Date) {
+        return date.toISOString().split("T")[0];
     },
 
-    getTomorrow(currentDate: Date) {
-        return new Date(
-            currentDate.getFullYear(),
-            currentDate.getMonth(),
-            currentDate.getDate() + 1
-        );
+    getTomorrow(timestamp: number) {
+        return new Date(timestamp + 86000 * 1000);
     },
 
     getDaysLeft(timestamp: number) {
-        return Math.floor((timestamp - new Date().getTime()) / 3600000 / 24);
+        return Math.floor((timestamp - Date.now()) / 1000 / 86000);
     },
 };

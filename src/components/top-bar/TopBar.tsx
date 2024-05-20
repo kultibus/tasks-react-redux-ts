@@ -1,20 +1,18 @@
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import DeleteIcon from "../../assets/icons/delete.svg";
-import EditIcon from "../../assets/icons/edit.svg";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { IFormVariant } from "../../types/models/IForm";
 import { RouteNames } from "../../router";
-import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
-import styles from "./TopBar.module.scss";
 import {
     setFormVariant,
     setIsFormOpened,
 } from "../../store/slices/form-slice/formSlice";
+import { IFormVariant } from "../../types/models/IForm";
+import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import {
     EditDelBtns,
     EditDelBtnsVariant,
 } from "../UI/edit-del-btns/EditDelBtns";
+import styles from "./TopBar.module.scss";
 
 interface TopBarProps {}
 
@@ -26,7 +24,7 @@ export const TopBar: FC<TopBarProps> = () => {
 
     const dispatch = useAppDispatch();
 
-    const handleDelBtn = () => {
+    const handleDelProject = () => {
         dispatch(setIsFormOpened(true));
         dispatch(setFormVariant(IFormVariant.deleteProject));
 
@@ -35,7 +33,7 @@ export const TopBar: FC<TopBarProps> = () => {
         );
     };
 
-    const handleEditBtn = () => {
+    const handleEditProject = () => {
         dispatch(setIsFormOpened(true));
         dispatch(setFormVariant(IFormVariant.editProject));
 
@@ -47,18 +45,14 @@ export const TopBar: FC<TopBarProps> = () => {
     const handleTaskBtn = () => {
         dispatch(setIsFormOpened(true));
         dispatch(setFormVariant(IFormVariant.addTask));
-
-        // navigate(
-        //     `/${RouteNames.project}/${currentProject.id}/${RouteNames.editProject}`
-        // );
     };
 
     return (
         <header className={styles.topBar}>
             <EditDelBtns
                 variant={EditDelBtnsVariant.project}
-                handleDelBtn={handleDelBtn}
-                handleEditBtn={handleEditBtn}
+                handleDelBtn={handleDelProject}
+                handleEditBtn={handleEditProject}
             />
             <h2 className={styles.title}>
                 <span>

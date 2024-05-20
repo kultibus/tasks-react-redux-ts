@@ -1,11 +1,10 @@
-import { FC } from "react";
+import classNames from "classnames";
+import { FC, MouseEvent, ReactNode } from "react";
 import DeleteIcon from "../../../assets/icons/delete.svg";
 import EditIcon from "../../../assets/icons/edit.svg";
 import { useAppSelector } from "../../../hooks/redux";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
-import styles, { projectBtns } from "./EditDelBtns.module.scss";
-import classNames from "classnames";
-import { task } from "../../task/Task.module.scss";
+import styles from "./EditDelBtns.module.scss";
 
 export enum EditDelBtnsVariant {
     project = "projectBtns",
@@ -14,8 +13,8 @@ export enum EditDelBtnsVariant {
 
 interface EditDelBtnsProps {
     variant: EditDelBtnsVariant;
-    handleDelBtn: () => void;
-    handleEditBtn: () => void;
+    handleDelBtn: (e: MouseEvent<HTMLButtonElement>) => void;
+    handleEditBtn: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const EditDelBtns: FC<EditDelBtnsProps> = props => {

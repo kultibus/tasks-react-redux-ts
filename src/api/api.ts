@@ -1,47 +1,30 @@
 import { get, ref, update } from "firebase/database";
 import { database } from "../firebase";
-import { IUser } from "../types/models/IUser";
-import { IProjectsData, ITasksData, IUpdateData } from "../types/types";
+import { IUpdateData } from "../types/types";
 
-
-interface LocalStorageAPI {
-    setUser: (object: IUser) => void;
-    getUser: () => IUser | null;
-    setProjects: (object: IProjectsData) => void;
-    getProjects: () => IProjectsData | null;
-    // setTasks: (object: ITasksData) => void;
-    // getTasks: () => ITasksData | null;
-    clear: () => void;
+export enum LocalDataVariant {
+    user = "user",
+    projects = "projects",
+    tasks = "tasks",
 }
 
+interface LocalStorageAPI {
+    setLocalData: <T>(object: T, variant: LocalDataVariant) => void;
+    getLocalData: <T>(variant: LocalDataVariant) => T | null;
+    clearLocalData: () => void;
+}
 
 export const localStorageApi: LocalStorageAPI = {
-    setUser: object => localStorage.setItem("user", JSON.stringify(object)),
+    setLocalData: (object, variant) =>
+        localStorage.setItem(variant, JSON.stringify(object)),
 
-    getUser: () => {
-        const localUser = localStorage.getItem("user");
-        if (!!localUser) return JSON.parse(localUser);
+    getLocalData: variant => {
+        const localData = localStorage.getItem(variant);
+        if (!!localData) return JSON.parse(localData);
         return null;
     },
 
-    setProjects: object =>
-        localStorage.setItem("projects", JSON.stringify(object)),
-
-    getProjects: () => {
-        const localProjects = localStorage.getItem("projects");
-        if (!!localProjects) return JSON.parse(localProjects);
-        return null;
-    },
-
-    // setTasks: object => localStorage.setItem("tasks", JSON.stringify(object)),
-
-    // getTasks: () => {
-    //     const localTasks = localStorage.getItem("tasks");
-    //     if (!!localTasks) return JSON.parse(localTasks);
-    //     return null;
-    // },
-
-    clear: () => localStorage.clear(),
+    clearLocalData: () => localStorage.clear(),
 };
 
 export const databaseApi = {
@@ -52,11 +35,7 @@ export const databaseApi = {
             : "Something went wrong, try reload page";
     },
 
-    async updateProjects(projectsData: IUpdateData<IProjectsData>) {
-        return update(ref(database, `${projectsData.uid}`), projectsData.data);
-    },
-
-    async updateTasks(tasksData: IUpdateData<ITasksData>) {
-        return update(ref(database, `${tasksData.uid}`), tasksData.data);
+    async updateData<T extends {}>(localData: IUpdateData<T>) {
+        return update(ref(database, `${localData.uid}`), localData.data);
     },
 };
