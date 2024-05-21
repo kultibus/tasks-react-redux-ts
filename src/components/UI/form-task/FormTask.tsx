@@ -1,42 +1,30 @@
 import { FC, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
-import { RouteNames } from "../../../router";
 import {
-    setIsFormOpened,
-    setIsFormValid,
+	setIsFormOpened,
+	setIsFormValid,
 } from "../../../store/slices/form-slice/formSlice";
 import {
-    deleteCurrentProject,
-    editCurrentProject,
-    updateCurrentProject,
-} from "../../../store/slices/projects-slice/projectsActionCreators";
-import {
-    createNewTask,
-    deleteTask,
-    editTask,
+	createNewTask,
+	deleteTask,
+	editTask,
 } from "../../../store/slices/tasks-slice/tasksActionCreators";
+import { setCurrentTask } from "../../../store/slices/tasks-slice/tasksSlice";
 import { IFormVariant } from "../../../types/models/IForm";
-import { IProject } from "../../../types/models/IProject";
 import { ITask, ITaskState } from "../../../types/models/ITask";
 import { formatDate } from "../../../utils/formatDate";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import { AppTextarea } from "../app-textarea/AppTextarea";
 import styles from "./FormTask.module.scss";
-import { setCurrentTask } from "../../../store/slices/tasks-slice/tasksSlice";
 
 interface FormTaskProps {}
 
 export const FormTask: FC<FormTaskProps> = () => {
-    const navigate = useNavigate();
-
     const dispatch = useAppDispatch();
 
-    const { projects, currentProject } = useAppSelector(
-        state => state.projectsReducer
-    );
+    const { currentProject } = useAppSelector(state => state.projectsReducer);
     const { variant, isValid } = useAppSelector(state => state.formReducer);
     const { currentTask } = useAppSelector(state => state.tasksReducer);
 

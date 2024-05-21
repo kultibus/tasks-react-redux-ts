@@ -1,8 +1,7 @@
-import { databaseApi, localStorageApi } from "../../../api/api";
+import { LocalDataVariant, databaseApi, localStorageApi } from "../../../api/api";
 import { ITask } from "../../../types/models/ITask";
 import { ITasksData, IUpdateData } from "../../../types/types";
 import { AppDispatch, AppGetState } from "../../store";
-import { setCurrentProject } from "../projects-slice/projectsSlice";
 import { setCurrentTask, setTasks, setTasksIsLoading } from "./tasksSlice";
 
 export const createNewTask =
@@ -10,17 +9,22 @@ export const createNewTask =
         const user = getState().userReducer.user;
         const { tasks } = getState().tasksReducer;
 
-        const updatedTasks = [...tasks, task];
+        const updatedTasks = tasks ? [...tasks, task] : [task];
 
         dispatch(setTasks(updatedTasks));
 
         if (user) {
-            // const tasksData: IUpdateData<ITasksData> = {
-            //     uid: user.uid,
-            //     data: { tasks: updatedTasks },
-            // };
-            // localStorageApi.setTasks(tasksData.data);
-            // databaseApi.updateTasks(tasksData);
+            const tasksData: IUpdateData<ITasksData> = {
+                uid: user.uid,
+                data: { tasks: updatedTasks },
+            };
+
+            localStorageApi.setLocalData<ITasksData>(
+                tasksData.data,
+                LocalDataVariant.tasks
+            );
+
+			databaseApi.updateData<ITasksData>(tasksData);
         }
     };
 
@@ -39,12 +43,17 @@ export const editTask =
         dispatch(setCurrentTask({} as ITask));
 
         if (user) {
-            // const tasksData: IUpdateData<ITasksData> = {
-            //     uid: user.uid,
-            //     data: { tasks: updatedTasks },
-            // };
-            // localStorageApi.setTasks(tasksData.data);
-            // databaseApi.updateTasks(tasksData);
+			const tasksData: IUpdateData<ITasksData> = {
+                uid: user.uid,
+                data: { tasks: updatedTasks },
+            };
+
+            localStorageApi.setLocalData<ITasksData>(
+                tasksData.data,
+                LocalDataVariant.tasks
+            );
+
+			databaseApi.updateData<ITasksData>(tasksData);
         }
     };
 
@@ -69,7 +78,7 @@ export const updateCurrentTask =
 
 export const deleteTask =
     (task: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
-        // const user = getState().userReducer.user;
+        const user = getState().userReducer.user;
         const { tasks } = getState().tasksReducer;
 
         const updatedTasks = tasks.filter(item => {
@@ -81,21 +90,26 @@ export const deleteTask =
         dispatch(setTasks(updatedTasks));
         dispatch(setCurrentTask({} as ITask));
 
-        // if (user) {
-        //     const tasksData: IUpdateData<ITasksData> = {
-        //         uid: user.uid,
-        //         data: { tasks: updatedTasks },
-        //     };
-        //     localStorageApi.setTasks(tasksData.data);
-        //     databaseApi.updateTasks(tasksData);
-        // }
+        if (user) {
+			const tasksData: IUpdateData<ITasksData> = {
+                uid: user.uid,
+                data: { tasks: updatedTasks },
+            };
+
+            localStorageApi.setLocalData<ITasksData>(
+                tasksData.data,
+                LocalDataVariant.tasks
+            );
+
+			databaseApi.updateData<ITasksData>(tasksData);
+        }
     };
 
 export const applyTasksData =
     (tasksData: ITasksData) => (dispatch: AppDispatch) => {
         dispatch(setTasksIsLoading(true));
 
-		const {tasks} = tasksData
+        const { tasks } = tasksData;
 
         dispatch(setTasks(tasks));
     };

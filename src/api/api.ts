@@ -20,8 +20,11 @@ export const localStorageApi: LocalStorageAPI = {
 
     getLocalData: variant => {
         const localData = localStorage.getItem(variant);
-        if (!!localData) return JSON.parse(localData);
-        return null;
+        try {
+            return JSON.parse(localData);
+        } catch (error) {
+            return null;
+        }
     },
 
     clearLocalData: () => localStorage.clear(),

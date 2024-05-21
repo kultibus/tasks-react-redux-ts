@@ -108,9 +108,9 @@ export const deleteCurrentProject =
 
         const updatedProjects = projects.filter(item => item.id !== project.id);
 
-        const updatedTasks = tasks.filter(
-            item => item.projectId !== project.id
-        );
+        const updatedTasks = tasks
+            ? tasks.filter(item => item.projectId !== project.id)
+            : [];
 
         dispatch(setProjects(updatedProjects));
         dispatch(setCurrentProject(project));
