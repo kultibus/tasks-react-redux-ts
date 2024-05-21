@@ -11,13 +11,16 @@ import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import { applyProjectsData } from "./store/slices/projects-slice/projectsActionCreators";
 import { applyTasksData } from "./store/slices/tasks-slice/tasksActionCreators";
 import { checkUserAuth } from "./store/slices/user-slice/userActionCreators";
-import { IProjectsData, IResponseData } from "./types/types";
+import { IProjectsData, IResponseData, ITasksData } from "./types/types";
+import { setProjectsIsLoading } from "./store/slices/projects-slice/projectsSlice";
+import { setTasksIsLoading } from "./store/slices/tasks-slice/tasksSlice";
 
 export const App: FC = () => {
     const { userIsLoading, user } = useAppSelector(state => state.userReducer);
     const { projectsIsLoading } = useAppSelector(
         state => state.projectsReducer
     );
+    const { tasksIsLoading } = useAppSelector(state => state.tasksReducer);
 
     const dispatch = useAppDispatch();
 
@@ -30,15 +33,21 @@ export const App: FC = () => {
             LocalDataVariant.projects
         );
 
-        if (!!localProjectsData) {
+        if (!localProjectsData) {
+            dispatch(setProjectsIsLoading(true));
+        } else {
             dispatch(applyProjectsData(localProjectsData));
         }
 
-        // const localTasksData = localStorageApi.getTasks();
+        const localTasksData = localStorageApi.getLocalData<ITasksData>(
+            LocalDataVariant.tasks
+        );
 
-        // if (!!localTasksData) {
-        //     dispatch(applyTasksData(localTasksData));
-        // }
+        if (!localTasksData) {
+            dispatch(setTasksIsLoading(true));
+        } else {
+            dispatch(applyTasksData(localTasksData));
+        }
     }, [dispatch]);
 
     useEffect(() => {
@@ -49,7 +58,8 @@ export const App: FC = () => {
                 return;
             }
 
-            const { currentProject, projects } = response as IResponseData;
+            const { currentProject, projects, tasks } =
+                response as IResponseData;
 
             const localProjectsData =
                 localStorageApi.getLocalData<IProjectsData>(
@@ -66,18 +76,25 @@ export const App: FC = () => {
                 dispatch(applyProjectsData(dbProjectsData));
             }
 
-            // const tasksData = { openedTasks, inProcessTasks, doneTasks };
-            // const localTasksData = localStorageApi.getTasks();
-            // if (!isEqual(tasksData, localTasksData)) {
-            //     localStorageApi.setTasks(tasksData);
-            //     dispatch(applyTasksData(tasksData));
-            // }
+            const dbTasksData = { tasks };
+
+            const localTasksData = localStorageApi.getLocalData<ITasksData>(
+                LocalDataVariant.tasks
+            );
+
+            if (!isEqual(dbTasksData, localTasksData)) {
+                localStorageApi.setLocalData(
+                    dbTasksData,
+                    LocalDataVariant.tasks
+                );
+                dispatch(applyTasksData(dbTasksData));
+            }
         });
     }, [uid, dispatch]);
 
     return (
         <AppWrapper>
-            {userIsLoading || projectsIsLoading ? (
+            {userIsLoading || projectsIsLoading || tasksIsLoading ? (
                 <MainLoader />
             ) : (
                 <AppLayout>

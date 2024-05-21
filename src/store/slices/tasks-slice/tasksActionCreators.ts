@@ -95,7 +95,7 @@ export const applyTasksData =
     (tasksData: ITasksData) => (dispatch: AppDispatch) => {
         dispatch(setTasksIsLoading(true));
 
-        // const {  } = tasksData;
+		const {tasks} = tasksData
 
-        // dispatch(setTasks(tasksData));
+        dispatch(setTasks(tasks));
     };
