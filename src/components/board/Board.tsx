@@ -5,6 +5,7 @@ import { Task } from "../task/Task";
 import styles from "./Board.module.scss";
 import { ITask, ITaskState } from "../../types/models/ITask";
 import { task } from "../task/Task.module.scss";
+import { DndContext, useDroppable } from "@dnd-kit/core";
 
 interface BoardProps {
     boardName: ITaskState;
@@ -16,8 +17,6 @@ export const Board: FC<BoardProps> = props => {
     const { tasks } = useAppSelector(state => state.tasksReducer);
     const { currentProject } = useAppSelector(state => state.projectsReducer);
 
-    // const [boardTasks, setBoardTasks] = useState<ITask[]>([]);
-
     const boardTasks = useMemo(() => {
         if (tasks) {
             return tasks
@@ -28,18 +27,22 @@ export const Board: FC<BoardProps> = props => {
     }, [currentProject, tasks, boardName]);
 
     return (
-        <li className={styles.board}>
-            <header className={styles.header}>
-                <h2>Tasks {boardName}</h2>
-                <div className={styles.tasksQuantity}>{boardTasks.length}</div>
-            </header>
-            <section className={styles.tasks}>
-                <List
-                    variant={ListVariant.tasks}
-                    items={boardTasks}
-                    renderItem={task => <Task  task={task} key={task.id} />}
-                />
-            </section>
-        </li>
+        <DndContext>
+            <li className={styles.board}>
+                <header className={styles.header}>
+                    <h2>Tasks {boardName}</h2>
+                    <div className={styles.tasksQuantity}>
+                        {boardTasks.length}
+                    </div>
+                </header>
+                <section className={styles.tasks}>
+                    <List
+                        variant={ListVariant.tasks}
+                        items={boardTasks}
+                        renderItem={task => <Task task={task} key={task.id} />}
+                    />
+                </section>
+            </li>
+        </DndContext>
     );
 };

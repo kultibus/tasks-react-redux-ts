@@ -26,12 +26,12 @@
 }
 
 .title {
-    font-size: var(--fsz-huge);
-    text-align: center;
+    font-size: var(--fsz-xxl);
+	font-weight: 600;
 }
 
 .message {
-    font-size: var(--fsz-l);
+    font-size: var(--fsz-m);
     overflow: hidden;
 	line-height: 1.2;
 }

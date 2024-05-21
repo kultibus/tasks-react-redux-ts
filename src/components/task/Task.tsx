@@ -14,9 +14,9 @@ import {
 } from "../../store/slices/form-slice/formSlice";
 import { IFormVariant } from "../../types/models/IForm";
 import { updateCurrentTask } from "../../store/slices/tasks-slice/tasksActionCreators";
+import { useDraggable } from "@dnd-kit/core";
 
 interface TaskProps {
-    children?: ReactNode;
     task: ITask;
 }
 
@@ -51,8 +51,26 @@ export const Task: FC<TaskProps> = props => {
         dispatch(setFormVariant(IFormVariant.editTask));
     };
 
+    const { attributes, listeners, setNodeRef, transform } = useDraggable({
+        id: task.id,
+    });
+    const style = transform
+        ? {
+              transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+              backgroundColor: `var(--main-300-full)`,
+              cursor: `grabbing`,
+          }
+        : undefined;
+
     return (
-        <li data-task-id={task.id} className={styles.task}>
+        <li
+            ref={setNodeRef}
+            data-task-id={task.id}
+            style={style}
+            className={styles.task}
+            {...listeners}
+            {...attributes}
+        >
             <div className={styles.top}>
                 <div className={styles.title}>
                     <h3>{task.title}</h3>

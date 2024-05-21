@@ -10,6 +10,7 @@ import { FormProject } from "./components/UI/form-project/FormProject";
 import { ProjectLayout } from "./components/project-layout/ProjectLayout";
 import { ProjectPage } from "./pages/ProjectPage";
 import { AppWrapper } from "./components/app-wrapper/AppWrapper";
+import { Test } from "./components/test/Test";
 
 export enum RouteNames {
     login = "login",
@@ -56,6 +57,7 @@ export const router = createBrowserRouter([
                                     {
                                         index: true,
                                         element: <Boards />,
+                                        // element: <Test />,
                                     },
                                     {
                                         path: RouteNames.editProject,

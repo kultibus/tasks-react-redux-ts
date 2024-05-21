@@ -12,11 +12,20 @@ export const NotFound: FC = () => {
 
     return (
         <div className={styles.cnt}>
-            <h2 className={styles.title}>{status}</h2>
-            <div className={styles.message}>{data}</div>
+            <h2 className={styles.title}>Page not found</h2>
+            <div className={styles.message}>The page you are looking for doesn't exist.</div>
             <Link className={styles.link} to={RouteNames.root}>
                 Go home
             </Link>
         </div>
     );
+    // return (
+    //     <div className={styles.cnt}>
+    //         <h2 className={styles.title}>{status}</h2>
+    //         <div className={styles.message}>{data}</div>
+    //         <Link className={styles.link} to={RouteNames.root}>
+    //             Go home
+    //         </Link>
+    //     </div>
+    // );
 };
