@@ -37,7 +37,7 @@ export const Board: FC<BoardProps> = props => {
                 <List
                     variant={ListVariant.tasks}
                     items={boardTasks}
-                    renderItem={task => <Task task={task} key={task.id} />}
+                    renderItem={task => <Task  task={task} key={task.id} />}
                 />
             </section>
         </li>

@@ -65,11 +65,11 @@ export const Task: FC<TaskProps> = props => {
             </div>
             {task.body && <p className={styles.body}>{task.body}</p>}
             <div className={styles.bottom}>
-                Days to completion:{" "}
+                <span>Days left to complete:</span>
                 <span
                     className={classNames(styles.daysLeft, {
-                        [styles.warning]: daysLeft <= 7,
-                        [styles.expires]: daysLeft <= 3,
+                        [styles.warning]: daysLeft < 7,
+                        [styles.expires]: daysLeft < 3,
                     })}
                 >
                     {daysLeft}
