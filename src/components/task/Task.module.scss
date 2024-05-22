@@ -7,6 +7,11 @@
     flex-direction: column;
     gap: var(--ident-m);
     cursor: grab;
+    transition: all 1s ease;
+}
+
+.taskDragging {
+    cursor: grabbing;
 }
 
 .top {
