@@ -1,12 +1,12 @@
-import { FC, MouseEvent } from "react";
+import { FC } from "react";
 import { NavLink } from "react-router-dom";
-import { IProject } from "../../../types/models/IProject";
 import { RouteNames } from "../../../router";
+import { IProject } from "../../../types/models/IProject";
 import { LinkInner, LinkInnerVariant } from "../link-inner/LinkInner";
 
 interface SideLinkProps {
     project: IProject;
-    handleClick: (e: MouseEvent<HTMLAnchorElement>) => void;
+    handleClick: () => void;
 }
 
 export const SideLink: FC<SideLinkProps> = props => {
@@ -16,7 +16,6 @@ export const SideLink: FC<SideLinkProps> = props => {
         <li>
             <NavLink
                 onClick={handleClick}
-                data-project-id={project.id}
                 to={`/${RouteNames.project}/${project.id}`}
             >
                 {({ isActive }) => (

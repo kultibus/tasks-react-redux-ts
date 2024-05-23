@@ -13,8 +13,8 @@ export enum EditDelBtnsVariant {
 
 interface EditDelBtnsProps {
     variant: EditDelBtnsVariant;
-    handleDelBtn: (e: MouseEvent<HTMLButtonElement>) => void;
-    handleEditBtn: (e: MouseEvent<HTMLButtonElement>) => void;
+    handleDelBtn: () => void;
+    handleEditBtn: () => void;
 }
 
 export const EditDelBtns: FC<EditDelBtnsProps> = props => {

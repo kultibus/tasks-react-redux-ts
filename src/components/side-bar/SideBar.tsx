@@ -12,6 +12,7 @@ import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { List, ListVariant } from "../list/List";
 import { SideLink } from "../UI/side-link/SideLink";
 import styles from "./SideBar.module.scss";
+import { IProject } from "../../types/models/IProject";
 
 interface SideBarProps {}
 
@@ -24,8 +25,8 @@ export const SideBar: FC<SideBarProps> = () => {
 
     const dispatch = useAppDispatch();
 
-    const linkClick = (e: MouseEvent<HTMLAnchorElement>) => {
-        const projectId = e.currentTarget.dataset.projectId;
+    const handleLinkClick = (project: IProject) => {
+        const projectId = project.id;
 
         dispatch(
             updateCurrentProject(
@@ -62,7 +63,7 @@ export const SideBar: FC<SideBarProps> = () => {
                         variant={ListVariant.SideLink}
                         renderItem={project => (
                             <SideLink
-                                handleClick={linkClick}
+                                handleClick={() => handleLinkClick(project)}
                                 project={project}
                                 key={project.id}
                             />

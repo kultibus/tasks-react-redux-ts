@@ -1,11 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IProject } from "../../../types/models/IProject";
+import { IProjectsData } from "../../../types/types";
 
-interface ProjectsState {
-    projects: IProject[];
+interface ProjectsState extends IProjectsData {
     projectsIsLoading: boolean;
     error: string;
-    currentProject: IProject;
 }
 
 const initialState: ProjectsState = {

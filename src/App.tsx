@@ -43,8 +43,9 @@ export const App: FC = () => {
             LocalDataVariant.tasks
         );
 
+
         if (!localTasksData) {
-            dispatch(setTasksIsLoading(true));
+            // dispatch(setTasksIsLoading(true));
         } else {
             dispatch(applyTasksData(localTasksData));
         }
@@ -55,11 +56,11 @@ export const App: FC = () => {
 
         databaseApi.getData(user.uid).then(response => {
             if (!response || typeof response === "string") {
+                dispatch(setProjectsIsLoading(false));
                 return;
             }
 
-            const { currentProject, projects, tasks } =
-                response as IResponseData;
+            const { currentProject, projects } = response as IResponseData;
 
             const localProjectsData =
                 localStorageApi.getLocalData<IProjectsData>(
@@ -76,19 +77,19 @@ export const App: FC = () => {
                 dispatch(applyProjectsData(dbProjectsData));
             }
 
-            const dbTasksData = { tasks };
+            // const dbTasksData = { tasks };
 
-            const localTasksData = localStorageApi.getLocalData<ITasksData>(
-                LocalDataVariant.tasks
-            );
+            // const localTasksData = localStorageApi.getLocalData<ITasksData>(
+            //     LocalDataVariant.tasks
+            // );
 
-            if (!isEqual(dbTasksData, localTasksData)) {
-                localStorageApi.setLocalData(
-                    dbTasksData,
-                    LocalDataVariant.tasks
-                );
-                dispatch(applyTasksData(dbTasksData));
-            }
+            // if (!isEqual(dbTasksData, localTasksData)) {
+            //     localStorageApi.setLocalData(
+            //         dbTasksData,
+            //         LocalDataVariant.tasks
+            //     );
+            //     dispatch(applyTasksData(dbTasksData));
+            // }
         });
     }, [uid, dispatch]);
 
@@ -107,3 +108,6 @@ export const App: FC = () => {
         </AppWrapper>
     );
 };
+
+
+

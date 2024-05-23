@@ -6,8 +6,21 @@ export interface IProjectsData {
     projects: IProject[];
 }
 
-export interface ITasksData {
+export type ITaskStatus = "opened" | "inProcess" | "done";
+
+export interface IProjectTasks {
+    projectId: string;
     tasks: ITask[];
+}
+
+export interface ITasks {
+    opened: IProjectTasks[];
+    inProcess: IProjectTasks[];
+    done: IProjectTasks[];
+}
+
+export interface ITasksData {
+    [key: string]: ITasks;
 }
 
 export interface IUpdateData<T> {

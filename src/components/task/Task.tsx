@@ -35,19 +35,19 @@ export const Task: FC<TaskProps> = props => {
         setDaysLeft(formatDate.getDaysLeft(task.expDate));
     }, []);
 
-    const handleDelTask = (e: MouseEvent<HTMLButtonElement>) => {
-        const taskId = e.currentTarget.closest("li").dataset.taskId;
+    const handleDelTask = () => {
+        const taskId = task.id;
 
-        dispatch(updateCurrentTask(tasks.find(task => task.id === taskId)));
+        // dispatch(updateCurrentTask(tasks.find(task => task.id === taskId)));
 
         dispatch(setIsFormOpened(true));
         dispatch(setFormVariant(IFormVariant.deleteTask));
     };
 
-    const handleEditTask = (e: MouseEvent<HTMLButtonElement>) => {
-        const taskId = e.currentTarget.closest("li").dataset.taskId;
+    const handleEditTask = () => {
+        const taskId = task.id;
 
-        dispatch(updateCurrentTask(tasks.find(task => task.id === taskId)));
+        // dispatch(updateCurrentTask(tasks.find(task => task.id === taskId)));
 
         dispatch(setIsFormOpened(true));
         dispatch(setFormVariant(IFormVariant.editTask));
@@ -55,7 +55,6 @@ export const Task: FC<TaskProps> = props => {
 
     return (
         <div
-            data-task-id={task.id}
             className={classNames(styles.task, {
                 [styles.taskDragging]: isDragging,
             })}

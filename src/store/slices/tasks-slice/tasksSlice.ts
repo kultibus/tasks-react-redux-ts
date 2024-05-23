@@ -1,24 +1,20 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ITask, ITaskState } from "../../../types/models/ITask";
+import { ITask } from "../../../types/models/ITask";
+import { IProjectTasks, ITasks } from "../../../types/types";
 
-interface TasksState {
-    boards: ITaskState[];
-    currentBoardIndex: number;
-    tasks: ITask[];
+interface TasksState extends ITasks {
     currentTask: ITask;
     tasksIsLoading: boolean;
     error: string;
-    taskIsDragging: boolean;
 }
 
 const initialState: TasksState = {
-    boards: [ITaskState.opened, ITaskState.inProcess, ITaskState.done],
-    currentBoardIndex: null,
-    tasks: [],
+    opened: [],
+    inProcess: [],
+    done: [],
     currentTask: {} as ITask,
     tasksIsLoading: false,
     error: "",
-    taskIsDragging: false,
 };
 
 export const tasksSlice = createSlice({
@@ -29,12 +25,16 @@ export const tasksSlice = createSlice({
             state.tasksIsLoading = action.payload;
         },
 
-        setTaskIsDragging(state, action: PayloadAction<boolean>) {
-            state.taskIsDragging = action.payload;
+        setOpened(state, action: PayloadAction<IProjectTasks[]>) {
+            state.opened = action.payload;
+            state.tasksIsLoading = false;
         },
-
-        setTasks(state, action: PayloadAction<ITask[]>) {
-            state.tasks = action.payload;
+        setInProcess(state, action: PayloadAction<IProjectTasks[]>) {
+            state.inProcess = action.payload;
+            state.tasksIsLoading = false;
+        },
+        setDone(state, action: PayloadAction<IProjectTasks[]>) {
+            state.done = action.payload;
             state.tasksIsLoading = false;
         },
 
@@ -47,8 +47,9 @@ export const tasksSlice = createSlice({
 export const tasksReducer = tasksSlice.reducer;
 
 export const {
-    setTasks,
+    setOpened,
+    setInProcess,
+    setDone,
     setTasksIsLoading,
     setCurrentTask,
-    setTaskIsDragging,
 } = tasksSlice.actions;

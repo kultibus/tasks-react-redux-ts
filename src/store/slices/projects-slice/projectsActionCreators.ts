@@ -4,9 +4,9 @@ import {
     LocalDataVariant,
 } from "../../../api/api";
 import { IProject } from "../../../types/models/IProject";
-import { IProjectsData, IUpdateData } from "../../../types/types";
+import { IProjectsData, ITasksData, IUpdateData } from "../../../types/types";
 import { AppDispatch, AppGetState } from "../../store";
-import { setTasks } from "../tasks-slice/tasksSlice";
+import { setDone, setInProcess, setOpened } from "../tasks-slice/tasksSlice";
 import {
     setCurrentProject,
     setProjects,
@@ -104,18 +104,15 @@ export const deleteCurrentProject =
     (project: IProject) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
         const { projects } = getState().projectsReducer;
-        const { tasks } = getState().tasksReducer;
 
         const updatedProjects = projects.filter(item => item.id !== project.id);
-
-        const updatedTasks = tasks
-            ? tasks.filter(item => item.projectId !== project.id)
-            : [];
 
         dispatch(setProjects(updatedProjects));
         dispatch(setCurrentProject(project));
 
-        dispatch(setTasks(updatedTasks));
+        dispatch(setOpened([]));
+        dispatch(setInProcess([]));
+        dispatch(setDone([]));
 
         if (user) {
             const projectsData: IUpdateData<IProjectsData> = {
@@ -137,7 +134,7 @@ export const deleteCurrentProject =
 
 export const applyProjectsData =
     (projectsData: IProjectsData) => (dispatch: AppDispatch) => {
-        dispatch(setProjectsIsLoading(true));
+        // dispatch(setProjectsIsLoading(true));
 
         const { currentProject, projects } = projectsData;
 

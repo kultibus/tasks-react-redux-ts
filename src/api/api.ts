@@ -9,8 +9,8 @@ export enum LocalDataVariant {
 }
 
 interface LocalStorageAPI {
-    setLocalData: <T>(object: T, variant: LocalDataVariant) => void;
-    getLocalData: <T>(variant: LocalDataVariant) => T | null;
+    setLocalData: <T>(object: T, variant: string) => void;
+    getLocalData: <T>(variant: string) => T | null;
     clearLocalData: () => void;
 }
 
