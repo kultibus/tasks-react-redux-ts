@@ -1,12 +1,16 @@
 import {
-    localStorageApi,
-    databaseApi,
     LocalDataVariant,
+    databaseApi,
+    localStorageApi,
 } from "../../../api/api";
 import { IProject } from "../../../types/models/IProject";
-import { IProjectsData, ITasksData, IUpdateData } from "../../../types/types";
+import { IProjectsData, ITasks, IUpdateData } from "../../../types/types";
 import { AppDispatch, AppGetState } from "../../store";
-import { setDone, setInProcess, setOpened } from "../tasks-slice/tasksSlice";
+import {
+    setDoneTasks,
+    setInProcessTasks,
+    setOpenedTasks,
+} from "../tasks-slice/tasksSlice";
 import {
     setCurrentProject,
     setProjects,
@@ -110,9 +114,9 @@ export const deleteCurrentProject =
         dispatch(setProjects(updatedProjects));
         dispatch(setCurrentProject(project));
 
-        dispatch(setOpened([]));
-        dispatch(setInProcess([]));
-        dispatch(setDone([]));
+        dispatch(setOpenedTasks([]));
+        dispatch(setInProcessTasks([]));
+        dispatch(setDoneTasks([]));
 
         if (user) {
             const projectsData: IUpdateData<IProjectsData> = {
@@ -134,8 +138,6 @@ export const deleteCurrentProject =
 
 export const applyProjectsData =
     (projectsData: IProjectsData) => (dispatch: AppDispatch) => {
-        // dispatch(setProjectsIsLoading(true));
-
         const { currentProject, projects } = projectsData;
 
         dispatch(setProjects(projects));

@@ -2,7 +2,10 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ITask } from "../../../types/models/ITask";
 import { IProjectTasks, ITasks } from "../../../types/types";
 
-interface TasksState extends ITasks {
+interface TasksState {
+    opened: IProjectTasks[];
+    inProcess: IProjectTasks[];
+    done: IProjectTasks[];
     currentTask: ITask;
     tasksIsLoading: boolean;
     error: string;
@@ -25,15 +28,15 @@ export const tasksSlice = createSlice({
             state.tasksIsLoading = action.payload;
         },
 
-        setOpened(state, action: PayloadAction<IProjectTasks[]>) {
+        setOpenedTasks(state, action: PayloadAction<IProjectTasks[]>) {
             state.opened = action.payload;
             state.tasksIsLoading = false;
         },
-        setInProcess(state, action: PayloadAction<IProjectTasks[]>) {
+        setInProcessTasks(state, action: PayloadAction<IProjectTasks[]>) {
             state.inProcess = action.payload;
             state.tasksIsLoading = false;
         },
-        setDone(state, action: PayloadAction<IProjectTasks[]>) {
+        setDoneTasks(state, action: PayloadAction<IProjectTasks[]>) {
             state.done = action.payload;
             state.tasksIsLoading = false;
         },
@@ -47,9 +50,9 @@ export const tasksSlice = createSlice({
 export const tasksReducer = tasksSlice.reducer;
 
 export const {
-    setOpened,
-    setInProcess,
-    setDone,
+    setOpenedTasks,
+    setInProcessTasks,
+    setDoneTasks,
     setTasksIsLoading,
     setCurrentTask,
 } = tasksSlice.actions;

@@ -8,19 +8,19 @@ export interface IProjectsData {
 
 export type ITaskStatus = "opened" | "inProcess" | "done";
 
-export interface IProjectTasks {
-    projectId: string;
-    tasks: ITask[];
-}
-
-export interface ITasks {
-    opened: IProjectTasks[];
-    inProcess: IProjectTasks[];
-    done: IProjectTasks[];
-}
+export type ITasks = {
+    opened: ITask[];
+    inProcess: ITask[];
+    done: ITask[];
+};
 
 export interface ITasksData {
     [key: string]: ITasks;
+}
+
+export interface IProjectTasks {
+    projectId: string;
+    tasks: ITask[];
 }
 
 export interface IUpdateData<T> {

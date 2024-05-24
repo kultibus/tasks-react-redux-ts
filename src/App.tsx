@@ -17,7 +17,7 @@ import { setTasksIsLoading } from "./store/slices/tasks-slice/tasksSlice";
 
 export const App: FC = () => {
     const { userIsLoading, user } = useAppSelector(state => state.userReducer);
-    const { projectsIsLoading } = useAppSelector(
+    const { projectsIsLoading, currentProject } = useAppSelector(
         state => state.projectsReducer
     );
     const { tasksIsLoading } = useAppSelector(state => state.tasksReducer);
@@ -39,16 +39,15 @@ export const App: FC = () => {
             dispatch(applyProjectsData(localProjectsData));
         }
 
-        const localTasksData = localStorageApi.getLocalData<ITasksData>(
-            LocalDataVariant.tasks
-        );
+        // const localTasksData = localStorageApi.getLocalData<ITasksData>(
+        //     LocalDataVariant.tasks
+        // );
 
-
-        if (!localTasksData) {
-            // dispatch(setTasksIsLoading(true));
-        } else {
-            dispatch(applyTasksData(localTasksData));
-        }
+        // if (!localTasksData) {
+        //     dispatch(setTasksIsLoading(true));
+        // } else {
+        //     dispatch(applyTasksData(localTasksData));
+        // }
     }, [dispatch]);
 
     useEffect(() => {
@@ -108,6 +107,3 @@ export const App: FC = () => {
         </AppWrapper>
     );
 };
-
-
-

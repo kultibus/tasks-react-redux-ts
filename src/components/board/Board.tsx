@@ -10,12 +10,13 @@ import { ITaskStatus } from "../../types/types";
 
 interface BoardProps {
     boardName: ITaskStatus;
+    tasks: ITask[];
 }
 
 export const Board: FC<BoardProps> = props => {
-    const { boardName } = props;
+    const { boardName, tasks } = props;
 
-    const { opened } = useAppSelector(state => state.tasksReducer);
+    // const { openedTasks } = useAppSelector(state => state.tasksReducer);
     const { currentProject } = useAppSelector(state => state.projectsReducer);
 
     const dispatch = useAppDispatch();
@@ -27,22 +28,20 @@ export const Board: FC<BoardProps> = props => {
     //         item => item.projectId === currentProject.id
     //     );
     //     if (projectTasks) {
-	// 		setBoardTasks(projectTasks[boardName]);
+    // 		setBoardTasks(projectTasks[boardName]);
     //     }
     // }, [tasks, currentProject]);
-
-
 
     return (
         <li className={styles.board}>
             <header className={styles.header}>
                 <h2>Tasks {splitByCapitalLetter(boardName)}:</h2>
-                <div className={styles.tasksQuantity}>{boardTasks.length}</div>
+                <div className={styles.tasksQuantity}>{tasks?.length || 0}</div>
             </header>
             <section className={styles.tasks}>
                 <List
                     variant={ListVariant.tasks}
-                    items={boardTasks}
+                    items={tasks || []}
                     renderItem={task => <Task task={task} key={task.id} />}
                 />
             </section>

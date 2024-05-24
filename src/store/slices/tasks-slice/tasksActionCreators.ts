@@ -4,53 +4,52 @@ import {
     localStorageApi,
 } from "../../../api/api";
 import { ITask } from "../../../types/models/ITask";
-import {
-    IProjectTasks,
-    ITasks,
-    ITasksData,
-    IUpdateData,
-} from "../../../types/types";
+import { ITasks, ITasksData, IUpdateData } from "../../../types/types";
 import { AppDispatch, AppGetState } from "../../store";
-import { setCurrentTask, setOpened, setTasksIsLoading } from "./tasksSlice";
+import {
+    setCurrentTask,
+    setOpenedTasks,
+    setTasksIsLoading,
+} from "./tasksSlice";
 
 export const createNewTask =
     (newTask: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
-        const { opened, inProcess, done } = getState().tasksReducer;
+        const { opened } = getState().tasksReducer;
         const { currentProject } = getState().projectsReducer;
 
-        const currentOpened = opened.find(
+        const currentProjectTasks = opened.find(
             t => t.projectId === currentProject.id
         );
 
-        const updatedCurrentOpened = {
-            ...currentOpened,
-            tasks: [...currentOpened.tasks, newTask],
-        };
+        const updatedCurrentProjectTasks = currentProjectTasks
+            ? {
+                  ...currentProjectTasks,
+                  tasks: [...currentProjectTasks.tasks, newTask],
+              }
+            : { projectId: currentProject.id, tasks: [newTask] };
 
-        const updatedOpened = opened.map(t => {
-            if (t.projectId === currentProject.id) {
-                return updatedCurrentOpened;
-            }
-            return t;
-        });
+        const updatedOpened = opened
+            ? opened.map(t => {
+                  if (t.projectId === currentProject.id) {
+                      return updatedCurrentProjectTasks;
+                  }
+                  return t;
+              })
+            : [updatedCurrentProjectTasks];
 
-        dispatch(setOpened(updatedOpened));
+        dispatch(setOpenedTasks(updatedOpened));
 
         // if (user) {
         //     const tasksData: IUpdateData<ITasksData> = {
         //         uid: user.uid,
         //         data: {
-        //             [currentProject.id]: {
-        //                 opened: updatedOpened,
-        //                 inProcess: inProcess,
-        //                 done: done,
-        //             },
+        //             [currentProject.id]: updatedTasks,
         //         },
         //     };
 
         //     localStorageApi.setLocalData<ITasks>(
-        //         tasksData.data[currentProject.id],
+        //         updatedTasks,
         //         currentProject.id
         //     );
 
@@ -61,7 +60,7 @@ export const createNewTask =
 export const editTask =
     (task: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
-        const { tasks } = getState().tasksReducer;
+        const { opened } = getState().tasksReducer;
 
         const currentTaskIndex = tasks.findIndex(item => item.id === task.id);
 
@@ -69,7 +68,7 @@ export const editTask =
 
         updatedTasks.splice(currentTaskIndex, 1, task);
 
-        dispatch(setTasks(updatedTasks));
+        // dispatch(setTasks(updatedTasks));
         dispatch(setCurrentTask({} as ITask));
 
         if (user) {
@@ -103,7 +102,7 @@ export const deleteTask =
             }
         });
 
-        dispatch(setTasks(updatedTasks));
+        // dispatch(setTasks(updatedTasks));
         dispatch(setCurrentTask({} as ITask));
 
         if (user) {

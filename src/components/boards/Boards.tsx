@@ -11,6 +11,12 @@ import { ITaskStatus } from "../../types/types";
 export const Boards: FC = () => {
     const boards: ITaskStatus[] = ["opened", "inProcess", "done"];
 
+    const { opened, inProcess, done } = useAppSelector(
+        state => state.tasksReducer
+    );
+
+    const { currentProject } = useAppSelector(state => state.projectsReducer);
+
     const { variant, isOpened } = useAppSelector(state => state.formReducer);
 
     if (
@@ -27,7 +33,13 @@ export const Boards: FC = () => {
             <List
                 variant={ListVariant.boards}
                 items={boards}
-                renderItem={board => <Board boardName={board} key={board} />}
+                renderItem={board => (
+                    <Board
+                        tasks={[] }
+                        boardName={board}
+                        key={board}
+                    />
+                )}
             />
         </main>
     );
