@@ -1,7 +1,7 @@
 import isEqual from "lodash.isequal";
 import { FC, useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { LocalDataVariant, databaseApi, localStorageApi } from "./api/api";
+import { DataVariant, databaseApi, localStorageApi } from "./api/api";
 import { AppLayout } from "./components/app-layout/AppLayout";
 import { AppWrapper } from "./components/app-wrapper/AppWrapper";
 import { Header } from "./components/header/Header";
@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import { applyProjectsData } from "./store/slices/projects-slice/projectsActionCreators";
 import { applyTasksData } from "./store/slices/tasks-slice/tasksActionCreators";
 import { checkUserAuth } from "./store/slices/user-slice/userActionCreators";
-import { IProjectsData, IResponseData, ITasksData } from "./types/types";
+import { IProjectsData } from "./types/types";
 import { setProjectsIsLoading } from "./store/slices/projects-slice/projectsSlice";
 import { setTasksIsLoading } from "./store/slices/tasks-slice/tasksSlice";
 
@@ -30,65 +30,50 @@ export const App: FC = () => {
         dispatch(checkUserAuth());
 
         const localProjectsData = localStorageApi.getLocalData<IProjectsData>(
-            LocalDataVariant.projects
+            DataVariant.projects
         );
 
-        if (!localProjectsData) {
-            dispatch(setProjectsIsLoading(true));
-        } else {
+        if (!!localProjectsData) {
             dispatch(applyProjectsData(localProjectsData));
+        } else {
+            dispatch(setProjectsIsLoading(true));
         }
 
-        // const localTasksData = localStorageApi.getLocalData<ITasksData>(
-        //     LocalDataVariant.tasks
+        // const localTasks = localStorageApi.getLocalData<ITasksData>(
+        //     DataVariant.tasks
         // );
 
-        // if (!localTasksData) {
-        //     dispatch(setTasksIsLoading(true));
+        // if (!!localTasks) {
+        //     dispatch(applyTasksData(localTasks));
         // } else {
-        //     dispatch(applyTasksData(localTasksData));
+        //     dispatch(setTasksIsLoading(true));
         // }
     }, [dispatch]);
 
     useEffect(() => {
         if (!uid) return;
 
-        databaseApi.getData(user.uid).then(response => {
+        databaseApi.getData(user.uid, DataVariant.projects).then(response => {
             if (!response || typeof response === "string") {
                 dispatch(setProjectsIsLoading(false));
+                // dispatch(setTasksIsLoading(false));
                 return;
             }
 
-            const { currentProject, projects } = response as IResponseData;
+            const databaseProjectsData = response as IProjectsData;
 
             const localProjectsData =
                 localStorageApi.getLocalData<IProjectsData>(
-                    LocalDataVariant.projects
+                    DataVariant.projects
                 );
 
-            const dbProjectsData = { currentProject, projects };
-
-            if (!isEqual(dbProjectsData, localProjectsData)) {
+            if (!isEqual(databaseProjectsData, localProjectsData)) {
                 localStorageApi.setLocalData(
-                    dbProjectsData,
-                    LocalDataVariant.projects
+                    databaseProjectsData,
+                    DataVariant.projects
                 );
-                dispatch(applyProjectsData(dbProjectsData));
+                dispatch(applyProjectsData(databaseProjectsData));
             }
-
-            // const dbTasksData = { tasks };
-
-            // const localTasksData = localStorageApi.getLocalData<ITasksData>(
-            //     LocalDataVariant.tasks
-            // );
-
-            // if (!isEqual(dbTasksData, localTasksData)) {
-            //     localStorageApi.setLocalData(
-            //         dbTasksData,
-            //         LocalDataVariant.tasks
-            //     );
-            //     dispatch(applyTasksData(dbTasksData));
-            // }
         });
     }, [uid, dispatch]);
 

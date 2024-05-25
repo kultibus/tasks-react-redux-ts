@@ -1,48 +1,33 @@
-import { FC, useMemo, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { FC } from "react";
 import { ITask } from "../../types/models/ITask";
+import { IBoards } from "../../types/types";
+import { splitByCapitalLetter } from "../../utils/formatString";
 import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
 import styles from "./Board.module.scss";
-import { splitByCapitalLetter } from "../../utils/formatString";
-import { task } from "../task/Task.module.scss";
-import { ITaskStatus } from "../../types/types";
+import { IBoardVariant } from "../boards/Boards";
 
 interface BoardProps {
-    boardName: ITaskStatus;
+    board: IBoardVariant;
     tasks: ITask[];
 }
 
 export const Board: FC<BoardProps> = props => {
-    const { boardName, tasks } = props;
-
-    // const { openedTasks } = useAppSelector(state => state.tasksReducer);
-    const { currentProject } = useAppSelector(state => state.projectsReducer);
-
-    const dispatch = useAppDispatch();
-
-    const [boardTasks, setBoardTasks] = useState<ITask[]>([]);
-
-    // useMemo(() => {
-    //     const projectTasks = tasks.find(
-    //         item => item.projectId === currentProject.id
-    //     );
-    //     if (projectTasks) {
-    // 		setBoardTasks(projectTasks[boardName]);
-    //     }
-    // }, [tasks, currentProject]);
+    const { board, tasks } = props;
 
     return (
         <li className={styles.board}>
             <header className={styles.header}>
-                <h2>Tasks {splitByCapitalLetter(boardName)}:</h2>
+                <h2>Tasks {splitByCapitalLetter(board)}:</h2>
                 <div className={styles.tasksQuantity}>{tasks?.length || 0}</div>
             </header>
             <section className={styles.tasks}>
                 <List
                     variant={ListVariant.tasks}
-                    items={tasks || []}
-                    renderItem={task => <Task task={task} key={task.id} />}
+                    items={tasks}
+                    renderItem={task => (
+                        <Task board={board} task={task} key={task.id} />
+                    )}
                 />
             </section>
         </li>

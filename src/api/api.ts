@@ -2,10 +2,10 @@ import { get, ref, update } from "firebase/database";
 import { database } from "../firebase";
 import { IUpdateData } from "../types/types";
 
-export enum LocalDataVariant {
-    user = "user",
-    projects = "projects",
-    tasks = "tasks",
+export enum DataVariant {
+    user = "userData",
+    projects = "projectsData",
+    tasks = "tasksData",
 }
 
 interface LocalStorageAPI {
@@ -31,14 +31,17 @@ export const localStorageApi: LocalStorageAPI = {
 };
 
 export const databaseApi = {
-    async getData(uid: string) {
-        const snap = await get(ref(database, `${uid}`));
+    async getData(uid: string, path: DataVariant) {
+        const snap = await get(ref(database, `${uid}/${path}`));
         return snap.exists()
             ? snap.val()
             : "Something went wrong, try reload page";
     },
 
     async updateData<T extends {}>(localData: IUpdateData<T>) {
-        return update(ref(database, `${localData.uid}`), localData.data);
+        return update(
+            ref(database, `${localData.uid}/${localData.path}`),
+            localData.data
+        );
     },
 };

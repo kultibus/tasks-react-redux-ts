@@ -1,11 +1,11 @@
 import classNames from "classnames";
-import { FC, MouseEvent, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import {
     setFormVariant,
     setIsFormOpened,
 } from "../../store/slices/form-slice/formSlice";
-import { updateCurrentTask } from "../../store/slices/tasks-slice/tasksActionCreators";
+import { updateActiveTask } from "../../store/slices/tasks-slice/tasksActionCreators";
 import { IFormVariant } from "../../types/models/IForm";
 import { ITask } from "../../types/models/ITask";
 import { formatDate } from "../../utils/formatDate";
@@ -14,16 +14,16 @@ import {
     EditDelBtnsVariant,
 } from "../UI/edit-del-btns/EditDelBtns";
 import styles from "./Task.module.scss";
+import { IBoards } from "../../types/types";
+import { IBoardVariant } from "../boards/Boards";
 
 interface TaskProps {
     task: ITask;
-    isDragging?: boolean;
+    board: IBoardVariant;
 }
 
 export const Task: FC<TaskProps> = props => {
-    const { task, isDragging } = props;
-
-    const { tasks } = useAppSelector(state => state.tasksReducer);
+    const { task, board } = props;
 
     const dispatch = useAppDispatch();
 
@@ -35,30 +35,23 @@ export const Task: FC<TaskProps> = props => {
         setDaysLeft(formatDate.getDaysLeft(task.expDate));
     }, []);
 
-    const handleDelTask = () => {
-        const taskId = task.id;
-
-        // dispatch(updateCurrentTask(tasks.find(task => task.id === taskId)));
-
+    const handleTask = () => {
+        dispatch(updateActiveTask(task.id));
         dispatch(setIsFormOpened(true));
+    };
+
+    const handleDelTask = () => {
+        handleTask();
         dispatch(setFormVariant(IFormVariant.deleteTask));
     };
 
     const handleEditTask = () => {
-        const taskId = task.id;
-
-        // dispatch(updateCurrentTask(tasks.find(task => task.id === taskId)));
-
-        dispatch(setIsFormOpened(true));
+        handleTask();
         dispatch(setFormVariant(IFormVariant.editTask));
     };
 
     return (
-        <div
-            className={classNames(styles.task, {
-                [styles.taskDragging]: isDragging,
-            })}
-        >
+        <li className={classNames(styles.task)}>
             <div className={styles.top}>
                 <div className={styles.title}>
                     <h3>{task.title}</h3>
@@ -81,6 +74,6 @@ export const Task: FC<TaskProps> = props => {
                     {daysLeft < 0 ? "0" : daysLeft}
                 </span>
             </div>
-        </div>
+        </li>
     );
 };

@@ -1,8 +1,4 @@
-import {
-    LocalDataVariant,
-    databaseApi,
-    localStorageApi,
-} from "../../../api/api";
+import { DataVariant, databaseApi, localStorageApi } from "../../../api/api";
 import { IProject } from "../../../types/models/IProject";
 import { IProjectsData, ITasks, IUpdateData } from "../../../types/types";
 import { AppDispatch, AppGetState } from "../../store";
@@ -30,6 +26,7 @@ export const createNewProject =
         if (user) {
             const projectsData: IUpdateData<IProjectsData> = {
                 uid: user.uid,
+                path: DataVariant.projects,
                 data: {
                     currentProject: project,
                     projects: updatedProjects,
@@ -38,7 +35,7 @@ export const createNewProject =
 
             localStorageApi.setLocalData<IProjectsData>(
                 projectsData.data,
-                LocalDataVariant.projects
+                DataVariant.projects
             );
 
             databaseApi.updateData<IProjectsData>(projectsData);
@@ -64,6 +61,7 @@ export const editCurrentProject =
         if (user) {
             const projectsData: IUpdateData<IProjectsData> = {
                 uid: user.uid,
+                path: DataVariant.projects,
                 data: {
                     currentProject: project,
                     projects: updatedProjects,
@@ -72,7 +70,7 @@ export const editCurrentProject =
 
             localStorageApi.setLocalData<IProjectsData>(
                 projectsData.data,
-                LocalDataVariant.projects
+                DataVariant.projects
             );
 
             databaseApi.updateData<IProjectsData>(projectsData);
@@ -89,6 +87,7 @@ export const updateCurrentProject =
         if (user) {
             const projectsData: IUpdateData<IProjectsData> = {
                 uid: user.uid,
+                path: DataVariant.projects,
                 data: {
                     currentProject: project,
                     projects: projects,
@@ -97,7 +96,7 @@ export const updateCurrentProject =
 
             localStorageApi.setLocalData<IProjectsData>(
                 projectsData.data,
-                LocalDataVariant.projects
+                DataVariant.projects
             );
 
             databaseApi.updateData<IProjectsData>(projectsData);
@@ -121,6 +120,7 @@ export const deleteCurrentProject =
         if (user) {
             const projectsData: IUpdateData<IProjectsData> = {
                 uid: user.uid,
+                path: DataVariant.projects,
                 data: {
                     currentProject: project,
                     projects: updatedProjects,
@@ -129,7 +129,7 @@ export const deleteCurrentProject =
 
             localStorageApi.setLocalData<IProjectsData>(
                 projectsData.data,
-                LocalDataVariant.projects
+                DataVariant.projects
             );
 
             databaseApi.updateData<IProjectsData>(projectsData);

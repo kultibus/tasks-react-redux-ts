@@ -1,3 +1,4 @@
+import { DataVariant } from "../api/api";
 import { IProject } from "./models/IProject";
 import { ITask } from "./models/ITask";
 
@@ -6,26 +7,25 @@ export interface IProjectsData {
     projects: IProject[];
 }
 
-export type ITaskStatus = "opened" | "inProcess" | "done";
+export type IBoards = ["opened", "inProcess", "done"];
 
-export type ITasks = {
-    opened: ITask[];
-    inProcess: ITask[];
-    done: ITask[];
-};
-
-export interface ITasksData {
-    [key: string]: ITasks;
-}
+// export interface ITasksData {
+//     [key: string]: ITasks;
+// }
 
 export interface IProjectTasks {
     projectId: string;
     tasks: ITask[];
 }
 
-export interface IUpdateData<T> {
-    uid: string;
-    data: T;
+export interface ITasks {
+    opened: IProjectTasks[];
+    inProcess: IProjectTasks[];
+    done: IProjectTasks[];
 }
 
-export type IResponseData = IProjectsData & ITasksData;
+export interface IUpdateData<T> {
+    uid: string;
+    path: DataVariant;
+    data: T;
+}

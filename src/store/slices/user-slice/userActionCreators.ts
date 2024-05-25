@@ -4,7 +4,7 @@ import {
     signOut,
     updateProfile,
 } from "firebase/auth";
-import { LocalDataVariant, localStorageApi } from "../../../api/api";
+import { DataVariant, localStorageApi } from "../../../api/api";
 import { auth } from "../../../firebase";
 import { IUser } from "../../../types/models/IUser";
 import { AppDispatch } from "../../store";
@@ -40,10 +40,7 @@ export const signUpUser =
 
             dispatch(setUser(localUser));
 
-            localStorageApi.setLocalData<IUser>(
-                localUser,
-                LocalDataVariant.user
-            );
+            localStorageApi.setLocalData<IUser>(localUser, DataVariant.user);
         } catch (error) {
             dispatch(setUserError(error.message));
         }
@@ -68,10 +65,7 @@ export const signInUser =
 
             dispatch(setUser(localUser));
 
-            localStorageApi.setLocalData<IUser>(
-                localUser,
-                LocalDataVariant.user
-            );
+            localStorageApi.setLocalData<IUser>(localUser, DataVariant.user);
         } catch (error) {
             dispatch(setUserError(error.message));
         }
@@ -88,9 +82,7 @@ export const signOutUser = () => async (dispatch: AppDispatch) => {
 export const checkUserAuth = () => (dispatch: AppDispatch) => {
     dispatch(setUserIsLoading(true));
 
-    const localUser = localStorageApi.getLocalData<IUser>(
-        LocalDataVariant.user
-    );
+    const localUser = localStorageApi.getLocalData<IUser>(DataVariant.user);
 
     if (!!localUser) {
         dispatch(setUser(localUser));

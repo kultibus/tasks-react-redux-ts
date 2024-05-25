@@ -1,100 +1,101 @@
-import {
-    LocalDataVariant,
-    databaseApi,
-    localStorageApi,
-} from "../../../api/api";
+import { DataVariant, databaseApi, localStorageApi } from "../../../api/api";
 import { ITask } from "../../../types/models/ITask";
-import { ITasks, ITasksData, IUpdateData } from "../../../types/types";
+import { ITasks, IUpdateData } from "../../../types/types";
 import { AppDispatch, AppGetState } from "../../store";
-import {
-    setCurrentTask,
-    setOpenedTasks,
-    setTasksIsLoading,
-} from "./tasksSlice";
+import { setActiveTask, setOpenedTasks, setTasksIsLoading } from "./tasksSlice";
 
 export const createNewTask =
     (newTask: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
-        const { opened } = getState().tasksReducer;
+        const { openedTasks, inProcessTasks, doneTasks } =
+            getState().tasksReducer;
         const { currentProject } = getState().projectsReducer;
 
-        const currentProjectTasks = opened.find(
+        const currentData = openedTasks.find(
             t => t.projectId === currentProject.id
         );
 
-        const updatedCurrentProjectTasks = currentProjectTasks
+        const updatedCurrentData = currentData
             ? {
-                  ...currentProjectTasks,
-                  tasks: [...currentProjectTasks.tasks, newTask],
+                  ...currentData,
+                  tasks: [...currentData.tasks, newTask],
               }
             : { projectId: currentProject.id, tasks: [newTask] };
 
-        const updatedOpened = opened
-            ? opened.map(t => {
+        const updatedOpenedTasks = currentData
+            ? openedTasks.map(t => {
                   if (t.projectId === currentProject.id) {
-                      return updatedCurrentProjectTasks;
+                      return updatedCurrentData;
                   }
                   return t;
               })
-            : [updatedCurrentProjectTasks];
+            : [...openedTasks, updatedCurrentData];
 
-        dispatch(setOpenedTasks(updatedOpened));
+        dispatch(setOpenedTasks(updatedOpenedTasks));
 
         // if (user) {
-        //     const tasksData: IUpdateData<ITasksData> = {
+        //     const tasksData: IUpdateData<ITasks> = {
         //         uid: user.uid,
+        //         path: DataVariant.tasks,
         //         data: {
-        //             [currentProject.id]: updatedTasks,
+        //             opened: updatedOpenedTasks,
+        //             inProcess: inProcessTasks,
+        //             done: doneTasks,
         //         },
         //     };
 
         //     localStorageApi.setLocalData<ITasks>(
-        //         updatedTasks,
-        //         currentProject.id
+        //         tasksData.data,
+        //         DataVariant.tasks
+        //     );
+
+        //     databaseApi.updateData<ITasks>(tasksData);
+        // }
+    };
+
+export const updateActiveTask =
+    (taskId: string) => (dispatch: AppDispatch, getState: AppGetState) => {
+        const { openedTasks, inProcessTasks, doneTasks } =
+            getState().tasksReducer;
+
+        const activeTask = [
+            ...openedTasks.map(t => t.tasks),
+            ...inProcessTasks.map(t => t.tasks),
+            ...doneTasks.map(t => t.tasks),
+        ]
+            .reduce((res, t) => [...res, ...t], [])
+            .find(t => t.id === taskId);
+
+        dispatch(setActiveTask(activeTask));
+    };
+
+export const editTask =
+    (editedTask: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
+        const user = getState().userReducer.user;
+        const { openedTasks, inProcessTasks, doneTasks } =
+            getState().tasksReducer;
+        const { currentProject } = getState().projectsReducer;
+
+
+        // if (user) {
+        //     const tasksData: IUpdateData<ITasksData> = {
+        //         uid: user.uid,
+        //         data: { tasks: updatedTasks },
+        //     };
+
+        //     localStorageApi.setLocalData<ITasksData>(
+        //         tasksData.data,
+        //         DataVariant.tasks
         //     );
 
         //     databaseApi.updateData<ITasksData>(tasksData);
         // }
     };
 
-export const editTask =
-    (task: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
-        const user = getState().userReducer.user;
-        const { opened } = getState().tasksReducer;
-
-        const currentTaskIndex = tasks.findIndex(item => item.id === task.id);
-
-        const updatedTasks = [...tasks];
-
-        updatedTasks.splice(currentTaskIndex, 1, task);
-
-        // dispatch(setTasks(updatedTasks));
-        dispatch(setCurrentTask({} as ITask));
-
-        if (user) {
-            const tasksData: IUpdateData<ITasksData> = {
-                uid: user.uid,
-                data: { tasks: updatedTasks },
-            };
-
-            localStorageApi.setLocalData<ITasksData>(
-                tasksData.data,
-                LocalDataVariant.tasks
-            );
-
-            databaseApi.updateData<ITasksData>(tasksData);
-        }
-    };
-
-export const updateCurrentTask =
-    (task: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
-        dispatch(setCurrentTask(task));
-    };
-
 export const deleteTask =
     (task: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
-        const { tasks } = getState().tasksReducer;
+        // const { tasks } = getState().tasksReducer;
 
         const updatedTasks = tasks.filter(item => {
             if (item.id !== task.id) {
@@ -103,21 +104,21 @@ export const deleteTask =
         });
 
         // dispatch(setTasks(updatedTasks));
-        dispatch(setCurrentTask({} as ITask));
+        dispatch(setActiveTask({} as ITask));
 
-        if (user) {
-            const tasksData: IUpdateData<ITasksData> = {
-                uid: user.uid,
-                data: { tasks: updatedTasks },
-            };
+        // if (user) {
+        //     const tasksData: IUpdateData<ITasksData> = {
+        //         uid: user.uid,
+        //         data: { tasks: updatedTasks },
+        //     };
 
-            localStorageApi.setLocalData<ITasksData>(
-                tasksData.data,
-                LocalDataVariant.tasks
-            );
+        //     localStorageApi.setLocalData<ITasksData>(
+        //         tasksData.data,
+        //         DataVariant.tasks
+        //     );
 
-            databaseApi.updateData<ITasksData>(tasksData);
-        }
+        //     databaseApi.updateData<ITasksData>(tasksData);
+        // }
     };
 
 export const applyTasksData =
@@ -127,5 +128,5 @@ export const applyTasksData =
 
         console.log(tasksData);
 
-        // dispatch(setTasks(tasks));
+        dispatch(setTasks(tasksData));
     };

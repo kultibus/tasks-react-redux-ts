@@ -1,21 +1,24 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ITask } from "../../../types/models/ITask";
 import { IProjectTasks, ITasks } from "../../../types/types";
+import { IBoardVariant } from "../../../components/boards/Boards";
 
 interface TasksState {
-    opened: IProjectTasks[];
-    inProcess: IProjectTasks[];
-    done: IProjectTasks[];
-    currentTask: ITask;
+    openedTasks: IProjectTasks[];
+    inProcessTasks: IProjectTasks[];
+    doneTasks: IProjectTasks[];
+    activeTask: ITask;
+    activeBoard: IBoardVariant;
     tasksIsLoading: boolean;
     error: string;
 }
 
 const initialState: TasksState = {
-    opened: [],
-    inProcess: [],
-    done: [],
-    currentTask: {} as ITask,
+    openedTasks: [],
+    inProcessTasks: [],
+    doneTasks: [],
+    activeTask: {} as ITask,
+    activeBoard: IBoardVariant.opened,
     tasksIsLoading: false,
     error: "",
 };
@@ -29,20 +32,20 @@ export const tasksSlice = createSlice({
         },
 
         setOpenedTasks(state, action: PayloadAction<IProjectTasks[]>) {
-            state.opened = action.payload;
+            state.openedTasks = action.payload;
             state.tasksIsLoading = false;
         },
         setInProcessTasks(state, action: PayloadAction<IProjectTasks[]>) {
-            state.inProcess = action.payload;
+            state.inProcessTasks = action.payload;
             state.tasksIsLoading = false;
         },
         setDoneTasks(state, action: PayloadAction<IProjectTasks[]>) {
-            state.done = action.payload;
+            state.doneTasks = action.payload;
             state.tasksIsLoading = false;
         },
 
-        setCurrentTask(state, action: PayloadAction<ITask>) {
-            state.currentTask = action.payload;
+        setActiveTask(state, action: PayloadAction<ITask>) {
+            state.activeTask = action.payload;
         },
     },
 });
@@ -54,5 +57,5 @@ export const {
     setInProcessTasks,
     setDoneTasks,
     setTasksIsLoading,
-    setCurrentTask,
+    setActiveTask,
 } = tasksSlice.actions;
