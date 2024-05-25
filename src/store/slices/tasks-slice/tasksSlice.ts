@@ -47,6 +47,9 @@ export const tasksSlice = createSlice({
         setActiveTask(state, action: PayloadAction<ITask>) {
             state.activeTask = action.payload;
         },
+        setActiveBoard(state, action: PayloadAction<IBoardVariant>) {
+            state.activeBoard = action.payload;
+        },
     },
 });
 
@@ -58,4 +61,5 @@ export const {
     setDoneTasks,
     setTasksIsLoading,
     setActiveTask,
+    setActiveBoard,
 } = tasksSlice.actions;

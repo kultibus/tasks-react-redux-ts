@@ -6,9 +6,8 @@ import {
     setIsFormValid,
 } from "../../../store/slices/form-slice/formSlice";
 import {
-    createNewTask,
-    deleteTask,
-    editTask,
+    createTask,
+    updateTasks,
 } from "../../../store/slices/tasks-slice/tasksActionCreators";
 import { setActiveTask } from "../../../store/slices/tasks-slice/tasksSlice";
 import { IFormVariant } from "../../../types/models/IForm";
@@ -24,7 +23,6 @@ interface FormTaskProps {}
 export const FormTask: FC<FormTaskProps> = () => {
     const dispatch = useAppDispatch();
 
-    const { currentProject } = useAppSelector(state => state.projectsReducer);
     const { variant, isValid } = useAppSelector(state => state.formReducer);
     const { activeTask } = useAppSelector(state => state.tasksReducer);
 
@@ -74,7 +72,7 @@ export const FormTask: FC<FormTaskProps> = () => {
                     expDate: expDate,
                 };
 
-                dispatch(createNewTask(newTask));
+                dispatch(createTask(newTask));
 
                 break;
 
@@ -88,31 +86,22 @@ export const FormTask: FC<FormTaskProps> = () => {
                     expDate: expDate,
                 };
 
-                dispatch(editTask(editedTask));
+                dispatch(updateTasks(editedTask, "update"));
 
                 break;
 
             case IFormVariant.deleteTask:
-                dispatch(deleteTask(activeTask));
+                dispatch(updateTasks(activeTask, "delete"));
 
                 break;
         }
 
         dispatch(setIsFormOpened(false));
-		dispatch(setActiveTask({} as ITask));
-
-        // taskTitle.cleanValue();
     };
 
     const handleReset = () => {
         dispatch(setIsFormOpened(false));
         dispatch(setActiveTask({} as ITask));
-
-        // switch (variant) {
-        //     case IFormVariant.addTask:
-        //         taskTitle.cleanValue();
-        //         break;
-        // }
     };
 
     return (

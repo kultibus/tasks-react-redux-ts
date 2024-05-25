@@ -1,10 +1,15 @@
-import { DataVariant, databaseApi, localStorageApi } from "../../../api/api";
+import { IBoardVariant } from "../../../components/boards/Boards";
 import { ITask } from "../../../types/models/ITask";
-import { ITasks, IUpdateData } from "../../../types/types";
+import { IProjectTasks, IUpdateTasksAction } from "../../../types/types";
 import { AppDispatch, AppGetState } from "../../store";
-import { setActiveTask, setOpenedTasks, setTasksIsLoading } from "./tasksSlice";
+import {
+    setActiveTask,
+    setDoneTasks,
+    setInProcessTasks,
+    setOpenedTasks,
+} from "./tasksSlice";
 
-export const createNewTask =
+export const createTask =
     (newTask: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
         const { openedTasks, inProcessTasks, doneTasks } =
@@ -69,41 +74,56 @@ export const updateActiveTask =
         dispatch(setActiveTask(activeTask));
     };
 
-export const editTask =
-    (editedTask: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
+export const updateTasks =
+    (updatedTask: ITask, updateAction: IUpdateTasksAction) =>
+    (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
-        const { openedTasks, inProcessTasks, doneTasks } =
+        const { openedTasks, inProcessTasks, doneTasks, activeBoard } =
             getState().tasksReducer;
         const { currentProject } = getState().projectsReducer;
 
+        const updateTasks = (data: IProjectTasks[]) => {
+            const currentData = data.find(
+                t => t.projectId === currentProject.id
+            );
 
-        // if (user) {
-        //     const tasksData: IUpdateData<ITasksData> = {
-        //         uid: user.uid,
-        //         data: { tasks: updatedTasks },
-        //     };
+            const updatedTasks =
+                updateAction === "update"
+                    ? currentData.tasks.map(t => {
+                          if (t.id === updatedTask.id) {
+                              return updatedTask;
+                          }
+                          return t;
+                      })
+                    : currentData.tasks.filter(t => t.id !== updatedTask.id);
 
-        //     localStorageApi.setLocalData<ITasksData>(
-        //         tasksData.data,
-        //         DataVariant.tasks
-        //     );
+            const updatedCurrentData = { ...currentData, tasks: updatedTasks };
 
-        //     databaseApi.updateData<ITasksData>(tasksData);
-        // }
-    };
+            return data.map(t => {
+                if (t.projectId === currentProject.id) {
+                    return updatedCurrentData;
+                }
+                return t;
+            });
+        };
 
-export const deleteTask =
-    (task: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
-        const user = getState().userReducer.user;
-        // const { tasks } = getState().tasksReducer;
+        switch (activeBoard) {
+            case IBoardVariant.inProcess:
+                dispatch(setInProcessTasks(updateTasks(inProcessTasks)));
 
-        const updatedTasks = tasks.filter(item => {
-            if (item.id !== task.id) {
-                return item;
-            }
-        });
+                break;
 
-        // dispatch(setTasks(updatedTasks));
+            case IBoardVariant.done:
+                dispatch(setDoneTasks(updateTasks(doneTasks)));
+
+                break;
+
+            default:
+                dispatch(setOpenedTasks(updateTasks(openedTasks)));
+
+                break;
+        }
+
         dispatch(setActiveTask({} as ITask));
 
         // if (user) {
@@ -122,11 +142,9 @@ export const deleteTask =
     };
 
 export const applyTasksData =
-    (tasksData: ITasksData) =>
+    (tasksData: IProjectTasks) =>
     (dispatch: AppDispatch, getState: AppGetState) => {
         const { currentProject } = getState().projectsReducer;
 
         console.log(tasksData);
-
-        dispatch(setTasks(tasksData));
     };

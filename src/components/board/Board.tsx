@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { ITask } from "../../types/models/ITask";
-import { IBoards } from "../../types/types";
 import { splitByCapitalLetter } from "../../utils/formatString";
 import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
