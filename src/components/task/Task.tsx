@@ -16,6 +16,8 @@ import {
 import styles from "./Task.module.scss";
 import { IBoardVariant } from "../boards/Boards";
 import { setActiveBoard } from "../../store/slices/tasks-slice/tasksSlice";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface TaskProps {
     task: ITask;
@@ -24,6 +26,14 @@ interface TaskProps {
 
 export const Task: FC<TaskProps> = props => {
     const { task, board } = props;
+
+    const { attributes, listeners, setNodeRef, transform, transition } =
+        useSortable({ id: task.id });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        // transition,
+    };
 
     const dispatch = useAppDispatch();
 
@@ -52,7 +62,13 @@ export const Task: FC<TaskProps> = props => {
     };
 
     return (
-        <li className={classNames(styles.task)}>
+        <li
+            ref={setNodeRef}
+            style={style}
+            {...attributes}
+            {...listeners}
+            className={classNames(styles.task)}
+        >
             <div className={styles.top}>
                 <div className={styles.title}>
                     <h3>{task.title}</h3>

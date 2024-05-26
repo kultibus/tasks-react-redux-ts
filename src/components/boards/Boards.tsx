@@ -1,3 +1,10 @@
+import {
+    DndContext,
+    MouseSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+} from "@dnd-kit/core";
 import { FC } from "react";
 import { useAppSelector } from "../../hooks/redux";
 import { IFormVariant } from "../../types/models/IForm";
@@ -6,7 +13,6 @@ import { Board } from "../board/Board";
 import { List, ListVariant } from "../list/List";
 import styles from "./Boards.module.scss";
 import { useTasks } from "./useTasks";
-import { DndContext } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 
 export enum IBoardVariant {
@@ -26,6 +32,14 @@ export const Boards: FC = () => {
 
     const { variant, isOpened } = useAppSelector(state => state.formReducer);
 
+    const mouseSensor = useSensor(PointerSensor, {
+        activationConstraint: {
+            distance: 1,
+        },
+    });
+
+    const sensors = useSensors(mouseSensor);
+
     if (
         isOpened &&
         (variant === IFormVariant.addTask ||
@@ -37,20 +51,20 @@ export const Boards: FC = () => {
 
     return (
         <main className={styles.boards}>
-            <DndContext>
-                <SortableContext items={boards}>
-                    <List
-                        variant={ListVariant.boards}
-                        items={boards}
-                        renderItem={board => (
+            <DndContext sensors={sensors}>
+                <List
+                    variant={ListVariant.boards}
+                    items={boards}
+                    renderItem={board => (
+                        <SortableContext items={currentTasks[board]}>
                             <Board
                                 tasks={currentTasks[board]}
                                 board={board}
                                 key={board}
                             />
-                        )}
-                    />
-                </SortableContext>
+                        </SortableContext>
+                    )}
+                />
             </DndContext>
         </main>
     );

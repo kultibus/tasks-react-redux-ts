@@ -5,6 +5,7 @@ import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
 import styles from "./Board.module.scss";
 import { IBoardVariant } from "../boards/Boards";
+import { SortableContext } from "@dnd-kit/sortable";
 
 interface BoardProps {
     board: IBoardVariant;

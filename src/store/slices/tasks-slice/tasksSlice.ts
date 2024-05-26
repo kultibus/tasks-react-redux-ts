@@ -14,8 +14,32 @@ interface TasksState {
 }
 
 const initialState: TasksState = {
-    openedTasks: [],
-    inProcessTasks: [],
+    // openedTasks: [],
+    // inProcessTasks: [],
+    // doneTasks: [],
+    openedTasks: [
+        {
+            projectId: "7mccxza",
+            tasks: [
+                {
+                    id: "1",
+                    expDate: Date.now(),
+                    body: "",
+                    title: "1",
+                },
+                { id: "2", expDate: Date.now(), body: "", title: "2" },
+            ],
+        },
+    ],
+    inProcessTasks: [
+        {
+            projectId: "7mccxza",
+            tasks: [
+                { id: "3", expDate: Date.now(), body: "", title: "3" },
+                { id: "4", expDate: Date.now(), body: "", title: "4" },
+            ],
+        },
+    ],
     doneTasks: [],
     activeTask: {} as ITask,
     activeBoard: IBoardVariant.opened,
