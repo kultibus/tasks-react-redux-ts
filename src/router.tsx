@@ -30,76 +30,72 @@ export const router = createBrowserRouter([
                 <NotFound />
             </AppWrapper>
         ),
-        children: [
-            {
-                children: [
-                    {
-                        index: true,
-                        element: (
-                            <ProtectedRoute>
-                                <HomePage />
-                            </ProtectedRoute>
-                        ),
-                    },
-                    {
-                        path: RouteNames.project,
-                        element: (
-                            <ProtectedRoute>
-                                <ProjectPage />
-                            </ProtectedRoute>
-                        ),
-                        children: [
-                            {
-                                path: ":id",
-                                element: <ProjectLayout />,
-                                children: [
-                                    {
-                                        index: true,
-                                        element: <Boards />,
-                                    },
-                                    {
-                                        path: RouteNames.editProject,
-                                        element: <FormProject />,
-                                    },
-                                    {
-                                        path: RouteNames.deleteProject,
-                                        element: <FormProject />,
-                                    },
-                                ],
-                            },
-                            {
-                                path: RouteNames.addProject,
-                                element: <ProjectLayout />,
-                                children: [
-                                    {
-                                        index: true,
-                                        element: <FormProject />,
-                                    },
-                                ],
-                            },
-                        ],
-                    },
+		children: [
+			{
+				index: true,
+				element: (
+					<ProtectedRoute>
+						<HomePage />
+					</ProtectedRoute>
+				),
+			},
+			{
+				path: RouteNames.project,
+				element: (
+					<ProtectedRoute>
+						<ProjectPage />
+					</ProtectedRoute>
+				),
+				children: [
+					{
+						path: ":id",
+						element: <ProjectLayout />,
+						children: [
+							{
+								index: true,
+								element: <Boards />,
+							},
+							{
+								path: RouteNames.editProject,
+								element: <FormProject />,
+							},
+							{
+								path: RouteNames.deleteProject,
+								element: <FormProject />,
+							},
+						],
+					},
+					{
+						path: RouteNames.addProject,
+						element: <ProjectLayout />,
+						children: [
+							{
+								index: true,
+								element: <FormProject />,
+							},
+						],
+					},
+				],
+			},
 
-                    {
-                        path: RouteNames.login,
-                        element: (
-                            <PublicRoute>
-                                <LoginPage />
-                            </PublicRoute>
-                        ),
-                        loader: loginPageLoader,
-                    },
-                    {
-                        path: RouteNames.register,
-                        element: (
-                            <PublicRoute>
-                                <LoginPage />
-                            </PublicRoute>
-                        ),
-                        loader: loginPageLoader,
-                    },
-                ],
-            },
-        ],
+			{
+				path: RouteNames.login,
+				element: (
+					<PublicRoute>
+						<LoginPage />
+					</PublicRoute>
+				),
+				loader: loginPageLoader,
+			},
+			{
+				path: RouteNames.register,
+				element: (
+					<PublicRoute>
+						<LoginPage />
+					</PublicRoute>
+				),
+				loader: loginPageLoader,
+			},
+		],
     },
 ]);

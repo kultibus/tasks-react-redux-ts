@@ -24,10 +24,11 @@ const initialState: TasksState = {
                 {
                     id: "1",
                     expDate: Date.now(),
-                    body: "",
+                    body: "This way, you can create two versions of your component, one that is presentational, and one that is draggable and renders the presentational component without the need for additional wrapper elements:",
                     title: "1",
                 },
-                { id: "2", expDate: Date.now(), body: "", title: "2" },
+                { id: "2", expDate: Date.now(), body: "mponent without the need for additional wrappe", title: "2" },
+                { id: "3", expDate: Date.now(), body: "wo versions of your component, one that is presentational, and one that is ", title: "3" },
             ],
         },
     ],
@@ -35,8 +36,8 @@ const initialState: TasksState = {
         {
             projectId: "7mccxza",
             tasks: [
-                { id: "3", expDate: Date.now(), body: "", title: "3" },
-                { id: "4", expDate: Date.now(), body: "", title: "4" },
+                { id: "4", expDate: Date.now(), body: "n should be a string that represents a valid CSS easing function. The defaul", title: "4" },
+                { id: "5", expDate: Date.now(), body: "Modifiers let you dynamically modify the movement coordinate", title: "5" },
             ],
         },
     ],

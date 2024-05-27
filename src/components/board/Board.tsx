@@ -5,7 +5,7 @@ import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
 import styles from "./Board.module.scss";
 import { IBoardVariant } from "../boards/Boards";
-import { SortableContext } from "@dnd-kit/sortable";
+import { SortableContext, useSortable } from "@dnd-kit/sortable";
 
 interface BoardProps {
     board: IBoardVariant;
@@ -15,8 +15,16 @@ interface BoardProps {
 export const Board: FC<BoardProps> = props => {
     const { board, tasks } = props;
 
+    // const { attributes, listeners, setNodeRef, transform, transition } =
+    //     useSortable({ id: board });
+
     return (
-        <li className={styles.board}>
+        <li
+            // ref={setNodeRef}
+            // {...attributes}
+            // {...listeners}
+            className={styles.board}
+        >
             <header className={styles.header}>
                 <h2>Tasks {splitByCapitalLetter(board)}:</h2>
                 <div className={styles.tasksQuantity}>{tasks?.length || 0}</div>

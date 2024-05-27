@@ -10,20 +10,23 @@ export enum AppBtnVariant {
     formDisabled = "formDisabled",
     header = "header",
     headerAcive = "headerAcive",
+    draggble = "draggble",
 }
 
 interface AppBtnProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode;
     variant: AppBtnVariant;
+    isDragging?: boolean;
 }
 
 export const AppBtn: FC<AppBtnProps> = props => {
-    const { children, variant, ...rest } = props;
-
+    const { isDragging, children, variant, ...rest } = props;
 
     return (
         <button
-            className={classNames(styles[variant])}
+            className={classNames(styles[variant], {
+                [styles.dragging]: isDragging,
+            })}
             {...rest}
         >
             {children}

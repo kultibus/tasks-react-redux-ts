@@ -48,36 +48,71 @@
 }
 
 .topBar,
-.task {
+.task,
+.dragging {
     display: flex;
     align-items: center;
     justify-content: center;
     svg {
         transition: var(--trs);
-        cursor: pointer;
     }
 }
 
 .topBar {
+    cursor: pointer;
     svg {
         fill: var(--grey-800-60);
         width: 30px;
         height: 30px;
-		
+
         &:hover {
-			fill: var(--grey-800-full);
+            fill: var(--grey-800-full);
         }
     }
 }
 
 .task {
+    cursor: pointer;
     svg {
-		fill: var(--grey-100-70);
+        fill: var(--grey-100-70);
         width: 25px;
         height: 25px;
 
         &:hover {
-			fill: var(--grey-100-full);
+            fill: var(--grey-100-full);
+        }
+    }
+}
+
+.draggble {
+    cursor: grab;
+    border-radius: var(--brs);
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+
+    svg {
+        fill: var(--grey-100-70);
+        width: 100%;
+        height: 100%;
+    }
+
+    &:hover {
+        svg {
+            fill: var(--grey-100-full);
+            background-color: var(--grey-100-20);
+        }
+    }
+
+    &:active {
+        cursor: grabbing;
+    }
+
+    &.dragging {
+        cursor: grabbing;
+        svg {
+            fill: var(--grey-100-full);
+            background-color: var(--grey-100-20);
         }
     }
 }

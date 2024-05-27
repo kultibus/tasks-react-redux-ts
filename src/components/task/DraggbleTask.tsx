@@ -18,26 +18,18 @@ import { IBoardVariant } from "../boards/Boards";
 import { setActiveBoard } from "../../store/slices/tasks-slice/tasksSlice";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
-import DragIcon from "../../assets/icons/dragging.svg";
+import { Task } from "./Task";
 
-interface TaskProps {
+interface DraggbleTaskProps {
     task: ITask;
     board?: IBoardVariant;
-    isOverlay?: boolean;
 }
 
-export const Task: FC<TaskProps> = props => {
-    const { task, board, isOverlay } = props;
+export const DraggbleTask: FC<DraggbleTaskProps> = props => {
+    const { task, board } = props;
 
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-		isDragging
-    } = useSortable({ id: task.id, data: { board } });
+    const { attributes, listeners, setNodeRef, transform, transition } =
+        useSortable({ id: task.id, data: { board } });
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -71,31 +63,22 @@ export const Task: FC<TaskProps> = props => {
     };
 
     return (
-        <li
+        <Task
             ref={setNodeRef}
             style={style}
-            // {...attributes}
-            // {...listeners}
-            className={classNames(styles.task, {[styles.dragging]: isDragging})}
+            {...attributes}
+            {...listeners}
+            className={classNames(styles.task)}
         >
-			
             <div className={styles.top}>
+                <div className={styles.title}>
+                    <h3>{task.title}</h3>
+                </div>
                 <EditDelBtns
                     handleDelBtn={handleDelTask}
                     handleEditBtn={handleEditTask}
                     variant={EditDelBtnsVariant.task}
                 />
-                <div className={styles.title}>
-                    <h3>{task.title}</h3>
-                </div>
-                <AppBtn
-                    {...attributes}
-                    {...listeners}
-                    variant={AppBtnVariant.draggble}
-                    isDragging={isOverlay}
-                >
-                    <DragIcon />
-                </AppBtn>
             </div>
             {task.body && <p className={styles.body}>{task.body}</p>}
             <div className={styles.bottom}>
@@ -109,6 +92,6 @@ export const Task: FC<TaskProps> = props => {
                     {daysLeft < 0 ? "0" : daysLeft}
                 </span>
             </div>
-        </li>
+        </Task>
     );
 };
