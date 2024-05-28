@@ -4,11 +4,13 @@ import {
     signOut,
     updateProfile,
 } from "firebase/auth";
-import { DataVariant, localStorageApi } from "../../../api/api";
+import { localStorageApi } from "../../../api/api";
 import { auth } from "../../../firebase";
 import { IUser } from "../../../types/models/IUser";
 import { AppDispatch } from "../../store";
 import { setUser, setUserError, setUserIsLoading } from "./userSlice";
+import { DataVariant } from "../../../types/types";
+import { setProjects } from "../projects-slice/projectsSlice";
 
 export interface ISignInCreds {
     email: string;
@@ -75,6 +77,8 @@ export const signOutUser = () => async (dispatch: AppDispatch) => {
     signOut(auth);
 
     dispatch(setUser(null));
+
+    dispatch(setProjects([]));
 
     localStorageApi.clearLocalData();
 };

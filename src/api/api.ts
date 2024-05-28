@@ -1,12 +1,8 @@
 import { get, ref, update } from "firebase/database";
 import { database } from "../firebase";
-import { IUpdateData } from "../types/types";
+import { DataVariant, IUpdatedData } from "../types/types";
 
-export enum DataVariant {
-    user = "userData",
-    projects = "projectsData",
-    tasks = "tasksData",
-}
+
 
 interface LocalStorageAPI {
     setLocalData: <T>(object: T, variant: string) => void;
@@ -38,10 +34,7 @@ export const databaseApi = {
             : "Something went wrong, try reload page";
     },
 
-    async updateData<T extends {}>(localData: IUpdateData<T>) {
-        return update(
-            ref(database, `${localData.uid}/${localData.path}`),
-            localData.data
-        );
+    async updateData<T extends {}>(localData: IUpdatedData<T>) {
+        return update(ref(database, `${localData.uid}`), localData.data);
     },
 };

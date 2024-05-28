@@ -11,14 +11,14 @@ import {
     setIsFormValid,
 } from "../../../store/slices/form-slice/formSlice";
 import {
-    createNewProject,
-    deleteCurrentProject,
-    editCurrentProject,
-    updateCurrentProject,
+    createProject,
+    deleteProject,
+    updateProjects,
 } from "../../../store/slices/projects-slice/projectsActionCreators";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormProject.module.scss";
+import { useProjects } from "../../../hooks/useProjects";
 
 interface FormProjectProps {}
 
@@ -27,10 +27,10 @@ export const FormProject: FC<FormProjectProps> = () => {
 
     const dispatch = useAppDispatch();
 
-    const { projects, currentProject } = useAppSelector(
-        state => state.projectsReducer
-    );
+    const { projects } = useAppSelector(state => state.projectsReducer);
     const { variant, isValid } = useAppSelector(state => state.formReducer);
+
+    const activeProject = useProjects();
 
     const projectName = useInput(
         "",
@@ -56,12 +56,13 @@ export const FormProject: FC<FormProjectProps> = () => {
             case IFormVariant.addProject:
                 if (!isValid) return;
 
-                const newProject = {
+                const newProject: IProject = {
                     id: Math.random().toString(36).substring(2, 9),
                     name: projectName.value,
+                    isActive: true,
                 };
 
-                dispatch(createNewProject(newProject));
+                dispatch(createProject(newProject));
 
                 navigate(`/${RouteNames.project}/${newProject.id}`);
 
@@ -70,38 +71,38 @@ export const FormProject: FC<FormProjectProps> = () => {
             case IFormVariant.editProject:
                 if (!isValid) return;
 
-                const editedProject = {
-                    ...currentProject,
+                const editedProject: IProject = {
+                    ...activeProject,
                     name: projectName.value,
                 };
 
-                dispatch(editCurrentProject(editedProject));
+                dispatch(updateProjects(editedProject));
 
                 navigate(`/${RouteNames.project}/${editedProject.id}`);
 
                 break;
 
             case IFormVariant.deleteProject:
-                const currentProjectIndex = projects.findIndex(
-                    project => project.id === currentProject.id
+                const activeIndex = projects.findIndex(
+                    p => p.id === activeProject.id
                 );
 
                 const length = projects.length;
-                const pervProject = projects[currentProjectIndex - 1];
-                const nextProject = projects[currentProjectIndex + 1];
+                const pervProject = projects[activeIndex - 1];
+                const nextProject = projects[activeIndex + 1];
 
-                dispatch(deleteCurrentProject(projects[currentProjectIndex]));
+                dispatch(deleteProject(projects[activeIndex]));
 
-                if (length > 1 && currentProjectIndex === 0) {
-                    dispatch(updateCurrentProject(nextProject));
+                if (length > 1 && activeIndex === 0) {
+                    dispatch(updateProjects(nextProject));
 
                     navigate(`/${RouteNames.project}/${nextProject.id}`);
                 } else if (length > 1) {
-                    dispatch(updateCurrentProject(pervProject));
+                    dispatch(updateProjects(pervProject));
 
                     navigate(`/${RouteNames.project}/${pervProject.id}`);
                 } else {
-                    dispatch(updateCurrentProject({} as IProject));
+                    dispatch(updateProjects({} as IProject));
 
                     dispatch(setIsFormValid(true));
 

@@ -1,23 +1,24 @@
 import isEqual from "lodash.isequal";
 import { FC, useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { DataVariant, databaseApi, localStorageApi } from "./api/api";
+import { databaseApi, localStorageApi } from "./api/api";
 import { AppLayout } from "./components/app-layout/AppLayout";
 import { AppWrapper } from "./components/app-wrapper/AppWrapper";
 import { Header } from "./components/header/Header";
 import { MainCnt } from "./components/main-cnt/MainCnt";
 import { MainLoader } from "./components/main-loader/MainLoader";
 import { useAppDispatch, useAppSelector } from "./hooks/redux";
-import { applyProjectsData } from "./store/slices/projects-slice/projectsActionCreators";
+import { applyProjects } from "./store/slices/projects-slice/projectsActionCreators";
 import { applyTasksData } from "./store/slices/tasks-slice/tasksActionCreators";
 import { checkUserAuth } from "./store/slices/user-slice/userActionCreators";
-import { IProjectsData } from "./types/types";
+import { DataVariant, IProjectsData } from "./types/types";
 import { setProjectsIsLoading } from "./store/slices/projects-slice/projectsSlice";
 import { setTasksIsLoading } from "./store/slices/tasks-slice/tasksSlice";
+import { IProject } from "./types/models/IProject";
 
 export const App: FC = () => {
     const { userIsLoading, user } = useAppSelector(state => state.userReducer);
-    const { projectsIsLoading, currentProject } = useAppSelector(
+    const { projectsIsLoading } = useAppSelector(
         state => state.projectsReducer
     );
     const { tasksIsLoading } = useAppSelector(state => state.tasksReducer);
@@ -29,12 +30,12 @@ export const App: FC = () => {
     useEffect(() => {
         dispatch(checkUserAuth());
 
-        const localProjectsData = localStorageApi.getLocalData<IProjectsData>(
+        const localProjects = localStorageApi.getLocalData<IProject[]>(
             DataVariant.projects
         );
 
-        if (!!localProjectsData) {
-            dispatch(applyProjectsData(localProjectsData));
+        if (!!localProjects) {
+            dispatch(applyProjects(localProjects));
         } else {
             dispatch(setProjectsIsLoading(true));
         }
@@ -51,28 +52,36 @@ export const App: FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (!uid) return;
+        if (!uid) {
+            dispatch(setProjectsIsLoading(false));
+            dispatch(setTasksIsLoading(false));
+            return;
+        }
 
         databaseApi.getData(user.uid, DataVariant.projects).then(response => {
             if (!response || typeof response === "string") {
-                dispatch(setProjectsIsLoading(false));
-                // dispatch(setTasksIsLoading(false));
+                localStorageApi.setLocalData<IProject[]>(
+                    [],
+                    DataVariant.projects
+                );
+
+                dispatch(applyProjects([]));
                 return;
             }
 
-            const databaseProjectsData = response as IProjectsData;
+            const databaseProjects = response as IProject[];
 
-            const localProjectsData =
-                localStorageApi.getLocalData<IProjectsData>(
+            const localProjects = localStorageApi.getLocalData<IProject[]>(
+                DataVariant.projects
+            );
+
+            if (!isEqual(databaseProjects, localProjects)) {
+                localStorageApi.setLocalData<IProject[]>(
+                    databaseProjects,
                     DataVariant.projects
                 );
 
-            if (!isEqual(databaseProjectsData, localProjectsData)) {
-                localStorageApi.setLocalData(
-                    databaseProjectsData,
-                    DataVariant.projects
-                );
-                dispatch(applyProjectsData(databaseProjectsData));
+                dispatch(applyProjects(databaseProjects));
             }
         });
     }, [uid, dispatch]);

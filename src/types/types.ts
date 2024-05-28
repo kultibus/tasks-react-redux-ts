@@ -1,27 +1,23 @@
-import { DataVariant } from "../api/api";
 import { IProject } from "./models/IProject";
 import { ITask } from "./models/ITask";
 
 export type IUpdateTasksAction = "update" | "delete";
 
+export enum DataVariant {
+    user = "userData",
+    projects = "projects",
+    tasks = "tasks",
+}
+
 export interface IProjectsData {
-    currentProject: IProject;
     projects: IProject[];
 }
 
-export interface IProjectTasks {
-    projectId: string;
-    tasks: ITask[];
+export interface ITaskData {
+    projects: ITask[];
 }
 
-export interface ITasks {
-    opened: IProjectTasks[];
-    inProcess: IProjectTasks[];
-    done: IProjectTasks[];
-}
-
-export interface IUpdateData<T> {
+export interface IUpdatedData<T> {
     uid: string;
-    path: DataVariant;
     data: T;
 }

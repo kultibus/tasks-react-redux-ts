@@ -15,14 +15,12 @@ interface BoardProps {
 export const Board: FC<BoardProps> = props => {
     const { board, tasks } = props;
 
-    // const { attributes, listeners, setNodeRef, transform, transition } =
-    //     useSortable({ id: board });
+    const { setNodeRef } =
+        useSortable({ id: board });
 
     return (
         <li
-            // ref={setNodeRef}
-            // {...attributes}
-            // {...listeners}
+            ref={setNodeRef}
             className={styles.board}
         >
             <header className={styles.header}>

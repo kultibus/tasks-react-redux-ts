@@ -4,39 +4,39 @@ import { IProjectTasks, IUpdateTasksAction } from "../../../types/types";
 import { AppDispatch, AppGetState } from "../../store";
 import {
     setActiveTask,
-    setDoneTasks,
-    setInProcessTasks,
-    setOpenedTasks,
+    // setDoneTasks,
+    // setInProcessTasks,
+    // setOpenedTasks,
 } from "./tasksSlice";
 
 export const createTask =
     (newTask: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
-        const { openedTasks, inProcessTasks, doneTasks } =
-            getState().tasksReducer;
-        const { currentProject } = getState().projectsReducer;
+        // const { openedTasks, inProcessTasks, doneTasks } =
+        //     getState().tasksReducer;
+        // const { activeProject } = getState().projectsReducer;
 
-        const currentData = openedTasks.find(
-            t => t.projectId === currentProject.id
-        );
+        // const currentData = openedTasks.find(
+        //     t => t.projectId === activeProject.id
+        // );
 
-        const updatedCurrentData = currentData
-            ? {
-                  ...currentData,
-                  tasks: [...currentData.tasks, newTask],
-              }
-            : { projectId: currentProject.id, tasks: [newTask] };
+        // const updatedCurrentData = currentData
+        //     ? {
+        //           ...currentData,
+        //           tasks: [...currentData.tasks, newTask],
+        //       }
+        //     : { projectId: activeProject.id, tasks: [newTask] };
 
-        const updatedOpenedTasks = currentData
-            ? openedTasks.map(t => {
-                  if (t.projectId === currentProject.id) {
-                      return updatedCurrentData;
-                  }
-                  return t;
-              })
-            : [...openedTasks, updatedCurrentData];
+        // const updatedOpenedTasks = currentData
+        //     ? openedTasks.map(t => {
+        //           if (t.projectId === activeProject.id) {
+        //               return updatedCurrentData;
+        //           }
+        //           return t;
+        //       })
+        //     : [...openedTasks, updatedCurrentData];
 
-        dispatch(setOpenedTasks(updatedOpenedTasks));
+        // dispatch(setOpenedTasks(updatedOpenedTasks));
 
         // if (user) {
         //     const tasksData: IUpdateData<ITasks> = {
@@ -80,11 +80,11 @@ export const updateTasks =
         const user = getState().userReducer.user;
         const { openedTasks, inProcessTasks, doneTasks, activeBoard } =
             getState().tasksReducer;
-        const { currentProject } = getState().projectsReducer;
+        const { activeProject } = getState().projectsReducer;
 
         const updateTasks = (data: IProjectTasks[]) => {
             const currentData = data.find(
-                t => t.projectId === currentProject.id
+                t => t.projectId === activeProject.id
             );
 
             const updatedTasks =
@@ -100,7 +100,7 @@ export const updateTasks =
             const updatedCurrentData = { ...currentData, tasks: updatedTasks };
 
             return data.map(t => {
-                if (t.projectId === currentProject.id) {
+                if (t.projectId === activeProject.id) {
                     return updatedCurrentData;
                 }
                 return t;
@@ -144,7 +144,7 @@ export const updateTasks =
 export const applyTasksData =
     (tasksData: IProjectTasks) =>
     (dispatch: AppDispatch, getState: AppGetState) => {
-        const { currentProject } = getState().projectsReducer;
+        const { activeProject } = getState().projectsReducer;
 
         console.log(tasksData);
     };

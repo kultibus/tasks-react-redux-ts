@@ -3,4 +3,5 @@ export interface ITask {
     title: string;
     body: string;
     expDate: number;
+	board?: string
 }

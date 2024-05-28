@@ -1,109 +1,30 @@
-import { DataVariant, databaseApi, localStorageApi } from "../../../api/api";
+import { databaseApi, localStorageApi } from "../../../api/api";
 import { IProject } from "../../../types/models/IProject";
-import { IProjectsData, ITasks, IUpdateData } from "../../../types/types";
+import { IUser } from "../../../types/models/IUser";
+import { DataVariant, IProjectsData, IUpdatedData } from "../../../types/types";
 import { AppDispatch, AppGetState } from "../../store";
-import {
-    setDoneTasks,
-    setInProcessTasks,
-    setOpenedTasks,
-} from "../tasks-slice/tasksSlice";
-import {
-    setCurrentProject,
-    setProjects,
-    setProjectsIsLoading,
-} from "./projectsSlice";
+import {} from "../tasks-slice/tasksSlice";
+import { setProjects } from "./projectsSlice";
 
-export const createNewProject =
+export const createProject =
     (project: IProject) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
         const { projects } = getState().projectsReducer;
 
-        const updatedProjects = [...projects, project];
+        const updatedProjects = projects.map(p => {
+            return { ...p, isActive: false };
+        });
+
+        updatedProjects.push(project);
 
         dispatch(setProjects(updatedProjects));
-        dispatch(setCurrentProject(project));
 
-        if (user) {
-            const projectsData: IUpdateData<IProjectsData> = {
-                uid: user.uid,
-                path: DataVariant.projects,
-                data: {
-                    currentProject: project,
-                    projects: updatedProjects,
-                },
-            };
+        updateDatabase(user, updatedProjects);
 
-            localStorageApi.setLocalData<IProjectsData>(
-                projectsData.data,
-                DataVariant.projects
-            );
-
-            databaseApi.updateData<IProjectsData>(projectsData);
-        }
+        updateLocalStorage<IProject[]>(updatedProjects);
     };
 
-export const editCurrentProject =
-    (project: IProject) => (dispatch: AppDispatch, getState: AppGetState) => {
-        const user = getState().userReducer.user;
-        const { projects } = getState().projectsReducer;
-
-        const currentProjectIndex = projects.findIndex(
-            item => item.id === project.id
-        );
-
-        const updatedProjects = [...projects];
-
-        updatedProjects.splice(currentProjectIndex, 1, project);
-
-        dispatch(setProjects(updatedProjects));
-        dispatch(setCurrentProject(project));
-
-        if (user) {
-            const projectsData: IUpdateData<IProjectsData> = {
-                uid: user.uid,
-                path: DataVariant.projects,
-                data: {
-                    currentProject: project,
-                    projects: updatedProjects,
-                },
-            };
-
-            localStorageApi.setLocalData<IProjectsData>(
-                projectsData.data,
-                DataVariant.projects
-            );
-
-            databaseApi.updateData<IProjectsData>(projectsData);
-        }
-    };
-
-export const updateCurrentProject =
-    (project: IProject) => (dispatch: AppDispatch, getState: AppGetState) => {
-        const user = getState().userReducer.user;
-        const { projects } = getState().projectsReducer;
-
-        dispatch(setCurrentProject(project));
-
-        if (user) {
-            const projectsData: IUpdateData<IProjectsData> = {
-                uid: user.uid,
-                path: DataVariant.projects,
-                data: {
-                    currentProject: project,
-                    projects: projects,
-                },
-            };
-
-            localStorageApi.setLocalData<IProjectsData>(
-                projectsData.data,
-                DataVariant.projects
-            );
-
-            databaseApi.updateData<IProjectsData>(projectsData);
-        }
-    };
-
-export const deleteCurrentProject =
+export const deleteProject =
     (project: IProject) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
         const { projects } = getState().projectsReducer;
@@ -111,35 +32,47 @@ export const deleteCurrentProject =
         const updatedProjects = projects.filter(item => item.id !== project.id);
 
         dispatch(setProjects(updatedProjects));
-        dispatch(setCurrentProject(project));
 
-        dispatch(setOpenedTasks([]));
-        dispatch(setInProcessTasks([]));
-        dispatch(setDoneTasks([]));
+        updateDatabase(user, updatedProjects);
 
-        if (user) {
-            const projectsData: IUpdateData<IProjectsData> = {
-                uid: user.uid,
-                path: DataVariant.projects,
-                data: {
-                    currentProject: project,
-                    projects: updatedProjects,
-                },
-            };
-
-            localStorageApi.setLocalData<IProjectsData>(
-                projectsData.data,
-                DataVariant.projects
-            );
-
-            databaseApi.updateData<IProjectsData>(projectsData);
-        }
+        updateLocalStorage<IProject[]>(updatedProjects);
     };
 
-export const applyProjectsData =
-    (projectsData: IProjectsData) => (dispatch: AppDispatch) => {
-        const { currentProject, projects } = projectsData;
+export const updateProjects =
+    (project: IProject) => (dispatch: AppDispatch, getState: AppGetState) => {
+        const user = getState().userReducer.user;
+        const { projects } = getState().projectsReducer;
 
+        const updatedProjects = projects.map(p => {
+            if (p.id === project.id) {
+                return { ...project, isActive: true };
+            }
+            return { ...p, isActive: false };
+        });
+
+        dispatch(setProjects(updatedProjects));
+
+        updateDatabase(user, updatedProjects);
+
+        updateLocalStorage<IProject[]>(updatedProjects);
+    };
+
+export const applyProjects =
+    (projects: IProject[]) => (dispatch: AppDispatch) => {
         dispatch(setProjects(projects));
-        dispatch(setCurrentProject(currentProject));
     };
+
+function updateDatabase(user: IUser, updatedData: IProject[]) {
+    if (!user) return;
+
+    const databaseData: IUpdatedData<IProjectsData> = {
+        uid: user.uid,
+        data: { projects: updatedData },
+    };
+
+    databaseApi.updateData<IProjectsData>(databaseData);
+}
+
+function updateLocalStorage<T>(updatedData: T) {
+    localStorageApi.setLocalData<T>(updatedData, DataVariant.projects);
+}

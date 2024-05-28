@@ -20,6 +20,7 @@ import styles from "./Boards.module.scss";
 import { useTasks } from "./useTasks";
 import {
     SortableContext,
+    arrayMove,
     rectSwappingStrategy,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
@@ -33,14 +34,14 @@ export enum IBoardVariant {
     done = "done",
 }
 
-export const Boards: FC = () => {
-    const boards = [
-        IBoardVariant.opened,
-        IBoardVariant.inProcess,
-        IBoardVariant.done,
-    ];
+const boards = [
+    IBoardVariant.opened,
+    IBoardVariant.inProcess,
+    IBoardVariant.done,
+];
 
-    const currentTasks = useTasks();
+export const Boards: FC = () => {
+    const [currentTasks, setCurrentTasks] = useState<ITask[]>(useTasks());
 
     const { variant, isOpened } = useAppSelector(state => state.formReducer);
 
@@ -56,17 +57,16 @@ export const Boards: FC = () => {
 
         if (activeId === overId) return;
 
-        console.log(activeId, overId);
+        const activeIndex = currentTasks.findIndex(t => t.id === activeId);
+        const overIndex = currentTasks.findIndex(t => t.id === overId);
+
+        console.log(activeIndex, overIndex);
     };
 
     function handleDragStart(event: DragStartEvent) {
-        const id = event.active.id;
+        const { active } = event;
 
-        const activeTask = [
-            ...currentTasks.opened,
-            ...currentTasks.inProcess,
-            ...currentTasks.done,
-        ].find(t => t.id === id);
+        const activeTask = currentTasks.find(t => t.id === active.id);
 
         setActiveTask(activeTask);
     }
@@ -86,8 +86,7 @@ export const Boards: FC = () => {
 
     return (
         <main className={styles.boards}>
-            <DndContext
-                // collisionDetection={ closestCorners }
+            {/* <DndContext
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 onDragOver={handleDragOver}
@@ -99,10 +98,12 @@ export const Boards: FC = () => {
                         <SortableContext
                             strategy={verticalListSortingStrategy}
                             key={board}
-                            items={currentTasks[board]}
+                            items={currentTasks}
                         >
                             <Board
-                                tasks={currentTasks[board]}
+                                tasks={currentTasks.filter(
+                                    t => t.board === board
+                                )}
                                 board={board}
                                 // key={board}
                             />
@@ -112,7 +113,7 @@ export const Boards: FC = () => {
                 <DragOverlay>
                     {activeTask ? <Task isOverlay task={activeTask} /> : null}
                 </DragOverlay>
-            </DndContext>
+            </DndContext> */}
         </main>
     );
 };

@@ -1,21 +1,17 @@
 import { FC, useEffect } from "react";
-import { Navigate, useNavigation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { FormProject } from "../components/UI/form-project/FormProject";
-import { MainLoader } from "../components/main-loader/MainLoader";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { IFormVariant } from "../types/models/IForm";
+import { useAppDispatch } from "../hooks/redux";
+import { useProjects } from "../hooks/useProjects";
 import { RouteNames } from "../router";
 import {
     setFormVariant,
     setIsFormOpened,
 } from "../store/slices/form-slice/formSlice";
+import { IFormVariant } from "../types/models/IForm";
 
 export const HomePage: FC = () => {
-    const { currentProject, projects } = useAppSelector(
-        state => state.projectsReducer
-    );
-
-    const isProjects = projects?.length;
+    const activeProject = useProjects();
 
     const dispatch = useAppDispatch();
 
@@ -24,8 +20,8 @@ export const HomePage: FC = () => {
         dispatch(setIsFormOpened(true));
     }, [dispatch]);
 
-    return isProjects ? (
-        <Navigate to={`/${RouteNames.project}/${currentProject.id}`} />
+    return activeProject ? (
+        <Navigate to={`/${RouteNames.project}/${activeProject.id}`} />
     ) : (
         <FormProject />
     );

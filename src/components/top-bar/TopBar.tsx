@@ -13,12 +13,14 @@ import {
     EditDelBtnsVariant,
 } from "../UI/edit-del-btns/EditDelBtns";
 import styles from "./TopBar.module.scss";
+import { useProjects } from "../../hooks/useProjects";
 
 interface TopBarProps {}
 
 export const TopBar: FC<TopBarProps> = () => {
     const { isOpened, variant } = useAppSelector(state => state.formReducer);
-    const { currentProject } = useAppSelector(state => state.projectsReducer);
+
+    const activeProject = useProjects();
 
     const navigate = useNavigate();
 
@@ -29,7 +31,7 @@ export const TopBar: FC<TopBarProps> = () => {
         dispatch(setFormVariant(IFormVariant.deleteProject));
 
         navigate(
-            `/${RouteNames.project}/${currentProject.id}/${RouteNames.deleteProject}`
+            `/${RouteNames.project}/${activeProject.id}/${RouteNames.deleteProject}`
         );
     };
 
@@ -38,7 +40,7 @@ export const TopBar: FC<TopBarProps> = () => {
         dispatch(setFormVariant(IFormVariant.editProject));
 
         navigate(
-            `/${RouteNames.project}/${currentProject.id}/${RouteNames.editProject}`
+            `/${RouteNames.project}/${activeProject.id}/${RouteNames.editProject}`
         );
     };
 
@@ -68,9 +70,9 @@ export const TopBar: FC<TopBarProps> = () => {
                     variant === IFormVariant.addTask ||
                     variant === IFormVariant.editTask ||
                     variant === IFormVariant.deleteTask
-                        ? currentProject.name
+                        ? activeProject.name
                         : variant !== IFormVariant.addProject
-                        ? `"${currentProject.name}"\u00A0`
+                        ? `"${activeProject.name}"\u00A0`
                         : ""}
                 </span>
                 <span>
