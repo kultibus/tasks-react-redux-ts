@@ -1,71 +1,23 @@
 import { useMemo } from "react";
 import { useAppSelector } from "../../hooks/redux";
-import { IBoardVariant } from "./Boards";
+import { IProject } from "../../types/models/IProject";
 
-export const useTasks = () => {
-    const { openedTasks, inProcessTasks, doneTasks } = useAppSelector(
-        state => state.tasksReducer
-    );
+export const useProjectTasks = (activeProject: IProject) => {
+    const { tasks } = useAppSelector(state => state.tasksReducer);
 
-    const { activeProject } = useAppSelector(state => state.projectsReducer);
+    const projectTasks = useMemo(() => {
+        return tasks.filter(t => t.projectId === activeProject.id);
+    }, [tasks, activeProject]);
 
-    const currentTasks = useMemo(() => {
-        const currentOpenedData = openedTasks.find(
-            t => t.projectId === activeProject.id
-        );
-        const currentInProcessData = inProcessTasks.find(
-            t => t.projectId === activeProject.id
-        );
-        const currentDoneData = doneTasks.find(
-            t => t.projectId === activeProject.id
-        );
-
-        const opened =
-            currentOpenedData?.tasks.map(t => ({
-                ...t,
-                board: IBoardVariant.opened,
-            })) || [];
-        const inProcess =
-            currentInProcessData?.tasks.map(t => ({
-                ...t,
-                board: IBoardVariant.inProcess,
-            })) || [];
-        const done =
-            currentDoneData?.tasks.map(t => ({
-                ...t,
-                board: IBoardVariant.done,
-            })) || [];
-
-        return [...opened, ...inProcess, ...done];
-    }, [openedTasks, inProcessTasks, doneTasks, activeProject]);
-
-    return currentTasks;
+    return projectTasks;
 };
 
-// export const useTasks = () => {
-//     const { openedTasks, inProcessTasks, doneTasks } = useAppSelector(
-//         state => state.tasksReducer
-//     );
+export const useActiveTask = () => {
+    const { tasks } = useAppSelector(state => state.tasksReducer);
 
-//     const { activeProject } = useAppSelector(state => state.projectsReducer);
+    const activeTask = useMemo(() => {
+        return tasks.find(t => t.isActive);
+    }, [tasks]);
 
-//     const currentTasks = useMemo(() => {
-//         const currentOpenedData = openedTasks.find(
-//             t => t.projectId === activeProject.id
-//         );
-//         const currentInProcessData = inProcessTasks.find(
-//             t => t.projectId === activeProject.id
-//         );
-//         const currentDoneData = doneTasks.find(
-//             t => t.projectId === activeProject.id
-//         );
-
-//         return {
-//             opened: currentOpenedData?.tasks || [],
-//             inProcess: currentInProcessData?.tasks || [],
-//             done: currentDoneData?.tasks || [],
-//         };
-//     }, [openedTasks, inProcessTasks, doneTasks, activeProject]);
-
-//     return currentTasks;
-// };
+    return activeTask;
+};

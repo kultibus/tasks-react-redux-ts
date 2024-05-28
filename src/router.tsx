@@ -53,8 +53,7 @@ export const router = createBrowserRouter([
                         children: [
                             {
                                 index: true,
-                                // element: <Boards />,
-                                element: <div>hello</div>,
+                                element: <Boards />,
                             },
                             {
                                 path: RouteNames.editProject,

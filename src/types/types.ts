@@ -14,7 +14,7 @@ export interface IProjectsData {
 }
 
 export interface ITaskData {
-    projects: ITask[];
+    tasks: ITask[];
 }
 
 export interface IUpdatedData<T> {

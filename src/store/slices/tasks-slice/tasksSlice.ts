@@ -1,18 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ITask } from "../../../types/models/ITask";
-import { IProjectTasks, ITasks } from "../../../types/types";
-import { IBoardVariant } from "../../../components/boards/Boards";
 
 interface TasksState {
-    activeTask: ITask;
-    // activeBoard: IBoardVariant;
+    tasks: ITask[];
     tasksIsLoading: boolean;
     error: string;
 }
 
 const initialState: TasksState = {
-    activeTask: {} as ITask,
-    // activeBoard: IBoardVariant.opened,
+    tasks: [],
     tasksIsLoading: false,
     error: "",
 };
@@ -25,20 +21,13 @@ export const tasksSlice = createSlice({
             state.tasksIsLoading = action.payload;
         },
 
-
-        setActiveTask(state, action: PayloadAction<ITask>) {
-            state.activeTask = action.payload;
+        setTasks(state, action: PayloadAction<ITask[]>) {
+            state.tasks = action.payload;
+            state.tasksIsLoading;
         },
-        // setActiveBoard(state, action: PayloadAction<IBoardVariant>) {
-        //     state.activeBoard = action.payload;
-        // },
     },
 });
 
 export const tasksReducer = tasksSlice.reducer;
 
-export const {
-    setTasksIsLoading,
-    setActiveTask,
-    // setActiveBoard,
-} = tasksSlice.actions;
+export const { setTasksIsLoading, setTasks } = tasksSlice.actions;

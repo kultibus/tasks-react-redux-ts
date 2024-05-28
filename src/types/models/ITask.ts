@@ -3,5 +3,7 @@ export interface ITask {
     title: string;
     body: string;
     expDate: number;
-	board?: string
+    projectId: string;
+    board: string;
+    isActive?: boolean;
 }

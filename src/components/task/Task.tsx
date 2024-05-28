@@ -1,25 +1,26 @@
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import classNames from "classnames";
 import { FC, useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import DragIcon from "../../assets/icons/dragging.svg";
+import { useAppDispatch } from "../../hooks/redux";
 import {
-    setFormVariant,
-    setIsFormOpened,
+	setFormVariant,
+	setIsFormOpened,
 } from "../../store/slices/form-slice/formSlice";
-import { updateActiveTask } from "../../store/slices/tasks-slice/tasksActionCreators";
+import {
+	updateActiveTask
+} from "../../store/slices/tasks-slice/tasksActionCreators";
 import { IFormVariant } from "../../types/models/IForm";
 import { ITask } from "../../types/models/ITask";
 import { formatDate } from "../../utils/formatDate";
-import {
-    EditDelBtns,
-    EditDelBtnsVariant,
-} from "../UI/edit-del-btns/EditDelBtns";
-import styles from "./Task.module.scss";
-import { IBoardVariant } from "../boards/Boards";
-import { setActiveBoard } from "../../store/slices/tasks-slice/tasksSlice";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
-import DragIcon from "../../assets/icons/dragging.svg";
+import {
+	EditDelBtns,
+	EditDelBtnsVariant,
+} from "../UI/edit-del-btns/EditDelBtns";
+import { IBoardVariant } from "../boards/Boards";
+import styles from "./Task.module.scss";
 
 interface TaskProps {
     task: ITask;
@@ -36,7 +37,7 @@ export const Task: FC<TaskProps> = props => {
         setNodeRef,
         transform,
         transition,
-		isDragging
+        isDragging,
     } = useSortable({ id: task.id, data: { board } });
 
     const style = {
@@ -55,8 +56,7 @@ export const Task: FC<TaskProps> = props => {
     }, []);
 
     const handleTask = () => {
-        dispatch(updateActiveTask(task.id));
-        dispatch(setActiveBoard(board));
+        dispatch(updateActiveTask(task));
         dispatch(setIsFormOpened(true));
     };
 
@@ -76,9 +76,10 @@ export const Task: FC<TaskProps> = props => {
             style={style}
             // {...attributes}
             // {...listeners}
-            className={classNames(styles.task, {[styles.dragging]: isDragging})}
+            className={classNames(styles.task, {
+                [styles.dragging]: isDragging,
+            })}
         >
-			
             <div className={styles.top}>
                 <EditDelBtns
                     handleDelBtn={handleDelTask}

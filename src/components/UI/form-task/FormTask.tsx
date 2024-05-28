@@ -7,9 +7,10 @@ import {
 } from "../../../store/slices/form-slice/formSlice";
 import {
     createTask,
+    deleteTask,
+    updateActiveTask,
     updateTasks,
 } from "../../../store/slices/tasks-slice/tasksActionCreators";
-import { setActiveTask } from "../../../store/slices/tasks-slice/tasksSlice";
 import { IFormVariant } from "../../../types/models/IForm";
 import { ITask } from "../../../types/models/ITask";
 import { formatDate } from "../../../utils/formatDate";
@@ -17,6 +18,9 @@ import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import { AppTextarea } from "../app-textarea/AppTextarea";
 import styles from "./FormTask.module.scss";
+import { useActiveTask } from "../../boards/useTasks";
+import { IBoardVariant } from "../../boards/Boards";
+import { useProjects } from "../../../hooks/useProjects";
 
 interface FormTaskProps {}
 
@@ -24,7 +28,10 @@ export const FormTask: FC<FormTaskProps> = () => {
     const dispatch = useAppDispatch();
 
     const { variant, isValid } = useAppSelector(state => state.formReducer);
-    const { activeTask } = useAppSelector(state => state.tasksReducer);
+
+    const activeProject = useProjects();
+
+    const activeTask = useActiveTask();
 
     const taskTitle = useInput(
         activeTask?.title || "",
@@ -70,6 +77,8 @@ export const FormTask: FC<FormTaskProps> = () => {
                     title: taskTitle.value,
                     body: taskDescription.value,
                     expDate: expDate,
+                    projectId: activeProject.id,
+                    board: IBoardVariant.opened,
                 };
 
                 dispatch(createTask(newTask));
@@ -86,12 +95,12 @@ export const FormTask: FC<FormTaskProps> = () => {
                     expDate: expDate,
                 };
 
-                dispatch(updateTasks(editedTask, "update"));
+                dispatch(updateTasks(editedTask));
 
                 break;
 
             case IFormVariant.deleteTask:
-                dispatch(updateTasks(activeTask, "delete"));
+                dispatch(deleteTask(activeTask));
 
                 break;
         }
@@ -101,7 +110,7 @@ export const FormTask: FC<FormTaskProps> = () => {
 
     const handleReset = () => {
         dispatch(setIsFormOpened(false));
-        dispatch(setActiveTask({} as ITask));
+        dispatch(updateActiveTask(null));
     };
 
     return (
