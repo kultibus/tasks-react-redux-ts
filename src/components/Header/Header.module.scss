@@ -1,5 +1,5 @@
 .header {
-    background-color: var(--main-600-full);
+    background-color: var(--bg-600-full);
 }
 
 .cnt {
@@ -11,12 +11,11 @@
     align-items: center;
     padding-left: var(--ident-m);
     padding-right: var(--ident-m);
-
 }
 
 .btnCnt {
-	display: flex;
-	justify-content: right;
+    display: flex;
+    justify-content: right;
 }
 
 .title {
@@ -25,7 +24,3 @@
     font-weight: 400;
     text-transform: uppercase;
 }
-
-
-
-

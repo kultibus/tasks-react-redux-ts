@@ -1,8 +1,8 @@
 import { IProject } from "../../../types/models/IProject";
-import { DataVariant } from "../../../types/types";
+import { IDataVariant } from "../../../types/types";
 import { updateDatabase, updateLocalStorage } from "../../../utils/updateData";
 import { AppDispatch, AppGetState } from "../../store";
-import { } from "../tasks-slice/tasksSlice";
+import {} from "../tasks-slice/tasksSlice";
 import { setProjects } from "./projectsSlice";
 
 export const createProject =
@@ -18,9 +18,9 @@ export const createProject =
 
         dispatch(setProjects(updatedProjects));
 
-        updateDatabase(user, updatedProjects, DataVariant.projects);
+        updateDatabase(user, updatedProjects, IDataVariant.projects);
 
-        updateLocalStorage<IProject[]>(updatedProjects, DataVariant.projects);
+        updateLocalStorage<IProject[]>(updatedProjects, IDataVariant.projects);
     };
 
 export const deleteProject =
@@ -32,9 +32,9 @@ export const deleteProject =
 
         dispatch(setProjects(updatedProjects));
 
-        updateDatabase(user, updatedProjects, DataVariant.projects);
+        updateDatabase(user, updatedProjects, IDataVariant.projects);
 
-        updateLocalStorage<IProject[]>(updatedProjects, DataVariant.projects);
+        updateLocalStorage<IProject[]>(updatedProjects, IDataVariant.projects);
     };
 
 export const updateProjects =
@@ -51,9 +51,9 @@ export const updateProjects =
 
         dispatch(setProjects(updatedProjects));
 
-        updateDatabase(user, updatedProjects, DataVariant.projects);
+        updateDatabase(user, updatedProjects, IDataVariant.projects);
 
-        updateLocalStorage<IProject[]>(updatedProjects, DataVariant.projects);
+        updateLocalStorage<IProject[]>(updatedProjects, IDataVariant.projects);
     };
 
 export const applyProjects =

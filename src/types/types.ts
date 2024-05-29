@@ -1,12 +1,15 @@
 import { IProject } from "./models/IProject";
 import { ITask } from "./models/ITask";
 
-export type IUpdateTasksAction = "update" | "delete";
-
-export enum DataVariant {
+export enum IThemeVariant {
+    dark = "dark",
+    light = "light",
+}
+export enum IDataVariant {
     user = "userData",
     projects = "projects",
     tasks = "tasks",
+	theme = 'theme'
 }
 
 export interface IProjectsData {

@@ -9,11 +9,11 @@
     display: flex;
     align-items: center;
     gap: var(--ident-m);
-	font-size: var(--fsz-xxl);
-	color: var(--grey-400-full);
-	> input {
-		flex-grow: 1;
-	}
+    font-size: var(--fsz-xxl);
+    color: var(--font-700-full);
+    > input {
+        flex-grow: 1;
+    }
 }
 
 .inputs {
@@ -34,7 +34,6 @@
 }
 
 .title {
-	font-size: var(--fsz-xxl);
-	color: var(--grey-800-full);
-
+    font-size: var(--fsz-xxl);
+    color: var(--font-800-full);
 }

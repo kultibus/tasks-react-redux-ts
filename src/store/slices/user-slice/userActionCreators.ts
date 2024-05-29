@@ -9,8 +9,9 @@ import { auth } from "../../../firebase";
 import { IUser } from "../../../types/models/IUser";
 import { AppDispatch } from "../../store";
 import { setUser, setUserError, setUserIsLoading } from "./userSlice";
-import { DataVariant } from "../../../types/types";
+import { IDataVariant } from "../../../types/types";
 import { setProjects } from "../projects-slice/projectsSlice";
+import { setTasks } from "../tasks-slice/tasksSlice";
 
 export interface ISignInCreds {
     email: string;
@@ -42,7 +43,7 @@ export const signUpUser =
 
             dispatch(setUser(localUser));
 
-            localStorageApi.setLocalData<IUser>(localUser, DataVariant.user);
+            localStorageApi.setLocalData<IUser>(localUser, IDataVariant.user);
         } catch (error) {
             dispatch(setUserError(error.message));
         }
@@ -67,7 +68,7 @@ export const signInUser =
 
             dispatch(setUser(localUser));
 
-            localStorageApi.setLocalData<IUser>(localUser, DataVariant.user);
+            localStorageApi.setLocalData<IUser>(localUser, IDataVariant.user);
         } catch (error) {
             dispatch(setUserError(error.message));
         }
@@ -80,13 +81,15 @@ export const signOutUser = () => async (dispatch: AppDispatch) => {
 
     dispatch(setProjects([]));
 
+    dispatch(setTasks([]));
+
     localStorageApi.clearLocalData();
 };
 
 export const checkUserAuth = () => (dispatch: AppDispatch) => {
     dispatch(setUserIsLoading(true));
 
-    const localUser = localStorageApi.getLocalData<IUser>(DataVariant.user);
+    const localUser = localStorageApi.getLocalData<IUser>(IDataVariant.user);
 
     if (!!localUser) {
         dispatch(setUser(localUser));

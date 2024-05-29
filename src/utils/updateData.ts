@@ -2,17 +2,17 @@ import { databaseApi, localStorageApi } from "../api/api";
 import { IProject } from "../types/models/IProject";
 import { ITask } from "../types/models/ITask";
 import { IUser } from "../types/models/IUser";
-import { DataVariant, IProjectsData, ITaskData } from "../types/types";
+import { IDataVariant, IProjectsData, ITaskData } from "../types/types";
 
 export function updateDatabase(
     user: IUser,
     updatedData: IProject[] | ITask[],
-    variant: DataVariant
+    variant: IDataVariant
 ) {
     if (!user) return;
 
     switch (variant) {
-        case DataVariant.projects:
+        case IDataVariant.projects:
             const projectsData = {
                 uid: user.uid,
                 data: { [variant]: updatedData as IProject[] },
@@ -21,7 +21,7 @@ export function updateDatabase(
             databaseApi.updateData<IProjectsData>(projectsData);
             break;
 
-        case DataVariant.tasks:
+        case IDataVariant.tasks:
             const tasksData = {
                 uid: user.uid,
                 data: { [variant]: updatedData as ITask[] },
@@ -32,15 +32,20 @@ export function updateDatabase(
     }
 }
 
-export function updateLocalStorage<T>(updatedData: T, variant: DataVariant) {
+export function updateLocalStorage<T>(updatedData: T, variant: IDataVariant) {
     switch (variant) {
-        case DataVariant.projects:
-            localStorageApi.setLocalData<T>(updatedData, DataVariant.projects);
+        case IDataVariant.projects:
+            localStorageApi.setLocalData<T>(updatedData, IDataVariant.projects);
 
             break;
 
-        case DataVariant.tasks:
-            localStorageApi.setLocalData<T>(updatedData, DataVariant.tasks);
+        case IDataVariant.tasks:
+            localStorageApi.setLocalData<T>(updatedData, IDataVariant.tasks);
+
+            break;
+
+        case IDataVariant.theme:
+            localStorageApi.setLocalData<T>(updatedData, IDataVariant.theme);
 
             break;
     }

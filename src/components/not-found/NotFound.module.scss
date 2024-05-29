@@ -1,37 +1,36 @@
 .cnt {
-  
-	display: flex;
+    display: flex;
     flex-direction: column;
-    color: var(--grey-700-full);
+    color: var(--font-700-full);
     gap: var(--ident-m);
     line-height: 1;
     padding: var(--ident-m);
-	max-width: 760px;
+    max-width: 760px;
 }
 
 .link {
-    background-color: var(--main-300-full);
+    background-color: var(--bg-300-full);
     font-size: var(--fsz-xxl);
     padding: var(--ident-m);
     border-radius: var(--brs);
-    color: var(--grey-100-full);
+    color: var(--font-100-full);
     line-height: 1.2;
     transition: var(--trs);
     text-align: center;
 
     &:hover {
-        background-color: var(--main-400-full);
+        background-color: var(--bg-400-full);
         cursor: pointer;
     }
 }
 
 .title {
     font-size: var(--fsz-xxl);
-	font-weight: 600;
+    font-weight: 600;
 }
 
 .message {
     font-size: var(--fsz-m);
     overflow: hidden;
-	line-height: 1.2;
+    line-height: 1.2;
 }

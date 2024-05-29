@@ -1,9 +1,9 @@
 .textarea {
-    background-color: var(--grey-200-full);
+    background-color: var(--font-200-full);
     font-size: var(--fsz-xxl);
     padding: var(--ident-m);
     border-radius: var(--brs);
-    color: var(--grey-700-full);
+    color: var(--font-700-full);
     font-family: var(--ibm);
     outline: none;
     line-height: 1.2;
@@ -11,12 +11,12 @@
     resize: none;
 
     &::placeholder {
-        color: var(--grey-400-full);
+        color: var(--font-400-full);
         transition: var(--trs);
     }
 
     &:focus {
-        background-color: var(--grey-100-full);
+        background-color: var(--font-100-full);
     }
 }
 

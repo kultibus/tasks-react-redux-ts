@@ -1,15 +1,15 @@
 .form,
 .formDisabled {
-    background-color: var(--main-300-full);
+    background-color: var(--bg-300-full);
     font-size: var(--fsz-xxl);
     padding: var(--ident-m);
     border-radius: var(--brs);
-    color: var(--grey-100-full);
+    color: var(--font-100-full);
     line-height: 1.2;
     transition: var(--trs);
 
     &:not(.formDisabled):hover {
-        background-color: var(--main-400-full);
+        background-color: var(--bg-400-full);
         cursor: pointer;
     }
 }
@@ -22,16 +22,16 @@
     font-size: var(--fsz-l);
     font-weight: 400;
     transition: var(--trs);
-    color: var(--grey-300-full);
+    color: var(--font-300-full);
     cursor: pointer;
 
     &:not(.headerAcive):hover {
-        color: var(--grey-100-full);
+        color: var(--font-100-full);
     }
 }
 
 .headerAcive {
-    color: var(--grey-100-full);
+    color: var(--font-100-full);
 }
 
 .icon {
@@ -41,7 +41,7 @@
     gap: var(--ident-s);
     svg {
         cursor: pointer;
-        fill: var(--grey-100-full);
+        fill: var(--font-100-full);
         width: 20px;
         height: 20px;
     }
@@ -49,24 +49,25 @@
 
 .topBar,
 .task,
-.dragging {
+.draggble {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: var(--trs);
     svg {
         transition: var(--trs);
+        width: 30px;
+        height: 30px;
+        // height: 100%;
     }
 }
 
 .topBar {
     cursor: pointer;
     svg {
-        fill: var(--grey-800-60);
-        width: 30px;
-        height: 30px;
-
-        &:hover {
-            fill: var(--grey-800-full);
+		fill: var(--font-800-70);
+		&:hover {
+			fill: var(--font-800-full);
         }
     }
 }
@@ -74,12 +75,10 @@
 .task {
     cursor: pointer;
     svg {
-        fill: var(--grey-100-70);
-        width: 25px;
-        height: 25px;
+        fill: var(--font-100-70);
 
         &:hover {
-            fill: var(--grey-100-full);
+            fill: var(--font-100-full);
         }
     }
 }
@@ -87,20 +86,16 @@
 .draggble {
     cursor: grab;
     border-radius: var(--brs);
-    width: 30px;
-    height: 30px;
     overflow: hidden;
 
     svg {
-        fill: var(--grey-100-70);
-        width: 100%;
-        height: 100%;
+        fill: var(--font-100-70);
     }
 
     &:hover {
+        background-color: var(--bg-300-full);
         svg {
-            fill: var(--grey-100-full);
-            background-color: var(--grey-100-20);
+            fill: var(--font-100-full);
         }
     }
 
@@ -111,8 +106,8 @@
     &.dragging {
         cursor: grabbing;
         svg {
-            fill: var(--grey-100-full);
-            background-color: var(--grey-100-20);
+            fill: var(--font-100-full);
+            background-color: var(--bg-300-full);
         }
     }
 }

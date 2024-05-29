@@ -1,21 +1,22 @@
-import { FC, useState } from "react";
+import { FC, useEffect } from "react";
 import DarkModeIcon from "../../assets/icons/darkMode.svg";
 import LightModeIcon from "../../assets/icons/lightMode.svg";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { updateTheme } from "../../store/slices/theme-slice/themeActionCreators";
+import { IThemeVariant } from "../../types/types";
+import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { HeaderLinks } from "../header-links/HeaderLinks";
 import styles from "./Header.module.scss";
-import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 
 interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = props => {
-    const [themeVariant, setThemeVariant] = useState<string>("Dark");
+    const { theme } = useAppSelector(state => state.themeReducer);
+
+    const dispatch = useAppDispatch();
 
     const btnThemeHandler = () => {
-        if (themeVariant === "Light") {
-            setThemeVariant("Dark");
-        } else {
-            setThemeVariant("Light");
-        }
+        dispatch(updateTheme());
     };
 
     return (
@@ -31,8 +32,8 @@ export const Header: FC<HeaderProps> = props => {
                         onClick={btnThemeHandler}
                         variant={AppBtnVariant.icon}
                     >
-                        <div>{themeVariant}</div>
-                        {themeVariant === "Dark" ? (
+                        <div>{theme}</div>
+                        {theme === IThemeVariant.dark ? (
                             <DarkModeIcon />
                         ) : (
                             <LightModeIcon />

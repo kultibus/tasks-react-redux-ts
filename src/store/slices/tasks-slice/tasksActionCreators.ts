@@ -1,6 +1,5 @@
-import { IBoardVariant } from "../../../components/boards/Boards";
 import { ITask } from "../../../types/models/ITask";
-import { DataVariant, IUpdateTasksAction } from "../../../types/types";
+import { IDataVariant } from "../../../types/types";
 import { updateDatabase, updateLocalStorage } from "../../../utils/updateData";
 import { AppDispatch, AppGetState } from "../../store";
 import { setTasks } from "./tasksSlice";
@@ -14,6 +13,10 @@ export const createTask =
         const updatedTasks = [...tasks, newTask];
 
         dispatch(setTasks(updatedTasks));
+
+        updateDatabase(user, updatedTasks, IDataVariant.tasks);
+
+        updateLocalStorage<ITask[]>(updatedTasks, IDataVariant.tasks);
     };
 
 export const deleteTask =
@@ -27,9 +30,9 @@ export const deleteTask =
 
         dispatch(setTasks(updatedTasks));
 
-        // updateDatabase(user, updatedTasks, DataVariant.tasks);
+        updateDatabase(user, updatedTasks, IDataVariant.tasks);
 
-        updateLocalStorage<ITask[]>(updatedTasks, DataVariant.tasks);
+        updateLocalStorage<ITask[]>(updatedTasks, IDataVariant.tasks);
     };
 
 export const updateTasks =
@@ -47,9 +50,9 @@ export const updateTasks =
 
         dispatch(setTasks(updatedTasks));
 
-        // updateDatabase(user, updatedTasks, DataVariant.tasks);
+        updateDatabase(user, updatedTasks, IDataVariant.tasks);
 
-        updateLocalStorage<ITask[]>(updatedTasks, DataVariant.tasks);
+        updateLocalStorage<ITask[]>(updatedTasks, IDataVariant.tasks);
     };
 
 export const updateActiveTask =
@@ -69,12 +72,11 @@ export const updateActiveTask =
 
         dispatch(setTasks(updatedTasks));
 
-        // updateDatabase(user, updatedTasks, DataVariant.tasks);
+        updateDatabase(user, updatedTasks, IDataVariant.tasks);
 
-        updateLocalStorage<ITask[]>(updatedTasks, DataVariant.tasks);
+        updateLocalStorage<ITask[]>(updatedTasks, IDataVariant.tasks);
     };
 
-export const applyTasks =
-    (tasks: ITask[]) => (dispatch: AppDispatch, getState: AppGetState) => {
-        dispatch(setTasks(tasks));
-    };
+export const applyTasks = (tasks: ITask[]) => (dispatch: AppDispatch) => {
+    dispatch(setTasks(tasks));
+};

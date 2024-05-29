@@ -31,30 +31,38 @@ $transparancies: (
     "10": 0.1,
 );
 
-$greyPalette: (
-    "50": "238, 238, 239",
+$fontLightPalette: (
     "100": "210, 214, 219",
     "200": "180, 187, 196",
     "300": "149, 160, 173",
     "400": "126, 140, 155",
-    "500": "104, 120, 138",
-    "600": "91, 106, 121",
     "700": "74, 86, 99",
     "800": "59, 68, 77",
-    "900": "41, 47, 54",
 );
 
-$mainPalette: (
-    "50": "237, 231, 246",
+$fontDarkPalette: (
+    "100": "210, 214, 219",
+    "200": "180, 187, 196",
+    "300": "149, 160, 173",
+    "400": "126, 140, 155",
+    "700": "74, 86, 99",
+    "800": "59, 68, 77",
+);
+
+$bgLightPalette: (
     "100": "209, 196, 233",
     "200": "179, 157, 219",
     "300": "149, 117, 205",
     "400": "126, 87, 194",
-    "500": "103, 58, 183",
     "600": "94, 53, 177",
-    "700": "81, 45, 168",
-    "800": "69, 39, 160",
-    "900": "49, 27, 146",
+);
+
+$bgDarkPalette: (
+    "100": "120, 132, 150",
+    "200": "97, 111, 132",
+    "300": "84, 97, 115",
+    "400": "67, 78, 93",
+    "600": "52, 60, 72",
 );
 
 $fsz: (
@@ -92,33 +100,67 @@ $identSize: (
     }
 }
 
-@mixin makeGreyColor($prefix) {
-    @each $colorIndex, $colorValue in $greyPalette {
-        @each $tpIndex, $tpValue in $transparancies {
-            --#{$prefix}-#{$colorIndex}-#{$tpIndex}: #{"rgba(" +
-                $colorValue +
-                "," +
-                $tpValue +
-                ")"};
+@mixin makeFontColor($prefix, $variant) {
+    @if $variant == "light" {
+        @each $colorIndex, $colorValue in $fontLightPalette {
+            @each $tpIndex, $tpValue in $transparancies {
+                --#{$prefix}-#{$colorIndex}-#{$tpIndex}: #{"rgba(" +
+                    $colorValue +
+                    "," +
+                    $tpValue +
+                    ")"};
+            }
+        }
+    }
+    @if $variant == "dark" {
+        @each $colorIndex, $colorValue in $fontDarkPalette {
+            @each $tpIndex, $tpValue in $transparancies {
+                --#{$prefix}-#{$colorIndex}-#{$tpIndex}: #{"rgba(" +
+                    $colorValue +
+                    "," +
+                    $tpValue +
+                    ")"};
+            }
         }
     }
 }
 
-@mixin makeMainColor($prefix) {
-    @each $colorIndex, $colorValue in $mainPalette {
-        @each $tpIndex, $tpValue in $transparancies {
-            --#{$prefix}-#{$colorIndex}-#{$tpIndex}: #{"rgba(" +
-                $colorValue +
-                "," +
-                $tpValue +
-                ")"};
+@mixin makeBgColor($prefix, $variant) {
+    @if $variant == "light" {
+        @each $colorIndex, $colorValue in $bgLightPalette {
+            @each $tpIndex, $tpValue in $transparancies {
+                --#{$prefix}-#{$colorIndex}-#{$tpIndex}: #{"rgba(" +
+                    $colorValue +
+                    "," +
+                    $tpValue +
+                    ")"};
+            }
+        }
+    }
+    @if $variant == "dark" {
+        @each $colorIndex, $colorValue in $bgDarkPalette {
+            @each $tpIndex, $tpValue in $transparancies {
+                --#{$prefix}-#{$colorIndex}-#{$tpIndex}: #{"rgba(" +
+                    $colorValue +
+                    "," +
+                    $tpValue +
+                    ")"};
+            }
         }
     }
 }
 
 :root {
-    @include makeGreyColor("grey");
-    @include makeMainColor("main");
+    &[data-theme="dark"] {
+        @include makeFontColor("font", "dark");
+        @include makeBgColor("bg", "dark");
+    }
+
+    &[data-theme="light"] {
+        @include makeFontColor("font", "light");
+        @include makeBgColor("bg", "light");
+    }
+
     @include makeFontSize("fsz");
     @include makeIdentSize("ident");
 
@@ -155,7 +197,7 @@ $identSize: (
 body {
     font-family: var(--ibm);
 
-    color: var(--grey-100-full);
+    color: var(--font-100-full);
 
     line-height: 1.2;
 
