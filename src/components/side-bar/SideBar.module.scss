@@ -6,9 +6,10 @@
 }
 
 .bottom {
-    display: flex;
+	display: flex;
     flex-direction: column;
     gap: var(--ident-m);
+	overflow: hidden;
 }
 
 .title {
@@ -17,5 +18,6 @@
 }
 
 .links {
-    flex: 1 1 auto;
+	border-radius: var(--brs);
+	overflow: auto;
 }

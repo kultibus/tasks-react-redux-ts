@@ -170,7 +170,7 @@ $identSize: (
     --error: rgb(255, 107, 107);
     @include makeTransparentColors("error", "255, 107, 107");
 
-    --header-h: 90px;
+    --header-h: 75px;
     --bar-h: 120px;
     --max-w: 1920px;
     --ident-small: 5px;
@@ -192,6 +192,18 @@ $identSize: (
     --border-active: 2px solid var(--primary-medium);
     --border-error: 2px solid var(--error);
     --border: 2px solid var(--dark);
+
+
+	::-webkit-scrollbar {
+        width: 7px;
+    }
+	
+	
+	
+    ::-webkit-scrollbar-thumb {
+		background-color: var(--bg-100-full);
+		border-radius: var(--brs);
+    }
 }
 
 body {
@@ -200,22 +212,6 @@ body {
     color: var(--font-100-full);
 
     line-height: 1.2;
-
-    // &[data-theme="dark"] {
-    //     --dark: rgb(247, 255, 247);
-    //     @include makeTransparentColors("dark", "247, 255, 247");
-
-    //     --light: rgb(41, 47, 54);
-    //     @include makeTransparentColors("light", "41, 47, 54");
-    // }
-
-    // &[data-theme="light"] {
-    //     --light: rgb(247, 255, 247);
-    //     @include makeTransparentColors("light", "247, 255, 247");
-
-    //     --dark: rgb(41, 47, 54);
-    //     @include makeTransparentColors("dark", "41, 47, 54");
-    // }
 }
 
 h1,

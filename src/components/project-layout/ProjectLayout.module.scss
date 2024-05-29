@@ -1,5 +1,6 @@
 .projects {
-    height: 100%;
+    height: calc(100vh - var(--header-h));
+	// border: 5px solid red;
     flex: 0 1 1920px;
     // color: var(--font-800-full);
     color: var(--font-800-full);
@@ -20,6 +21,7 @@
 
 .sideBar {
     grid-area: sideBar;
+	overflow: hidden;
     background-color: var(--bg-200-full);
 }
 
@@ -30,6 +32,7 @@
 
 .content {
     grid-area: boards;
+	overflow: hidden;
     border-radius: var(--brs);
     display: flex;
     justify-content: center;

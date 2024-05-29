@@ -65,9 +65,16 @@
 .topBar {
     cursor: pointer;
     svg {
-		fill: var(--font-800-70);
-		&:hover {
-			fill: var(--font-800-full);
+        fill: var(--font-800-70);
+        &:hover {
+            fill: var(--font-800-full);
+        }
+    }
+
+    &:disabled {
+		cursor: auto;
+        svg {
+            fill: var(--font-800-70);
         }
     }
 }

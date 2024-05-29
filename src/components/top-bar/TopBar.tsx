@@ -88,7 +88,9 @@ export const TopBar: FC<TopBarProps> = () => {
             </h2>
             <AppBtn
                 onClick={handleTaskBtn}
-                variant={AppBtnVariant.form}
+				variant={
+                    isOpened ? AppBtnVariant.formDisabled : AppBtnVariant.form
+                }
                 disabled={isOpened ? true : false}
             >
                 Add task
