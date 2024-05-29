@@ -22,11 +22,10 @@ export const createTask =
 export const deleteTask =
     (task: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
+
         const { tasks } = getState().tasksReducer;
 
-        const updatedTasks = tasks
-            .filter(t => t.id !== task.id)
-            .map(t => ({ ...t, isActive: false }));
+        const updatedTasks = tasks.filter(t => t.id !== task.id);
 
         dispatch(setTasks(updatedTasks));
 
@@ -35,7 +34,7 @@ export const deleteTask =
         updateLocalStorage<ITask[]>(updatedTasks, IDataVariant.tasks);
     };
 
-export const updateTasks =
+export const editTask =
     (task: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
 
@@ -43,9 +42,9 @@ export const updateTasks =
 
         const updatedTasks = tasks.map(t => {
             if (t.id === task.id) {
-                return { ...task, isActive: false };
+                return task;
             }
-            return { ...t, isActive: false };
+            return t;
         });
 
         dispatch(setTasks(updatedTasks));
@@ -55,26 +54,24 @@ export const updateTasks =
         updateLocalStorage<ITask[]>(updatedTasks, IDataVariant.tasks);
     };
 
-export const updateActiveTask =
-    (task: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
+export const updateTasks =
+    (tasks: ITask[]) => (dispatch: AppDispatch, getState: AppGetState) => {
         const user = getState().userReducer.user;
 
-        const { tasks } = getState().tasksReducer;
+        // const { tasks } = getState().tasksReducer;
 
-        const updatedTasks = task
-            ? tasks.map(t => {
-                  if (t.id === task.id) {
-                      return { ...task, isActive: true };
-                  }
-                  return { ...t, isActive: false };
-              })
-            : tasks.map(t => ({ ...t, isActive: false }));
+        // const updatedTasks = tasks.map(t => {
+        //     if (t.id === task.id) {
+        //         return task;
+        //     }
+        //     return t;
+        // });
 
-        dispatch(setTasks(updatedTasks));
+        dispatch(setTasks(tasks));
 
-        updateDatabase(user, updatedTasks, IDataVariant.tasks);
+        updateDatabase(user, tasks, IDataVariant.tasks);
 
-        updateLocalStorage<ITask[]>(updatedTasks, IDataVariant.tasks);
+        updateLocalStorage<ITask[]>(tasks, IDataVariant.tasks);
     };
 
 export const applyTasks = (tasks: ITask[]) => (dispatch: AppDispatch) => {

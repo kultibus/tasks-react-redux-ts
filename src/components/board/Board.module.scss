@@ -6,7 +6,7 @@
 }
 
 .header {
-	display: flex;
+    display: flex;
     justify-content: center;
     gap: var(--ident-m);
     align-items: center;
@@ -14,13 +14,11 @@
 }
 
 .tasksQuantity {
-	font-weight: 600;
+    font-weight: 600;
 }
 
 .tasks {
-	display: flex;
-	border-radius: var(--brs);
+    display: flex;
+    border-radius: var(--brs);
     overflow: auto;
-
- 
 }

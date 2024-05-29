@@ -8,8 +8,7 @@ import {
 import {
     createTask,
     deleteTask,
-    updateActiveTask,
-    updateTasks,
+    editTask,
 } from "../../../store/slices/tasks-slice/tasksActionCreators";
 import { IFormVariant } from "../../../types/models/IForm";
 import { ITask } from "../../../types/models/ITask";
@@ -18,9 +17,9 @@ import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import { AppTextarea } from "../app-textarea/AppTextarea";
 import styles from "./FormTask.module.scss";
-import { useActiveTask } from "../../boards/useTasks";
 import { IBoardVariant } from "../../boards/Boards";
 import { useProjects } from "../../../hooks/useProjects";
+import { setActiveTask } from "../../../store/slices/tasks-slice/tasksSlice";
 
 interface FormTaskProps {}
 
@@ -29,9 +28,9 @@ export const FormTask: FC<FormTaskProps> = () => {
 
     const { variant, isValid } = useAppSelector(state => state.formReducer);
 
-    const activeProject = useProjects();
+    const { activeTask } = useAppSelector(state => state.tasksReducer);
 
-    const activeTask = useActiveTask();
+    const activeProject = useProjects();
 
     const taskTitle = useInput(
         activeTask?.title || "",
@@ -95,7 +94,7 @@ export const FormTask: FC<FormTaskProps> = () => {
                     expDate: expDate,
                 };
 
-                dispatch(updateTasks(editedTask));
+                dispatch(editTask(editedTask));
 
                 break;
 
@@ -106,11 +105,12 @@ export const FormTask: FC<FormTaskProps> = () => {
         }
 
         dispatch(setIsFormOpened(false));
+		dispatch(setActiveTask(null));
     };
 
     const handleReset = () => {
         dispatch(setIsFormOpened(false));
-        dispatch(updateActiveTask(null));
+        dispatch(setActiveTask(null));
     };
 
     return (

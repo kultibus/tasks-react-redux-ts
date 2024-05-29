@@ -6,20 +6,28 @@ import {
 } from "@dnd-kit/core";
 import {
     SortableContext,
+    arrayMove,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useProjects } from "../../hooks/useProjects";
+import { useProjectTasks } from "../../hooks/useTasks";
+import {
+    editTask,
+    updateTasks,
+} from "../../store/slices/tasks-slice/tasksActionCreators";
+import {
+    setActiveTask,
+    setTasks,
+} from "../../store/slices/tasks-slice/tasksSlice";
 import { IFormVariant } from "../../types/models/IForm";
-import { ITask } from "../../types/models/ITask";
 import { FormTask } from "../UI/form-task/FormTask";
 import { Board } from "../board/Board";
 import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
 import styles from "./Boards.module.scss";
-import { useActiveTask, useProjectTasks } from "./useTasks";
-import { useProjects } from "../../hooks/useProjects";
-import { updateActiveTask } from "../../store/slices/tasks-slice/tasksActionCreators";
+import { task } from "../task/Task.module.scss";
 
 export enum IBoardVariant {
     opened = "opened",
@@ -36,13 +44,13 @@ const boards = [
 export const Boards: FC = () => {
     const { variant, isOpened } = useAppSelector(state => state.formReducer);
 
+    const { tasks, activeTask } = useAppSelector(state => state.tasksReducer);
+
     const dispatch = useAppDispatch();
 
     const activeProject = useProjects();
 
     const projectTasks = useProjectTasks(activeProject);
-
-    const activeTask = useActiveTask();
 
     const handleDragOver = (event: DragOverEvent) => {
         const { active, over } = event;
@@ -54,8 +62,47 @@ export const Boards: FC = () => {
 
         if (activeId === overId) return;
 
-        // const activeIndex = currentTasks.findIndex(t => t.id === activeId);
-        // const overIndex = currentTasks.findIndex(t => t.id === overId);
+        const isOverATask = over.data.current?.type === "task";
+        const isOverABoard = over.data.current?.type === "board";
+
+        const activeIndex = tasks.findIndex(t => t.id === activeId);
+        const overIndex = tasks.findIndex(t => t.id === overId);
+
+        if (isOverATask) {
+            if (tasks[activeIndex].board === tasks[overIndex].board) {
+                const updatedTasks = arrayMove(tasks, activeIndex, overIndex);
+
+                dispatch(updateTasks(updatedTasks));
+
+                return;
+            }
+
+            const updatedTasks = arrayMove(tasks, activeIndex, overIndex).map(
+                t => {
+                    if (t.id === activeId) {
+                        return { ...t, board: tasks[overIndex].board };
+                    }
+                    return t;
+                }
+            );
+
+            dispatch(updateTasks(updatedTasks));
+
+            return;
+        }
+
+        if (isOverABoard) {
+            const updatedTasks = arrayMove(tasks, activeIndex, activeIndex).map(
+                t => {
+                    if (t.id === activeId) {
+                        return { ...t, board: overId as string };
+                    }
+                    return t;
+                }
+            );
+
+            dispatch(updateTasks(updatedTasks));
+        }
     };
 
     function handleDragStart(event: DragStartEvent) {
@@ -63,11 +110,11 @@ export const Boards: FC = () => {
 
         const draggbleTask = projectTasks.find(t => t.id === active.id);
 
-        dispatch(updateActiveTask(draggbleTask));
+        dispatch(setActiveTask(draggbleTask));
     }
 
     function handleDragEnd() {
-        dispatch(updateActiveTask(null));
+        dispatch(setActiveTask(null));
     }
 
     if (

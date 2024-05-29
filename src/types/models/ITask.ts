@@ -5,5 +5,4 @@ export interface ITask {
     expDate: number;
     projectId: string;
     board: string;
-    isActive?: boolean;
 }

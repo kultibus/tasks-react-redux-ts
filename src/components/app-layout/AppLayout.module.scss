@@ -1,4 +1,6 @@
 .appCnt {
+	border: 1px solid #000;
+	align-self: stretch;
     flex-grow: 1;
     display: grid;
     grid-template-rows: var(--header-h) 1fr;

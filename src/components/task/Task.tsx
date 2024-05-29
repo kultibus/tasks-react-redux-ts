@@ -8,9 +8,7 @@ import {
 	setFormVariant,
 	setIsFormOpened,
 } from "../../store/slices/form-slice/formSlice";
-import {
-	updateActiveTask
-} from "../../store/slices/tasks-slice/tasksActionCreators";
+import { setActiveTask } from "../../store/slices/tasks-slice/tasksSlice";
 import { IFormVariant } from "../../types/models/IForm";
 import { ITask } from "../../types/models/ITask";
 import { formatDate } from "../../utils/formatDate";
@@ -38,7 +36,7 @@ export const Task: FC<TaskProps> = props => {
         transform,
         transition,
         isDragging,
-    } = useSortable({ id: task.id, data: { board } });
+    } = useSortable({ id: task.id, data: { type: "task" } });
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -56,7 +54,7 @@ export const Task: FC<TaskProps> = props => {
     }, []);
 
     const handleTask = () => {
-        dispatch(updateActiveTask(task));
+        dispatch(setActiveTask(task));
         dispatch(setIsFormOpened(true));
     };
 
