@@ -1,10 +1,7 @@
+import { DndContext, DragOverlay, closestCenter } from "@dnd-kit/core";
 import {
-	DndContext,
-	DragOverlay
-} from "@dnd-kit/core";
-import {
-	SortableContext,
-	verticalListSortingStrategy
+    SortableContext,
+    verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { FC } from "react";
 import { useAppSelector } from "../../hooks/redux";
@@ -56,6 +53,7 @@ export const Boards: FC = () => {
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 onDragOver={handleDragOver}
+                collisionDetection={closestCenter}
             >
                 <List
                     variant={ListVariant.boards}

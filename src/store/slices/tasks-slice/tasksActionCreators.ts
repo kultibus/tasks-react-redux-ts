@@ -54,25 +54,6 @@ export const editTask =
         updateLocalStorage<ITask[]>(updatedTasks, IDataVariant.tasks);
     };
 
-export const updateTasks =
-    (tasks: ITask[]) => (dispatch: AppDispatch, getState: AppGetState) => {
-        const user = getState().userReducer.user;
-
-        // const { tasks } = getState().tasksReducer;
-
-        // const updatedTasks = tasks.map(t => {
-        //     if (t.id === task.id) {
-        //         return task;
-        //     }
-        //     return t;
-        // });
-
-        dispatch(setTasks(tasks));
-
-        updateDatabase(user, tasks, IDataVariant.tasks);
-
-        updateLocalStorage<ITask[]>(tasks, IDataVariant.tasks);
-    };
 
 export const applyTasks = (tasks: ITask[]) => (dispatch: AppDispatch) => {
     dispatch(setTasks(tasks));
