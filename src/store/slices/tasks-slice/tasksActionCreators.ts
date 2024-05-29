@@ -29,7 +29,7 @@ export const deleteTask =
 
         // updateDatabase(user, updatedTasks, DataVariant.tasks);
 
-        // updateLocalStorage<ITask[]>(updatedTasks, DataVariant.tasks);
+        updateLocalStorage<ITask[]>(updatedTasks, DataVariant.tasks);
     };
 
 export const updateTasks =
@@ -49,7 +49,7 @@ export const updateTasks =
 
         // updateDatabase(user, updatedTasks, DataVariant.tasks);
 
-        // updateLocalStorage<IProject[]>(updatedTasks, DataVariant.projects);
+        updateLocalStorage<ITask[]>(updatedTasks, DataVariant.tasks);
     };
 
 export const updateActiveTask =
@@ -71,10 +71,10 @@ export const updateActiveTask =
 
         // updateDatabase(user, updatedTasks, DataVariant.tasks);
 
-        // updateLocalStorage<IProject[]>(updatedTasks, DataVariant.projects);
+        updateLocalStorage<ITask[]>(updatedTasks, DataVariant.tasks);
     };
 
-export const applyTasksData =
-    (tasksData: ITask[]) => (dispatch: AppDispatch, getState: AppGetState) => {
-        console.log(tasksData);
+export const applyTasks =
+    (tasks: ITask[]) => (dispatch: AppDispatch, getState: AppGetState) => {
+        dispatch(setTasks(tasks));
     };

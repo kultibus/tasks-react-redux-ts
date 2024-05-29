@@ -74,8 +74,6 @@ export const Task: FC<TaskProps> = props => {
         <li
             ref={setNodeRef}
             style={style}
-            // {...attributes}
-            // {...listeners}
             className={classNames(styles.task, {
                 [styles.dragging]: isDragging,
             })}
