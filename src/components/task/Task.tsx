@@ -18,7 +18,7 @@ import {
 } from "../UI/edit-del-btns/EditDelBtns";
 import { IBoardVariant } from "../boards/Boards";
 import styles from "./Task.module.scss";
-import { setFormTask } from "../../store/slices/tasks-slice/tasksSlice";
+import { setActiveTask } from "../../store/slices/tasks-slice/tasksSlice";
 
 interface TaskProps {
     task: ITask;
@@ -54,7 +54,7 @@ export const Task: FC<TaskProps> = props => {
     }, []);
 
     const handleTask = () => {
-        dispatch(setFormTask(task));
+        dispatch(setActiveTask(task));
         dispatch(setIsFormOpened(true));
     };
 

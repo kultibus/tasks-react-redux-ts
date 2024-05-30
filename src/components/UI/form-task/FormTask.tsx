@@ -19,7 +19,7 @@ import { AppTextarea } from "../app-textarea/AppTextarea";
 import styles from "./FormTask.module.scss";
 import { IBoardVariant } from "../../boards/Boards";
 import { useProjects } from "../../../hooks/useProjects";
-import { setFormTask } from "../../../store/slices/tasks-slice/tasksSlice";
+import { setActiveTask } from "../../../store/slices/tasks-slice/tasksSlice";
 
 interface FormTaskProps {}
 
@@ -28,24 +28,24 @@ export const FormTask: FC<FormTaskProps> = () => {
 
     const { variant, isValid } = useAppSelector(state => state.formReducer);
 
-    const { formTask } = useAppSelector(state => state.tasksReducer);
+    const { activeTask } = useAppSelector(state => state.tasksReducer);
 
     const activeProject = useProjects();
 
     const taskTitle = useInput(
-        formTask?.title || "",
+        activeTask?.title || "",
         "Enter task title...",
         "Task title is empty!"
     );
 
     const taskDescription = useInput(
-        formTask?.body || "",
+        activeTask?.body || "",
         "Enter task description..."
     );
 
     const taskExpDate = useInput(
-        formTask?.expDate
-            ? formatDate.toYyyyMmDd(new Date(formTask.expDate))
+        activeTask?.expDate
+            ? formatDate.toYyyyMmDd(new Date(activeTask.expDate))
             : "",
         "Enter expiration date..."
     );
@@ -88,7 +88,7 @@ export const FormTask: FC<FormTaskProps> = () => {
                 if (!isValid) return;
 
                 const editedTask: ITask = {
-                    ...formTask,
+                    ...activeTask,
                     title: taskTitle.value,
                     body: taskDescription.value,
                     expDate: expDate,
@@ -99,18 +99,18 @@ export const FormTask: FC<FormTaskProps> = () => {
                 break;
 
             case IFormVariant.deleteTask:
-                dispatch(deleteTask(formTask));
+                dispatch(deleteTask(activeTask));
 
                 break;
         }
 
         dispatch(setIsFormOpened(false));
-        dispatch(setFormTask(null));
+        dispatch(setActiveTask(null));
     };
 
     const handleReset = () => {
         dispatch(setIsFormOpened(false));
-        dispatch(setFormTask(null));
+        dispatch(setActiveTask(null));
     };
 
     return (
@@ -118,7 +118,7 @@ export const FormTask: FC<FormTaskProps> = () => {
             {(variant === IFormVariant.editTask ||
                 variant === IFormVariant.deleteTask) && (
                 <h3 className={styles.title}>
-                    {variant} "{formTask.title}" ?
+                    {variant} "{activeTask.title}" ?
                 </h3>
             )}
 

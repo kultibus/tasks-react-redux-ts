@@ -30,7 +30,7 @@ const boards = [
 export const Boards: FC = () => {
     const { variant, isOpened } = useAppSelector(state => state.formReducer);
 
-    const { draggbleTask } = useAppSelector(state => state.tasksReducer);
+    
 
     const activeProject = useProjects();
 
@@ -52,32 +52,20 @@ export const Boards: FC = () => {
             <DndContext
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
-                onDragOver={handleDragOver}
+                // onDragOver={handleDragOver}
                 // collisionDetection={closestCenter}
             >
                 <List
                     variant={ListVariant.boards}
                     items={boards}
                     renderItem={board => (
-                        <SortableContext
-                            strategy={verticalListSortingStrategy}
+                        <Board
                             key={board}
-                            items={projectTasks}
-                        >
-                            <Board
-                                tasks={projectTasks.filter(
-                                    t => t.board === board
-                                )}
-                                board={board}
-                            />
-                        </SortableContext>
+                            tasks={projectTasks.filter(t => t.board === board)}
+                            board={board}
+                        />
                     )}
                 />
-                <DragOverlay>
-                    {draggbleTask ? (
-                        <Task isOverlay task={draggbleTask} />
-                    ) : null}
-                </DragOverlay>
             </DndContext>
         </main>
     );

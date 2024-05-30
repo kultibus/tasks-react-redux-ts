@@ -3,16 +3,14 @@ import { ITask } from "../../../types/models/ITask";
 
 interface TasksState {
     tasks: ITask[];
-    formTask: ITask | null;
-    draggbleTask: ITask | null;
+    activeTask: ITask | null;
     tasksIsLoading: boolean;
     error: string;
 }
 
 const initialState: TasksState = {
     tasks: [],
-    formTask: null,
-    draggbleTask: null,
+    activeTask: null,
     tasksIsLoading: false,
     error: "",
 };
@@ -30,16 +28,13 @@ export const tasksSlice = createSlice({
             state.tasksIsLoading;
         },
 
-        setFormTask(state, action: PayloadAction<ITask | null>) {
-            state.formTask = action.payload;
-        },
-        setDraggbleTask(state, action: PayloadAction<ITask | null>) {
-            state.draggbleTask = action.payload;
+        setActiveTask(state, action: PayloadAction<ITask | null>) {
+            state.activeTask = action.payload;
         },
     },
 });
 
 export const tasksReducer = tasksSlice.reducer;
 
-export const { setTasksIsLoading, setFormTask, setDraggbleTask, setTasks } =
+export const { setTasksIsLoading, setActiveTask, setTasks } =
     tasksSlice.actions;
