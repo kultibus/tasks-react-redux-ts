@@ -30,7 +30,7 @@ const boards = [
 export const Boards: FC = () => {
     const { variant, isOpened } = useAppSelector(state => state.formReducer);
 
-    const { activeTask } = useAppSelector(state => state.tasksReducer);
+    const { draggbleTask } = useAppSelector(state => state.tasksReducer);
 
     const activeProject = useProjects();
 
@@ -53,7 +53,7 @@ export const Boards: FC = () => {
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 onDragOver={handleDragOver}
-                collisionDetection={closestCenter}
+                // collisionDetection={closestCenter}
             >
                 <List
                     variant={ListVariant.boards}
@@ -74,7 +74,9 @@ export const Boards: FC = () => {
                     )}
                 />
                 <DragOverlay>
-                    {activeTask ? <Task isOverlay task={activeTask} /> : null}
+                    {draggbleTask ? (
+                        <Task isOverlay task={draggbleTask} />
+                    ) : null}
                 </DragOverlay>
             </DndContext>
         </main>

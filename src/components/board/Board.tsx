@@ -1,11 +1,11 @@
+import { useSortable } from "@dnd-kit/sortable";
 import { FC } from "react";
 import { ITask } from "../../types/models/ITask";
 import { splitByCapitalLetter } from "../../utils/formatString";
+import { IBoardVariant } from "../boards/Boards";
 import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
 import styles from "./Board.module.scss";
-import { IBoardVariant } from "../boards/Boards";
-import { SortableContext, useSortable } from "@dnd-kit/sortable";
 
 interface BoardProps {
     board: IBoardVariant;
@@ -20,6 +20,7 @@ export const Board: FC<BoardProps> = props => {
         data: {
             type: "board",
         },
+        disabled: true,
     });
 
     return (

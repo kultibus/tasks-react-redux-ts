@@ -5,20 +5,20 @@ import { FC, useEffect, useState } from "react";
 import DragIcon from "../../assets/icons/dragging.svg";
 import { useAppDispatch } from "../../hooks/redux";
 import {
-	setFormVariant,
-	setIsFormOpened,
+    setFormVariant,
+    setIsFormOpened,
 } from "../../store/slices/form-slice/formSlice";
-import { setActiveTask } from "../../store/slices/tasks-slice/tasksSlice";
 import { IFormVariant } from "../../types/models/IForm";
 import { ITask } from "../../types/models/ITask";
 import { formatDate } from "../../utils/formatDate";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import {
-	EditDelBtns,
-	EditDelBtnsVariant,
+    EditDelBtns,
+    EditDelBtnsVariant,
 } from "../UI/edit-del-btns/EditDelBtns";
 import { IBoardVariant } from "../boards/Boards";
 import styles from "./Task.module.scss";
+import { setFormTask } from "../../store/slices/tasks-slice/tasksSlice";
 
 interface TaskProps {
     task: ITask;
@@ -54,7 +54,7 @@ export const Task: FC<TaskProps> = props => {
     }, []);
 
     const handleTask = () => {
-        dispatch(setActiveTask(task));
+        dispatch(setFormTask(task));
         dispatch(setIsFormOpened(true));
     };
 
