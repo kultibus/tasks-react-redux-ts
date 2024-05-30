@@ -18,7 +18,7 @@ import { AppInput } from "../app-input/AppInput";
 import { AppTextarea } from "../app-textarea/AppTextarea";
 import styles from "./FormTask.module.scss";
 import { IBoardVariant } from "../../boards/Boards";
-import { useProjects } from "../../../hooks/useProjects";
+import { useActiveProject } from "../../../hooks/useActiveProject";
 import { setActiveTask } from "../../../store/slices/tasks-slice/tasksSlice";
 
 interface FormTaskProps {}
@@ -30,7 +30,7 @@ export const FormTask: FC<FormTaskProps> = () => {
 
     const { activeTask } = useAppSelector(state => state.tasksReducer);
 
-    const activeProject = useProjects();
+    const activeProject = useActiveProject();
 
     const taskTitle = useInput(
         activeTask?.title || "",

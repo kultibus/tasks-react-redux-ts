@@ -1,0 +1,27 @@
+.cnt {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--ident-m);
+}
+
+.filter {
+    display: flex;
+    position: relative;
+
+    :first-child {
+        width: 100%;
+    }
+
+    :last-child {
+        position: absolute;
+        height: 100%;
+        width: 30px;
+        top: 0;
+        right: 0;
+
+        svg {
+            fill: var(--font-400-full);
+        }
+    }
+}

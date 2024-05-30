@@ -3,17 +3,19 @@ import {
     SortableContext,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { FC } from "react";
+import { FC, useMemo } from "react";
+import { createPortal } from "react-dom";
 import { useAppSelector } from "../../hooks/redux";
+import { useActiveProject } from "../../hooks/useActiveProject";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
-import { useProjects } from "../../hooks/useProjects";
-import { useProjectTasks } from "../../hooks/useTasks";
 import { IFormVariant } from "../../types/models/IForm";
 import { FormTask } from "../UI/form-task/FormTask";
 import { Board } from "../board/Board";
 import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
+import { TasksFilter } from "../tasks-filter/TasksFilter";
 import styles from "./Boards.module.scss";
+import { useProjectTasks } from "../../hooks/useProjectTasks";
 
 export enum IBoardVariant {
     opened = "opened",
@@ -29,12 +31,10 @@ const boards = [
 
 export const Boards: FC = () => {
     const { variant, isOpened } = useAppSelector(state => state.formReducer);
+    const { tasks } = useAppSelector(state => state.tasksReducer);
 
-    
-
-    const activeProject = useProjects();
-
-    const projectTasks = useProjectTasks(activeProject);
+    const { activeTask } = useAppSelector(state => state.tasksReducer);
+    const projectTasks = useProjectTasks();
 
     const { handleDragEnd, handleDragOver, handleDragStart } = useDragAndDrop();
 
@@ -49,24 +49,46 @@ export const Boards: FC = () => {
 
     return (
         <main className={styles.boards}>
-            <DndContext
-                onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
-                // onDragOver={handleDragOver}
-                // collisionDetection={closestCenter}
-            >
-                <List
-                    variant={ListVariant.boards}
-                    items={boards}
-                    renderItem={board => (
-                        <Board
-                            key={board}
-                            tasks={projectTasks.filter(t => t.board === board)}
-                            board={board}
-                        />
+            <header className={styles.header}>
+                <h3 className={styles.title}>Tasks boards</h3>
+                <TasksFilter />
+            </header>
+            <div className={styles.content}>
+                <DndContext
+                    onDragStart={handleDragStart}
+                    onDragEnd={handleDragEnd}
+                    onDragOver={handleDragOver}
+                    collisionDetection={closestCenter}
+                >
+                    <List
+                        variant={ListVariant.boards}
+                        items={boards}
+                        renderItem={board => (
+                            <SortableContext
+                                strategy={verticalListSortingStrategy}
+                                items={tasks}
+                                key={board}
+                            >
+                                <Board
+                                    tasks={projectTasks.filter(
+                                        t => t.board === board
+                                    )}
+                                    board={board}
+                                />
+                            </SortableContext>
+                        )}
+                    />
+
+                    {createPortal(
+                        <DragOverlay>
+                            {activeTask ? (
+                                <Task isOverlay task={activeTask} />
+                            ) : null}
+                        </DragOverlay>,
+                        document.body
                     )}
-                />
-            </DndContext>
+                </DndContext>
+            </div>
         </main>
     );
 };

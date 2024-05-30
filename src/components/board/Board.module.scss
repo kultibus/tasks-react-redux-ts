@@ -7,10 +7,12 @@
 
 .header {
     display: flex;
-    justify-content: center;
+    // justify-content: center;
     gap: var(--ident-m);
     align-items: center;
     font-size: var(--fsz-l);
+    text-transform: uppercase;
+    font-family: var(--ibm-cond);
 }
 
 .tasksQuantity {

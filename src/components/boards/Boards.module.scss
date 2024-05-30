@@ -2,7 +2,26 @@
     border-radius: var(--brs);
     padding: var(--ident-m);
     background-color: var(--bg-200-full);
-	flex-grow: 1;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    // flex-grow: 1;
     height: 100%;
+    gap: var(--ident-m);
+}
+
+.header {
+    border-bottom: 2px solid var(--font-700-full);
+    padding-bottom: var(--ident-m);
     display: flex;
+    align-items: center;
+    gap: var(--ident-m);
+}
+
+.title {
+    font-size: var(--fsz-xl);
+}
+
+.content {
+    display: flex;
+    overflow: hidden;
 }

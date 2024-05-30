@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useAppSelector } from "./redux";
 
-export const useProjects = () => {
+export const useActiveProject = () => {
     const { projects } = useAppSelector(state => state.projectsReducer);
 
     const activeProject = useMemo(() => {

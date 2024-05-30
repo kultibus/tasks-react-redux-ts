@@ -8,6 +8,7 @@ import {
     setFormVariant,
     setIsFormOpened,
 } from "../../store/slices/form-slice/formSlice";
+import { setActiveTask } from "../../store/slices/tasks-slice/tasksSlice";
 import { IFormVariant } from "../../types/models/IForm";
 import { ITask } from "../../types/models/ITask";
 import { formatDate } from "../../utils/formatDate";
@@ -16,18 +17,15 @@ import {
     EditDelBtns,
     EditDelBtnsVariant,
 } from "../UI/edit-del-btns/EditDelBtns";
-import { IBoardVariant } from "../boards/Boards";
 import styles from "./Task.module.scss";
-import { setActiveTask } from "../../store/slices/tasks-slice/tasksSlice";
 
 interface TaskProps {
     task: ITask;
-    board?: IBoardVariant;
     isOverlay?: boolean;
 }
 
 export const Task: FC<TaskProps> = props => {
-    const { task, board, isOverlay } = props;
+    const { task, isOverlay } = props;
 
     const {
         attributes,

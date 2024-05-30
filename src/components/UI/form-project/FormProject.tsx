@@ -18,7 +18,7 @@ import {
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormProject.module.scss";
-import { useProjects } from "../../../hooks/useProjects";
+import { useActiveProject } from "../../../hooks/useActiveProject";
 
 interface FormProjectProps {}
 
@@ -30,7 +30,7 @@ export const FormProject: FC<FormProjectProps> = () => {
     const { projects } = useAppSelector(state => state.projectsReducer);
     const { variant, isValid } = useAppSelector(state => state.formReducer);
 
-    const activeProject = useProjects();
+    const activeProject = useActiveProject();
 
     const projectName = useInput(
         "",

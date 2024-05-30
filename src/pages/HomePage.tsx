@@ -2,7 +2,7 @@ import { FC, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { FormProject } from "../components/UI/form-project/FormProject";
 import { useAppDispatch } from "../hooks/redux";
-import { useProjects } from "../hooks/useProjects";
+import { useActiveProject } from "../hooks/useActiveProject";
 import { RouteNames } from "../router";
 import {
     setFormVariant,
@@ -11,7 +11,7 @@ import {
 import { IFormVariant } from "../types/models/IForm";
 
 export const HomePage: FC = () => {
-    const activeProject = useProjects();
+    const activeProject = useActiveProject();
 
     const dispatch = useAppDispatch();
 

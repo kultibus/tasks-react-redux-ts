@@ -13,14 +13,14 @@ import {
     EditDelBtnsVariant,
 } from "../UI/edit-del-btns/EditDelBtns";
 import styles from "./TopBar.module.scss";
-import { useProjects } from "../../hooks/useProjects";
+import { useActiveProject } from "../../hooks/useActiveProject";
 
 interface TopBarProps {}
 
 export const TopBar: FC<TopBarProps> = () => {
     const { isOpened, variant } = useAppSelector(state => state.formReducer);
 
-    const activeProject = useProjects();
+    const activeProject = useActiveProject();
 
     const navigate = useNavigate();
 
@@ -88,7 +88,7 @@ export const TopBar: FC<TopBarProps> = () => {
             </h2>
             <AppBtn
                 onClick={handleTaskBtn}
-				variant={
+                variant={
                     isOpened ? AppBtnVariant.formDisabled : AppBtnVariant.form
                 }
                 disabled={isOpened ? true : false}
