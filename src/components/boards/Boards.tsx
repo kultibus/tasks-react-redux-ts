@@ -1,4 +1,4 @@
-import { DndContext, DragOverlay, closestCenter } from "@dnd-kit/core";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
 import {
     SortableContext,
     verticalListSortingStrategy,
@@ -15,7 +15,7 @@ import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
 import { TasksFilter } from "../tasks-filter/TasksFilter";
 import styles from "./Boards.module.scss";
-import { useProjectTasks } from "../../hooks/useProjectTasks";
+import { defaultTasks } from "./DefaultTasks";
 
 export enum IBoardVariant {
     opened = "opened",
@@ -34,7 +34,11 @@ export const Boards: FC = () => {
     const { tasks } = useAppSelector(state => state.tasksReducer);
 
     const { activeTask } = useAppSelector(state => state.tasksReducer);
-    const projectTasks = useProjectTasks();
+    const activeProject = useActiveProject();
+
+    const projectTasks = useMemo(() => {
+        return tasks.filter(t => t.projectId === activeProject.id);
+    }, [tasks, activeProject]);
 
     const { handleDragEnd, handleDragOver, handleDragStart } = useDragAndDrop();
 
@@ -51,14 +55,14 @@ export const Boards: FC = () => {
         <main className={styles.boards}>
             <header className={styles.header}>
                 <h3 className={styles.title}>Tasks boards</h3>
-                <TasksFilter />
+                <TasksFilter tasks={projectTasks} />
             </header>
             <div className={styles.content}>
                 <DndContext
                     onDragStart={handleDragStart}
                     onDragEnd={handleDragEnd}
                     onDragOver={handleDragOver}
-                    collisionDetection={closestCenter}
+                    // collisionDetection={closestCenter}
                 >
                     <List
                         variant={ListVariant.boards}

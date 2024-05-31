@@ -39,55 +39,55 @@ export const useDragAndDrop = () => {
         const overIndex = tasks.findIndex(t => t.id === overId);
 
         if (isOverATask) {
-            if (tasks[activeIndex].board === tasks[overIndex].board) {
-                const updatedTasks = arrayMove(tasks, activeIndex, overIndex);
-
-				dispatch(setTasks(updatedTasks));
+            if (tasks[activeIndex].board != tasks[overIndex].board) {
+				const updatedTasks = arrayMove(
+					tasks,
+					activeIndex,
+					overIndex - 1
+				).map(t => {
+					if (t.id === activeId) {
+						return { ...t, board: tasks[overIndex].board };
+					}
+					return t;
+				});
+				
                 setTimeout(() => {
-                }, 0);
+				}, 0);
+				dispatch(setTasks(updatedTasks));
                 return;
             }
-
-            const updatedTasks = arrayMove(
-                tasks,
-                activeIndex,
-                overIndex - 1
-            ).map(t => {
-                if (t.id === activeId) {
-                    return { ...t, board: tasks[overIndex].board };
-                }
-                return t;
-            });
-
-			dispatch(setTasks(updatedTasks));
+			
+			const updatedTasks = arrayMove(tasks, activeIndex, overIndex);
+			
             setTimeout(() => {
-            }, 0);
-
+			}, 0);
+			dispatch(setTasks(updatedTasks));
+			
             return;
         }
-
+		
         const isOverABoard = over.data.current?.type === "board";
-
+		
         if (isOverABoard) {
-            const updatedTasks = arrayMove(tasks, activeIndex, activeIndex).map(
-                t => {
+			const updatedTasks = arrayMove(tasks, activeIndex, activeIndex).map(
+				t => {
                     if (t.id === activeId) {
-                        return { ...t, board: overId as string };
+						return { ...t, board: overId as string };
                     }
                     return t;
                 }
             );
-
-			dispatch(setTasks(updatedTasks));
+			
             setTimeout(() => {
-            }, 0);
+			}, 0);
+			dispatch(setTasks(updatedTasks));
         }
     };
 
     const handleDragEnd = () => {
         dispatch(setActiveTask(null));
 
-        updateDatabase(user, tasks, IDataVariant.tasks);
+        // updateDatabase(user, tasks, IDataVariant.tasks);
 
         updateLocalStorage<ITask[]>(tasks, IDataVariant.tasks);
     };

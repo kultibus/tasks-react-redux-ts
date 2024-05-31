@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { AppInput, AppInputVariant } from "../UI/app-input/AppInput";
 import SortIcon from "../../assets/icons/sort.svg";
 import FilterIcon from "../../assets/icons/filter.svg";
@@ -12,17 +12,21 @@ interface TasksFilterProps {
 export const TasksFilter: FC<TasksFilterProps> = props => {
     const { tasks } = props;
 
+    const [value, setValue] = useState<string>("");
+
     return (
         <div className={styles.cnt}>
             <div className={styles.filter}>
                 <AppInput
                     variant={AppInputVariant.filter}
                     name="filter"
-                    onChange={() => {}}
-                    onClick={() => {}}
+                    onChange={e => {
+                        setValue(e.target.value);
+                    }}
+                    onBlur={() => setValue("")}
                     placeholder={"Filter tasks"}
                     type="text"
-                    // value={"hello"}
+                    value={value}
                 />
                 <div>
                     <FilterIcon />
