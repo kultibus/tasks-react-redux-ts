@@ -2,7 +2,7 @@ import { ITask } from "../../../types/models/ITask";
 import { IDataVariant } from "../../../types/types";
 import { updateDatabase, updateLocalStorage } from "../../../utils/updateData";
 import { AppDispatch, AppGetState } from "../../store";
-import { setTasks } from "./tasksSlice";
+import { setActiveTask, setTasks } from "./tasksSlice";
 
 export const createTask =
     (newTask: ITask) => (dispatch: AppDispatch, getState: AppGetState) => {
@@ -54,6 +54,14 @@ export const editTask =
         updateLocalStorage<ITask[]>(updatedTasks, IDataVariant.tasks);
     };
 
+export const testActiveTask = (task: ITask) => (dispatch: AppDispatch) => {
+
+
+	
+	
+	
+    dispatch(setActiveTask(task));
+};
 
 export const applyTasks = (tasks: ITask[]) => (dispatch: AppDispatch) => {
     dispatch(setTasks(tasks));

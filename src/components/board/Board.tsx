@@ -1,4 +1,4 @@
-import { useSortable } from "@dnd-kit/sortable";
+import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { FC } from "react";
 import { ITask } from "../../types/models/ITask";
 import { splitByCapitalLetter } from "../../utils/formatString";
@@ -30,11 +30,16 @@ export const Board: FC<BoardProps> = props => {
                 <div className={styles.tasksQuantity}>{tasks?.length || 0}</div>
             </header>
             <section className={styles.tasks}>
-                <List
-                    variant={ListVariant.tasks}
+                <SortableContext
+                    strategy={verticalListSortingStrategy}
                     items={tasks}
-                    renderItem={task => <Task task={task} key={task.id} />}
-                />
+                >
+                    <List
+                        variant={ListVariant.tasks}
+                        items={tasks}
+                        renderItem={task => <Task task={task} key={task.id} />}
+                    />
+                </SortableContext>
             </section>
         </li>
     );

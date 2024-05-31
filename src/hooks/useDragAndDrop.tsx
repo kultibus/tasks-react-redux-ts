@@ -8,24 +8,25 @@ import { ITask } from "../types/models/ITask";
 import { IDataVariant } from "../types/types";
 import { updateDatabase, updateLocalStorage } from "../utils/updateData";
 import { useAppDispatch, useAppSelector } from "./redux";
+import { useState } from "react";
 
-export const useDragAndDrop = () => {
-    const { tasks } = useAppSelector(state => state.tasksReducer);
-    const { user } = useAppSelector(state => state.userReducer);
+export const useDragAndDrop = (tasksState: ITask[], activeTaskState: ITask) => {
+    const [tasks, setTasks] = useState<ITask[]>(tasksState);
+    const [activeTask, setActiveTask] = useState<ITask | null>(activeTaskState);
 
-    const dispatch = useAppDispatch();
+    function handleDragStart(event: DragStartEvent) {
+        if (event.active.data.current?.type === "task") {
+            setActiveTask(event.active.data.current.task);
+            return;
+        }
+    }
 
-    const handleDragStart = (event: DragStartEvent) => {
-        const { active } = event;
+    function handleDragEnd() {
+        setActiveTask(null);
+    }
 
-        const activeTask = tasks.find(t => t.id === active.id);
-
-        dispatch(setActiveTask(activeTask));
-    };
-
-    const handleDragOver = (event: DragOverEvent) => {
+    function handleDragOver(event: DragOverEvent) {
         const { active, over } = event;
-
         if (!over) return;
 
         const activeId = active.id;
@@ -33,64 +34,38 @@ export const useDragAndDrop = () => {
 
         if (activeId === overId) return;
 
+        // const isActiveATask = active.data.current?.type === "task";
         const isOverATask = over.data.current?.type === "task";
 
-        const activeIndex = tasks.findIndex(t => t.id === activeId);
-        const overIndex = tasks.findIndex(t => t.id === overId);
+        // if (!isActiveATask) return;
 
+        // if (isActiveATask && isOverATask) {
         if (isOverATask) {
-            if (tasks[activeIndex].board != tasks[overIndex].board) {
-				const updatedTasks = arrayMove(
-					tasks,
-					activeIndex,
-					overIndex - 1
-				).map(t => {
-					if (t.id === activeId) {
-						return { ...t, board: tasks[overIndex].board };
-					}
-					return t;
-				});
-				
-                setTimeout(() => {
-				}, 0);
-				dispatch(setTasks(updatedTasks));
-                return;
-            }
-			
-			const updatedTasks = arrayMove(tasks, activeIndex, overIndex);
-			
-            setTimeout(() => {
-			}, 0);
-			dispatch(setTasks(updatedTasks));
-			
-            return;
-        }
-		
-        const isOverABoard = over.data.current?.type === "board";
-		
-        if (isOverABoard) {
-			const updatedTasks = arrayMove(tasks, activeIndex, activeIndex).map(
-				t => {
-                    if (t.id === activeId) {
-						return { ...t, board: overId as string };
-                    }
-                    return t;
+            setTasks(tasks => {
+                const activeIndex = tasks.findIndex(t => t.id === activeId);
+                const overIndex = tasks.findIndex(t => t.id === overId);
+
+                if (tasks[activeIndex].board != tasks[overIndex].board) {
+                    tasks[activeIndex].board = tasks[overIndex].board;
+                    return arrayMove(tasks, activeIndex, overIndex - 1);
                 }
-            );
-			
-            setTimeout(() => {
-			}, 0);
-			dispatch(setTasks(updatedTasks));
+
+                return arrayMove(tasks, activeIndex, overIndex);
+            });
         }
-    };
 
-    const handleDragEnd = () => {
-        dispatch(setActiveTask(null));
+        const isOverAColumn = over.data.current?.type === "board";
 
-        // updateDatabase(user, tasks, IDataVariant.tasks);
+        // if (isActiveATask && isOverAColumn) {
+        if (isOverAColumn) {
+            setTasks(tasks => {
+                const activeIndex = tasks.findIndex(t => t.id === activeId);
 
-        updateLocalStorage<ITask[]>(tasks, IDataVariant.tasks);
-    };
+                tasks[activeIndex].board = overId as string;
+                return arrayMove(tasks, activeIndex, activeIndex);
+            });
+        }
+    }
 
-    return { handleDragOver, handleDragStart, handleDragEnd };
+    return {handleDragStart, handleDragEnd, handleDragOver};
 };

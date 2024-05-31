@@ -11,7 +11,6 @@ import {
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { LinkInner, LinkInnerVariant } from "../UI/link-inner/LinkInner";
 import styles from "./HeaderLinks.module.scss";
-import { AuthContext } from "../../context";
 
 interface HeaderLinksProps {}
 

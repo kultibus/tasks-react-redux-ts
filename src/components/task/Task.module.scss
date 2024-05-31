@@ -9,15 +9,20 @@
 }
 
 .top {
-    display: flex;
+	display: flex;
     gap: var(--ident-s);
 }
 
 .dragging {
-    background-color: var(--bg-400-40);
+	background-color: var(--bg-400-40);
     * {
-        opacity: 0;
+		opacity: 0;
     }
+}
+
+.overlay {
+	
+	filter: drop-shadow(0 0px 5px var(--bg-600-80));
 }
 
 .title {

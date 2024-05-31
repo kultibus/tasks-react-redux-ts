@@ -1,11 +1,19 @@
-import { DndContext, DragOverlay } from "@dnd-kit/core";
+import {
+    DndContext,
+    DragEndEvent,
+    DragOverEvent,
+    DragOverlay,
+    DragStartEvent,
+    closestCenter,
+} from "@dnd-kit/core";
 import {
     SortableContext,
+    arrayMove,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { FC, useMemo } from "react";
+import { FC, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { useActiveProject } from "../../hooks/useActiveProject";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 import { IFormVariant } from "../../types/models/IForm";
@@ -16,6 +24,12 @@ import { Task } from "../task/Task";
 import { TasksFilter } from "../tasks-filter/TasksFilter";
 import styles from "./Boards.module.scss";
 import { defaultTasks } from "./DefaultTasks";
+import { ITask } from "../../types/models/ITask";
+import {
+    setActiveTask,
+    setTasks,
+} from "../../store/slices/tasks-slice/tasksSlice";
+import { testActiveTask } from "../../store/slices/tasks-slice/tasksActionCreators";
 
 export enum IBoardVariant {
     opened = "opened",
@@ -31,16 +45,79 @@ const boards = [
 
 export const Boards: FC = () => {
     const { variant, isOpened } = useAppSelector(state => state.formReducer);
-    const { tasks } = useAppSelector(state => state.tasksReducer);
+    // const { tasks, activeTask } = useAppSelector(state => state.tasksReducer);
 
-    const { activeTask } = useAppSelector(state => state.tasksReducer);
     const activeProject = useActiveProject();
 
-    const projectTasks = useMemo(() => {
-        return tasks.filter(t => t.projectId === activeProject.id);
-    }, [tasks, activeProject]);
+    const dispatch = useAppDispatch();
 
-    const { handleDragEnd, handleDragOver, handleDragStart } = useDragAndDrop();
+    const [currentTasks, setCurrentTasks] = useState<ITask[]>(defaultTasks);
+    const [activeTask, setActiveTask] = useState<ITask | null>(null);
+
+    const handleDragStart = (event: DragStartEvent) => {
+        if (event.active.data.current?.type === "task") {
+
+
+			console.log(event.active.data.current.task)
+			
+            // dispatch(testActiveTask(event.active.data.current.task));
+			setActiveTask(event.active.data.current.task);
+			
+            // return;
+        }
+    };
+	
+    const handleDragEnd = () => {
+		// dispatch(setActiveTask(null));
+        setActiveTask(null);
+    };
+
+    const handleDragOver = (event: DragOverEvent) => {
+        const { active, over } = event;
+        if (!over) return;
+
+        const activeId = active.id;
+        const overId = over.id;
+
+        if (activeId === overId) return;
+
+        // const isActiveATask = active.data.current?.type === "task";
+        const isOverATask = over.data.current?.type === "task";
+
+        // if (!isActiveATask) return;
+
+        // if (isActiveATask && isOverATask) {
+        if (isOverATask) {
+            setCurrentTasks(tasks => {
+                const activeIndex = tasks.findIndex(t => t.id === activeId);
+                const overIndex = tasks.findIndex(t => t.id === overId);
+
+                if (tasks[activeIndex].board != tasks[overIndex].board) {
+                    tasks[activeIndex].board = tasks[overIndex].board;
+                    return arrayMove(tasks, activeIndex, overIndex - 1);
+                }
+
+                return arrayMove(tasks, activeIndex, overIndex);
+            });
+        }
+
+        const isOverAColumn = over.data.current?.type === "board";
+
+        // if (isActiveATask && isOverAColumn) {
+        if (isOverAColumn) {
+            setCurrentTasks(tasks => {
+                const activeIndex = tasks.findIndex(t => t.id === activeId);
+
+                tasks[activeIndex].board = overId as string;
+                return arrayMove(tasks, activeIndex, activeIndex);
+            });
+        }
+    };
+
+    // const projectTasks = useMemo(() => {
+    //     dispatch(setTasks(currentTasks));
+    //     return currentTasks.filter(t => t.projectId === activeProject.id);
+    // }, [currentTasks, activeProject]);
 
     if (
         isOpened &&
@@ -55,36 +132,33 @@ export const Boards: FC = () => {
         <main className={styles.boards}>
             <header className={styles.header}>
                 <h3 className={styles.title}>Tasks boards</h3>
-                <TasksFilter tasks={projectTasks} />
+                {/* <TasksFilter tasks={projectTasks} /> */}
             </header>
             <div className={styles.content}>
                 <DndContext
                     onDragStart={handleDragStart}
                     onDragEnd={handleDragEnd}
                     onDragOver={handleDragOver}
-                    // collisionDetection={closestCenter}
+                    collisionDetection={closestCenter}
                 >
-                    <List
-                        variant={ListVariant.boards}
-                        items={boards}
-                        renderItem={board => (
-                            <SortableContext
-                                strategy={verticalListSortingStrategy}
-                                items={tasks}
-                                key={board}
-                            >
+                    <SortableContext items={boards}>
+                        <List
+                            variant={ListVariant.boards}
+                            items={boards}
+                            renderItem={board => (
                                 <Board
-                                    tasks={projectTasks.filter(
+                                    key={board}
+                                    tasks={currentTasks.filter(
                                         t => t.board === board
                                     )}
                                     board={board}
                                 />
-                            </SortableContext>
-                        )}
-                    />
+                            )}
+                        />
+                    </SortableContext>
 
                     {createPortal(
-                        <DragOverlay>
+                        <DragOverlay wrapperElement="ul">
                             {activeTask ? (
                                 <Task isOverlay task={activeTask} />
                             ) : null}

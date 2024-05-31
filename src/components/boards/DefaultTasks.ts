@@ -8,7 +8,7 @@ export const defaultTasks = [
         title: "Portals",
     },
     {
-        board: "opened",
+        board: "inProcess",
         body: "Depending on your use-case, you may want to use a drag overlay rather than transforming the original draggable source element that is connected to the useDraggable hook:",
         expDate: 1717286400000,
         id: "jouo4qe",
@@ -16,7 +16,7 @@ export const defaultTasks = [
         title: "Drop animation",
     },
     {
-        board: "opened",
+        board: "done",
         body: "You may also nest <DndContext> providers within other <DndContext> providers to achieve nested draggable/droppable interfaces that are independent of one another.",
         expDate: 1717804800000,
         id: "mzfx1m1",

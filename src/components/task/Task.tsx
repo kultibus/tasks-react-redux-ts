@@ -27,6 +27,7 @@ interface TaskProps {
 export const Task: FC<TaskProps> = props => {
     const { task, isOverlay } = props;
 
+
     const {
         attributes,
         listeners,
@@ -34,7 +35,7 @@ export const Task: FC<TaskProps> = props => {
         transform,
         transition,
         isDragging,
-    } = useSortable({ id: task.id, data: { type: "task" } });
+    } = useSortable({ id: task.id, data: { type: "task", task: task } });
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -72,6 +73,7 @@ export const Task: FC<TaskProps> = props => {
             style={style}
             className={classNames(styles.task, {
                 [styles.dragging]: isDragging,
+                [styles.overlay]: isOverlay,
             })}
         >
             <div className={styles.top}>
