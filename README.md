@@ -6,9 +6,9 @@ Kanban board type task manager
 
 ### Test account:
 
-login: test@test.com
+-   login: test@test.com
 
-password: testtest
+-   password: testtest
 
 ## Description:
 
