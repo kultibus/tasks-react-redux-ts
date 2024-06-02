@@ -12,13 +12,16 @@
 .header {
     border-bottom: 1px solid var(--font-700-full);
     padding-bottom: var(--ident-m);
-    display: flex;
+    display: grid;
+	grid-template-columns: 1fr 2fr;
     align-items: center;
     gap: var(--ident-m);
 }
 
 .title {
-    font-size: var(--fsz-xl);
+    font-size: var(--fsz-l);
+    font-weight: 600;
+
 }
 
 .content {

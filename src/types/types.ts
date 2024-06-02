@@ -9,7 +9,7 @@ export enum IDataVariant {
     user = "userData",
     projects = "projects",
     tasks = "tasks",
-	theme = 'theme'
+    theme = "theme",
 }
 
 export interface IProjectsData {
@@ -23,4 +23,14 @@ export interface ITaskData {
 export interface IUpdatedData<T> {
     uid: string;
     data: T;
+}
+
+export interface IFilter {
+    query: string;
+    sort: string;
+}
+
+export interface ISelectOptions {
+    value: string;
+    name: string;
 }

@@ -2,7 +2,6 @@
 .filter {
     background-color: var(--font-200-full);
 
-
     border-radius: var(--brs);
     color: var(--font-700-full);
     font-family: var(--ibm);
@@ -20,14 +19,13 @@
     }
 }
 .input {
-	font-size: var(--fsz-xxl);
-	padding: var(--ident-m);
+    font-size: var(--fsz-xl);
+    padding: var(--ident-m);
 }
 
 .filter {
 	font-size: var(--fsz-l);
 	padding: var(--ident-s);
-   
 }
 
 .error {

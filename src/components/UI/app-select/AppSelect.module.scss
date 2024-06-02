@@ -1,0 +1,16 @@
+.select {
+    flex-grow: 1;
+    border-radius: var(--brs);
+    background-color: var(--font-200-full);
+    font-family: var(--ibm);
+    outline: none;
+    line-height: 1.2;
+    font-size: var(--fsz-l);
+    color: var(--font-400-full);
+    padding-left: 30px;
+
+    option {
+        padding: var(--ident-m);
+        color: var(--font-700-full);
+    }
+}
