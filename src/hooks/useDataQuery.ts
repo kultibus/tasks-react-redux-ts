@@ -1,21 +1,19 @@
 import isEqual from "lodash.isequal";
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "./redux";
-import { checkUserAuth } from "../store/slices/user-slice/userActionCreators";
 import { databaseApi, localStorageApi } from "../api/api";
-import { IProject } from "../types/models/IProject";
-import { IDataVariant, IThemeVariant } from "../types/types";
 import { applyProjects } from "../store/slices/projects-slice/projectsActionCreators";
 import { setProjectsIsLoading } from "../store/slices/projects-slice/projectsSlice";
-import { ITask } from "../types/models/ITask";
 import { applyTasks } from "../store/slices/tasks-slice/tasksActionCreators";
 import { setTasksIsLoading } from "../store/slices/tasks-slice/tasksSlice";
-import { applyTheme } from "../store/slices/theme-slice/themeActionCreators";
+import { checkUserAuth } from "../store/slices/user-slice/userActionCreators";
+import { IProject } from "../types/models/IProject";
+import { ITask } from "../types/models/ITask";
+import { IDataVariant } from "../types/types";
+import { useAppDispatch, useAppSelector } from "./redux";
 
 export const useDataQuery = () => {
     const { user } = useAppSelector(state => state.userReducer);
 
-    const { theme } = useAppSelector(state => state.themeReducer);
 
     const dispatch = useAppDispatch();
 
@@ -45,22 +43,6 @@ export const useDataQuery = () => {
         }
     }, [dispatch]);
 
-    useEffect(() => {
-        const html = document.querySelector("html");
-
-        const localTheme = localStorageApi.getLocalData<IThemeVariant>(
-            IDataVariant.theme
-        );
-
-        if (!!localTheme) {
-            html.setAttribute("data-theme", localTheme);
-
-            dispatch(applyTheme(localTheme));
-            return;
-        }
-
-        html.setAttribute("data-theme", theme);
-    }, [theme, dispatch]);
 
     useEffect(() => {
         if (!uid) {
