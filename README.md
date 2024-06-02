@@ -6,13 +6,17 @@ Kanban board type task manager
 
 ### Test account:
 
-login: abc@abc.com
+login: test@test.com
 
-password: abcabc
+password: testtest
 
 ## Description:
 
-This task manager is a simple kanban board with the ability to create, delete and edit separate projects with their own tasks. The interface of interaction with tasks is realized via drag-and-drop feature. User registration and authentication is implemented in the project and interaction with the database is configured so that all application data is stored in it. There are also filtering and task sorting features
+-   This task manager is a simple kanban board with the ability to create, delete and edit separate projects with their own tasks.
+-   The interface of interaction with tasks is realized via drag-and-drop feature.
+-   User registration and authentication is implemented in the project using user email adress and password.
+-   Interaction with the database is configured so that all application data is stored in it.
+-   There are also filtering and task sorting features.
 
 ## Stack:
 
