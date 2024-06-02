@@ -4,32 +4,26 @@ import {
     DragOverEvent,
     DragOverlay,
     DragStartEvent,
-    closestCenter,
 } from "@dnd-kit/core";
-import {
-    SortableContext,
-    arrayMove,
-    verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { FC, useMemo, useState } from "react";
+import { arrayMove } from "@dnd-kit/sortable";
+import { FC, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { useActiveProject } from "../../hooks/useActiveProject";
-import { useDragAndDrop } from "../../hooks/useDragAndDrop";
-import { IFormVariant } from "../../types/models/IForm";
-import { FormTask } from "../UI/form-task/FormTask";
-import { Board } from "../board/Board";
-import { List, ListVariant } from "../list/List";
-import { Task } from "../task/Task";
-import { TasksFilter } from "../tasks-filter/TasksFilter";
-import styles from "./Boards.module.scss";
-import { defaultTasks } from "./DefaultTasks";
-import { ITask } from "../../types/models/ITask";
 import {
     setActiveTask,
     setTasks,
 } from "../../store/slices/tasks-slice/tasksSlice";
-import { testActiveTask } from "../../store/slices/tasks-slice/tasksActionCreators";
+import { IFormVariant } from "../../types/models/IForm";
+import { ITask } from "../../types/models/ITask";
+import { IDataVariant } from "../../types/types";
+import { updateDatabase, updateLocalStorage } from "../../utils/updateData";
+import { FormTask } from "../UI/form-task/FormTask";
+import { Board } from "../board/Board";
+import { List, ListVariant } from "../list/List";
+import { Task } from "../task/Task";
+import styles from "./Boards.module.scss";
+import { updateTasks } from "../../store/slices/tasks-slice/tasksActionCreators";
 
 export enum IBoardVariant {
     opened = "opened",
@@ -45,79 +39,129 @@ const boards = [
 
 export const Boards: FC = () => {
     const { variant, isOpened } = useAppSelector(state => state.formReducer);
-    // const { tasks, activeTask } = useAppSelector(state => state.tasksReducer);
-
-    const activeProject = useActiveProject();
+    const { tasks, activeTask } = useAppSelector(state => state.tasksReducer);
+    const { user } = useAppSelector(state => state.userReducer);
 
     const dispatch = useAppDispatch();
 
-    const [currentTasks, setCurrentTasks] = useState<ITask[]>(defaultTasks);
-    const [activeTask, setActiveTask] = useState<ITask | null>(null);
+    const [currentTasks, setCurrentTasks] = useState<ITask[] | null>(tasks);
+
+    useEffect(() => {
+        setCurrentTasks(tasks);
+    }, [tasks]);
+
+    useEffect(() => {
+        dispatch(setTasks(currentTasks));
+
+        updateDatabase(user, currentTasks, IDataVariant.tasks);
+
+        updateLocalStorage<ITask[]>(currentTasks, IDataVariant.tasks);
+    }, [currentTasks]);
+
+    const activeProject = useActiveProject();
+
+    const projectTasks = useMemo(() => {
+        return tasks.filter(t => t.projectId === activeProject.id);
+    }, [tasks, activeProject]);
 
     const handleDragStart = (event: DragStartEvent) => {
-        if (event.active.data.current?.type === "task") {
-
-
-			console.log(event.active.data.current.task)
-			
-            // dispatch(testActiveTask(event.active.data.current.task));
-			setActiveTask(event.active.data.current.task);
-			
-            // return;
-        }
+        dispatch(setActiveTask(event.active.data.current.task));
     };
-	
-    const handleDragEnd = () => {
-		// dispatch(setActiveTask(null));
-        setActiveTask(null);
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        dispatch(setActiveTask(null));
+        dispatch(setTasks(currentTasks));
     };
 
     const handleDragOver = (event: DragOverEvent) => {
         const { active, over } = event;
         if (!over) return;
 
-        const activeId = active.id;
-        const overId = over.id;
+        const activeId = active.id as string;
+        const overId = over.id as string;
 
-        if (activeId === overId) return;
+        const isOverTask = over.data.current?.type === "task";
 
-        // const isActiveATask = active.data.current?.type === "task";
-        const isOverATask = over.data.current?.type === "task";
+        const oldBoard = active.data.current?.board;
+        const newBoard = over.data.current?.board;
 
-        // if (!isActiveATask) return;
+        const oldIndex = currentTasks.findIndex(t => t.id === activeId);
+        const newIndex = currentTasks.findIndex(t => t.id === overId);
 
-        // if (isActiveATask && isOverATask) {
-        if (isOverATask) {
-            setCurrentTasks(tasks => {
-                const activeIndex = tasks.findIndex(t => t.id === activeId);
-                const overIndex = tasks.findIndex(t => t.id === overId);
+        if (isOverTask) {
+            if (oldBoard === newBoard) {
+                setCurrentTasks(tasks => {
+                    return arrayMove(tasks, oldIndex, newIndex);
+                });
+            } else if (activeId === overId) {
+                setCurrentTasks(tasks => {
+                    const updatedTasks = tasks.map(t => {
+                        if (t.id === activeId) {
+                            return { ...t, board: newBoard };
+                        }
+                        return t;
+                    });
+                    return arrayMove(updatedTasks, oldIndex, oldIndex);
+                });
+            } else if (oldIndex < newIndex) {
+                setCurrentTasks(tasks => {
+                    const updatedTasks = tasks.map(t => {
+                        if (t.id === activeId) {
+                            return { ...t, board: newBoard };
+                        }
+                        return t;
+                    });
+                    return arrayMove(updatedTasks, oldIndex, newIndex - 1);
+                });
+            } else {
+                setCurrentTasks(tasks => {
+                    const updatedTasks = tasks.map(t => {
+                        if (t.id === activeId) {
+                            return { ...t, board: newBoard };
+                        }
+                        return t;
+                    });
+                    return arrayMove(updatedTasks, oldIndex, newIndex);
+                });
+            }
+        } else {
+            const overBoard = currentTasks.filter(t => t.board === overId);
 
-                if (tasks[activeIndex].board != tasks[overIndex].board) {
-                    tasks[activeIndex].board = tasks[overIndex].board;
-                    return arrayMove(tasks, activeIndex, overIndex - 1);
-                }
+            if (oldBoard === newBoard) {
+                setCurrentTasks(tasks => {
+                    return arrayMove(tasks, oldIndex, oldIndex);
+                });
+            } else if (overBoard.length) {
+                const overBoardLastIndex = currentTasks.findIndex(
+                    t => t.id === overBoard[overBoard.length - 1].id
+                );
 
-                return arrayMove(tasks, activeIndex, overIndex);
-            });
-        }
-
-        const isOverAColumn = over.data.current?.type === "board";
-
-        // if (isActiveATask && isOverAColumn) {
-        if (isOverAColumn) {
-            setCurrentTasks(tasks => {
-                const activeIndex = tasks.findIndex(t => t.id === activeId);
-
-                tasks[activeIndex].board = overId as string;
-                return arrayMove(tasks, activeIndex, activeIndex);
-            });
+                setCurrentTasks(tasks => {
+                    const updatedTasks = tasks.map(t => {
+                        if (t.id === activeId) {
+                            return { ...t, board: overId };
+                        }
+                        return t;
+                    });
+                    return arrayMove(
+                        updatedTasks,
+                        oldIndex,
+                        overBoardLastIndex + 1
+                    );
+                });
+            } else {
+                setCurrentTasks(tasks => {
+                    const updatedTasks = tasks.map(t => {
+                        if (t.id === activeId) {
+                            return { ...t, board: overId };
+                        }
+                        return t;
+                    });
+                    return arrayMove(updatedTasks, oldIndex, oldIndex);
+                });
+            }
         }
     };
-
-    // const projectTasks = useMemo(() => {
-    //     dispatch(setTasks(currentTasks));
-    //     return currentTasks.filter(t => t.projectId === activeProject.id);
-    // }, [currentTasks, activeProject]);
 
     if (
         isOpened &&
@@ -139,23 +183,21 @@ export const Boards: FC = () => {
                     onDragStart={handleDragStart}
                     onDragEnd={handleDragEnd}
                     onDragOver={handleDragOver}
-                    collisionDetection={closestCenter}
+                    // collisionDetection={closestCenter}
                 >
-                    <SortableContext items={boards}>
-                        <List
-                            variant={ListVariant.boards}
-                            items={boards}
-                            renderItem={board => (
-                                <Board
-                                    key={board}
-                                    tasks={currentTasks.filter(
-                                        t => t.board === board
-                                    )}
-                                    board={board}
-                                />
-                            )}
-                        />
-                    </SortableContext>
+                    <List
+                        variant={ListVariant.boards}
+                        items={boards}
+                        renderItem={board => (
+                            <Board
+                                key={board}
+                                tasks={projectTasks.filter(
+                                    t => t.board === board
+                                )}
+                                board={board}
+                            />
+                        )}
+                    />
 
                     {createPortal(
                         <DragOverlay wrapperElement="ul">

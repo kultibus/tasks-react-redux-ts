@@ -4,7 +4,7 @@
     background-color: var(--bg-200-full);
     display: grid;
     grid-template-rows: auto 1fr;
-    // flex-grow: 1;
+    flex-grow: 1;
     height: 100%;
     gap: var(--ident-m);
 }

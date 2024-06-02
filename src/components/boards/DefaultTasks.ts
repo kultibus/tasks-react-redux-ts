@@ -8,7 +8,7 @@ export const defaultTasks = [
         title: "Portals",
     },
     {
-        board: "inProcess",
+        board: "opened",
         body: "Depending on your use-case, you may want to use a drag overlay rather than transforming the original draggable source element that is connected to the useDraggable hook:",
         expDate: 1717286400000,
         id: "jouo4qe",
@@ -16,7 +16,7 @@ export const defaultTasks = [
         title: "Drop animation",
     },
     {
-        board: "done",
+        board: "opened",
         body: "You may also nest <DndContext> providers within other <DndContext> providers to achieve nested draggable/droppable interfaces that are independent of one another.",
         expDate: 1717804800000,
         id: "mzfx1m1",
@@ -24,7 +24,7 @@ export const defaultTasks = [
         title: "Nesting",
     },
     {
-        board: "opened",
+        board: "inProcess",
         body: "For example, you can use modifiers to restrict the movement of the <DragOverlay> to the bounds of the window:",
         expDate: 1717545600000,
         id: "clik7a9",
@@ -32,7 +32,7 @@ export const defaultTasks = [
         title: "Modifiers",
     },
     {
-        board: "opened",
+        board: "inProcess",
         body: "The zIndex prop sets the z-order of the drag overlay. The default value is 999 for compatibility reasons, but we highly recommend you use a lower value. ",
         expDate: 1717545600000,
         id: "pela8a6",
@@ -40,7 +40,7 @@ export const defaultTasks = [
         title: "Wrapper element",
     },
     {
-        board: "opened",
+        board: "inProcess",
         body: "If you want smooth drop animations without the effort of building them yourself.",
         expDate: 1717200000000,
         id: "oktqpdw",

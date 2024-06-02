@@ -54,14 +54,16 @@ export const editTask =
         updateLocalStorage<ITask[]>(updatedTasks, IDataVariant.tasks);
     };
 
-export const testActiveTask = (task: ITask) => (dispatch: AppDispatch) => {
+export const updateTasks =
+    (tasks: ITask[]) => (dispatch: AppDispatch, getState: AppGetState) => {
+        const user = getState().userReducer.user;
 
+        dispatch(setTasks(tasks));
 
-	
-	
-	
-    dispatch(setActiveTask(task));
-};
+        updateDatabase(user, tasks, IDataVariant.tasks);
+
+        updateLocalStorage<ITask[]>(tasks, IDataVariant.tasks);
+    };
 
 export const applyTasks = (tasks: ITask[]) => (dispatch: AppDispatch) => {
     dispatch(setTasks(tasks));

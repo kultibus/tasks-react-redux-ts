@@ -192,13 +192,13 @@ $identSize: (
 
 
 	::-webkit-scrollbar {
-        width: 7px;
+        width: 9px;
     }
 	
 	
 	
     ::-webkit-scrollbar-thumb {
-		background-color: var(--bg-100-full);
+		background-color: var(--font-700-30);
 		border-radius: var(--brs);
     }
 }

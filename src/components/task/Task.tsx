@@ -18,15 +18,16 @@ import {
     EditDelBtnsVariant,
 } from "../UI/edit-del-btns/EditDelBtns";
 import styles from "./Task.module.scss";
+import { IBoardVariant } from "../boards/Boards";
 
 interface TaskProps {
     task: ITask;
+    board?: IBoardVariant;
     isOverlay?: boolean;
 }
 
 export const Task: FC<TaskProps> = props => {
-    const { task, isOverlay } = props;
-
+    const { task, isOverlay, board } = props;
 
     const {
         attributes,
@@ -35,7 +36,7 @@ export const Task: FC<TaskProps> = props => {
         transform,
         transition,
         isDragging,
-    } = useSortable({ id: task.id, data: { type: "task", task: task } });
+    } = useSortable({ id: task.id, data: { task, board, type: "task" } });
 
     const style = {
         transform: CSS.Transform.toString(transform),

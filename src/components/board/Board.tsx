@@ -1,4 +1,8 @@
-import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import {
+    SortableContext,
+    useSortable,
+    verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { FC } from "react";
 import { ITask } from "../../types/models/ITask";
 import { splitByCapitalLetter } from "../../utils/formatString";
@@ -6,6 +10,7 @@ import { IBoardVariant } from "../boards/Boards";
 import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
 import styles from "./Board.module.scss";
+import { useDroppable } from "@dnd-kit/core";
 
 interface BoardProps {
     board: IBoardVariant;
@@ -15,13 +20,10 @@ interface BoardProps {
 export const Board: FC<BoardProps> = props => {
     const { board, tasks } = props;
 
-    const { setNodeRef } = useSortable({
+    const { setNodeRef } = useDroppable({
         id: board,
-        data: {
-            type: "board",
-        },
-        disabled: true,
     });
+
 
     return (
         <li ref={setNodeRef} className={styles.board}>
@@ -37,7 +39,9 @@ export const Board: FC<BoardProps> = props => {
                     <List
                         variant={ListVariant.tasks}
                         items={tasks}
-                        renderItem={task => <Task task={task} key={task.id} />}
+                        renderItem={task => (
+                            <Task board={board} task={task} key={task.id} />
+                        )}
                     />
                 </SortableContext>
             </section>
