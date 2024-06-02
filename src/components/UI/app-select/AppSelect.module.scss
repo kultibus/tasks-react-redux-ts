@@ -1,16 +1,38 @@
-.select {
-    flex-grow: 1;
+.cnt {
     border-radius: var(--brs);
     background-color: var(--font-200-full);
+    padding: var(--ident-s);
+    display: flex;
+    gap: var(--ident-s);
+    align-items: center;
+
+    svg {
+        height: 100%;
+        width: 25px;
+        fill: var(--font-400-full);
+    }
+}
+
+.label {
     font-family: var(--ibm);
-    outline: none;
+
     line-height: 1.2;
     font-size: var(--fsz-l);
     color: var(--font-400-full);
-    padding-left: 30px;
+}
+
+.select {
+    background-color: var(--font-100-full);
+    align-self: stretch;
+    border-radius: var(--brs);
+    outline: none;
+    font-family: var(--ibm);
+    line-height: 1.2;
+    font-size: var(--fsz-l);
+    color: var(--font-700-full);
+    padding-left: var(--ident-s);
 
     option {
-        padding: var(--ident-m);
         color: var(--font-700-full);
     }
 }

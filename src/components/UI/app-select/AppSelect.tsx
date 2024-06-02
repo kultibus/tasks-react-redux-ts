@@ -1,21 +1,31 @@
-import { FC, SelectHTMLAttributes } from "react";
+import { FC, ReactNode, SelectHTMLAttributes } from "react";
 import { ISelectOptions } from "../../../types/types";
 import styles from "./AppSelect.module.scss";
+import SortIcon from "../../../assets/icons/sort.svg";
 
 interface AppSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
     options: ISelectOptions[];
+    label: string;
 }
 
 export const AppSelect: FC<AppSelectProps> = props => {
-    const { options } = props;
+    const { options, label, ...restProps } = props;
 
     return (
-        <select className={styles.select} {...props}>
-            <option disabled value="">
-                Sort tasks by...
-            </option>
-            <option value="title">Title</option>
-            <option value="days">Days left</option>
-        </select>
+        <div className={styles.cnt}>
+            <SortIcon />
+
+            <div className={styles.label}>
+                <label htmlFor="tasks-sort">{label}</label>
+            </div>
+
+            <select id="tasks-sort" className={styles.select} {...restProps}>
+                {options.map(option => (
+                    <option key={option.value} value={option.value}>
+                        {option.name}
+                    </option>
+                ))}
+            </select>
+        </div>
     );
 };

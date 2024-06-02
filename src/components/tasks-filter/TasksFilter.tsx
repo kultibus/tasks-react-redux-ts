@@ -17,6 +17,16 @@ export const TasksFilter: FC<TasksFilterProps> = props => {
 
     return (
         <div className={styles.cnt}>
+            <AppSelect
+                label="Sort tasks by..."
+                value={filter.sort}
+                onChange={e => setFilter({ ...filter, sort: e.target.value })}
+                options={[
+                    { value: "default", name: "default" },
+                    { value: "title", name: "title" },
+                    { value: "expDate", name: "days left" },
+                ]}
+            />
             <div className={styles.filter}>
                 <FilterIcon />
                 <AppInput
@@ -27,21 +37,6 @@ export const TasksFilter: FC<TasksFilterProps> = props => {
                     }}
                     placeholder="Filter tasks by title..."
                     type="text"
-                />
-            </div>
-            <div className={styles.sort}>
-                <SortIcon />
-
-                <AppSelect
-                    value={filter.sort}
-                    onChange={e =>
-                        setFilter({ ...filter, sort: e.target.value })
-                    }
-                    defaultValue="Sort tasks by..."
-                    options={[
-                        { value: "title", name: "Title" },
-                        { value: "days", name: "Days left" },
-                    ]}
                 />
             </div>
         </div>

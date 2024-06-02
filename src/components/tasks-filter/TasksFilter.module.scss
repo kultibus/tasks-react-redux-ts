@@ -1,11 +1,12 @@
 .cnt {
-    flex-grow: 1;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    // flex-grow: 1;
+    display: flex;
+    // grid-template-columns: auto 1fr;
     gap: var(--ident-m);
 }
 
 .filter {
+	flex-grow: 1;
     display: flex;
     position: relative;
 
@@ -24,34 +25,3 @@
     }
 }
 
-.sort {
-    display: flex;
-
-	position: relative;
-
-    svg {
-        position: absolute;
-        top: 0;
-        left: 2px;
-        height: 100%;
-        width: 25px;
-        fill: var(--font-400-full);
-    }
-
-    select {
-        flex-grow: 1;
-        border-radius: var(--brs);
-        background-color: var(--font-200-full);
-        font-family: var(--ibm);
-        outline: none;
-        line-height: 1.2;
-        font-size: var(--fsz-l);
-        color: var(--font-400-full);
-        padding-left: 30px;
-    }
-
-    option {
-        padding: var(--ident-m);
-        color: var(--font-700-full);
-    }
-}
