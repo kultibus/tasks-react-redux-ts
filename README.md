@@ -2,7 +2,7 @@
 
 Kanban board type task manager
 
-[Watch deployed on Firebase App Hosting](tasks-manager-7a2f5.web.app)
+[Watch deployed on Firebase App Hosting](https://tasks-manager-7a2f5.web.app/project/ymtd9y8)
 
 ### Test account:
 
