@@ -7,6 +7,7 @@ import { MainCnt } from "./components/main-cnt/MainCnt";
 import { MainLoader } from "./components/main-loader/MainLoader";
 import { useAppSelector } from "./hooks/redux";
 import { useDataQuery } from "./hooks/useDataQuery";
+import { useCheckAuth } from "./hooks/useCheckAuth";
 
 export const App: FC = () => {
     const { userIsLoading } = useAppSelector(state => state.userReducer);
@@ -14,6 +15,8 @@ export const App: FC = () => {
         state => state.projectsReducer
     );
     const { tasksIsLoading } = useAppSelector(state => state.tasksReducer);
+
+    useCheckAuth();
 
     useDataQuery();
 

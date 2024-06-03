@@ -20,7 +20,7 @@ export const createProject =
 
         updateDatabase(user, updatedProjects, IDataVariant.projects);
 
-        updateLocalStorage<IProject[]>(updatedProjects, IDataVariant.projects);
+        // updateLocalStorage<IProject[]>(updatedProjects, IDataVariant.projects);
     };
 
 export const deleteProject =
@@ -34,7 +34,7 @@ export const deleteProject =
 
         updateDatabase(user, updatedProjects, IDataVariant.projects);
 
-        updateLocalStorage<IProject[]>(updatedProjects, IDataVariant.projects);
+        // updateLocalStorage<IProject[]>(updatedProjects, IDataVariant.projects);
     };
 
 export const updateProjects =
@@ -53,10 +53,10 @@ export const updateProjects =
 
         updateDatabase(user, updatedProjects, IDataVariant.projects);
 
-        updateLocalStorage<IProject[]>(updatedProjects, IDataVariant.projects);
+        // updateLocalStorage<IProject[]>(updatedProjects, IDataVariant.projects);
     };
 
 export const applyProjects =
     (projects: IProject[]) => (dispatch: AppDispatch) => {
-        dispatch(setProjects(projects));
+        // dispatch(setProjects(projects));
     };

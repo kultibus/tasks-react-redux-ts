@@ -25,28 +25,15 @@ export interface ISignUpCreds extends ISignInCreds {
 export const signUpUser =
     ({ displayName, email, password }: ISignUpCreds) =>
     async (dispatch: AppDispatch) => {
-        try {
-            dispatch(setUserIsLoading(true));
+        dispatch(setUserIsLoading(true));
 
-            const { user } = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-
-            await updateProfile(user, { displayName });
-
-            const localUser: IUser = {
-                uid: user.uid,
-                displayName: user.displayName,
-            };
-
-            dispatch(setUser(localUser));
-
-            localStorageApi.setLocalData<IUser>(localUser, IDataVariant.user);
-        } catch (error) {
-            dispatch(setUserError(error.message));
-        }
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(({ user }) => {
+                updateProfile(user, { displayName });
+            })
+            .catch(e => {
+                dispatch(setUserError(e.message));
+            });
     };
 
 export const signInUser =
@@ -55,20 +42,22 @@ export const signInUser =
         try {
             dispatch(setUserIsLoading(true));
 
-            const { user } = await signInWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
+            await signInWithEmailAndPassword(auth, email, password);
 
-            const localUser: IUser = {
-                uid: user.uid,
-                displayName: user.displayName,
-            };
+            // const { user } = await signInWithEmailAndPassword(
+            //     auth,
+            //     email,
+            //     password
+            // );
 
-            dispatch(setUser(localUser));
+            // const localUser: IUser = {
+            //     uid: user.uid,
+            //     displayName: user.displayName,
+            // };
 
-            localStorageApi.setLocalData<IUser>(localUser, IDataVariant.user);
+            // dispatch(setUser(localUser));
+
+            // localStorageApi.setLocalData<IUser>(localUser, IDataVariant.user);
         } catch (error) {
             dispatch(setUserError(error.message));
         }
@@ -86,15 +75,15 @@ export const signOutUser = () => async (dispatch: AppDispatch) => {
     localStorageApi.clearLocalData();
 };
 
-export const checkUserAuth = () => (dispatch: AppDispatch) => {
-    dispatch(setUserIsLoading(true));
+// export const checkUserAuth = () => (dispatch: AppDispatch) => {
+//     dispatch(setUserIsLoading(true));
 
-    const localUser = localStorageApi.getLocalData<IUser>(IDataVariant.user);
+//     const localUser = localStorageApi.getLocalData<IUser>(IDataVariant.user);
 
-    if (!!localUser) {
-        dispatch(setUser(localUser));
-        return;
-    }
+//     if (!!localUser) {
+//         dispatch(setUser(localUser));
+//         return;
+//     }
 
-    dispatch(setUserIsLoading(false));
-};
+//     dispatch(setUserIsLoading(false));
+// };

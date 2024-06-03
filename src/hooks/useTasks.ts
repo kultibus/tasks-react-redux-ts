@@ -3,8 +3,6 @@ import { ITask } from "../types/models/ITask";
 import { IFilter } from "../types/types";
 
 export const useSortedTasks = (tasks: ITask[], sort: string) => {
-    console.log(sort);
-
     const sortedTasks = useMemo(() => {
         if (sort === "default") {
             return tasks;

@@ -2,25 +2,48 @@ import isEqual from "lodash.isequal";
 import { useEffect } from "react";
 import { databaseApi, localStorageApi } from "../api/api";
 import { applyProjects } from "../store/slices/projects-slice/projectsActionCreators";
-import { setProjectsIsLoading } from "../store/slices/projects-slice/projectsSlice";
+import {
+    setProjects,
+    setProjectsIsLoading,
+} from "../store/slices/projects-slice/projectsSlice";
 import { applyTasks } from "../store/slices/tasks-slice/tasksActionCreators";
 import { setTasksIsLoading } from "../store/slices/tasks-slice/tasksSlice";
-import { checkUserAuth } from "../store/slices/user-slice/userActionCreators";
+// import { checkUserAuth } from "../store/slices/user-slice/userActionCreators";
 import { IProject } from "../types/models/IProject";
 import { ITask } from "../types/models/ITask";
 import { IDataVariant } from "../types/types";
 import { useAppDispatch, useAppSelector } from "./redux";
 
+import { onValue, ref } from "firebase/database";
+import { database } from "../firebase";
+
 export const useDataQuery = () => {
     const { user } = useAppSelector(state => state.userReducer);
-
 
     const dispatch = useAppDispatch();
 
     const uid = user?.uid;
 
     useEffect(() => {
-        dispatch(checkUserAuth());
+        if (!uid) return;
+
+        const projectsDbUnsubscribe = onValue(
+            ref(database, `${uid}/projects`),
+
+            snap => {
+                if (!snap.exists()) return;
+
+                dispatch(setProjects(snap.val() as IProject[]));
+            }
+        );
+
+        return () => {
+            projectsDbUnsubscribe();
+        };
+    }, [dispatch, uid]);
+
+    useEffect(() => {
+        // dispatch(checkUserAuth());
 
         const localProjects = localStorageApi.getLocalData<IProject[]>(
             IDataVariant.projects
@@ -42,7 +65,6 @@ export const useDataQuery = () => {
             dispatch(setTasksIsLoading(true));
         }
     }, [dispatch]);
-
 
     useEffect(() => {
         if (!uid) {
