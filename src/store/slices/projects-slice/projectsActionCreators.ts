@@ -1,3 +1,4 @@
+import { databaseApi } from "../../../api/api";
 import { IProject } from "../../../types/models/IProject";
 import { IDataVariant } from "../../../types/types";
 import { updateDatabase, updateLocalStorage } from "../../../utils/updateData";
@@ -16,11 +17,16 @@ export const createProject =
 
         updatedProjects.push(project);
 
-        dispatch(setProjects(updatedProjects));
+        const projectsData = {
+            uid: user.uid,
+            data: {
+                projects: updatedProjects,
+            },
+        };
 
-        updateDatabase(user, updatedProjects, IDataVariant.projects);
+        databaseApi.updateProjects(projectsData);
 
-        // updateLocalStorage<IProject[]>(updatedProjects, IDataVariant.projects);
+        // updateDatabase(user, updatedProjects, IDataVariant.projects);
     };
 
 export const deleteProject =
@@ -28,13 +34,19 @@ export const deleteProject =
         const user = getState().userReducer.user;
         const { projects } = getState().projectsReducer;
 
-        const updatedProjects = projects.filter(p => p.id !== project.id);
+        const updatedProjects =
+            projects.filter(p => p.id !== project.id) || null;
 
-        dispatch(setProjects(updatedProjects));
+        const projectsData = {
+            uid: user.uid,
+            data: {
+                projects: updatedProjects,
+            },
+        };
 
-        updateDatabase(user, updatedProjects, IDataVariant.projects);
+        databaseApi.updateProjects(projectsData);
 
-        // updateLocalStorage<IProject[]>(updatedProjects, IDataVariant.projects);
+        // updateDatabase(user, updatedProjects, IDataVariant.projects);
     };
 
 export const updateProjects =
@@ -49,14 +61,14 @@ export const updateProjects =
             return { ...p, isActive: false };
         });
 
-        dispatch(setProjects(updatedProjects));
+        const projectsData = {
+            uid: user.uid,
+            data: {
+                projects: updatedProjects,
+            },
+        };
 
-        updateDatabase(user, updatedProjects, IDataVariant.projects);
+        databaseApi.updateProjects(projectsData);
 
-        // updateLocalStorage<IProject[]>(updatedProjects, IDataVariant.projects);
-    };
-
-export const applyProjects =
-    (projects: IProject[]) => (dispatch: AppDispatch) => {
-        // dispatch(setProjects(projects));
+        // updateDatabase(user, updatedProjects, IDataVariant.projects);
     };

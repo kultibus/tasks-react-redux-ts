@@ -1,23 +1,24 @@
-import isEqual from "lodash.isequal";
 import { useEffect } from "react";
-import { databaseApi, localStorageApi } from "../api/api";
-import { applyProjects } from "../store/slices/projects-slice/projectsActionCreators";
 import {
+    setProjectError,
     setProjects,
     setProjectsIsLoading,
 } from "../store/slices/projects-slice/projectsSlice";
-import { applyTasks } from "../store/slices/tasks-slice/tasksActionCreators";
-import { setTasksIsLoading } from "../store/slices/tasks-slice/tasksSlice";
+import { setTasks } from "../store/slices/tasks-slice/tasksSlice";
 // import { checkUserAuth } from "../store/slices/user-slice/userActionCreators";
 import { IProject } from "../types/models/IProject";
 import { ITask } from "../types/models/ITask";
-import { IDataVariant } from "../types/types";
 import { useAppDispatch, useAppSelector } from "./redux";
 
 import { onValue, ref } from "firebase/database";
 import { database } from "../firebase";
+import {
+    setFormVariant,
+    setIsFormOpened,
+} from "../store/slices/form-slice/formSlice";
+import { IFormVariant } from "../types/models/IForm";
 
-export const useDataQuery = () => {
+export const useProjectsDataQuery = () => {
     const { user } = useAppSelector(state => state.userReducer);
 
     const dispatch = useAppDispatch();
@@ -27,11 +28,18 @@ export const useDataQuery = () => {
     useEffect(() => {
         if (!uid) return;
 
+        dispatch(setProjectsIsLoading(true));
+
         const projectsDbUnsubscribe = onValue(
             ref(database, `${uid}/projects`),
 
             snap => {
-                if (!snap.exists()) return;
+                if (!snap.exists()) {
+                    dispatch(setProjectsIsLoading(false));
+                    dispatch(setIsFormOpened(true));
+                    dispatch(setFormVariant(IFormVariant.initialProject));
+                    return;
+                }
 
                 dispatch(setProjects(snap.val() as IProject[]));
             }
@@ -41,81 +49,34 @@ export const useDataQuery = () => {
             projectsDbUnsubscribe();
         };
     }, [dispatch, uid]);
+};
+
+export const useTasksDataQuery = () => {
+    const { user } = useAppSelector(state => state.userReducer);
+
+    const dispatch = useAppDispatch();
+
+    const uid = user?.uid;
 
     useEffect(() => {
-        // dispatch(checkUserAuth());
+        if (!uid) return;
 
-        const localProjects = localStorageApi.getLocalData<IProject[]>(
-            IDataVariant.projects
-        );
+        dispatch(setProjectsIsLoading(true));
 
-        if (!!localProjects) {
-            dispatch(applyProjects(localProjects));
-        } else {
-            dispatch(setProjectsIsLoading(true));
-        }
-
-        const localTasks = localStorageApi.getLocalData<ITask[]>(
-            IDataVariant.tasks
-        );
-
-        if (!!localTasks) {
-            dispatch(applyTasks(localTasks));
-        } else {
-            dispatch(setTasksIsLoading(true));
-        }
-    }, [dispatch]);
-
-    useEffect(() => {
-        if (!uid) {
-            dispatch(setProjectsIsLoading(false));
-            dispatch(setTasksIsLoading(false));
-            return;
-        }
-
-        getData<IProject>(IDataVariant.projects);
-        getData<ITask>(IDataVariant.tasks);
-
-        function getData<T>(variant: IDataVariant) {
-            databaseApi.getData(user.uid, variant).then(response => {
-                if (!response || typeof response === "string") {
-                    localStorageApi.setLocalData<T[]>([], variant);
-
-                    switch (variant) {
-                        case IDataVariant.projects:
-                            dispatch(applyProjects([]));
-
-                            break;
-
-                        case IDataVariant.tasks:
-                            dispatch(applyTasks([]));
-
-                            break;
-                    }
-
+        const tasksDbUnsubscribe = onValue(
+            ref(database, `${uid}/tasks`),
+            snap => {
+                if (!snap.exists()) {
+                    dispatch(setProjectError("Tasks not found"));
                     return;
                 }
 
-                const dbData = response as T[];
+                dispatch(setTasks(snap.val() as ITask[]));
+            }
+        );
 
-                const localData = localStorageApi.getLocalData<T[]>(variant);
-
-                if (!isEqual(dbData, localData)) {
-                    localStorageApi.setLocalData<T[]>(dbData, variant);
-
-                    switch (variant) {
-                        case IDataVariant.projects:
-                            dispatch(applyProjects(dbData as IProject[]));
-
-                            break;
-
-                        case IDataVariant.tasks:
-                            dispatch(applyTasks(dbData as ITask[]));
-
-                            break;
-                    }
-                }
-            });
-        }
-    }, [uid, dispatch]);
+        return () => {
+            tasksDbUnsubscribe();
+        };
+    }, [dispatch, uid]);
 };

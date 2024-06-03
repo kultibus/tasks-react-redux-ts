@@ -39,34 +39,17 @@ export const signUpUser =
 export const signInUser =
     ({ email, password }: ISignInCreds) =>
     async (dispatch: AppDispatch) => {
-        try {
-            dispatch(setUserIsLoading(true));
+        dispatch(setUserIsLoading(true));
 
-            await signInWithEmailAndPassword(auth, email, password);
-
-            // const { user } = await signInWithEmailAndPassword(
-            //     auth,
-            //     email,
-            //     password
-            // );
-
-            // const localUser: IUser = {
-            //     uid: user.uid,
-            //     displayName: user.displayName,
-            // };
-
-            // dispatch(setUser(localUser));
-
-            // localStorageApi.setLocalData<IUser>(localUser, IDataVariant.user);
-        } catch (error) {
-            dispatch(setUserError(error.message));
-        }
+        signInWithEmailAndPassword(auth, email, password).catch(e =>
+            dispatch(setUserError(e.message))
+        );
     };
 
 export const signOutUser = () => async (dispatch: AppDispatch) => {
     signOut(auth);
 
-    dispatch(setUser(null));
+    // dispatch(setUser(null));
 
     dispatch(setProjects([]));
 

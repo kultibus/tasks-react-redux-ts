@@ -26,13 +26,14 @@ export const projectsSlice = createSlice({
             state.projectsIsLoading = false;
         },
 
-        setError(state, action: PayloadAction<string>) {
+        setProjectError(state, action: PayloadAction<string>) {
             state.error = action.payload;
+            state.projectsIsLoading = false;
         },
     },
 });
 
 export const projectsReducer = projectsSlice.reducer;
 
-export const { setProjects, setProjectsIsLoading, setError } =
+export const { setProjects, setProjectsIsLoading, setProjectError } =
     projectsSlice.actions;

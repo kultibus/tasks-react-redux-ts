@@ -19,6 +19,7 @@ import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormProject.module.scss";
 import { useActiveProject } from "../../../hooks/useActiveProject";
+import { useProjects } from "../../../api/service/projectsService";
 
 interface FormProjectProps {}
 
@@ -48,6 +49,8 @@ export const FormProject: FC<FormProjectProps> = () => {
         }
     };
 
+    const { createProject } = useProjects();
+
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -57,14 +60,16 @@ export const FormProject: FC<FormProjectProps> = () => {
                 if (!isValid) return;
 
                 const newProject: IProject = {
-                    id: Math.random().toString(36).substring(2, 9),
+                    // id: Math.random().toString(36).substring(2, 9),
                     name: projectName.value,
                     isActive: true,
                 };
 
-                dispatch(createProject(newProject));
+                // dispatch(createProject(newProject));
 
-                navigate(`/${RouteNames.project}/${newProject.id}`);
+                createProject(newProject);
+
+                // navigate(`/${RouteNames.project}/${newProject.id}`);
 
                 break;
 

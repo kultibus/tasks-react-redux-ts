@@ -1,6 +1,7 @@
-import { get, ref, update } from "firebase/database";
+import { get, push, ref, set, update } from "firebase/database";
 import { database } from "../firebase";
 import { IDataVariant, IUpdatedData } from "../types/types";
+import { IProject } from "../types/models/IProject";
 
 interface LocalStorageAPI {
     // setLocalData: <T>(object: T, variant: string) => void;
@@ -43,5 +44,15 @@ export const databaseApi = {
 
     async updateData<T extends {}>(localData: IUpdatedData<T>) {
         return update(ref(database, `${localData.uid}`), localData.data);
+    },
+
+    async addProject(localData) {
+        const projectsListRef = ref(database, `${localData.uid}/projects`);
+
+        const newProjectRef = push(projectsListRef);
+
+        await set(newProjectRef, localData.project);
+
+        return newProjectRef.key;
     },
 };

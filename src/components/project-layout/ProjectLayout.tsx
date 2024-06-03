@@ -7,7 +7,7 @@ import { TopBar } from "../top-bar/TopBar";
 import styles from "./ProjectLayout.module.scss";
 
 export const ProjectLayout: FC = () => {
-    const { projects } = useAppSelector(state => state.projectsReducer);
+    const { isOpened } = useAppSelector(state => state.formReducer);
 
     return (
         <div className={styles.projects}>
@@ -20,7 +20,7 @@ export const ProjectLayout: FC = () => {
             </div>
 
             <div className={styles.content}>
-                {!projects.length ? <FormProject /> : <Outlet />}
+                {isOpened ? <FormProject /> : <Outlet />}
             </div>
         </div>
     );
