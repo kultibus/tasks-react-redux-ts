@@ -17,19 +17,6 @@ export const createProject =
 
         updatedProjects.push(project);
 
-        // const projectsData = {
-        //     uid: user.uid,
-        //     data: {
-        //         projects: updatedProjects,
-        //     },
-        // };
-
-        // databaseApi.addProject(project).then(projectId => {
-        //     dispatch(setActiveProjectId(projectId));
-
-        //     // console.log(activeProjectId)
-        // });
-
         updateDatabase(user, updatedProjects, IDataVariant.projects);
     };
 
@@ -40,15 +27,6 @@ export const deleteProject =
 
         const updatedProjects =
             projects.filter(p => p.id !== project.id) || null;
-
-        // const projectsData = {
-        //     uid: user.uid,
-        //     data: {
-        //         projects: updatedProjects,
-        //     },
-        // };
-
-        // databaseApi.updateProjects(projectsData);
 
         updateDatabase(user, updatedProjects, IDataVariant.projects);
     };
@@ -66,15 +44,6 @@ export const updateProjects =
                   return { ...p, isActive: false };
               })
             : [];
-
-        // const projectsData = {
-        //     uid: user.uid,
-        //     data: {
-        //         projects: updatedProjects,
-        //     },
-        // };
-
-        // databaseApi.updateProjects(projectsData);
 
         updateDatabase(user, updatedProjects, IDataVariant.projects);
     };

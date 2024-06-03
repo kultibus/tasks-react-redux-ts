@@ -24,7 +24,7 @@ export interface ISignUpCreds extends ISignInCreds {
 
 export const signUpUser =
     ({ displayName, email, password }: ISignUpCreds) =>
-    async (dispatch: AppDispatch) => {
+    (dispatch: AppDispatch) => {
         dispatch(setUserIsLoading(true));
 
         createUserWithEmailAndPassword(auth, email, password)
@@ -38,7 +38,7 @@ export const signUpUser =
 
 export const signInUser =
     ({ email, password }: ISignInCreds) =>
-    async (dispatch: AppDispatch) => {
+    (dispatch: AppDispatch) => {
         dispatch(setUserIsLoading(true));
 
         signInWithEmailAndPassword(auth, email, password).catch(e =>
@@ -46,7 +46,7 @@ export const signInUser =
         );
     };
 
-export const signOutUser = () => async (dispatch: AppDispatch) => {
+export const signOutUser = () => (dispatch: AppDispatch) => {
     signOut(auth);
 
     // dispatch(setUser(null));

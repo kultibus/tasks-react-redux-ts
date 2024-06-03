@@ -35,11 +35,12 @@ export const useProjectsDataQuery = () => {
 
             snap => {
                 if (!snap.exists()) {
-                    dispatch(setProjectsIsLoading(false));
+                    dispatch(setProjects([]));
                     dispatch(setIsFormOpened(true));
                     dispatch(setFormVariant(IFormVariant.initialProject));
                     return;
                 }
+
 
                 dispatch(setProjects(snap.val() as IProject[]));
             }
@@ -61,7 +62,7 @@ export const useTasksDataQuery = () => {
     useEffect(() => {
         if (!uid) return;
 
-        dispatch(setProjectsIsLoading(true));
+        // dispatch(setProjectsIsLoading(true));
 
         const tasksDbUnsubscribe = onValue(
             ref(database, `${uid}/tasks`),

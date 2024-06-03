@@ -2,24 +2,17 @@ import { FC, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
-import { IFormVariant } from "../../../types/models/IForm";
-import { IProject } from "../../../types/models/IProject";
+import { useProjects } from "../../../hooks/useProjects";
 import { RouteNames } from "../../../router";
 import {
-    setFormVariant,
     setIsFormOpened,
     setIsFormValid,
 } from "../../../store/slices/form-slice/formSlice";
-import {
-    createProject,
-    deleteProject,
-    updateProjects,
-} from "../../../store/slices/projects-slice/projectsActionCreators";
+import { IFormVariant } from "../../../types/models/IForm";
+import { IProject } from "../../../types/models/IProject";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import styles from "./FormProject.module.scss";
-import { useActiveProject } from "../../../hooks/useActiveProject";
-import { useProjects } from "../../../api/service/projectsService";
 
 interface FormProjectProps {}
 
@@ -31,7 +24,8 @@ export const FormProject: FC<FormProjectProps> = () => {
     const { projects } = useAppSelector(state => state.projectsReducer);
     const { variant, isValid } = useAppSelector(state => state.formReducer);
 
-    const activeProject = useActiveProject();
+    const { activeProject, createProject, deleteProject, updateProjects } =
+        useProjects();
 
     const projectName = useInput(
         "",
@@ -49,7 +43,6 @@ export const FormProject: FC<FormProjectProps> = () => {
         }
     };
 
-
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -64,8 +57,7 @@ export const FormProject: FC<FormProjectProps> = () => {
                     isActive: true,
                 };
 
-                dispatch(createProject(newProject));
-
+                createProject(newProject);
 
                 navigate(`/${RouteNames.project}/${newProject.id}`);
 
@@ -79,7 +71,7 @@ export const FormProject: FC<FormProjectProps> = () => {
                     name: projectName.value,
                 };
 
-                dispatch(updateProjects(editedProject));
+                updateProjects(editedProject);
 
                 navigate(`/${RouteNames.project}/${editedProject.id}`);
 
@@ -94,18 +86,18 @@ export const FormProject: FC<FormProjectProps> = () => {
                 const pervProject = projects[activeIndex - 1];
                 const nextProject = projects[activeIndex + 1];
 
-                dispatch(deleteProject(projects[activeIndex]));
+                deleteProject(projects[activeIndex]);
 
                 if (length > 1 && activeIndex === 0) {
-                    dispatch(updateProjects(nextProject));
+                    updateProjects(nextProject);
 
                     navigate(`/${RouteNames.project}/${nextProject.id}`);
                 } else if (length > 1) {
-                    dispatch(updateProjects(pervProject));
+                    updateProjects(pervProject);
 
                     navigate(`/${RouteNames.project}/${pervProject.id}`);
                 } else {
-                    dispatch(updateProjects(null));
+                    updateProjects(null);
 
                     dispatch(setIsFormValid(true));
 

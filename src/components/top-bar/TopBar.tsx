@@ -13,14 +13,14 @@ import {
     EditDelBtnsVariant,
 } from "../UI/edit-del-btns/EditDelBtns";
 import styles from "./TopBar.module.scss";
-import { useActiveProject } from "../../hooks/useActiveProject";
+import { useProjects } from "../../hooks/useProjects";
 
 interface TopBarProps {}
 
 export const TopBar: FC<TopBarProps> = () => {
     const { isOpened, variant } = useAppSelector(state => state.formReducer);
 
-    const activeProject = useActiveProject();
+    const { activeProject } = useProjects();
 
     const navigate = useNavigate();
 

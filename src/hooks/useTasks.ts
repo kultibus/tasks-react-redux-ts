@@ -22,12 +22,15 @@ export const useSortedTasks = (tasks: ITask[], sort: string) => {
     return sortedTasks;
 };
 
-export const useTasks = (tasks: ITask[], { query, sort }: IFilter) => {
+export const useSortedAndFilteredTasks = (
+    tasks: ITask[],
+    { query, sort }: IFilter
+) => {
     const sortedTasks = useSortedTasks(tasks, sort);
 
-    const filteredTasks = useMemo(() => {
+    const sortedAndFilteredTasks = useMemo(() => {
         return sortedTasks.filter(t => t.title.toLowerCase().includes(query));
     }, [query, sortedTasks]);
 
-    return filteredTasks;
+    return sortedAndFilteredTasks;
 };

@@ -2,7 +2,7 @@ import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { FC, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { useAppSelector } from "../../hooks/redux";
-import { useActiveProject } from "../../hooks/useActiveProject";
+import { useProjects } from "../../hooks/useProjects";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 import { IFormVariant } from "../../types/models/IForm";
 import { FormTask } from "../UI/form-task/FormTask";
@@ -12,7 +12,7 @@ import { Task } from "../task/Task";
 import { TasksFilter } from "../tasks-filter/TasksFilter";
 import styles from "./Boards.module.scss";
 import { IFilter } from "../../types/types";
-import { useTasks } from "../../hooks/useTasks";
+import { useSortedAndFilteredTasks } from "../../hooks/useTasks";
 
 export enum IBoardVariant {
     opened = "opened",
@@ -32,13 +32,16 @@ export const Boards: FC = () => {
 
     const [filter, setFilter] = useState<IFilter>({ sort: "", query: "" });
 
-    const activeProject = useActiveProject();
+    const { activeProject } = useProjects();
 
     const projectTasks = useMemo(() => {
         return tasks.filter(t => t.projectId === activeProject.id);
     }, [tasks, activeProject]);
 
-    const filteredTasks = useTasks(projectTasks, filter);
+    const sortedAndFilteredTasks = useSortedAndFilteredTasks(
+        projectTasks,
+        filter
+    );
 
     const { handleDragStart, handleDragEnd, handleDragOver } = useDragAndDrop();
 
@@ -71,7 +74,7 @@ export const Boards: FC = () => {
                             <Board
                                 key={board}
                                 // tasks={projectTasks.filter(
-                                tasks={filteredTasks.filter(
+                                tasks={sortedAndFilteredTasks.filter(
                                     t => t.board === board
                                 )}
                                 board={board}
