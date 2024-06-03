@@ -17,16 +17,20 @@ export const createProject =
 
         updatedProjects.push(project);
 
-        const projectsData = {
-            uid: user.uid,
-            data: {
-                projects: updatedProjects,
-            },
-        };
+        // const projectsData = {
+        //     uid: user.uid,
+        //     data: {
+        //         projects: updatedProjects,
+        //     },
+        // };
 
-        databaseApi.updateProjects(projectsData);
+        // databaseApi.addProject(project).then(projectId => {
+        //     dispatch(setActiveProjectId(projectId));
 
-        // updateDatabase(user, updatedProjects, IDataVariant.projects);
+        //     // console.log(activeProjectId)
+        // });
+
+        updateDatabase(user, updatedProjects, IDataVariant.projects);
     };
 
 export const deleteProject =
@@ -37,16 +41,16 @@ export const deleteProject =
         const updatedProjects =
             projects.filter(p => p.id !== project.id) || null;
 
-        const projectsData = {
-            uid: user.uid,
-            data: {
-                projects: updatedProjects,
-            },
-        };
+        // const projectsData = {
+        //     uid: user.uid,
+        //     data: {
+        //         projects: updatedProjects,
+        //     },
+        // };
 
-        databaseApi.updateProjects(projectsData);
+        // databaseApi.updateProjects(projectsData);
 
-        // updateDatabase(user, updatedProjects, IDataVariant.projects);
+        updateDatabase(user, updatedProjects, IDataVariant.projects);
     };
 
 export const updateProjects =
@@ -54,21 +58,23 @@ export const updateProjects =
         const user = getState().userReducer.user;
         const { projects } = getState().projectsReducer;
 
-        const updatedProjects = projects.map(p => {
-            if (p.id === project.id) {
-                return { ...project, isActive: true };
-            }
-            return { ...p, isActive: false };
-        });
+        const updatedProjects = !!project
+            ? projects.map(p => {
+                  if (p.id === project.id) {
+                      return { ...project, isActive: true };
+                  }
+                  return { ...p, isActive: false };
+              })
+            : [];
 
-        const projectsData = {
-            uid: user.uid,
-            data: {
-                projects: updatedProjects,
-            },
-        };
+        // const projectsData = {
+        //     uid: user.uid,
+        //     data: {
+        //         projects: updatedProjects,
+        //     },
+        // };
 
-        databaseApi.updateProjects(projectsData);
+        // databaseApi.updateProjects(projectsData);
 
-        // updateDatabase(user, updatedProjects, IDataVariant.projects);
+        updateDatabase(user, updatedProjects, IDataVariant.projects);
     };

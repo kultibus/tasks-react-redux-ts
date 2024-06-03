@@ -49,7 +49,6 @@ export const FormProject: FC<FormProjectProps> = () => {
         }
     };
 
-    const { createProject } = useProjects();
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -60,16 +59,15 @@ export const FormProject: FC<FormProjectProps> = () => {
                 if (!isValid) return;
 
                 const newProject: IProject = {
-                    // id: Math.random().toString(36).substring(2, 9),
+                    id: Math.random().toString(36).substring(2, 9),
                     name: projectName.value,
                     isActive: true,
                 };
 
-                // dispatch(createProject(newProject));
+                dispatch(createProject(newProject));
 
-                createProject(newProject);
 
-                // navigate(`/${RouteNames.project}/${newProject.id}`);
+                navigate(`/${RouteNames.project}/${newProject.id}`);
 
                 break;
 
@@ -107,7 +105,7 @@ export const FormProject: FC<FormProjectProps> = () => {
 
                     navigate(`/${RouteNames.project}/${pervProject.id}`);
                 } else {
-                    dispatch(updateProjects({} as IProject));
+                    dispatch(updateProjects(null));
 
                     dispatch(setIsFormValid(true));
 

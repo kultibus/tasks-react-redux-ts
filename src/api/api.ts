@@ -46,13 +46,13 @@ export const databaseApi = {
         return update(ref(database, `${localData.uid}`), localData.data);
     },
 
-    async addProject(localData) {
-        const projectsListRef = ref(database, `${localData.uid}/projects`);
+    // async addProject(localData) {
+    //     const projectsListRef = ref(database, `${localData.uid}/projects`);
 
-        const newProjectRef = push(projectsListRef);
+    //     const newProjectRef = push(projectsListRef);
 
-        await set(newProjectRef, localData.project);
+    //     await set(newProjectRef, localData.project);
 
-        return newProjectRef.key;
-    },
+    //     return newProjectRef.key;
+    // },
 };
