@@ -1,20 +1,18 @@
-import { FC, MouseEvent } from "react";
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { IFormVariant } from "../../types/models/IForm";
+import { useProjects } from "../../hooks/useProjects";
 import { RouteNames } from "../../router";
 import {
-    setFormVariant,
-    setIsFormOpened,
+	setFormVariant,
+	setIsFormOpened,
 } from "../../store/slices/form-slice/formSlice";
-import {
-    updateProjects,
-} from "../../store/slices/projects-slice/projectsActionCreators";
-import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
-import { List, ListVariant } from "../list/List";
-import { SideLink } from "../UI/side-link/SideLink";
-import styles from "./SideBar.module.scss";
+import { IFormVariant } from "../../types/models/IForm";
 import { IProject } from "../../types/models/IProject";
+import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
+import { SideLink } from "../UI/side-link/SideLink";
+import { List, ListVariant } from "../list/List";
+import styles from "./SideBar.module.scss";
 
 interface SideBarProps {}
 
@@ -27,10 +25,12 @@ export const SideBar: FC<SideBarProps> = () => {
 
     const dispatch = useAppDispatch();
 
+    const { updateProjects } = useProjects();
+
     const handleLinkClick = (project: IProject) => {
         const activeProject = { ...project, isActive: true };
 
-        dispatch(updateProjects(activeProject));
+        updateProjects(activeProject);
 
         dispatch(setIsFormOpened(false));
     };

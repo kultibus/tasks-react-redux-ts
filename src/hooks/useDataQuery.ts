@@ -41,6 +41,7 @@ export const useProjectsDataQuery = () => {
                     return;
                 }
 
+				console.log(snap.val())
 
                 dispatch(setProjects(snap.val() as IProject[]));
             }

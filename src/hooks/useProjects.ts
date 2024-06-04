@@ -1,8 +1,9 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useAppSelector } from "./redux";
 import { IProject } from "../types/models/IProject";
 import { updateDatabase } from "../utils/updateData";
 import { IDataVariant } from "../types/types";
+import { IUser } from "../types/models/IUser";
 
 export const useProjects = () => {
     const { user } = useAppSelector(state => state.userReducer);
@@ -23,24 +24,58 @@ export const useProjects = () => {
     };
 
     const deleteProject = (project: IProject) => {
-        const updatedProjects =
-            projects.filter(p => p.id !== project.id) || null;
+        const activeIndex = projects.findIndex(p => p.id === project.id);
 
-        updateDatabase(user, updatedProjects, IDataVariant.projects);
+        const filteredProjects = projects.filter(p => p.id !== project.id);
+
+        if (projects.length > 1 && activeIndex === 0) {
+            const nextProjectId = projects[activeIndex + 1].id;
+
+            const updatedProjects = filteredProjects.map(p => {
+                if (p.id === nextProjectId) {
+                    return { ...p, isActive: true };
+                }
+                return { ...p, isActive: false };
+            });
+
+            updateDatabase(user, updatedProjects, IDataVariant.projects);
+
+            return nextProjectId;
+        } else if (projects.length > 1) {
+            const pervProjectId = projects[activeIndex - 1].id;
+
+            const updatedProjects = filteredProjects.map(p => {
+                if (p.id === pervProjectId) {
+                    return { ...p, isActive: true };
+                }
+                return { ...p, isActive: false };
+            });
+
+            updateDatabase(user, updatedProjects, IDataVariant.projects);
+
+            return pervProjectId;
+        } else {
+            updateDatabase(user, null, IDataVariant.projects);
+
+            return null;
+        }
     };
 
     const updateProjects = (project: IProject) => {
-        const updatedProjects = !!project
-            ? projects.map(p => {
-                  if (p.id === project.id) {
-                      return { ...project, isActive: true };
-                  }
-                  return { ...p, isActive: false };
-              })
-            : [];
+        const updatedProjects = projects.map(p => {
+            if (p.id === project.id) {
+                return { ...project, isActive: true };
+            }
+            return { ...p, isActive: false };
+        });
 
         updateDatabase(user, updatedProjects, IDataVariant.projects);
     };
 
-    return { activeProject, createProject, deleteProject, updateProjects };
+    return {
+        activeProject,
+        createProject,
+        deleteProject,
+        updateProjects,
+    };
 };

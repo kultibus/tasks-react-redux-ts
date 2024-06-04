@@ -44,7 +44,6 @@ export const databaseApi = {
 
     async updateData<T extends {}>(localData: IUpdatedData<T>) {
 
-		console.log(localData.data)
         return update(ref(database, `${localData.uid}`), localData.data);
     },
 };

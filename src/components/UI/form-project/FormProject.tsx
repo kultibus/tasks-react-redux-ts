@@ -21,7 +21,6 @@ export const FormProject: FC<FormProjectProps> = () => {
 
     const dispatch = useAppDispatch();
 
-    const { projects } = useAppSelector(state => state.projectsReducer);
     const { variant, isValid } = useAppSelector(state => state.formReducer);
 
     const { activeProject, createProject, deleteProject, updateProjects } =
@@ -78,30 +77,10 @@ export const FormProject: FC<FormProjectProps> = () => {
                 break;
 
             case IFormVariant.deleteProject:
-                const activeIndex = projects.findIndex(
-                    p => p.id === activeProject.id
-                );
+                const nextProjectId = deleteProject(activeProject);
 
-                const length = projects.length;
-                const pervProject = projects[activeIndex - 1];
-                const nextProject = projects[activeIndex + 1];
-
-                deleteProject(projects[activeIndex]);
-
-                if (length > 1 && activeIndex === 0) {
-                    updateProjects(nextProject);
-
-                    navigate(`/${RouteNames.project}/${nextProject.id}`);
-                } else if (length > 1) {
-                    updateProjects(pervProject);
-
-                    navigate(`/${RouteNames.project}/${pervProject.id}`);
-                } else {
-                    updateProjects(null);
-
-                    dispatch(setIsFormValid(true));
-
-                    navigate(`/`);
+                if (!!nextProjectId) {
+                    navigate(`/${RouteNames.project}/${nextProjectId}`);
                 }
 
                 break;
