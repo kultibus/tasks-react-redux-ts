@@ -37,7 +37,7 @@ export const Boards: FC = () => {
 
     const sortedAndFilteredTasks = useSortedAndFilteredTasks(filter);
 
-    // const { handleDragStart, handleDragEnd, handleDragOver } = useDragAndDrop();
+    const { handleDragStart, handleDragEnd, handleDragOver } = useDragAndDrop();
 
     if (
         isOpened &&
@@ -56,9 +56,9 @@ export const Boards: FC = () => {
             </header>
             <div className={styles.content}>
                 <DndContext
-                    // onDragStart={handleDragStart}
-                    // onDragEnd={handleDragEnd}
-                    // onDragOver={handleDragOver}
+                    onDragStart={handleDragStart}
+                    onDragEnd={handleDragEnd}
+                    onDragOver={handleDragOver}
                     // collisionDetection={closestCenter}
                 >
                     <List
