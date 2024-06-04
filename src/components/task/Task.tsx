@@ -4,11 +4,8 @@ import classNames from "classnames";
 import { FC, useEffect, useState } from "react";
 import DragIcon from "../../assets/icons/dragging.svg";
 import { useAppDispatch } from "../../hooks/redux";
-import {
-    setFormVariant,
-    setIsFormOpened,
-} from "../../store/slices/form-slice/formSlice";
-import { setActiveTask } from "../../store/slices/tasks-slice/tasksSlice";
+import { setFormVariant, setIsFormOpened } from "../../store/slices/formSlice";
+import { setActiveTask } from "../../store/slices/tasksSlice";
 import { IFormVariant } from "../../types/models/IForm";
 import { ITask } from "../../types/models/ITask";
 import { formatDate } from "../../utils/formatDate";

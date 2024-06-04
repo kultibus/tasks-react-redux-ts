@@ -5,7 +5,7 @@ import { FormError } from "../components/UI/form-error/FormError";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { IFormVariant } from "../types/models/IForm";
 import { RouteNames } from "../router";
-import { setFormVariant } from "../store/slices/form-slice/formSlice";
+import { setFormVariant } from "../store/slices/formSlice";
 
 export const LoginPage: FC = () => {
     const { error } = useAppSelector(state => state.userReducer);

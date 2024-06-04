@@ -2,10 +2,7 @@ import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { RouteNames } from "../../router";
-import {
-    setFormVariant,
-    setIsFormOpened,
-} from "../../store/slices/form-slice/formSlice";
+import { setFormVariant, setIsFormOpened } from "../../store/slices/formSlice";
 import { IFormVariant } from "../../types/models/IForm";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import {

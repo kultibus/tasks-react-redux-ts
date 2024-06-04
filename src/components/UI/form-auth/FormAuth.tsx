@@ -2,7 +2,7 @@ import { FC, FormEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
 import { IFormVariant } from "../../../types/models/IForm";
-import { setIsFormValid } from "../../../store/slices/form-slice/formSlice";
+import { setIsFormValid } from "../../../store/slices/formSlice";
 import {
     signInUser,
     signUpUser,

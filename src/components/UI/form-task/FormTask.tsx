@@ -4,12 +4,7 @@ import { useInput } from "../../../hooks/useInput";
 import {
     setIsFormOpened,
     setIsFormValid,
-} from "../../../store/slices/form-slice/formSlice";
-import {
-    createTask,
-    deleteTask,
-    editTask,
-} from "../../../store/slices/tasks-slice/tasksActionCreators";
+} from "../../../store/slices/formSlice";
 import { IFormVariant } from "../../../types/models/IForm";
 import { ITask } from "../../../types/models/ITask";
 import { formatDate } from "../../../utils/formatDate";
@@ -18,8 +13,9 @@ import { AppInput } from "../app-input/AppInput";
 import { AppTextarea } from "../app-textarea/AppTextarea";
 import styles from "./FormTask.module.scss";
 import { IBoardVariant } from "../../boards/Boards";
-import { setActiveTask } from "../../../store/slices/tasks-slice/tasksSlice";
+import { setActiveTask } from "../../../store/slices/tasksSlice";
 import { useProjects } from "../../../hooks/useProjects";
+import { useTasks } from "../../../hooks/useTasks";
 
 interface FormTaskProps {}
 
@@ -30,7 +26,9 @@ export const FormTask: FC<FormTaskProps> = () => {
 
     const { activeTask } = useAppSelector(state => state.tasksReducer);
 
-    const {activeProject} = useProjects();
+    const { activeProject } = useProjects();
+
+    const { createTask, deleteTask, editTask } = useTasks();
 
     const taskTitle = useInput(
         activeTask?.title || "",
@@ -80,7 +78,7 @@ export const FormTask: FC<FormTaskProps> = () => {
                     board: IBoardVariant.opened,
                 };
 
-                dispatch(createTask(newTask));
+                createTask(newTask);
 
                 break;
 
@@ -94,12 +92,12 @@ export const FormTask: FC<FormTaskProps> = () => {
                     expDate: expDate,
                 };
 
-                dispatch(editTask(editedTask));
+                editTask(editedTask);
 
                 break;
 
             case IFormVariant.deleteTask:
-                dispatch(deleteTask(activeTask));
+                deleteTask(activeTask);
 
                 break;
         }

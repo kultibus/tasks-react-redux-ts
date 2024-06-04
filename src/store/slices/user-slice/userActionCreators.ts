@@ -4,14 +4,11 @@ import {
     signOut,
     updateProfile,
 } from "firebase/auth";
-import { localStorageApi } from "../../../api/api";
 import { auth } from "../../../firebase";
-import { IUser } from "../../../types/models/IUser";
+import { setProjects } from "../projectsSlice";
 import { AppDispatch } from "../../store";
-import { setUser, setUserError, setUserIsLoading } from "./userSlice";
-import { IDataVariant } from "../../../types/types";
-import { setProjects } from "../projects-slice/projectsSlice";
-import { setTasks } from "../tasks-slice/tasksSlice";
+import { setTasks } from "../tasksSlice";
+import { setUserError, setUserIsLoading } from "./userSlice";
 
 export interface ISignInCreds {
     email: string;
@@ -49,24 +46,7 @@ export const signInUser =
 export const signOutUser = () => (dispatch: AppDispatch) => {
     signOut(auth);
 
-    // dispatch(setUser(null));
-
     dispatch(setProjects([]));
 
     dispatch(setTasks([]));
-
-    localStorageApi.clearLocalData();
 };
-
-// export const checkUserAuth = () => (dispatch: AppDispatch) => {
-//     dispatch(setUserIsLoading(true));
-
-//     const localUser = localStorageApi.getLocalData<IUser>(IDataVariant.user);
-
-//     if (!!localUser) {
-//         dispatch(setUser(localUser));
-//         return;
-//     }
-
-//     dispatch(setUserIsLoading(false));
-// };

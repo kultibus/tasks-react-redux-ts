@@ -1,6 +1,6 @@
-import { auth } from "../firebase";
-import { useEffect, useCallback } from "react";
 import { onAuthStateChanged } from "firebase/auth";
+import { useEffect } from "react";
+import { auth } from "../firebase";
 import {
     setUser,
     setUserIsLoading,

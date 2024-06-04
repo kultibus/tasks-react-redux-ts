@@ -3,8 +3,8 @@ import {
     setProjectError,
     setProjects,
     setProjectsIsLoading,
-} from "../store/slices/projects-slice/projectsSlice";
-import { setTasks } from "../store/slices/tasks-slice/tasksSlice";
+} from "../store/slices/projectsSlice";
+import { setTasks } from "../store/slices/tasksSlice";
 // import { checkUserAuth } from "../store/slices/user-slice/userActionCreators";
 import { IProject } from "../types/models/IProject";
 import { ITask } from "../types/models/ITask";
@@ -12,10 +12,7 @@ import { useAppDispatch, useAppSelector } from "./redux";
 
 import { child, onValue, ref } from "firebase/database";
 import { database } from "../firebase";
-import {
-    setFormVariant,
-    setIsFormOpened,
-} from "../store/slices/form-slice/formSlice";
+import { setFormVariant, setIsFormOpened } from "../store/slices/formSlice";
 import { IFormVariant } from "../types/models/IForm";
 
 export const useProjectsDataQuery = () => {
@@ -40,8 +37,6 @@ export const useProjectsDataQuery = () => {
                     dispatch(setFormVariant(IFormVariant.initialProject));
                     return;
                 }
-
-				console.log(snap.val())
 
                 dispatch(setProjects(snap.val() as IProject[]));
             }
@@ -69,9 +64,11 @@ export const useTasksDataQuery = () => {
             ref(database, `${uid}/tasks`),
             snap => {
                 if (!snap.exists()) {
-                    dispatch(setProjectError("Tasks not found"));
+                    // dispatch(setProjectError("Tasks not found"));
                     return;
                 }
+
+                console.log(snap.val());
 
                 dispatch(setTasks(snap.val() as ITask[]));
             }

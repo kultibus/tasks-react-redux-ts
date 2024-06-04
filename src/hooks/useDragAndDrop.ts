@@ -1,10 +1,7 @@
 import { DragOverEvent, DragStartEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { useEffect, useState } from "react";
-import {
-    setActiveTask,
-    setTasks,
-} from "../store/slices/tasks-slice/tasksSlice";
+import { setActiveTask, setTasks } from "../store/slices/tasksSlice";
 import { ITask } from "../types/models/ITask";
 import { IDataVariant } from "../types/types";
 import { updateDatabase, updateLocalStorage } from "../utils/updateData";

@@ -7,7 +7,7 @@ import { RouteNames } from "../../../router";
 import {
     setIsFormOpened,
     setIsFormValid,
-} from "../../../store/slices/form-slice/formSlice";
+} from "../../../store/slices/formSlice";
 import { IFormVariant } from "../../../types/models/IForm";
 import { IProject } from "../../../types/models/IProject";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";

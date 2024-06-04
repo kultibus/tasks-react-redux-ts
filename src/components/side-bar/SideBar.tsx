@@ -3,10 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { useProjects } from "../../hooks/useProjects";
 import { RouteNames } from "../../router";
-import {
-	setFormVariant,
-	setIsFormOpened,
-} from "../../store/slices/form-slice/formSlice";
+import { setFormVariant, setIsFormOpened } from "../../store/slices/formSlice";
 import { IFormVariant } from "../../types/models/IForm";
 import { IProject } from "../../types/models/IProject";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";

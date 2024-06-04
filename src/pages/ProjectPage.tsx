@@ -1,7 +1,7 @@
 import { FC, useEffect, useMemo } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { setIsFormOpened } from "../store/slices/form-slice/formSlice";
+import { setIsFormOpened } from "../store/slices/formSlice";
 
 export const ProjectPage: FC = () => {
     const { projects } = useAppSelector(state => state.projectsReducer);

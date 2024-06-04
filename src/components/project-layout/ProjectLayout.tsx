@@ -5,9 +5,10 @@ import { FormProject } from "../UI/form-project/FormProject";
 import { SideBar } from "../side-bar/SideBar";
 import { TopBar } from "../top-bar/TopBar";
 import styles from "./ProjectLayout.module.scss";
+import { IFormVariant } from "../../types/models/IForm";
 
 export const ProjectLayout: FC = () => {
-    const { isOpened } = useAppSelector(state => state.formReducer);
+    const { isOpened, variant } = useAppSelector(state => state.formReducer);
 
     return (
         <div className={styles.projects}>
@@ -20,7 +21,11 @@ export const ProjectLayout: FC = () => {
             </div>
 
             <div className={styles.content}>
-                {isOpened ? <FormProject /> : <Outlet />}
+                {isOpened && variant === IFormVariant.addProject ? (
+                    <FormProject />
+                ) : (
+                    <Outlet />
+                )}
             </div>
         </div>
     );

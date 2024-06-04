@@ -1,9 +1,8 @@
-import { useCallback, useMemo } from "react";
-import { useAppSelector } from "./redux";
+import { useMemo } from "react";
 import { IProject } from "../types/models/IProject";
-import { updateDatabase } from "../utils/updateData";
 import { IDataVariant } from "../types/types";
-import { IUser } from "../types/models/IUser";
+import { updateDatabase } from "../utils/updateData";
+import { useAppSelector } from "./redux";
 
 export const useProjects = () => {
     const { user } = useAppSelector(state => state.userReducer);

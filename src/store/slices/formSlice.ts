@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IForm, IFormVariant } from "../../../types/models/IForm";
+import { IForm, IFormVariant } from "../../types/models/IForm";
 
 const initialState: IForm = {
     isOpened: false,
