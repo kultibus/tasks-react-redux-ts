@@ -1,34 +1,27 @@
 import { DragOverEvent, DragStartEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import { useEffect, useState } from "react";
-import { setActiveTask, setTasks } from "../store/slices/tasksSlice";
-import { ITask } from "../types/models/ITask";
-import { IDataVariant } from "../types/types";
-import { updateDatabase, updateLocalStorage } from "../utils/updateData";
+import { setActiveTask } from "../store/slices/tasksSlice";
 import { useAppDispatch, useAppSelector } from "./redux";
 import { useTasks } from "./useTasks";
-import { task } from "../components/task/Task.module.scss";
-import { board } from "../components/board/Board.module.scss";
+import { useEffect, useState } from "react";
+import { ITask } from "../types/models/ITask";
 
 export const useDragAndDrop = () => {
     const { tasks, activeTask } = useAppSelector(state => state.tasksReducer);
-    const { user } = useAppSelector(state => state.userReducer);
 
-    const { editTask, updateTasks } = useTasks();
+    const { updateTasks } = useTasks();
 
     const dispatch = useAppDispatch();
 
-    // const [currentTasks, setCurrentTasks] = useState<ITask[] | null>(null);
+    const [currentTasks, setCurrentTasks] = useState<ITask[] | null>(null);
 
-    // useEffect(() => {
-    //     setCurrentTasks(tasks);
-    // }, [tasks]);
+    useEffect(() => {
+        setCurrentTasks(tasks);
+    }, [tasks]);
 
-    // useEffect(() => {
-
-    //     updateDatabase(user, currentTasks, IDataVariant.tasks);
-
-    // }, [currentTasks]);
+    useEffect(() => {
+        updateTasks(currentTasks);
+    }, [currentTasks]);
 
     const handleDragStart = (event: DragStartEvent) => {
         dispatch(setActiveTask(event.active.data.current.task));
@@ -45,57 +38,66 @@ export const useDragAndDrop = () => {
         const activeId = active.id as string;
         const overId = over.id as string;
 
+        if (activeId === overId) return;
+
         const isOverTask = over.data.current?.type === "task";
+
+        const oldIndex = currentTasks.findIndex(t => t.id === activeId);
+        const newIndex = currentTasks.findIndex(t => t.id === overId);
 
         const oldBoard = active.data.current?.board;
         const newBoard = over.data.current?.board;
 
-        const oldIndex = tasks.findIndex(t => t.id === activeId);
-        const newIndex = tasks.findIndex(t => t.id === overId);
-
-        // console.log(oldIndex, newIndex);
-        // console.log(tasks);
-
         if (isOverTask) {
-            const overTask = tasks.find(t => t.id === overId);
+            if (oldBoard !== newBoard && newIndex !== 0) {
+                setCurrentTasks(tasks => {
+                    const updatedTasks = tasks.map(t => {
+                        if (t.id === activeId) {
+                            return {
+                                ...activeTask,
+                                board: newBoard,
+                            };
+                        } else {
+                            return t;
+                        }
+                    });
 
-            const updatedTasks = tasks.map(t => {
-                if (t.id === activeId) {
-                    return {
-                        ...activeTask,
-                        board: overTask.board,
-                    };
-                } else {
-                    return t;
-                }
-            });
-
-            const diff = oldIndex - newIndex;
-
-            console.log(diff, oldIndex, newIndex);
-
-            const reorderedTasks = arrayMove(
-                updatedTasks,
-                oldIndex,
-                diff === 0 ? oldIndex : newIndex
-            );
-
-            updateTasks(reorderedTasks);
+                    return arrayMove(updatedTasks, oldIndex, newIndex - 1);
+                });
+            } else if (oldBoard !== newBoard && newIndex === 0) {
+                setCurrentTasks(tasks => {
+                    const updatedTasks = tasks.map(t => {
+                        if (t.id === activeId) {
+                            return {
+                                ...activeTask,
+                                board: newBoard,
+                            };
+                        } else {
+                            return t;
+                        }
+                    });
+                    return arrayMove(updatedTasks, oldIndex, newIndex);
+                });
+            } else {
+                setCurrentTasks(tasks => {
+                    return arrayMove(tasks, oldIndex, newIndex);
+                });
+            }
         } else {
-            const updatedTasks = tasks.map(t => {
-                if (t.id === activeId) {
-                    return {
-                        ...activeTask,
-                        board: overId,
-                    };
-                } else {
-                    return t;
-                }
+            setCurrentTasks(tasks => {
+                const updatedTasks = tasks.map(t => {
+                    if (t.id === activeId) {
+                        return {
+                            ...activeTask,
+                            board: overId,
+                        };
+                    } else {
+                        return t;
+                    }
+                });
+
+                return arrayMove(updatedTasks, oldIndex, newIndex);
             });
-
-            const reorderedTasks = arrayMove(updatedTasks, oldIndex, newIndex);
-
-            updateTasks(reorderedTasks);
         }
     };
 

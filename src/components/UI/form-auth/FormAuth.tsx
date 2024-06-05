@@ -1,4 +1,4 @@
-import { FC, FormEvent } from "react";
+import { FC, FormEvent, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
 import { IFormVariant } from "../../../types/models/IForm";
@@ -27,6 +27,12 @@ export const FormAuth: FC<FormAuthProps> = props => {
     const email = useInput("", "Enter email...", "Email is empty!");
     const password = useInput("", "Enter password...", "Password is empty!");
     const displayName = useInput("", "Enter login...", "Login is empty!");
+
+    useEffect(() => {
+        email.cleanValue();
+        password.cleanValue();
+        displayName.cleanValue();
+    }, [variant]);
 
     const handleClick = () => {
         dispatch(setIsFormValid(true));

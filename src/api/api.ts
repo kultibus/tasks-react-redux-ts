@@ -1,49 +1,43 @@
-import { child, get, push, ref, set, update } from "firebase/database";
+import { ref, update } from "firebase/database";
 import { database } from "../firebase";
-import { IDataVariant, IProjectsData, IUpdatedData } from "../types/types";
+import {
+    IDataVariant,
+    IProjectsData,
+    ITaskData,
+    IUpdatedData,
+} from "../types/types";
+import { IUser } from "../types/models/IUser";
 import { IProject } from "../types/models/IProject";
+import { ITask } from "../types/models/ITask";
 
-interface LocalStorageAPI {
-    // setLocalData: <T>(object: T, variant: string) => void;
-    setLocalData: <T>(object: T, variant: string) => void;
-    getLocalData: <T>(variant: string) => T | null;
-    clearLocalData: () => void;
+const updateData = <T extends {}>(localData: IUpdatedData<T>) => {
+    return update(ref(database, `${localData.uid}`), localData.data);
+};
+
+export function updateDatabase(
+    user: IUser,
+    updatedData: IProject[] | ITask[],
+    variant: IDataVariant
+) {
+    if (!user) return;
+
+    switch (variant) {
+        case IDataVariant.projects:
+            const projectsData = {
+                uid: user.uid,
+                data: { [variant]: updatedData as IProject[] },
+            };
+
+            updateData<IProjectsData>(projectsData);
+            break;
+
+        case IDataVariant.tasks:
+            const tasksData = {
+                uid: user.uid,
+                data: { [variant]: updatedData as ITask[] },
+            };
+
+            updateData<ITaskData>(tasksData);
+            break;
+    }
 }
-
-export const localStorageApi: LocalStorageAPI = {
-    setLocalData: (object, variant) =>
-        localStorage.setItem(variant, JSON.stringify(object)),
-
-    getLocalData: variant => {
-        const localData = localStorage.getItem(variant);
-        try {
-            return JSON.parse(localData);
-        } catch (error) {
-            return null;
-        }
-    },
-
-    clearLocalData: () => {
-        const keys = Object.keys(localStorage);
-
-        for (const key of keys) {
-            if (key !== "theme") {
-                localStorage.removeItem(key);
-            }
-        }
-    },
-};
-
-export const databaseApi = {
-    async getData(uid: string, path: IDataVariant) {
-        const snap = await get(ref(database, `${uid}/${path}`));
-        return snap.exists()
-            ? snap.val()
-            : "Something went wrong, try reload page";
-    },
-
-    async updateData<T extends {}>(localData: IUpdatedData<T>) {
-
-        return update(ref(database, `${localData.uid}`), localData.data);
-    },
-};

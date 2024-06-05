@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { User, UserInfo } from "firebase/auth";
-import { IUser } from "../../../types/models/IUser";
-import { IThemeVariant } from "../../../types/types";
+import { IUser } from "../../types/models/IUser";
+import { IThemeVariant } from "../../types/types";
 
 interface ThemeState {
     theme: IThemeVariant;

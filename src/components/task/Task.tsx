@@ -94,15 +94,21 @@ export const Task: FC<TaskProps> = props => {
             </div>
             {task.body && <p className={styles.body}>{task.body}</p>}
             <div className={styles.bottom}>
-                <span>Days left to complete:</span>
-                <span
-                    className={classNames(styles.daysLeft, {
-                        [styles.warning]: daysLeft < 7,
-                        [styles.expires]: daysLeft < 3,
-                    })}
-                >
-                    {daysLeft < 0 ? "0" : daysLeft}
-                </span>
+                {task.board === "done" ? (
+                    <span>Accomplished</span>
+                ) : (
+                    <>
+                        <span>Days left to complete:</span>
+                        <span
+                            className={classNames(styles.daysLeft, {
+                                [styles.warning]: daysLeft < 7,
+                                [styles.expires]: daysLeft < 3,
+                            })}
+                        >
+                            {daysLeft < 0 ? "0" : daysLeft}
+                        </span>
+                    </>
+                )}
             </div>
         </li>
     );

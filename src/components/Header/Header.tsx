@@ -1,8 +1,8 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import DarkModeIcon from "../../assets/icons/darkMode.svg";
 import LightModeIcon from "../../assets/icons/lightMode.svg";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { updateTheme } from "../../store/slices/theme-slice/themeActionCreators";
+import { setTheme } from "../../store/slices/themeSlice";
 import { IThemeVariant } from "../../types/types";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import { HeaderLinks } from "../header-links/HeaderLinks";
@@ -16,7 +16,14 @@ export const Header: FC<HeaderProps> = props => {
     const dispatch = useAppDispatch();
 
     const btnThemeHandler = () => {
-        dispatch(updateTheme());
+        const updatedTheme =
+            theme === IThemeVariant.light
+                ? IThemeVariant.dark
+                : IThemeVariant.light;
+
+        localStorage.setItem("theme", updatedTheme);
+
+        dispatch(setTheme(updatedTheme));
     };
 
     return (

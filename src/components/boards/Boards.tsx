@@ -1,21 +1,19 @@
 import { DndContext, DragOverlay } from "@dnd-kit/core";
-import { FC, useMemo, useState } from "react";
+import { FC, useState } from "react";
 import { createPortal } from "react-dom";
 import { useAppSelector } from "../../hooks/redux";
-import { useProjects } from "../../hooks/useProjects";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
+import {
+	useSortedAndFilteredTasks
+} from "../../hooks/useTasks";
 import { IFormVariant } from "../../types/models/IForm";
+import { IFilter } from "../../types/types";
 import { FormTask } from "../UI/form-task/FormTask";
 import { Board } from "../board/Board";
 import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
 import { TasksFilter } from "../tasks-filter/TasksFilter";
 import styles from "./Boards.module.scss";
-import { IFilter } from "../../types/types";
-import {
-    useProjectTasks,
-    useSortedAndFilteredTasks,
-} from "../../hooks/useTasks";
 
 export enum IBoardVariant {
     opened = "opened",

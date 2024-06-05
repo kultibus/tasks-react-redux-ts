@@ -3,7 +3,7 @@ import { ITask } from "../types/models/ITask";
 import { IDataVariant, IFilter } from "../types/types";
 import { useAppSelector } from "./redux";
 import { useProjects } from "./useProjects";
-import { updateDatabase } from "../utils/updateData";
+import { updateDatabase } from "../api/api";
 
 export const useProjectTasks = () => {
     const { tasks } = useAppSelector(state => state.tasksReducer);

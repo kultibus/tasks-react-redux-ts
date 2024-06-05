@@ -68,8 +68,6 @@ export const useTasksDataQuery = () => {
                     return;
                 }
 
-                // console.log(snap.val());
-
                 dispatch(setTasks(snap.val() as ITask[]));
             }
         );

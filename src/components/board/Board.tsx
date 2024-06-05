@@ -1,7 +1,7 @@
+import { useDroppable } from "@dnd-kit/core";
 import {
-    SortableContext,
-    useSortable,
-    verticalListSortingStrategy,
+	SortableContext,
+	verticalListSortingStrategy
 } from "@dnd-kit/sortable";
 import { FC } from "react";
 import { ITask } from "../../types/models/ITask";
@@ -10,7 +10,6 @@ import { IBoardVariant } from "../boards/Boards";
 import { List, ListVariant } from "../list/List";
 import { Task } from "../task/Task";
 import styles from "./Board.module.scss";
-import { useDroppable } from "@dnd-kit/core";
 
 interface BoardProps {
     board: IBoardVariant;

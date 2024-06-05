@@ -94,7 +94,8 @@
 .draggble {
     cursor: grab;
     border-radius: var(--brs);
-    overflow: hidden;
+	flex-shrink: 0;
+    // overflow: hidden;
 
     svg {
         fill: var(--font-100-70);

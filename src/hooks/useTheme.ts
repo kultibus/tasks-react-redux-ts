@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-import { localStorageApi } from "../api/api";
-import { applyTheme } from "../store/slices/theme-slice/themeActionCreators";
-import { IDataVariant, IThemeVariant } from "../types/types";
 import { useAppDispatch, useAppSelector } from "./redux";
+import { setTheme } from "../store/slices/themeSlice";
+import { IThemeVariant } from "../types/types";
 
 export const useTheme = () => {
     const { theme } = useAppSelector(state => state.themeReducer);
@@ -12,17 +11,14 @@ export const useTheme = () => {
     useEffect(() => {
         const html = document.querySelector("html");
 
-        const localTheme = localStorageApi.getLocalData<IThemeVariant>(
-            IDataVariant.theme
-        );
+        const localTheme = localStorage.getItem("theme");
 
         if (!!localTheme) {
+            dispatch(setTheme(localTheme as IThemeVariant));
+
             html.setAttribute("data-theme", localTheme);
-
-            dispatch(applyTheme(localTheme));
-            return;
+        } else {
+            html.setAttribute("data-theme", theme);
         }
-
-        html.setAttribute("data-theme", theme);
     }, [theme, dispatch]);
 };

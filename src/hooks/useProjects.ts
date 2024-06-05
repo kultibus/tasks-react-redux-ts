@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { IProject } from "../types/models/IProject";
 import { IDataVariant } from "../types/types";
-import { updateDatabase } from "../utils/updateData";
 import { useAppSelector } from "./redux";
+import { updateDatabase } from "../api/api";
 
 export const useProjects = () => {
     const { user } = useAppSelector(state => state.userReducer);
