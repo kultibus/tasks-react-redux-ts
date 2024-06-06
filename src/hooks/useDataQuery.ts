@@ -1,16 +1,14 @@
 import { useEffect } from "react";
 import {
-    setProjectError,
-    setProjects,
-    setProjectsIsLoading,
+	setProjects,
+	setProjectsIsLoading
 } from "../store/slices/projectsSlice";
 import { setTasks } from "../store/slices/tasksSlice";
-// import { checkUserAuth } from "../store/slices/user-slice/userActionCreators";
 import { IProject } from "../types/models/IProject";
 import { ITask } from "../types/models/ITask";
 import { useAppDispatch, useAppSelector } from "./redux";
 
-import { child, onValue, ref } from "firebase/database";
+import { onValue, ref } from "firebase/database";
 import { database } from "../firebase";
 import { setFormVariant, setIsFormOpened } from "../store/slices/formSlice";
 import { IFormVariant } from "../types/models/IForm";

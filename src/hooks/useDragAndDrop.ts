@@ -20,7 +20,11 @@ export const useDragAndDrop = () => {
     }, [tasks]);
 
     useEffect(() => {
-        updateTasks(currentTasks);
+		console.log(currentTasks)
+
+        if (!!currentTasks && currentTasks.length) {
+            updateTasks(currentTasks);
+        }
     }, [currentTasks]);
 
     const handleDragStart = (event: DragStartEvent) => {

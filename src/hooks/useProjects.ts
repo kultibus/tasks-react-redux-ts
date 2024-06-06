@@ -7,6 +7,7 @@ import { updateDatabase } from "../api/api";
 export const useProjects = () => {
     const { user } = useAppSelector(state => state.userReducer);
     const { projects } = useAppSelector(state => state.projectsReducer);
+    const { tasks } = useAppSelector(state => state.tasksReducer);
 
     const activeProject = useMemo(() => {
         return projects.find(p => p.isActive);
@@ -27,6 +28,8 @@ export const useProjects = () => {
 
         const filteredProjects = projects.filter(p => p.id !== project.id);
 
+        const filteredTasks = tasks.filter(t => t.projectId === project.id);
+
         if (projects.length > 1 && activeIndex === 0) {
             const nextProjectId = projects[activeIndex + 1].id;
 
@@ -38,6 +41,7 @@ export const useProjects = () => {
             });
 
             updateDatabase(user, updatedProjects, IDataVariant.projects);
+            updateDatabase(user, filteredTasks, IDataVariant.tasks);
 
             return nextProjectId;
         } else if (projects.length > 1) {
@@ -51,10 +55,12 @@ export const useProjects = () => {
             });
 
             updateDatabase(user, updatedProjects, IDataVariant.projects);
+            updateDatabase(user, filteredTasks, IDataVariant.tasks);
 
             return pervProjectId;
         } else {
             updateDatabase(user, null, IDataVariant.projects);
+            updateDatabase(user, null, IDataVariant.tasks);
 
             return null;
         }
