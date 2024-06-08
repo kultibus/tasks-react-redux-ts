@@ -6,6 +6,7 @@ import { router } from "./router";
 import { store } from "./store/store";
 import isEqual from "lodash.isequal";
 import { formatDate } from "./utils/formatDate";
+import { error } from "./components/UI/app-input/AppInput.module.scss";
 
 // const store = setupStore();
 
@@ -16,3 +17,5 @@ root.render(
         <RouterProvider router={router} />
     </Provider>
 );
+
+

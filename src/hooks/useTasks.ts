@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { ITask } from "../types/models/ITask";
 import { IDataVariant, IFilter } from "../types/types";
 import { useAppSelector } from "./redux";
@@ -75,9 +75,9 @@ export const useTasks = () => {
         updateDatabase(user, updatedTasks, IDataVariant.tasks);
     };
 
-    const updateTasks = (tasks: ITask[]) => {
+    const updateTasks = useCallback((tasks: ITask[]) => {
         updateDatabase(user, tasks, IDataVariant.tasks);
-    };
+    }, [tasks]);
 
     return { createTask, editTask, deleteTask, updateTasks };
 };

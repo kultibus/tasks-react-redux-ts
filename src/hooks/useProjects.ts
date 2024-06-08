@@ -1,8 +1,9 @@
 import { useMemo } from "react";
 import { IProject } from "../types/models/IProject";
 import { IDataVariant } from "../types/types";
-import { useAppSelector } from "./redux";
+import { useAppDispatch, useAppSelector } from "./redux";
 import { updateDatabase } from "../api/api";
+import { setTasks } from "../store/slices/tasksSlice";
 
 export const useProjects = () => {
     const { user } = useAppSelector(state => state.userReducer);
@@ -28,7 +29,9 @@ export const useProjects = () => {
 
         const filteredProjects = projects.filter(p => p.id !== project.id);
 
-        const filteredTasks = tasks.filter(t => t.projectId === project.id);
+        const filteredTasks = tasks.filter(t => t.projectId !== project.id);
+
+        updateDatabase(user, filteredTasks, IDataVariant.tasks);
 
         if (projects.length > 1 && activeIndex === 0) {
             const nextProjectId = projects[activeIndex + 1].id;
@@ -41,7 +44,6 @@ export const useProjects = () => {
             });
 
             updateDatabase(user, updatedProjects, IDataVariant.projects);
-            updateDatabase(user, filteredTasks, IDataVariant.tasks);
 
             return nextProjectId;
         } else if (projects.length > 1) {
@@ -55,12 +57,10 @@ export const useProjects = () => {
             });
 
             updateDatabase(user, updatedProjects, IDataVariant.projects);
-            updateDatabase(user, filteredTasks, IDataVariant.tasks);
 
             return pervProjectId;
         } else {
             updateDatabase(user, null, IDataVariant.projects);
-            updateDatabase(user, null, IDataVariant.tasks);
 
             return null;
         }
