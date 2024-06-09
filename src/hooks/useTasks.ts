@@ -75,9 +75,9 @@ export const useTasks = () => {
         updateDatabase(user, updatedTasks, IDataVariant.tasks);
     };
 
-    const updateTasks = useCallback((tasks: ITask[]) => {
+    const updateTasks = (tasks: ITask[]) => {
         updateDatabase(user, tasks, IDataVariant.tasks);
-    }, [tasks]);
+    };
 
     return { createTask, editTask, deleteTask, updateTasks };
 };

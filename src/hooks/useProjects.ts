@@ -31,6 +31,7 @@ export const useProjects = () => {
 
         const filteredTasks = tasks.filter(t => t.projectId !== project.id);
 
+
         updateDatabase(user, filteredTasks, IDataVariant.tasks);
 
         if (projects.length > 1 && activeIndex === 0) {

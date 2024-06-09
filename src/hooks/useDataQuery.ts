@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import {
-	setProjects,
-	setProjectsIsLoading
+    setProjects,
+    setProjectsIsLoading,
 } from "../store/slices/projectsSlice";
 import { setTasks } from "../store/slices/tasksSlice";
 import { IProject } from "../types/models/IProject";
