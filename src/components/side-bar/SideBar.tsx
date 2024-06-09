@@ -15,6 +15,7 @@ interface SideBarProps {}
 
 export const SideBar: FC<SideBarProps> = () => {
     const { projects } = useAppSelector(state => state.projectsReducer);
+    const { user } = useAppSelector(state => state.userReducer);
 
     const { isOpened } = useAppSelector(state => state.formReducer);
 
@@ -22,7 +23,7 @@ export const SideBar: FC<SideBarProps> = () => {
 
     const dispatch = useAppDispatch();
 
-    const { updateActiveKey } = projectsDatabaseApi();
+    const { updateActiveKey } = projectsDatabaseApi(user);
 
     const handleLinkClick = (project: IProject) => {
         updateActiveKey(project);

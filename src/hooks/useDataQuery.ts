@@ -4,7 +4,7 @@ import {
     setProjects,
     setProjectsIsLoading,
 } from "../store/slices/projectsSlice";
-import { setTasks } from "../store/slices/tasksSlice";
+import { setActiveTask, setTasks } from "../store/slices/tasksSlice";
 import { IProject } from "../types/models/IProject";
 import { ITask } from "../types/models/ITask";
 import { useAppDispatch, useAppSelector } from "./redux";
@@ -69,30 +69,43 @@ export const useProjectsDataQuery = () => {
 
 export const useTasksDataQuery = () => {
     const { user } = useAppSelector(state => state.userReducer);
+    const { activeProject } = useAppSelector(state => state.projectsReducer);
 
     const dispatch = useAppDispatch();
 
     const uid = user?.uid;
+    const projectId = activeProject?.id;
 
     useEffect(() => {
-        if (!uid) return;
+        if (!uid || !projectId) return;
 
         // dispatch(setProjectsIsLoading(true));
 
         const tasksDbUnsubscribe = onValue(
-            ref(database, `${uid}/tasks`),
+            ref(database, `${uid}/tasks/${projectId}`),
             snap => {
                 if (!snap.exists()) {
                     // dispatch(setProjectError("Tasks not found"));
                     return;
                 }
 
-                dispatch(setTasks(snap.val() as ITask[]));
+                const tasks: ITask[] = [];
+
+                snap.forEach(child => {
+                    const task: ITask = {
+                        ...child.val(),
+                        id: child.key,
+                    };
+
+                    tasks.push(task);
+                });
+
+                dispatch(setTasks(tasks));
             }
         );
 
         return () => {
             tasksDbUnsubscribe();
         };
-    }, [dispatch, uid]);
+    }, [dispatch, uid, projectId]);
 };

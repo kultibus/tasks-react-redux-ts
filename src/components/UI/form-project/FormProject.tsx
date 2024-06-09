@@ -22,13 +22,13 @@ export const FormProject: FC<FormProjectProps> = () => {
     const dispatch = useAppDispatch();
 
     const { variant, isValid } = useAppSelector(state => state.formReducer);
-    // const { user } = useAppSelector(state => state.userReducer);
+    const { user } = useAppSelector(state => state.userReducer);
     const { activeProject, projects } = useAppSelector(
         state => state.projectsReducer
     );
 
     const { addProject, deleteProject, editProject, updateActiveKey } =
-        projectsDatabaseApi();
+        projectsDatabaseApi(user);
 
     const projectName = useInput(
         "",
@@ -56,7 +56,6 @@ export const FormProject: FC<FormProjectProps> = () => {
 
                 const newProject = {
                     name: projectName.value,
-                    // uid: user.uid,
                 };
 
                 addProject(newProject);
@@ -74,6 +73,7 @@ export const FormProject: FC<FormProjectProps> = () => {
                 };
 
                 editProject(editedProject);
+                updateActiveKey(editedProject);
 
                 navigate(`/${RouteNames.project}/${editedProject.name}`);
 

@@ -1,10 +1,9 @@
 import { FC, FormEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
-import { useTasks } from "../../../hooks/useTasks";
 import {
-	setIsFormOpened,
-	setIsFormValid,
+    setIsFormOpened,
+    setIsFormValid,
 } from "../../../store/slices/formSlice";
 import { setActiveTask } from "../../../store/slices/tasksSlice";
 import { IFormVariant } from "../../../types/models/IForm";
@@ -15,19 +14,22 @@ import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import { AppTextarea } from "../app-textarea/AppTextarea";
 import styles from "./FormTask.module.scss";
+import { tasksDatabaseApi } from "../../../api/api";
 
 interface FormTaskProps {}
 
 export const FormTask: FC<FormTaskProps> = () => {
     const dispatch = useAppDispatch();
 
-    const { variant, isValid } = useAppSelector(state => state.formReducer);
+    const { user } = useAppSelector(state => state.userReducer);
 
-    const { activeTask } = useAppSelector(state => state.tasksReducer);
+    const { variant, isValid } = useAppSelector(state => state.formReducer);
 
     const { activeProject } = useAppSelector(state => state.projectsReducer);
 
-    const { createTask, deleteTask, editTask } = useTasks();
+    const { activeTask } = useAppSelector(state => state.tasksReducer);
+
+    const { addTask } = tasksDatabaseApi(user, activeProject.id);
 
     const taskTitle = useInput(
         activeTask?.title || "",
@@ -69,15 +71,17 @@ export const FormTask: FC<FormTaskProps> = () => {
                 if (!isValid) return;
 
                 const newTask: ITask = {
-                    id: Math.random().toString(36).substring(2, 9),
+                    // id: Math.random().toString(36).substring(2, 9),
                     title: taskTitle.value,
                     body: taskDescription.value,
                     expDate: expDate,
-                    projectId: activeProject.id,
+                    // projectId: activeProject.id,
                     board: IBoardVariant.opened,
                 };
 
-                createTask(newTask);
+                // createTask(newTask);
+
+                addTask(newTask);
 
                 break;
 
@@ -91,12 +95,12 @@ export const FormTask: FC<FormTaskProps> = () => {
                     expDate: expDate,
                 };
 
-                editTask(editedTask);
+                // editTask(editedTask);
 
                 break;
 
             case IFormVariant.deleteTask:
-                deleteTask(activeTask);
+                // deleteTask(activeTask);
 
                 break;
         }

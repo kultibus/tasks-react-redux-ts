@@ -11,9 +11,7 @@ import {
 } from "../types/types";
 import { useAppSelector } from "../hooks/redux";
 
-export const projectsDatabaseApi = () => {
-    const { user } = useAppSelector(state => state.userReducer);
-
+export const projectsDatabaseApi = (user: IUser) => {
     const addProject = (project: IProject) => {
         const projectsRef = ref(database, `${user.uid}/projects`);
 
@@ -28,20 +26,16 @@ export const projectsDatabaseApi = () => {
     };
 
     const editProject = (project: IProject) => {
-        const projectsRef = ref(database, `${user.uid}/projects`);
+        const projectRef = ref(database, `${user.uid}/projects/${project.id}`);
 
-        const updates = {
-            [project.id]: project,
-            activeKey: project.id,
-        };
-
-        update(projectsRef, updates);
+        update(projectRef, project);
     };
 
     const deleteProject = (project: IProject) => {
-        const projectsRef = ref(database, `${user.uid}/projects/${project.id}`);
+        const projectRef = ref(database, `${user.uid}/projects/${project.id}`);
+        const tasksRef = ref(database, `${user.uid}/tasks/${project.id}`);
 
-        remove(projectsRef);
+        remove(projectRef);
     };
 
     const updateActiveKey = (project: IProject) => {
@@ -55,6 +49,35 @@ export const projectsDatabaseApi = () => {
     };
 
     return { addProject, editProject, deleteProject, updateActiveKey };
+};
+
+export const tasksDatabaseApi = (user: IUser, projectId: string) => {
+    const addTask = (task: ITask) => {
+        const tasksRef = ref(database, `${user.uid}/tasks/${projectId}`);
+
+        const newTaskRef = push(tasksRef);
+
+        set(newTaskRef, task);
+    };
+
+    const editTask = (task: ITask) => {
+        const tasksRef = ref(database, `${user.uid}/tasks/${projectId}`);
+
+        const updates = {
+            [task.id]: task,
+            activeKey: task.id,
+        };
+
+        update(tasksRef, updates);
+    };
+
+    const deleteTask = (task: ITask) => {
+        const tasksRef = ref(database, `${user.uid}/tasks/${task.id}`);
+
+        remove(tasksRef);
+    };
+
+    return { addTask, editTask, deleteTask };
 };
 
 const updateData = <T extends {}>(localData: IUpdatedData<T>) => {

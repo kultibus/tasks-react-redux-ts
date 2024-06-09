@@ -2,14 +2,14 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ITask } from "../../types/models/ITask";
 
 interface TasksState {
-    tasks: ITask[];
+    tasks: ITask[] | null;
     activeTask: ITask | null;
     tasksIsLoading: boolean;
     error: string;
 }
 
 const initialState: TasksState = {
-    tasks: [],
+    tasks: null,
     activeTask: null,
     tasksIsLoading: false,
     error: "",
@@ -23,7 +23,7 @@ export const tasksSlice = createSlice({
             state.tasksIsLoading = action.payload;
         },
 
-        setTasks(state, action: PayloadAction<ITask[]>) {
+        setTasks(state, action: PayloadAction<ITask[] | null>) {
             state.tasks = action.payload;
             state.tasksIsLoading;
         },
