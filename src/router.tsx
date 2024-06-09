@@ -48,7 +48,7 @@ export const router = createBrowserRouter([
                 ),
                 children: [
                     {
-                        path: ":id",
+                        path: ":name",
                         element: <ProjectLayout />,
                         children: [
                             {

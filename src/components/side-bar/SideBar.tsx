@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
+import { projectsDatabaseApi } from "../../api/api";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { useProjects } from "../../hooks/useProjects";
 import { RouteNames } from "../../router";
 import { setFormVariant, setIsFormOpened } from "../../store/slices/formSlice";
 import { IFormVariant } from "../../types/models/IForm";
@@ -22,12 +22,10 @@ export const SideBar: FC<SideBarProps> = () => {
 
     const dispatch = useAppDispatch();
 
-    const { updateProjects } = useProjects();
+    const { updateActiveKey } = projectsDatabaseApi();
 
     const handleLinkClick = (project: IProject) => {
-        const activeProject = { ...project, isActive: true };
-
-        updateProjects(activeProject);
+        updateActiveKey(project);
 
         dispatch(setIsFormOpened(false));
     };

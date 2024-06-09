@@ -1,21 +1,20 @@
 import { FC, FormEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useInput } from "../../../hooks/useInput";
+import { useTasks } from "../../../hooks/useTasks";
 import {
-    setIsFormOpened,
-    setIsFormValid,
+	setIsFormOpened,
+	setIsFormValid,
 } from "../../../store/slices/formSlice";
+import { setActiveTask } from "../../../store/slices/tasksSlice";
 import { IFormVariant } from "../../../types/models/IForm";
 import { ITask } from "../../../types/models/ITask";
 import { formatDate } from "../../../utils/formatDate";
+import { IBoardVariant } from "../../boards/Boards";
 import { AppBtn, AppBtnVariant } from "../app-btn/AppBtn";
 import { AppInput } from "../app-input/AppInput";
 import { AppTextarea } from "../app-textarea/AppTextarea";
 import styles from "./FormTask.module.scss";
-import { IBoardVariant } from "../../boards/Boards";
-import { setActiveTask } from "../../../store/slices/tasksSlice";
-import { useProjects } from "../../../hooks/useProjects";
-import { useTasks } from "../../../hooks/useTasks";
 
 interface FormTaskProps {}
 
@@ -26,7 +25,7 @@ export const FormTask: FC<FormTaskProps> = () => {
 
     const { activeTask } = useAppSelector(state => state.tasksReducer);
 
-    const { activeProject } = useProjects();
+    const { activeProject } = useAppSelector(state => state.projectsReducer);
 
     const { createTask, deleteTask, editTask } = useTasks();
 

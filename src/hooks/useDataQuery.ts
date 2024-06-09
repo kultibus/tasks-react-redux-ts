@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import {
+    setActiveProject,
     setProjects,
     setProjectsIsLoading,
 } from "../store/slices/projectsSlice";
@@ -30,13 +31,33 @@ export const useProjectsDataQuery = () => {
 
             snap => {
                 if (!snap.exists()) {
-                    dispatch(setProjects([]));
+                    // dispatch(setProjects([]));
+                    dispatch(setProjectsIsLoading(false));
                     dispatch(setIsFormOpened(true));
                     dispatch(setFormVariant(IFormVariant.initialProject));
                     return;
                 }
 
-                dispatch(setProjects(snap.val() as IProject[]));
+                const projects: IProject[] = [];
+                let activeKey = "";
+
+                snap.forEach(child => {
+                    if (child.key !== "activeKey") {
+                        const project: IProject = {
+                            ...child.val(),
+                            id: child.key,
+                        };
+
+                        projects.push(project);
+                    } else {
+                        activeKey = child.val();
+                    }
+                });
+
+                const activeProject = projects.find(p => p.id === activeKey);
+
+                dispatch(setProjects(projects));
+                dispatch(setActiveProject(activeProject));
             }
         );
 

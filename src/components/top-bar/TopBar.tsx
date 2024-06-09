@@ -6,18 +6,17 @@ import { setFormVariant, setIsFormOpened } from "../../store/slices/formSlice";
 import { IFormVariant } from "../../types/models/IForm";
 import { AppBtn, AppBtnVariant } from "../UI/app-btn/AppBtn";
 import {
-    EditDelBtns,
-    EditDelBtnsVariant,
+	EditDelBtns,
+	EditDelBtnsVariant,
 } from "../UI/edit-del-btns/EditDelBtns";
 import styles from "./TopBar.module.scss";
-import { useProjects } from "../../hooks/useProjects";
 
 interface TopBarProps {}
 
 export const TopBar: FC<TopBarProps> = () => {
     const { isOpened, variant } = useAppSelector(state => state.formReducer);
+    const { activeProject } = useAppSelector(state => state.projectsReducer);
 
-    const { activeProject } = useProjects();
 
     const navigate = useNavigate();
 
@@ -28,7 +27,7 @@ export const TopBar: FC<TopBarProps> = () => {
         dispatch(setFormVariant(IFormVariant.deleteProject));
 
         navigate(
-            `/${RouteNames.project}/${activeProject.id}/${RouteNames.deleteProject}`
+            `/${RouteNames.project}/${activeProject.name}/${RouteNames.deleteProject}`
         );
     };
 
@@ -37,7 +36,7 @@ export const TopBar: FC<TopBarProps> = () => {
         dispatch(setFormVariant(IFormVariant.editProject));
 
         navigate(
-            `/${RouteNames.project}/${activeProject.id}/${RouteNames.editProject}`
+            `/${RouteNames.project}/${activeProject.name}/${RouteNames.editProject}`
         );
     };
 

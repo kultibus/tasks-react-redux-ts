@@ -1,13 +1,12 @@
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
+import { updateDatabase } from "../api/api";
 import { ITask } from "../types/models/ITask";
 import { IDataVariant, IFilter } from "../types/types";
 import { useAppSelector } from "./redux";
-import { useProjects } from "./useProjects";
-import { updateDatabase } from "../api/api";
 
 export const useProjectTasks = () => {
     const { tasks } = useAppSelector(state => state.tasksReducer);
-    const { activeProject } = useProjects();
+    const { activeProject } = useAppSelector(state => state.projectsReducer);
 
     const projectTasks = useMemo(() => {
         return tasks.filter(t => t.projectId === activeProject.id);
