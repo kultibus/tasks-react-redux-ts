@@ -77,6 +77,8 @@ export const useTasksDataQuery = () => {
     const projectId = activeProject?.id;
 
     useEffect(() => {
+        dispatch(setTasks(null));
+
         if (!uid || !projectId) return;
 
         // dispatch(setProjectsIsLoading(true));
@@ -85,6 +87,7 @@ export const useTasksDataQuery = () => {
             ref(database, `${uid}/tasks/${projectId}`),
             snap => {
                 if (!snap.exists()) {
+                    dispatch(setTasks(null));
                     // dispatch(setProjectError("Tasks not found"));
                     return;
                 }

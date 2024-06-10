@@ -29,7 +29,10 @@ export const FormTask: FC<FormTaskProps> = () => {
 
     const { activeTask } = useAppSelector(state => state.tasksReducer);
 
-    const { addTask } = tasksDatabaseApi(user, activeProject.id);
+    const { addTask, editTask, deleteTask } = tasksDatabaseApi(
+        user,
+        activeProject.id
+    );
 
     const taskTitle = useInput(
         activeTask?.title || "",
@@ -95,12 +98,12 @@ export const FormTask: FC<FormTaskProps> = () => {
                     expDate: expDate,
                 };
 
-                // editTask(editedTask);
+                editTask(editedTask);
 
                 break;
 
             case IFormVariant.deleteTask:
-                // deleteTask(activeTask);
+                deleteTask(activeTask);
 
                 break;
         }

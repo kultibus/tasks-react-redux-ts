@@ -3,13 +3,6 @@ import { database } from "../firebase";
 import { IProject } from "../types/models/IProject";
 import { ITask } from "../types/models/ITask";
 import { IUser } from "../types/models/IUser";
-import {
-    IDataVariant,
-    IProjectsData,
-    ITaskData,
-    IUpdatedData,
-} from "../types/types";
-import { useAppSelector } from "../hooks/redux";
 
 export const projectsDatabaseApi = (user: IUser) => {
     const addProject = (project: IProject) => {
@@ -36,6 +29,7 @@ export const projectsDatabaseApi = (user: IUser) => {
         const tasksRef = ref(database, `${user.uid}/tasks/${project.id}`);
 
         remove(projectRef);
+        remove(tasksRef);
     };
 
     const updateActiveKey = (project: IProject) => {
@@ -65,49 +59,19 @@ export const tasksDatabaseApi = (user: IUser, projectId: string) => {
 
         const updates = {
             [task.id]: task,
-            activeKey: task.id,
         };
 
         update(tasksRef, updates);
     };
 
     const deleteTask = (task: ITask) => {
-        const tasksRef = ref(database, `${user.uid}/tasks/${task.id}`);
+        const tasksRef = ref(
+            database,
+            `${user.uid}/tasks/${projectId}/${task.id}`
+        );
 
         remove(tasksRef);
     };
 
     return { addTask, editTask, deleteTask };
 };
-
-const updateData = <T extends {}>(localData: IUpdatedData<T>) => {
-    return update(ref(database, `${localData.uid}`), localData.data);
-};
-
-export function updateDatabase(
-    user: IUser,
-    updatedData: IProject[] | ITask[],
-    variant: IDataVariant
-) {
-    if (!user) return;
-
-    switch (variant) {
-        case IDataVariant.projects:
-            const projectsData = {
-                uid: user.uid,
-                data: { [variant]: updatedData as IProject[] },
-            };
-
-            updateData<IProjectsData>(projectsData);
-            break;
-
-        case IDataVariant.tasks:
-            const tasksData = {
-                uid: user.uid,
-                data: { [variant]: updatedData as ITask[] },
-            };
-
-            updateData<ITaskData>(tasksData);
-            break;
-    }
-}

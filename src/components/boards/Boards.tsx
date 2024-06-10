@@ -29,6 +29,7 @@ export const Boards: FC = () => {
     const { variant, isOpened } = useAppSelector(state => state.formReducer);
     const { activeTask, tasks } = useAppSelector(state => state.tasksReducer);
 
+
     const [filter, setFilter] = useState<IFilter>({ sort: "", query: "" });
 
     const sortedAndFilteredTasks = useSortedAndFilteredTasks(filter, tasks);
