@@ -92,18 +92,7 @@ export const useTasksDataQuery = () => {
                     return;
                 }
 
-                const tasks: ITask[] = [];
-
-                snap.forEach(child => {
-                    const task: ITask = {
-                        ...child.val(),
-                        id: child.key,
-                    };
-
-                    tasks.push(task);
-                });
-
-                dispatch(setTasks(tasks));
+                dispatch(setTasks(snap.val()));
             }
         );
 

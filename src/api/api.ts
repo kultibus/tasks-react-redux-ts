@@ -45,33 +45,66 @@ export const projectsDatabaseApi = (user: IUser) => {
     return { addProject, editProject, deleteProject, updateActiveKey };
 };
 
-export const tasksDatabaseApi = (user: IUser, projectId: string) => {
+export const tasksDatabaseApi = (
+    user: IUser,
+    projectId: string,
+    tasks: ITask[]
+) => {
     const addTask = (task: ITask) => {
         const tasksRef = ref(database, `${user.uid}/tasks/${projectId}`);
 
-        const newTaskRef = push(tasksRef);
+        const updatedTasks = !!tasks ? [...tasks, task] : [task];
 
-        set(newTaskRef, task);
+        set(tasksRef, updatedTasks);
     };
 
     const editTask = (task: ITask) => {
-        const tasksRef = ref(database, `${user.uid}/tasks/${projectId}`);
+        const tasksRef = ref(database, `${user.uid}/tasks`);
+
+        const updatedTasks = tasks.map(t => {
+            if (t.id === task.id) {
+                return task;
+            }
+            return t;
+        });
 
         const updates = {
-            [task.id]: task,
+            [projectId]: updatedTasks,
         };
 
         update(tasksRef, updates);
     };
 
     const deleteTask = (task: ITask) => {
-        const tasksRef = ref(
-            database,
-            `${user.uid}/tasks/${projectId}/${task.id}`
-        );
+        const tasksRef = ref(database, `${user.uid}/tasks`);
 
-        remove(tasksRef);
+        const updatedTasks = tasks.filter(t => t.id !== task.id);
+
+        const updates = {
+            [projectId]: updatedTasks,
+        };
+
+        update(tasksRef, updates);
     };
 
-    return { addTask, editTask, deleteTask };
+    const updateTasks = (reorderedTasks: ITask[], editedTask: ITask | null) => {
+        const tasksRef = ref(database, `${user.uid}/tasks`);
+
+        const updatedTasks = !!editedTask
+            ? reorderedTasks.map(t => {
+                  if (t.id === editedTask.id) {
+                      return editedTask;
+                  }
+                  return t;
+              })
+            : reorderedTasks;
+
+        const updates = {
+            [projectId]: updatedTasks,
+        };
+
+        update(tasksRef, updates);
+    };
+
+    return { addTask, editTask, deleteTask, updateTasks };
 };

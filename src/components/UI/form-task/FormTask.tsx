@@ -27,11 +27,12 @@ export const FormTask: FC<FormTaskProps> = () => {
 
     const { activeProject } = useAppSelector(state => state.projectsReducer);
 
-    const { activeTask } = useAppSelector(state => state.tasksReducer);
+    const { activeTask, tasks } = useAppSelector(state => state.tasksReducer);
 
     const { addTask, editTask, deleteTask } = tasksDatabaseApi(
         user,
-        activeProject.id
+        activeProject.id,
+        tasks
     );
 
     const taskTitle = useInput(
@@ -74,15 +75,12 @@ export const FormTask: FC<FormTaskProps> = () => {
                 if (!isValid) return;
 
                 const newTask: ITask = {
-                    // id: Math.random().toString(36).substring(2, 9),
+                    id: Math.random().toString(36).substring(2, 9),
                     title: taskTitle.value,
                     body: taskDescription.value,
                     expDate: expDate,
-                    // projectId: activeProject.id,
                     board: IBoardVariant.opened,
                 };
-
-                // createTask(newTask);
 
                 addTask(newTask);
 

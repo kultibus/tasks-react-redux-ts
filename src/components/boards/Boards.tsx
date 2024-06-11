@@ -29,12 +29,11 @@ export const Boards: FC = () => {
     const { variant, isOpened } = useAppSelector(state => state.formReducer);
     const { activeTask, tasks } = useAppSelector(state => state.tasksReducer);
 
-
     const [filter, setFilter] = useState<IFilter>({ sort: "", query: "" });
 
     const sortedAndFilteredTasks = useSortedAndFilteredTasks(filter, tasks);
 
-    // const { handleDragStart, handleDragEnd, handleDragOver } = useDragAndDrop();
+    const { handleDragStart, handleDragEnd, handleDragOver } = useDragAndDrop();
 
     if (
         isOpened &&
@@ -53,9 +52,9 @@ export const Boards: FC = () => {
             </header>
             <div className={styles.content}>
                 <DndContext
-                // onDragStart={handleDragStart}
-                // onDragEnd={handleDragEnd}
-                // onDragOver={handleDragOver}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                onDragOver={handleDragOver}
                 // collisionDetection={closestCenter}
                 >
                     <List
